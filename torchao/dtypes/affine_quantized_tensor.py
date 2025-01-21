@@ -162,6 +162,9 @@ class AffineQuantizedTensor(TorchAOBaseTensor):
             return dq
 
     def __tensor_flatten__(self):
+        """
+            This is a helper function to flatten the tensor to a list of tensors
+        """
         return ["tensor_impl"], [
             self.block_size,
             self.shape,
@@ -175,10 +178,16 @@ class AffineQuantizedTensor(TorchAOBaseTensor):
     def __tensor_unflatten__(
         cls, tensor_data_dict, tensor_attributes, outer_size, outer_stride
     ):
+        """
+            This is a helper function to unflatten the tensor to a list of tensors
+        """
         tensor_impl = tensor_data_dict["tensor_impl"]
         block_size, shape, quant_min, quant_max, zero_point_domain, dtype = (
             tensor_attributes
         )
+        
+        #> Reconstruct the tensor from the list of tensors
+        #> Note : Only the tensor_impl is a AQTTensorImpl, the rest are just the attributes (metadata)
         return cls(
             tensor_impl,
             block_size,

@@ -222,4 +222,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
     main()

@@ -702,7 +702,7 @@ def int4_weight_only(
         2). floating point zero does not have to be exactly representable (`preserve_zero`=False in `choose_qparams_affine`)
         please follow the relevant code in `choose_qparams_affine`, `quantize_affine` and `dequantize_affine`
         to learn about how the quantization parameters are chosen and how the Tensor is quantized/dequantized for tinygemm
-
+s
     Args:
         `group_size`: parameter for quantization, controls the granularity of quantization, smaller
          size is more fine grained, choices are [256, 128, 64, 32]
@@ -725,7 +725,7 @@ def int4_weight_only(
         quant_max = 15
         eps = 1e-6
         preserve_zero = LAYOUT_TO_PRESERVE_ZEROS[type(layout)]
-        zero_point_dtype = torch.bfloat16
+        zero_point_dtype = torch.bfloat16   # Here setting the zero point dtype to bfloat16 (Note : the scale should be the same as the zero point dtype)
 
         nonlocal zero_point_domain
         assert (
@@ -748,6 +748,7 @@ def int4_weight_only(
                 group_size == 128 or group_size == weight.shape[-1]
             ), f"MarlinSparseLayout only supports 128 group size or per channel quantization, got {group_size}"
 
+        #> to_affine_quantized_intx is a factory function, it returns an instance of AffineQuantizedTensor.
         return to_affine_quantized_intx(
             weight,
             mapping_type,
