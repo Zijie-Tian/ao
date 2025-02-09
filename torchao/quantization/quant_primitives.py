@@ -260,7 +260,7 @@ def _get_reduction_params(block_size, input_size):
             shape_for_reduction.append(block_size[i])
             # reduce over the block_size[i] dim
             reduction_dims.append(cur_dim + 1)
-            cur_dim += 2
+            cur_dim += 2        # Here you add a dimension to the shape_for_reduction, so we plus 2.
         else:
             # block_size[i] == input_size[i] or block_size[i] == 1
             shape_for_reduction.append(input_size[i])

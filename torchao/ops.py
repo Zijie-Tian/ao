@@ -22,6 +22,9 @@ lib.define(
 lib.define(
     "s8s4_linear_cutlass(Tensor input, Tensor input_scale, Tensor weight, Tensor weight_scale, Tensor bias) -> Tensor"
 )
+lib.define(
+    "w4a16_awq_cuda(Tensor input, Tensor kernel, Tensor scaling_factors, Tensor zeros, int m, int n, int k, int group_size) -> Tensor"
+)
 
 
 def register_custom_op(name):
@@ -615,3 +618,103 @@ def _(
         dtype=input_scale.dtype,
         device=input.device,
     )
+
+
+
+def w4a16_awq_cuda(
+    input: Tensor,
+    kernel: Tensor,
+    scaling_factors: Tensor,
+    zeros: Tensor,
+    m: int,
+    n: int,
+    k: int,
+    group_size: int,
+) -> Tensor:
+    """
+    AWQ W4A16 CUDA implementation. See https://arxiv.org/abs/2306.00978 for details.
+
+    Arguments:
+        input: Input tensor
+        kernel: Quantized weight tensor
+        scaling_factors: Scale factors for dequantization
+        zeros: Zero points for dequantization
+        group_size: Size of groups for scaling
+
+    Returns:
+        Output tensor
+    """
+    return torch.ops.torchao.w4a16_awq_cuda.default(
+        input, kernel, scaling_factors, zeros, 
+        m, n, k, group_size
+    )
+
+
+@register_custom_op("torchao::w4a16_awq_cuda")
+def _(
+    input: Tensor,
+    kernel: Tensor,
+    scaling_factors: Tensor,
+    zeros: Tensor,
+    m: int,
+    n: int,
+    k: int,
+    group_size: int,
+) -> Tensor:
+    # Validate dtypes
+    torch._check(
+        input.dtype == torch.float16,
+        lambda: f"input must be float16, got {input.dtype}",
+    )
+    torch._check(
+        kernel.dtype == torch.int32,
+        lambda: f"kernel must be int32, got {kernel.dtype}", 
+    )
+    torch._check(
+        scaling_factors.dtype == torch.float16,
+        lambda: f"scaling_factors must be float16, got {scaling_factors.dtype}",
+    )
+    torch._check(
+        zeros.dtype == torch.float16,
+        lambda: f"zeros must be float16, got {zeros.dtype}",
+    )
+
+    # Validate dimensions
+    torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
+    torch._check(kernel.dim() == 2, lambda: f"kernel must be 2D, got {kernel.dim()}D")
+    torch._check(
+        scaling_factors.dim() == 2,
+        lambda: f"scaling_factors must be 2D, got {scaling_factors.dim()}D",
+    )
+    torch._check(zeros.dim() == 2, lambda: f"zeros must be 2D, got {zeros.dim()}D")
+
+    # Validate shapes
+    torch._check(
+        input.size(1) == kernel.size(1) * 8,
+        lambda: f"input and kernel shapes do not match for matrix product",
+    )
+    torch._check(
+        scaling_factors.size(1) == kernel.size(0),
+        lambda: f"scaling_factors and kernel shapes do not match",
+    )
+    torch._check(
+        zeros.size(1) == kernel.size(0),
+        lambda: f"zeros and kernel shapes do not match",
+    )
+
+    # Validate group size
+    torch._check(
+        group_size > 0,
+        lambda: f"group_size must be positive, got {group_size}",
+    )
+    torch._check(
+        kernel.size(1) * 8 % group_size == 0,
+        lambda: f"kernel dim 1 * 8 must be divisible by group_size",
+    )
+
+    return torch.empty(
+        (input.size(0), kernel.size(0)),
+        dtype=torch.float16,
+        device=input.device,
+    )
+

@@ -215,6 +215,9 @@ def get_extensions():
         "nvcc": [
             "-O3" if not debug_mode else "-O0",
             "-t=0",
+            "-U__CUDA_NO_HALF_OPERATORS__",
+            "-U__CUDA_NO_HALF_CONVERSIONS__",
+            "-Wno-deprecated-declarations",
         ]
     }
 
