@@ -160,6 +160,7 @@ class TorchAOBuildExt(BuildExtension):
 
         self.extensions = other_extensions + cmake_extensions
 
+    #! Zijie : CMake extension can NOLY be used by torchao.experimental submodule.
     def build_cmake(self, ext):
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
 
@@ -171,6 +172,12 @@ class TorchAOBuildExt(BuildExtension):
 
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
+
+        ext_filename = self.get_ext_filename(ext.name)
+        lib_name = os.path.basename(ext_filename)
+        # print("self.build_dir : ", self.build_temp)
+        # print("extdir : ", extdir)
+        # print("ext_filename : ", ext_filename)
 
         subprocess.check_call(
             [
@@ -184,6 +191,12 @@ class TorchAOBuildExt(BuildExtension):
             cwd=self.build_temp,
         )
         subprocess.check_call(["cmake", "--build", "."], cwd=self.build_temp)
+        subprocess.check_call(
+            [
+                "mv", "libtorchao_ops_aten.dylib", lib_name
+            ],
+            cwd=extdir,
+        )
 
 
 class CMakeExtension(Extension):
@@ -191,6 +204,11 @@ class CMakeExtension(Extension):
         Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
 
+class CustomCMakeExtension(CMakeExtension):
+    def __init__(self, name, sourcedir=""):
+        super().__init__(name, sourcedir)
+        # 自定义生成的文件名
+        self.ext_filename = os.path.join(*name.split('.')) + ".dylib"
 
 def get_extensions():
     debug_mode = use_debug_mode()
