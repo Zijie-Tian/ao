@@ -11,7 +11,7 @@ if [[ $# -ne 1 ]]; then
 fi
 TARGET="${1}"
 export CMAKE_PREFIX_PATH=$(python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')
-export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/Users/tianzijie/libs/torch_v26/pytorch/torch
+export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/Users/tianzijie/libs/torchao/torch
 echo "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}"
 if [[ $TARGET == "executorch" ]]; then
     TORCHAO_BUILD_EXECUTORCH_OPS=ON

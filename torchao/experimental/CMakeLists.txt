@@ -29,11 +29,12 @@ if(TORCHAO_BUILD_KLEIDIAI)
 endif()
 include(CMakePrintHelpers)
 
-add_compile_options("-Wall" "-Werror" "-Wno-deprecated")
+# add_compile_options("-Wall" "-Werror" "-Wno-deprecated")
 
 include(CMakePrintHelpers)
 message("TORCHAO_INCLUDE_DIRS: ${TORCHAO_INCLUDE_DIRS}")
 include_directories(${TORCHAO_INCLUDE_DIRS})
+include_directories("/home/edgellm/anaconda3/envs/torchao/include/python3.10/")
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
     if(TORCHAO_BUILD_KLEIDIAI)
@@ -72,6 +73,21 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
             DESTINATION lib
         )
     endif()
+
+elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    add_subdirectory(ops/tmac)
+
+    add_library(torchao_ops_aten SHARED)
+    target_link_libraries(
+        torchao_ops_aten PRIVATE
+        torchao_ops_tmac_aten
+    )
+    install(
+        TARGETS torchao_ops_aten
+        EXPORT _targets
+        DESTINATION lib
+    )
+
 else()
     message(FATAL_ERROR "Torchao experimental ops can only be built on arm64 CPUs.")
 endif()
