@@ -34,7 +34,8 @@ include(CMakePrintHelpers)
 include(CMakePrintHelpers)
 message("TORCHAO_INCLUDE_DIRS: ${TORCHAO_INCLUDE_DIRS}")
 include_directories(${TORCHAO_INCLUDE_DIRS})
-include_directories("/home/edgellm/anaconda3/envs/torchao/include/python3.10/")
+# include_directories("/home/edgellm/anaconda3/envs/torchao/include/python3.10/")
+include_directories("/Users/tianzijie/anaconda3/envs/torchao/include/python3.10/")
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
     if(TORCHAO_BUILD_KLEIDIAI)
@@ -42,37 +43,39 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
         add_compile_definitions(TORCHAO_ENABLE_KLEIDI=1)
     endif()
     # Defines target torchao_kernels_aarch64
-    add_subdirectory(kernels/cpu/aarch64)
-    add_subdirectory(ops/linear_8bit_act_xbit_weight)
-    add_subdirectory(ops/embedding_xbit)
+    # add_subdirectory(kernels/cpu/aarch64)
+    # add_subdirectory(ops/linear_8bit_act_xbit_weight)
+    # add_subdirectory(ops/embedding_xbit)
+    add_subdirectory(ops/tmac)
 
     add_library(torchao_ops_aten SHARED)
     target_link_libraries(
         torchao_ops_aten PRIVATE
-        torchao_ops_linear_8bit_act_xbit_weight_aten
-        torchao_ops_embedding_xbit_aten
+        # torchao_ops_linear_8bit_act_xbit_weight_aten
+        # torchao_ops_embedding_xbit_aten
+        torchao_ops_tmac_aten
     )
     install(
         TARGETS torchao_ops_aten
         EXPORT _targets
         DESTINATION lib
     )
-    if(TORCHAO_BUILD_EXECUTORCH_OPS)
-        add_library(torchao_ops_executorch STATIC)
-        target_link_libraries(torchao_ops_executorch PRIVATE
-            torchao_ops_linear_8bit_act_xbit_weight_executorch
-            torchao_ops_embedding_xbit_executorch
-        )
-        install(
-            TARGETS
-                torchao_ops_executorch
-                torchao_kernels_aarch64
-                torchao_ops_linear_8bit_act_xbit_weight_executorch
-                torchao_ops_embedding_xbit_executorch
-            EXPORT _targets
-            DESTINATION lib
-        )
-    endif()
+    # if(TORCHAO_BUILD_EXECUTORCH_OPS)
+    #     add_library(torchao_ops_executorch STATIC)
+    #     target_link_libraries(torchao_ops_executorch PRIVATE
+    #         torchao_ops_linear_8bit_act_xbit_weight_executorch
+    #         torchao_ops_embedding_xbit_executorch
+    #     )
+    #     install(
+    #         TARGETS
+    #             torchao_ops_executorch
+    #             torchao_kernels_aarch64
+    #             torchao_ops_linear_8bit_act_xbit_weight_executorch
+    #             torchao_ops_embedding_xbit_executorch
+    #         EXPORT _targets
+    #         DESTINATION lib
+    #     )
+    # endif()
 
 elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
     add_subdirectory(ops/tmac)

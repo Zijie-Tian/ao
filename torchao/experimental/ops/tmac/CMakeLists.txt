@@ -22,6 +22,7 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
 
     message(STATUS "ARM detected")
     message(STATUS "System processor: ${CMAKE_SYSTEM_PROCESSOR}")
+    message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
 
     CHECK_CXX_COMPILER_FLAG(-mfp16-format=ieee COMPILER_SUPPORTS_FP16_FORMAT_I3E)
     if (NOT "${COMPILER_SUPPORTS_FP16_FORMAT_I3E}" STREQUAL "")
@@ -60,15 +61,23 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
             list(APPEND ARCH_FLAGS -march=armv8.2a+fp16)
         endif ()
     endif()
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ARM64" AND GGML_TMAC AND TMAC_FOUND)
+    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ARM64")
         # ARM Windows with LLVM clang GNU interface
         # We need fullfp16 for T-MAC
         # TODO: check_cxx_source_compiles
-            list(APPEND ARCH_FLAGS -march=armv8.2a+fp16)
-        endif()
-        if (GGML_SVE)
-            list(APPEND ARCH_FLAGS -march=armv8.6-a+sve)
-        endif()
+        message("Enter arm64")
+        list(APPEND ARCH_FLAGS -march=armv8.2a+fp16)
+    endif()
+    
+    #> Zijie : Add Apple M4 Max support
+    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+        # Apple M2
+        list(APPEND ARCH_FLAGS -mcpu=apple-m2)
+    endif()
+
+    if (GGML_SVE)
+        list(APPEND ARCH_FLAGS -march=armv8.6-a+sve)
+    endif()
 
     message(STATUS "Final arch flags: ${ARCH_FLAGS}")
 

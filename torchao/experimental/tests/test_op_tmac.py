@@ -2,14 +2,15 @@ import torch
 import os
 current_path = os.path.dirname(os.path.abspath(__file__))
 
-torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.so")
+torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.dylib")
 
 import copy
 import tempfile
 import unittest
 
 import sys
-sys.path.append("/home/edgellm/Baselines/ao/torchao/experimental/ops/tmac/")
+sys.path.append(current_path + "/../ops/tmac/")
+print(sys.path)
 from t_mac.weights import preprocess_weights
 
 import numpy as np
@@ -19,7 +20,7 @@ import re
 from dataclasses import dataclass
 from typing import List
 
-CONFIG_PATH = '/home/edgellm/Baselines/ao/torchao/experimental/ops/tmac/tuned/kcfg.ini'
+CONFIG_PATH = current_path + "/../ops/tmac/tuned/kcfg.ini"
 
 @dataclass
 class QuantConfig:

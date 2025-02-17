@@ -4,16 +4,30 @@
 # LICENSE file in the root directory of this source tree.
 
 import glob
+from io import BytesIO
 import os
+import shutil
 import subprocess
 import sys
+import tarfile
 import time
 from datetime import datetime
+from typing import Tuple
 
 from setuptools import Extension, find_packages, setup
+import urllib
 
 current_date = datetime.now().strftime("%Y%m%d")
 
+ROOT_DIR = os.path.dirname(__file__)
+PLATFORM_LLVM_MAP = {
+    # (system, processor): (llvm_version, file_suffix)
+    ("Darwin", "aarch64"): ("17.0.6", "arm64-apple-darwin22.0.tar.xz"),
+    ("Linux", "aarch64"): ("17.0.6", "aarch64-linux-gnu.tar.xz"),
+    # ("Windows", "x86_64"): ("18.1.6", "x86_64-pc-windows-msvc.tar.xz"),
+    ("Linux", "x86_64"): ("17.0.6", "x86_64-linux-gnu-ubuntu-22.04.tar.xz"),
+}
+MANUAL_BUILD = bool(int(os.getenv("MANUAL_BUILD", "0")))
 
 def get_git_commit_id():
     try:
@@ -304,8 +318,113 @@ def get_extensions():
 
     return ext_modules
 
+def download_and_extract_llvm(extract_path="build"):
+    """
+    Downloads and extracts the specified version of LLVM for the given platform.
+    Args:
+        extract_path (str): The directory path where the archive will be extracted.
 
-check_submodules()
+    Returns:
+        str: The path where the LLVM archive was extracted.
+    """
+
+    llvm_version, file_suffix = PLATFORM_LLVM_MAP[get_system_info()]
+    base_url = (f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{llvm_version}")
+    file_name = f"clang+llvm-{llvm_version}-{file_suffix}"
+
+    download_url = f"{base_url}/{file_name}"
+
+    # Download the file
+    print(f"Downloading {file_name} from {download_url}")
+    with urllib.request.urlopen(download_url) as response:
+        if response.status != 200:
+            raise Exception(f"Download failed with status code {response.status}")
+        file_content = response.read()
+    # Ensure the extract path exists
+    os.makedirs(extract_path, exist_ok=True)
+
+    # if the file already exists, remove it
+    if os.path.exists(os.path.join(extract_path, file_name)):
+        os.remove(os.path.join(extract_path, file_name))
+
+    # Extract the file
+    print(f"Extracting {file_name} to {extract_path}")
+    with tarfile.open(fileobj=BytesIO(file_content), mode="r:xz") as tar:
+        tar.extractall(path=extract_path)
+
+    print("Download and extraction completed successfully.")
+    return os.path.abspath(os.path.join(extract_path, file_name.replace(".tar.xz", "")))
+
+def is_win() -> bool:
+    """Check if is windows or not"""
+    return get_system_info()[0] == "Windows"
+
+ARCH_MAP = {
+    "arm64": "aarch64",
+    "AMD64": "x86_64",
+    "ARM64": "aarch64",
+    "x86": "x86_64",
+}
+
+def get_system_info() -> Tuple[str, str]:
+    """Get OS and processor architecture"""
+    system = platform.system()
+    processor = platform.machine()
+    processor = ARCH_MAP.get(processor, processor)
+    return system, processor
+
+def update_submodules():
+    """Updates git submodules."""
+    try:
+        subprocess.check_call(["git", "submodule", "update", "--init", "--recursive"])
+    except subprocess.CalledProcessError as error:
+        raise RuntimeError("Failed to update submodules") from error
+
+def build_tvm(llvm_config_path):
+    """Configures and builds TVM."""
+    os.chdir("third_party/tvm")
+    if not os.path.exists("build"):
+        os.makedirs("build")
+    os.chdir("build")
+    # Copy the config.cmake as a baseline
+    if not os.path.exists("config.cmake"):
+        shutil.copy("../cmake/config.cmake", "config.cmake")
+    # Set LLVM path and enable CUDA in config.cmake
+    with open("config.cmake", "a") as config_file:
+        if is_win():
+            import posixpath
+            llvm_config_path = llvm_config_path.replace(os.sep, posixpath.sep)
+        config_file.write(f"set(USE_LLVM {llvm_config_path})\n")
+    # Run CMake and make
+    try:
+        subprocess.check_call(["cmake", ".."])
+        if is_win():
+            subprocess.check_call(["cmake", "--build", ".", "--config", "Release"])
+        else:
+            subprocess.check_call(["make", "-j16"])
+    except subprocess.CalledProcessError as error:
+        raise RuntimeError("Failed to build TVM") from error
+    finally:
+        # Go back to the original directory
+        os.chdir("../../..")
+
+def setup_llvm_for_tvm():
+    """Downloads and extracts LLVM, then configures TVM to use it."""
+    # Assume the download_and_extract_llvm function and its dependencies are defined elsewhere in this script
+    extract_path = download_and_extract_llvm()
+    llvm_config_path = os.path.join(extract_path, "bin", "llvm-config")
+    return extract_path, llvm_config_path
+
+#> Zijie: This is the main function to build the TVM package with local LLVM.
+def build_tvm_with_local_llvm():
+    """Builds TVM with the specified version of LLVM."""
+    llvm_path, llvm_config_path = setup_llvm_for_tvm()
+    build_tvm(llvm_config_path)
+
+
+check_submodules()      #> Zijie: Check if the submodules are correctly UPDATED.
+
+build_tvm_with_local_llvm()  #> Zijie: Build the TVM package with local LLVM.
 
 setup(
     name="torchao",

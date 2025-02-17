@@ -1056,14 +1056,14 @@ extern "C"
   }
   if (!(qgemm_lut_t4_int8_m6400_k8640_n1_b2_C_strides == NULL)) {
   }
-  for (int32_t m_outer = 0; m_outer < 50; ++m_outer) {
-    alignas(32) half CBits[128];
-    alignas(32) half C_global[64];
-    tbl_float_reset(128, (&(CBits[0])));
+  for (int32_t m_outer = 0; m_outer < 25; ++m_outer) {
+    alignas(32) half CBits[256];
+    alignas(32) half C_global[128];
+    tbl_float_reset(256, (&(CBits[0])));
     for (int32_t k_outer = 0; k_outer < 135; ++k_outer) {
-      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(128, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 138240) + (k_outer * 1024))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
+      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(256, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 276480) + (k_outer * 2048))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
     }
-    for (int32_t m_c_outer = 0; m_c_outer < 2; ++m_c_outer) {
+    for (int32_t m_c_outer = 0; m_c_outer < 4; ++m_c_outer) {
       int32_t cse_var_2 = (m_c_outer * 64);
       int32_t cse_var_1 = (m_c_outer * 32);
       C_global[cse_var_1] = ((half)((((float)CBits[cse_var_2]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 8)])));
@@ -1099,9 +1099,9 @@ extern "C"
       C_global[(cse_var_1 + 30)] = ((half)((((float)CBits[(cse_var_2 + 54)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 62)])));
       C_global[(cse_var_1 + 31)] = ((half)((((float)CBits[(cse_var_2 + 55)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 63)])));
     }
-    for (int32_t m_inner_outer = 0; m_inner_outer < 2; ++m_inner_outer) {
+    for (int32_t m_inner_outer = 0; m_inner_outer < 4; ++m_inner_outer) {
       int32_t cse_var_4 = (m_inner_outer * 32);
-      int32_t cse_var_3 = ((m_outer * 64) + cse_var_4);
+      int32_t cse_var_3 = ((m_outer * 128) + cse_var_4);
       ((half*)C_1)[cse_var_3] = C_global[cse_var_4];
       ((half*)C_1)[(cse_var_3 + 1)] = C_global[(cse_var_4 + 1)];
       ((half*)C_1)[(cse_var_3 + 2)] = C_global[(cse_var_4 + 2)];
@@ -1270,14 +1270,14 @@ extern "C"
   }
   if (!(qgemm_lut_t4_int8_m17280_k3200_n1_b2_C_strides == NULL)) {
   }
-  for (int32_t m_outer = 0; m_outer < 135; ++m_outer) {
-    alignas(32) half CBits[128];
-    alignas(32) half C_global[64];
-    tbl_float_reset(128, (&(CBits[0])));
+  for (int32_t m_outer = 0; m_outer < 54; ++m_outer) {
+    alignas(32) half CBits[320];
+    alignas(32) half C_global[160];
+    tbl_float_reset(320, (&(CBits[0])));
     for (int32_t k_outer = 0; k_outer < 50; ++k_outer) {
-      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(128, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 51200) + (k_outer * 1024))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
+      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(320, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 128000) + (k_outer * 2560))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
     }
-    for (int32_t m_c_outer = 0; m_c_outer < 2; ++m_c_outer) {
+    for (int32_t m_c_outer = 0; m_c_outer < 5; ++m_c_outer) {
       int32_t cse_var_2 = (m_c_outer * 64);
       int32_t cse_var_1 = (m_c_outer * 32);
       C_global[cse_var_1] = ((half)((((float)CBits[cse_var_2]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 8)])));
@@ -1313,9 +1313,9 @@ extern "C"
       C_global[(cse_var_1 + 30)] = ((half)((((float)CBits[(cse_var_2 + 54)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 62)])));
       C_global[(cse_var_1 + 31)] = ((half)((((float)CBits[(cse_var_2 + 55)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 63)])));
     }
-    for (int32_t m_inner_outer = 0; m_inner_outer < 2; ++m_inner_outer) {
+    for (int32_t m_inner_outer = 0; m_inner_outer < 5; ++m_inner_outer) {
       int32_t cse_var_4 = (m_inner_outer * 32);
-      int32_t cse_var_3 = ((m_outer * 64) + cse_var_4);
+      int32_t cse_var_3 = ((m_outer * 160) + cse_var_4);
       ((half*)C_1)[cse_var_3] = C_global[cse_var_4];
       ((half*)C_1)[(cse_var_3 + 1)] = C_global[(cse_var_4 + 1)];
       ((half*)C_1)[(cse_var_3 + 2)] = C_global[(cse_var_4 + 2)];
@@ -1484,14 +1484,14 @@ extern "C"
   }
   if (!(qgemm_lut_t4_int8_m6400_k3200_n1_b2_C_strides == NULL)) {
   }
-  for (int32_t m_outer = 0; m_outer < 50; ++m_outer) {
-    alignas(32) half CBits[128];
-    alignas(32) half C_global[64];
-    tbl_float_reset(128, (&(CBits[0])));
+  for (int32_t m_outer = 0; m_outer < 25; ++m_outer) {
+    alignas(32) half CBits[256];
+    alignas(32) half C_global[128];
+    tbl_float_reset(256, (&(CBits[0])));
     for (int32_t k_outer = 0; k_outer < 50; ++k_outer) {
-      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(128, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 51200) + (k_outer * 1024))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
+      tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue(256, (&(CBits[0])), (&(((int8_t*)LUT_1)[(k_outer * 256)])), (&(((uint8_t*)A_1)[((m_outer * 102400) + (k_outer * 2048))])), (&(((half*)Scales_1)[0])), (&(((half*)LUT_Scales_1)[k_outer])), (&(((half*)LUT_Biases_1)[k_outer])));
     }
-    for (int32_t m_c_outer = 0; m_c_outer < 2; ++m_c_outer) {
+    for (int32_t m_c_outer = 0; m_c_outer < 4; ++m_c_outer) {
       int32_t cse_var_2 = (m_c_outer * 64);
       int32_t cse_var_1 = (m_c_outer * 32);
       C_global[cse_var_1] = ((half)((((float)CBits[cse_var_2]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 8)])));
@@ -1527,9 +1527,9 @@ extern "C"
       C_global[(cse_var_1 + 30)] = ((half)((((float)CBits[(cse_var_2 + 54)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 62)])));
       C_global[(cse_var_1 + 31)] = ((half)((((float)CBits[(cse_var_2 + 55)]) * 5.000000e-01f) + ((float)CBits[(cse_var_2 + 63)])));
     }
-    for (int32_t m_inner_outer = 0; m_inner_outer < 2; ++m_inner_outer) {
+    for (int32_t m_inner_outer = 0; m_inner_outer < 4; ++m_inner_outer) {
       int32_t cse_var_4 = (m_inner_outer * 32);
-      int32_t cse_var_3 = ((m_outer * 64) + cse_var_4);
+      int32_t cse_var_3 = ((m_outer * 128) + cse_var_4);
       ((half*)C_1)[cse_var_3] = C_global[cse_var_4];
       ((half*)C_1)[(cse_var_3 + 1)] = C_global[(cse_var_4 + 1)];
       ((half*)C_1)[(cse_var_3 + 2)] = C_global[(cse_var_4 + 2)];

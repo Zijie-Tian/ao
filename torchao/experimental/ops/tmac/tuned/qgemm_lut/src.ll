@@ -1,13 +1,17 @@
 ; ModuleID = 'TVMMod'
 source_filename = "TVMMod"
-target datalayout = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
-target triple = "aarch64-linux-gnu"
+target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
+target triple = "arm64-apple-darwin23.1.0"
 
-%0 = type { i32*, i32 }
-%closure_loop_parallel_m.outer = type { i8*, i8*, half*, half*, half*, half* }
+%0 = type { double }
+%1 = type { ptr, %2, i32, %3, ptr, ptr, i64 }
+%2 = type { i32, i32 }
+%3 = type { i8, i8, i16 }
+%4 = type { ptr, i32 }
+%closure_loop_parallel_m.outer = type { ptr, ptr, ptr, ptr, ptr, ptr }
 
-@__TVMAPISetLastError = linkonce dllexport local_unnamed_addr global void (i8*)* null, align 8
-@__TVMBackendParallelLaunch = linkonce dllexport local_unnamed_addr global i32 (i32 (i32, %0*, i8*)*, i8*, i32)* null, align 8
+@__TVMAPISetLastError = linkonce dllexport local_unnamed_addr global ptr null, align 8
+@__TVMBackendParallelLaunch = linkonce dllexport local_unnamed_addr global ptr null, align 8
 @.str = private constant [86 x i8] c"Assert fail: num_args == 6, qgemm_lut_t4_int8_m6400_k3200_n1_b2: num_args should be 6\00", align 1
 @.str.1 = private constant [104 x i8] c"Assert fail: not T.isnullptr(args), qgemm_lut_t4_int8_m6400_k3200_n1_b2: TVMValue* arg pointer was NULL\00", align 1
 @.str.2 = private constant [106 x i8] c"Assert fail: not T.isnullptr(arg_type_ids), qgemm_lut_t4_int8_m6400_k3200_n1_b2: int* type_codes was NULL\00", align 1
@@ -30,10 +34,10 @@ target triple = "aarch64-linux-gnu"
 @.str.19 = private constant [118 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t4_int8_m6400_k3200_n1_b2.C is expected to have non-NULL DLTensor* pointer\00", align 1
 @.str.20 = private constant [120 x i8] c"Assert fail: 2 == T.tvm_struct_get(C, 0, 4, \22int32\22), qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.ndim is expected to equal 2\00", align 1
 @.str.21 = private constant [239 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 5, \22uint8\22) == T.uint8(1) and T.tvm_struct_get(A, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(A, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.dtype is expected to be uint8\00", align 1
-@.str.22 = private constant [241 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[0]) == 50, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape[0] has an unsatisfied constraint: 50 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[0])\00", align 1
+@.str.22 = private constant [241 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[0]) == 25, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape[0] has an unsatisfied constraint: 25 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[0])\00", align 1
 @.str.23 = private constant [243 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[1]) == 800, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape[1] has an unsatisfied constraint: 800 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[1])\00", align 1
-@.str.24 = private constant [241 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[2]) == 64, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape[2] has an unsatisfied constraint: 64 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[2])\00", align 1
-@.str.25 = private constant [316 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[2]) and 64 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[1]) and 51200 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[0]), qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides: expected to be compact array\00", align 1
+@.str.24 = private constant [243 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[2]) == 128, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape[2] has an unsatisfied constraint: 128 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_shape[2])\00", align 1
+@.str.25 = private constant [318 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[2]) and 128 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[1]) and 102400 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m6400_k3200_n1_b2_A_strides[0]), qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides: expected to be compact array\00", align 1
 @.str.26 = private constant [206 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22)\00", align 1
 @.str.27 = private constant [186 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(A, 0, 10, \22int32\22)\00", align 1
 @.str.28 = private constant [113 x i8] c"Assert fail: not T.isnullptr(A), qgemm_lut_t4_int8_m6400_k3200_n1_b2.A is expected to have non-NULL data pointer\00", align 1
@@ -77,2041 +81,2246 @@ target triple = "aarch64-linux-gnu"
 @.str.67 = private constant [192 x i8] c"Assert fail: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22)\00", align 1
 @.str.68 = private constant [113 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t4_int8_m6400_k3200_n1_b2.C is expected to have non-NULL data pointer\00", align 1
 @__tvm_main__ = weak dllexport local_unnamed_addr constant [36 x i8] c"qgemm_lut_t4_int8_m6400_k3200_n1_b2\00", align 1
-@llvm.global_ctors = appending global [0 x { i32, void ()*, i8* }] zeroinitializer
+@llvm.global_ctors = appending global [0 x { i32, ptr, ptr }] zeroinitializer
 
-define dllexport i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2(i8* noalias readonly %args, i32* noalias readonly %arg_type_ids, i32 %num_args, i8* noalias nocapture readnone %out_ret_value, i32* noalias nocapture readnone %out_ret_tcode, i8* noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !15 {
+define dllexport i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2(ptr noalias readonly %args, ptr noalias readonly %arg_type_ids, i32 %num_args, ptr noalias nocapture readnone %out_ret_value, ptr noalias nocapture readnone %out_ret_tcode, ptr noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !11 {
 entry:
-  call void @llvm.dbg.value(metadata i8* %args, metadata !22, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.value(metadata i32* %arg_type_ids, metadata !23, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.value(metadata i32 %num_args, metadata !24, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.value(metadata i8* %out_ret_value, metadata !25, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.value(metadata i32* %out_ret_tcode, metadata !26, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.value(metadata i8* %resource_handle, metadata !27, metadata !DIExpression()), !dbg !28
-  %0 = icmp eq i32 %num_args, 6, !dbg !28
-  br i1 %0, label %assert_end, label %assert_fail, !dbg !28, !prof !29
+  call void @llvm.dbg.value(metadata ptr %args, metadata !18, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.value(metadata ptr %arg_type_ids, metadata !19, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.value(metadata i32 %num_args, metadata !20, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.value(metadata ptr %out_ret_value, metadata !21, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.value(metadata ptr %out_ret_tcode, metadata !22, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.value(metadata ptr %resource_handle, metadata !23, metadata !DIExpression()), !dbg !24
+  %0 = icmp eq i32 %num_args, 6, !dbg !24
+  br i1 %0, label %assert_end, label %assert_fail, !dbg !24, !prof !25
 
 common.ret:                                       ; preds = %assert_end158, %assert_fail157, %assert_fail155, %assert_fail153, %assert_fail151, %assert_fail149, %assert_fail145, %assert_fail143, %assert_fail141, %assert_fail139, %assert_fail137, %assert_fail135, %assert_fail133, %assert_fail131, %assert_fail127, %assert_fail125, %assert_fail123, %assert_fail121, %assert_fail119, %assert_fail117, %assert_fail115, %assert_fail113, %assert_fail109, %assert_fail107, %assert_fail105, %assert_fail103, %assert_fail101, %assert_fail99, %assert_fail97, %assert_fail91, %assert_fail89, %assert_fail87, %assert_fail85, %assert_fail83, %assert_fail81, %assert_fail79, %assert_fail75, %assert_fail73, %assert_fail71, %assert_fail69, %assert_fail67, %assert_fail65, %assert_fail63, %assert_fail61, %assert_fail59, %assert_fail57, %assert_fail55, %assert_fail53, %assert_fail49, %assert_fail47, %assert_fail43, %assert_fail41, %assert_fail37, %assert_fail35, %assert_fail31, %assert_fail29, %assert_fail25, %assert_fail23, %assert_fail19, %assert_fail17, %assert_fail15, %assert_fail13, %assert_fail11, %assert_fail9, %assert_fail7, %assert_fail5, %assert_fail3, %assert_fail1, %assert_fail
-  %common.ret.op = phi i32 [ -1, %assert_fail ], [ -1, %assert_fail1 ], [ -1, %assert_fail3 ], [ -1, %assert_fail5 ], [ -1, %assert_fail7 ], [ -1, %assert_fail9 ], [ -1, %assert_fail11 ], [ -1, %assert_fail13 ], [ -1, %assert_fail15 ], [ -1, %assert_fail17 ], [ -1, %assert_fail19 ], [ -1, %assert_fail23 ], [ -1, %assert_fail25 ], [ -1, %assert_fail29 ], [ -1, %assert_fail31 ], [ -1, %assert_fail35 ], [ -1, %assert_fail37 ], [ -1, %assert_fail41 ], [ -1, %assert_fail43 ], [ -1, %assert_fail47 ], [ -1, %assert_fail49 ], [ -1, %assert_fail53 ], [ -1, %assert_fail55 ], [ -1, %assert_fail57 ], [ -1, %assert_fail59 ], [ -1, %assert_fail61 ], [ -1, %assert_fail63 ], [ -1, %assert_fail65 ], [ -1, %assert_fail67 ], [ -1, %assert_fail69 ], [ -1, %assert_fail71 ], [ -1, %assert_fail73 ], [ -1, %assert_fail75 ], [ -1, %assert_fail79 ], [ -1, %assert_fail81 ], [ -1, %assert_fail83 ], [ -1, %assert_fail85 ], [ -1, %assert_fail87 ], [ -1, %assert_fail89 ], [ -1, %assert_fail91 ], [ -1, %assert_fail97 ], [ -1, %assert_fail99 ], [ -1, %assert_fail101 ], [ -1, %assert_fail103 ], [ -1, %assert_fail105 ], [ -1, %assert_fail107 ], [ -1, %assert_fail109 ], [ -1, %assert_fail113 ], [ -1, %assert_fail115 ], [ -1, %assert_fail117 ], [ -1, %assert_fail119 ], [ -1, %assert_fail121 ], [ -1, %assert_fail123 ], [ -1, %assert_fail125 ], [ -1, %assert_fail127 ], [ -1, %assert_fail131 ], [ -1, %assert_fail133 ], [ -1, %assert_fail135 ], [ -1, %assert_fail137 ], [ -1, %assert_fail139 ], [ -1, %assert_fail141 ], [ -1, %assert_fail143 ], [ -1, %assert_fail145 ], [ -1, %assert_fail149 ], [ -1, %assert_fail151 ], [ -1, %assert_fail153 ], [ -1, %assert_fail155 ], [ -1, %assert_fail157 ], [ %359, %assert_end158 ]
-  ret i32 %common.ret.op, !dbg !28
+  %common.ret.op = phi i32 [ -1, %assert_fail ], [ -1, %assert_fail1 ], [ -1, %assert_fail3 ], [ -1, %assert_fail5 ], [ -1, %assert_fail7 ], [ -1, %assert_fail9 ], [ -1, %assert_fail11 ], [ -1, %assert_fail13 ], [ -1, %assert_fail15 ], [ -1, %assert_fail17 ], [ -1, %assert_fail19 ], [ -1, %assert_fail23 ], [ -1, %assert_fail25 ], [ -1, %assert_fail29 ], [ -1, %assert_fail31 ], [ -1, %assert_fail35 ], [ -1, %assert_fail37 ], [ -1, %assert_fail41 ], [ -1, %assert_fail43 ], [ -1, %assert_fail47 ], [ -1, %assert_fail49 ], [ -1, %assert_fail53 ], [ -1, %assert_fail55 ], [ -1, %assert_fail57 ], [ -1, %assert_fail59 ], [ -1, %assert_fail61 ], [ -1, %assert_fail63 ], [ -1, %assert_fail65 ], [ -1, %assert_fail67 ], [ -1, %assert_fail69 ], [ -1, %assert_fail71 ], [ -1, %assert_fail73 ], [ -1, %assert_fail75 ], [ -1, %assert_fail79 ], [ -1, %assert_fail81 ], [ -1, %assert_fail83 ], [ -1, %assert_fail85 ], [ -1, %assert_fail87 ], [ -1, %assert_fail89 ], [ -1, %assert_fail91 ], [ -1, %assert_fail97 ], [ -1, %assert_fail99 ], [ -1, %assert_fail101 ], [ -1, %assert_fail103 ], [ -1, %assert_fail105 ], [ -1, %assert_fail107 ], [ -1, %assert_fail109 ], [ -1, %assert_fail113 ], [ -1, %assert_fail115 ], [ -1, %assert_fail117 ], [ -1, %assert_fail119 ], [ -1, %assert_fail121 ], [ -1, %assert_fail123 ], [ -1, %assert_fail125 ], [ -1, %assert_fail127 ], [ -1, %assert_fail131 ], [ -1, %assert_fail133 ], [ -1, %assert_fail135 ], [ -1, %assert_fail137 ], [ -1, %assert_fail139 ], [ -1, %assert_fail141 ], [ -1, %assert_fail143 ], [ -1, %assert_fail145 ], [ -1, %assert_fail149 ], [ -1, %assert_fail151 ], [ -1, %assert_fail153 ], [ -1, %assert_fail155 ], [ -1, %assert_fail157 ], [ %306, %assert_end158 ]
+  ret i32 %common.ret.op, !dbg !24
 
 assert_fail:                                      ; preds = %entry
-  %1 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %1(i8* getelementptr inbounds ([86 x i8], [86 x i8]* @.str, i64 0, i64 0)), !dbg !28
+  %1 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %1(ptr nonnull @.str), !dbg !24
   br label %common.ret
 
 assert_end:                                       ; preds = %entry
-  %.not = icmp eq i8* %args, null, !dbg !28
-  br i1 %.not, label %assert_fail1, label %assert_end2, !dbg !28, !prof !33
+  %.not = icmp eq ptr %args, null, !dbg !24
+  br i1 %.not, label %assert_fail1, label %assert_end2, !dbg !24, !prof !29
 
 assert_fail1:                                     ; preds = %assert_end
-  %2 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %2(i8* getelementptr inbounds ([104 x i8], [104 x i8]* @.str.1, i64 0, i64 0)), !dbg !28
+  %2 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %2(ptr nonnull @.str.1), !dbg !24
   br label %common.ret
 
 assert_end2:                                      ; preds = %assert_end
-  %.not165 = icmp eq i32* %arg_type_ids, null, !dbg !28
-  br i1 %.not165, label %assert_fail3, label %assert_end4, !dbg !28, !prof !33
+  %.not165 = icmp eq ptr %arg_type_ids, null, !dbg !24
+  br i1 %.not165, label %assert_fail3, label %assert_end4, !dbg !24, !prof !29
 
 assert_fail3:                                     ; preds = %assert_end2
-  %3 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %3(i8* getelementptr inbounds ([106 x i8], [106 x i8]* @.str.2, i64 0, i64 0)), !dbg !28
+  %3 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %3(ptr nonnull @.str.2), !dbg !24
   br label %common.ret
 
 assert_end4:                                      ; preds = %assert_end2
-  %A.code = load i32, i32* %arg_type_ids, align 4, !dbg !28, !tbaa !34
-  call void @llvm.dbg.declare(metadata i32 %A.code, metadata !45, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %A.code, metadata !45, metadata !DIExpression()), !dbg !28
+  %A.code = load i32, ptr %arg_type_ids, align 4, !dbg !24, !tbaa !30
+  call void @llvm.dbg.declare(metadata i32 %A.code, metadata !41, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %A.code, metadata !41, metadata !DIExpression()), !dbg !24
   switch i32 %A.code, label %assert_fail5 [
     i32 13, label %assert_end6
     i32 7, label %assert_end6
     i32 4, label %assert_end6
     i32 3, label %assert_end6
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail5:                                     ; preds = %assert_end4
-  %4 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %4(i8* getelementptr inbounds ([137 x i8], [137 x i8]* @.str.3, i64 0, i64 0)), !dbg !28
+  %4 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %4(ptr nonnull @.str.3), !dbg !24
   br label %common.ret
 
 assert_end6:                                      ; preds = %assert_end4, %assert_end4, %assert_end4, %assert_end4
-  %5 = getelementptr inbounds i32, i32* %arg_type_ids, i64 1, !dbg !28
-  %LUT.code = load i32, i32* %5, align 4, !dbg !28, !tbaa !46
-  call void @llvm.dbg.declare(metadata i32 %LUT.code, metadata !48, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %LUT.code, metadata !48, metadata !DIExpression()), !dbg !28
+  %5 = getelementptr inbounds i32, ptr %arg_type_ids, i64 1, !dbg !24
+  %LUT.code = load i32, ptr %5, align 4, !dbg !24, !tbaa !42
+  call void @llvm.dbg.declare(metadata i32 %LUT.code, metadata !44, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %LUT.code, metadata !44, metadata !DIExpression()), !dbg !24
   switch i32 %LUT.code, label %assert_fail7 [
     i32 13, label %assert_end8
     i32 7, label %assert_end8
     i32 4, label %assert_end8
     i32 3, label %assert_end8
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail7:                                     ; preds = %assert_end6
-  %6 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %6(i8* getelementptr inbounds ([145 x i8], [145 x i8]* @.str.4, i64 0, i64 0)), !dbg !28
+  %6 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %6(ptr nonnull @.str.4), !dbg !24
   br label %common.ret
 
 assert_end8:                                      ; preds = %assert_end6, %assert_end6, %assert_end6, %assert_end6
-  %7 = getelementptr inbounds i32, i32* %arg_type_ids, i64 2, !dbg !28
-  %Scales.code = load i32, i32* %7, align 4, !dbg !28, !tbaa !49
-  call void @llvm.dbg.declare(metadata i32 %Scales.code, metadata !52, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %Scales.code, metadata !52, metadata !DIExpression()), !dbg !28
+  %7 = getelementptr inbounds i32, ptr %arg_type_ids, i64 2, !dbg !24
+  %Scales.code = load i32, ptr %7, align 4, !dbg !24, !tbaa !45
+  call void @llvm.dbg.declare(metadata i32 %Scales.code, metadata !48, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %Scales.code, metadata !48, metadata !DIExpression()), !dbg !24
   switch i32 %Scales.code, label %assert_fail9 [
     i32 13, label %assert_end10
     i32 7, label %assert_end10
     i32 4, label %assert_end10
     i32 3, label %assert_end10
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail9:                                     ; preds = %assert_end8
-  %8 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %8(i8* getelementptr inbounds ([157 x i8], [157 x i8]* @.str.5, i64 0, i64 0)), !dbg !28
+  %8 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %8(ptr nonnull @.str.5), !dbg !24
   br label %common.ret
 
 assert_end10:                                     ; preds = %assert_end8, %assert_end8, %assert_end8, %assert_end8
-  %9 = getelementptr inbounds i32, i32* %arg_type_ids, i64 3, !dbg !28
-  %LUT_Scales.code = load i32, i32* %9, align 4, !dbg !28, !tbaa !53
-  call void @llvm.dbg.declare(metadata i32 %LUT_Scales.code, metadata !55, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %LUT_Scales.code, metadata !55, metadata !DIExpression()), !dbg !28
+  %9 = getelementptr inbounds i32, ptr %arg_type_ids, i64 3, !dbg !24
+  %LUT_Scales.code = load i32, ptr %9, align 4, !dbg !24, !tbaa !49
+  call void @llvm.dbg.declare(metadata i32 %LUT_Scales.code, metadata !51, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %LUT_Scales.code, metadata !51, metadata !DIExpression()), !dbg !24
   switch i32 %LUT_Scales.code, label %assert_fail11 [
     i32 13, label %assert_end12
     i32 7, label %assert_end12
     i32 4, label %assert_end12
     i32 3, label %assert_end12
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail11:                                    ; preds = %assert_end10
-  %10 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %10(i8* getelementptr inbounds ([173 x i8], [173 x i8]* @.str.6, i64 0, i64 0)), !dbg !28
+  %10 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %10(ptr nonnull @.str.6), !dbg !24
   br label %common.ret
 
 assert_end12:                                     ; preds = %assert_end10, %assert_end10, %assert_end10, %assert_end10
-  %11 = getelementptr inbounds i32, i32* %arg_type_ids, i64 4, !dbg !28
-  %LUT_Biases.code = load i32, i32* %11, align 4, !dbg !28, !tbaa !56
-  call void @llvm.dbg.declare(metadata i32 %LUT_Biases.code, metadata !60, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %LUT_Biases.code, metadata !60, metadata !DIExpression()), !dbg !28
+  %11 = getelementptr inbounds i32, ptr %arg_type_ids, i64 4, !dbg !24
+  %LUT_Biases.code = load i32, ptr %11, align 4, !dbg !24, !tbaa !52
+  call void @llvm.dbg.declare(metadata i32 %LUT_Biases.code, metadata !56, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %LUT_Biases.code, metadata !56, metadata !DIExpression()), !dbg !24
   switch i32 %LUT_Biases.code, label %assert_fail13 [
     i32 13, label %assert_end14
     i32 7, label %assert_end14
     i32 4, label %assert_end14
     i32 3, label %assert_end14
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail13:                                    ; preds = %assert_end12
-  %12 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %12(i8* getelementptr inbounds ([173 x i8], [173 x i8]* @.str.7, i64 0, i64 0)), !dbg !28
+  %12 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %12(ptr nonnull @.str.7), !dbg !24
   br label %common.ret
 
 assert_end14:                                     ; preds = %assert_end12, %assert_end12, %assert_end12, %assert_end12
-  %13 = getelementptr inbounds i32, i32* %arg_type_ids, i64 5, !dbg !28
-  %C.code = load i32, i32* %13, align 4, !dbg !28, !tbaa !61
-  call void @llvm.dbg.declare(metadata i32 %C.code, metadata !63, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %C.code, metadata !63, metadata !DIExpression()), !dbg !28
+  %13 = getelementptr inbounds i32, ptr %arg_type_ids, i64 5, !dbg !24
+  %C.code = load i32, ptr %13, align 4, !dbg !24, !tbaa !57
+  call void @llvm.dbg.declare(metadata i32 %C.code, metadata !59, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %C.code, metadata !59, metadata !DIExpression()), !dbg !24
   switch i32 %C.code, label %assert_fail15 [
     i32 13, label %assert_end16
     i32 7, label %assert_end16
     i32 4, label %assert_end16
     i32 3, label %assert_end16
-  ], !dbg !28
+  ], !dbg !24
 
 assert_fail15:                                    ; preds = %assert_end14
-  %14 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %14(i8* getelementptr inbounds ([137 x i8], [137 x i8]* @.str.8, i64 0, i64 0)), !dbg !28
+  %14 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %14(ptr nonnull @.str.8), !dbg !24
   br label %common.ret
 
 assert_end16:                                     ; preds = %assert_end14, %assert_end14, %assert_end14, %assert_end14
-  %15 = bitcast i8* %args to i8**, !dbg !28
-  %A = load i8*, i8** %15, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %A, metadata !64, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %A, metadata !64, metadata !DIExpression()), !dbg !28
-  %16 = getelementptr inbounds i8, i8* %args, i64 8, !dbg !28
-  %17 = bitcast i8* %16 to i8**, !dbg !28
-  %LUT = load i8*, i8** %17, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT, metadata !65, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT, metadata !65, metadata !DIExpression()), !dbg !28
-  %18 = getelementptr inbounds i8, i8* %args, i64 16, !dbg !28
-  %19 = bitcast i8* %18 to i8**, !dbg !28
-  %Scales = load i8*, i8** %19, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %Scales, metadata !66, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %Scales, metadata !66, metadata !DIExpression()), !dbg !28
-  %20 = getelementptr inbounds i8, i8* %args, i64 24, !dbg !28
-  %21 = bitcast i8* %20 to i8**, !dbg !28
-  %LUT_Scales = load i8*, i8** %21, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT_Scales, metadata !67, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT_Scales, metadata !67, metadata !DIExpression()), !dbg !28
-  %22 = getelementptr inbounds i8, i8* %args, i64 32, !dbg !28
-  %23 = bitcast i8* %22 to i8**, !dbg !28
-  %LUT_Biases = load i8*, i8** %23, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT_Biases, metadata !68, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT_Biases, metadata !68, metadata !DIExpression()), !dbg !28
-  %24 = getelementptr inbounds i8, i8* %args, i64 40, !dbg !28
-  %25 = bitcast i8* %24 to i8**, !dbg !28
-  %C = load i8*, i8** %25, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %C, metadata !69, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %C, metadata !69, metadata !DIExpression()), !dbg !28
-  %.not166 = icmp eq i8* %A, null, !dbg !28
-  br i1 %.not166, label %assert_fail17, label %assert_end18, !dbg !28, !prof !33
+  %A = load ptr, ptr %args, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %A, metadata !60, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %A, metadata !60, metadata !DIExpression()), !dbg !24
+  %15 = getelementptr inbounds %0, ptr %args, i64 1, !dbg !24
+  %LUT = load ptr, ptr %15, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT, metadata !61, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT, metadata !61, metadata !DIExpression()), !dbg !24
+  %16 = getelementptr inbounds %0, ptr %args, i64 2, !dbg !24
+  %Scales = load ptr, ptr %16, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %Scales, metadata !62, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %Scales, metadata !62, metadata !DIExpression()), !dbg !24
+  %17 = getelementptr inbounds %0, ptr %args, i64 3, !dbg !24
+  %LUT_Scales = load ptr, ptr %17, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Scales, metadata !63, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Scales, metadata !63, metadata !DIExpression()), !dbg !24
+  %18 = getelementptr inbounds %0, ptr %args, i64 4, !dbg !24
+  %LUT_Biases = load ptr, ptr %18, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Biases, metadata !64, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Biases, metadata !64, metadata !DIExpression()), !dbg !24
+  %19 = getelementptr inbounds %0, ptr %args, i64 5, !dbg !24
+  %C = load ptr, ptr %19, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %C, metadata !65, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %C, metadata !65, metadata !DIExpression()), !dbg !24
+  %.not166 = icmp eq ptr %A, null, !dbg !24
+  br i1 %.not166, label %assert_fail17, label %assert_end18, !dbg !24, !prof !29
 
 assert_fail17:                                    ; preds = %assert_end16
-  %26 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %26(i8* getelementptr inbounds ([118 x i8], [118 x i8]* @.str.9, i64 0, i64 0)), !dbg !28
+  %20 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %20(ptr nonnull @.str.9), !dbg !24
   br label %common.ret
 
 assert_end18:                                     ; preds = %assert_end16
-  %27 = getelementptr inbounds i8, i8* %A, i64 16, !dbg !28
-  %28 = bitcast i8* %27 to i32*, !dbg !28
-  %29 = load i32, i32* %28, align 4, !dbg !28
-  %30 = icmp eq i32 %29, 3, !dbg !28
-  br i1 %30, label %assert_end20, label %assert_fail19, !dbg !28, !prof !29
+  %21 = getelementptr inbounds %1, ptr %A, i64 0, i32 2, !dbg !24
+  %22 = load i32, ptr %21, align 4, !dbg !24
+  %23 = icmp eq i32 %22, 3, !dbg !24
+  br i1 %23, label %assert_end20, label %assert_fail19, !dbg !24, !prof !25
 
 assert_fail19:                                    ; preds = %assert_end18
-  %31 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %31(i8* getelementptr inbounds ([120 x i8], [120 x i8]* @.str.10, i64 0, i64 0)), !dbg !28
+  %24 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %24(ptr nonnull @.str.10), !dbg !24
   br label %common.ret
 
 assert_end20:                                     ; preds = %assert_end18
-  %32 = getelementptr inbounds i8, i8* %A, i64 24, !dbg !28
-  %33 = bitcast i8* %32 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape = load i64*, i64** %33, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, metadata !70, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, metadata !70, metadata !DIExpression()), !dbg !28
-  %34 = getelementptr inbounds i8, i8* %A, i64 32, !dbg !28
-  %35 = bitcast i8* %34 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides = load i64*, i64** %35, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, metadata !73, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, metadata !73, metadata !DIExpression()), !dbg !28
-  %36 = getelementptr inbounds i8, i8* %A, i64 12, !dbg !28
-  %37 = bitcast i8* %36 to i32*, !dbg !28
-  %dev_id = load i32, i32* %37, align 4, !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !74, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !74, metadata !DIExpression()), !dbg !28
-  %38 = bitcast i8* %A to i8**, !dbg !28
-  %A160 = load i8*, i8** %38, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %A160, metadata !75, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %A160, metadata !75, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(i8* %A160, i64 64) ], !dbg !28
-  %.not167 = icmp eq i8* %LUT, null, !dbg !28
-  br i1 %.not167, label %assert_fail23, label %assert_end24, !dbg !28, !prof !33
+  %25 = getelementptr inbounds %1, ptr %A, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape = load ptr, ptr %25, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
+  %26 = getelementptr inbounds %1, ptr %A, i64 0, i32 5, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides = load ptr, ptr %26, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
+  %27 = getelementptr inbounds %1, ptr %A, i64 0, i32 1, i32 1, !dbg !24
+  %dev_id = load i32, ptr %27, align 4, !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !70, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !70, metadata !DIExpression()), !dbg !24
+  %A160 = load ptr, ptr %A, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %A160, metadata !71, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %A160, metadata !71, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %A160, i64 64) ], !dbg !24
+  %.not167 = icmp eq ptr %LUT, null, !dbg !24
+  br i1 %.not167, label %assert_fail23, label %assert_end24, !dbg !24, !prof !29
 
 assert_fail23:                                    ; preds = %assert_end20
-  %39 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %39(i8* getelementptr inbounds ([122 x i8], [122 x i8]* @.str.11, i64 0, i64 0)), !dbg !28
+  %28 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %28(ptr nonnull @.str.11), !dbg !24
   br label %common.ret
 
 assert_end24:                                     ; preds = %assert_end20
-  %40 = getelementptr inbounds i8, i8* %LUT, i64 16, !dbg !28
-  %41 = bitcast i8* %40 to i32*, !dbg !28
-  %42 = load i32, i32* %41, align 4, !dbg !28
-  %43 = icmp eq i32 %42, 3, !dbg !28
-  br i1 %43, label %assert_end26, label %assert_fail25, !dbg !28, !prof !29
+  %29 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 2, !dbg !24
+  %30 = load i32, ptr %29, align 4, !dbg !24
+  %31 = icmp eq i32 %30, 3, !dbg !24
+  br i1 %31, label %assert_end26, label %assert_fail25, !dbg !24, !prof !25
 
 assert_fail25:                                    ; preds = %assert_end24
-  %44 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %44(i8* getelementptr inbounds ([124 x i8], [124 x i8]* @.str.12, i64 0, i64 0)), !dbg !28
+  %32 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %32(ptr nonnull @.str.12), !dbg !24
   br label %common.ret
 
 assert_end26:                                     ; preds = %assert_end24
-  %45 = getelementptr inbounds i8, i8* %LUT, i64 24, !dbg !28
-  %46 = bitcast i8* %45 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape = load i64*, i64** %46, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, metadata !78, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, metadata !78, metadata !DIExpression()), !dbg !28
-  %47 = getelementptr inbounds i8, i8* %LUT, i64 32, !dbg !28
-  %48 = bitcast i8* %47 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides = load i64*, i64** %48, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, metadata !79, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, metadata !79, metadata !DIExpression()), !dbg !28
-  %49 = bitcast i8* %LUT to i8**, !dbg !28
-  %LUT159 = load i8*, i8** %49, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT159, metadata !80, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i8* %LUT159, metadata !80, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(i8* %LUT159, i64 64) ], !dbg !28
-  %.not168 = icmp eq i8* %Scales, null, !dbg !28
-  br i1 %.not168, label %assert_fail29, label %assert_end30, !dbg !28, !prof !33
+  %33 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape = load ptr, ptr %33, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
+  %34 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 5, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides = load ptr, ptr %34, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
+  %LUT159 = load ptr, ptr %LUT, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT159, metadata !76, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT159, metadata !76, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %LUT159, i64 64) ], !dbg !24
+  %.not168 = icmp eq ptr %Scales, null, !dbg !24
+  br i1 %.not168, label %assert_fail29, label %assert_end30, !dbg !24, !prof !29
 
 assert_fail29:                                    ; preds = %assert_end26
-  %50 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %50(i8* getelementptr inbounds ([128 x i8], [128 x i8]* @.str.13, i64 0, i64 0)), !dbg !28
+  %35 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %35(ptr nonnull @.str.13), !dbg !24
   br label %common.ret
 
 assert_end30:                                     ; preds = %assert_end26
-  %51 = getelementptr inbounds i8, i8* %Scales, i64 16, !dbg !28
-  %52 = bitcast i8* %51 to i32*, !dbg !28
-  %53 = load i32, i32* %52, align 4, !dbg !28
-  %54 = icmp eq i32 %53, 1, !dbg !28
-  br i1 %54, label %assert_end32, label %assert_fail31, !dbg !28, !prof !29
+  %36 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 2, !dbg !24
+  %37 = load i32, ptr %36, align 4, !dbg !24
+  %38 = icmp eq i32 %37, 1, !dbg !24
+  br i1 %38, label %assert_end32, label %assert_fail31, !dbg !24, !prof !25
 
 assert_fail31:                                    ; preds = %assert_end30
-  %55 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %55(i8* getelementptr inbounds ([130 x i8], [130 x i8]* @.str.14, i64 0, i64 0)), !dbg !28
+  %39 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %39(ptr nonnull @.str.14), !dbg !24
   br label %common.ret
 
 assert_end32:                                     ; preds = %assert_end30
-  %56 = getelementptr inbounds i8, i8* %Scales, i64 24, !dbg !28
-  %57 = bitcast i8* %56 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape = load i64*, i64** %57, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, metadata !83, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, metadata !83, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* undef, metadata !84, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* undef, metadata !84, metadata !DIExpression()), !dbg !28
-  %58 = bitcast i8* %Scales to half**, !dbg !28
-  %Scales_void_ptr169 = load half*, half** %58, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata half* %Scales_void_ptr169, metadata !85, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata half* %Scales_void_ptr169, metadata !85, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(half* %Scales_void_ptr169, i64 64) ], !dbg !28
-  %.not170 = icmp eq i8* %LUT_Scales, null, !dbg !28
-  br i1 %.not170, label %assert_fail35, label %assert_end36, !dbg !28, !prof !33
+  %40 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape = load ptr, ptr %40, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr poison, metadata !80, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr poison, metadata !80, metadata !DIExpression()), !dbg !24
+  %Scales161 = load ptr, ptr %Scales, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %Scales161, metadata !81, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %Scales161, metadata !81, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %Scales161, i64 64) ], !dbg !24
+  %.not169 = icmp eq ptr %LUT_Scales, null, !dbg !24
+  br i1 %.not169, label %assert_fail35, label %assert_end36, !dbg !24, !prof !29
 
 assert_fail35:                                    ; preds = %assert_end32
-  %59 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %59(i8* getelementptr inbounds ([136 x i8], [136 x i8]* @.str.15, i64 0, i64 0)), !dbg !28
+  %41 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %41(ptr nonnull @.str.15), !dbg !24
   br label %common.ret
 
 assert_end36:                                     ; preds = %assert_end32
-  %60 = getelementptr inbounds i8, i8* %LUT_Scales, i64 16, !dbg !28
-  %61 = bitcast i8* %60 to i32*, !dbg !28
-  %62 = load i32, i32* %61, align 4, !dbg !28
-  %63 = icmp eq i32 %62, 2, !dbg !28
-  br i1 %63, label %assert_end38, label %assert_fail37, !dbg !28, !prof !29
+  %42 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 2, !dbg !24
+  %43 = load i32, ptr %42, align 4, !dbg !24
+  %44 = icmp eq i32 %43, 2, !dbg !24
+  br i1 %44, label %assert_end38, label %assert_fail37, !dbg !24, !prof !25
 
 assert_fail37:                                    ; preds = %assert_end36
-  %64 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %64(i8* getelementptr inbounds ([138 x i8], [138 x i8]* @.str.16, i64 0, i64 0)), !dbg !28
+  %45 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %45(ptr nonnull @.str.16), !dbg !24
   br label %common.ret
 
 assert_end38:                                     ; preds = %assert_end36
-  %65 = getelementptr inbounds i8, i8* %LUT_Scales, i64 24, !dbg !28
-  %66 = bitcast i8* %65 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape = load i64*, i64** %66, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !88, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !88, metadata !DIExpression()), !dbg !28
-  %67 = getelementptr inbounds i8, i8* %LUT_Scales, i64 32, !dbg !28
-  %68 = bitcast i8* %67 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides = load i64*, i64** %68, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !89, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !89, metadata !DIExpression()), !dbg !28
-  %69 = bitcast i8* %LUT_Scales to half**, !dbg !28
-  %LUT_Scales_void_ptr171 = load half*, half** %69, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata half* %LUT_Scales_void_ptr171, metadata !90, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata half* %LUT_Scales_void_ptr171, metadata !90, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(half* %LUT_Scales_void_ptr171, i64 64) ], !dbg !28
-  %.not172 = icmp eq i8* %LUT_Biases, null, !dbg !28
-  br i1 %.not172, label %assert_fail41, label %assert_end42, !dbg !28, !prof !33
+  %46 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape = load ptr, ptr %46, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
+  %47 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 5, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides = load ptr, ptr %47, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
+  %LUT_Scales162 = load ptr, ptr %LUT_Scales, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Scales162, metadata !86, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Scales162, metadata !86, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %LUT_Scales162, i64 64) ], !dbg !24
+  %.not170 = icmp eq ptr %LUT_Biases, null, !dbg !24
+  br i1 %.not170, label %assert_fail41, label %assert_end42, !dbg !24, !prof !29
 
 assert_fail41:                                    ; preds = %assert_end38
-  %70 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %70(i8* getelementptr inbounds ([136 x i8], [136 x i8]* @.str.17, i64 0, i64 0)), !dbg !28
+  %48 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %48(ptr nonnull @.str.17), !dbg !24
   br label %common.ret
 
 assert_end42:                                     ; preds = %assert_end38
-  %71 = getelementptr inbounds i8, i8* %LUT_Biases, i64 16, !dbg !28
-  %72 = bitcast i8* %71 to i32*, !dbg !28
-  %73 = load i32, i32* %72, align 4, !dbg !28
-  %74 = icmp eq i32 %73, 2, !dbg !28
-  br i1 %74, label %assert_end44, label %assert_fail43, !dbg !28, !prof !29
+  %49 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 2, !dbg !24
+  %50 = load i32, ptr %49, align 4, !dbg !24
+  %51 = icmp eq i32 %50, 2, !dbg !24
+  br i1 %51, label %assert_end44, label %assert_fail43, !dbg !24, !prof !25
 
 assert_fail43:                                    ; preds = %assert_end42
-  %75 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %75(i8* getelementptr inbounds ([138 x i8], [138 x i8]* @.str.18, i64 0, i64 0)), !dbg !28
+  %52 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %52(ptr nonnull @.str.18), !dbg !24
   br label %common.ret
 
 assert_end44:                                     ; preds = %assert_end42
-  %76 = getelementptr inbounds i8, i8* %LUT_Biases, i64 24, !dbg !28
-  %77 = bitcast i8* %76 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape = load i64*, i64** %77, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !91, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !91, metadata !DIExpression()), !dbg !28
-  %78 = getelementptr inbounds i8, i8* %LUT_Biases, i64 32, !dbg !28
-  %79 = bitcast i8* %78 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides = load i64*, i64** %79, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !92, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !92, metadata !DIExpression()), !dbg !28
-  %80 = bitcast i8* %LUT_Biases to half**, !dbg !28
-  %LUT_Biases_void_ptr173 = load half*, half** %80, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata half* %LUT_Biases_void_ptr173, metadata !93, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata half* %LUT_Biases_void_ptr173, metadata !93, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(half* %LUT_Biases_void_ptr173, i64 64) ], !dbg !28
-  %.not174 = icmp eq i8* %C, null, !dbg !28
-  br i1 %.not174, label %assert_fail47, label %assert_end48, !dbg !28, !prof !33
+  %53 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape = load ptr, ptr %53, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
+  %54 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 5, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides = load ptr, ptr %54, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
+  %LUT_Biases163 = load ptr, ptr %LUT_Biases, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Biases163, metadata !89, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %LUT_Biases163, metadata !89, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %LUT_Biases163, i64 64) ], !dbg !24
+  %.not171 = icmp eq ptr %C, null, !dbg !24
+  br i1 %.not171, label %assert_fail47, label %assert_end48, !dbg !24, !prof !29
 
 assert_fail47:                                    ; preds = %assert_end44
-  %81 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %81(i8* getelementptr inbounds ([118 x i8], [118 x i8]* @.str.19, i64 0, i64 0)), !dbg !28
+  %55 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %55(ptr nonnull @.str.19), !dbg !24
   br label %common.ret
 
 assert_end48:                                     ; preds = %assert_end44
-  %82 = getelementptr inbounds i8, i8* %C, i64 16, !dbg !28
-  %83 = bitcast i8* %82 to i32*, !dbg !28
-  %84 = load i32, i32* %83, align 4, !dbg !28
-  %85 = icmp eq i32 %84, 2, !dbg !28
-  br i1 %85, label %assert_end50, label %assert_fail49, !dbg !28, !prof !29
+  %56 = getelementptr inbounds %1, ptr %C, i64 0, i32 2, !dbg !24
+  %57 = load i32, ptr %56, align 4, !dbg !24
+  %58 = icmp eq i32 %57, 2, !dbg !24
+  br i1 %58, label %assert_end50, label %assert_fail49, !dbg !24, !prof !25
 
 assert_fail49:                                    ; preds = %assert_end48
-  %86 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %86(i8* getelementptr inbounds ([120 x i8], [120 x i8]* @.str.20, i64 0, i64 0)), !dbg !28
+  %59 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %59(ptr nonnull @.str.20), !dbg !24
   br label %common.ret
 
 assert_end50:                                     ; preds = %assert_end48
-  %87 = getelementptr inbounds i8, i8* %C, i64 24, !dbg !28
-  %88 = bitcast i8* %87 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape = load i64*, i64** %88, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, metadata !94, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, metadata !94, metadata !DIExpression()), !dbg !28
-  %89 = getelementptr inbounds i8, i8* %C, i64 32, !dbg !28
-  %90 = bitcast i8* %89 to i64**, !dbg !28
-  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides = load i64*, i64** %90, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, metadata !95, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, metadata !95, metadata !DIExpression()), !dbg !28
-  %91 = bitcast i8* %C to half**, !dbg !28
-  %C_void_ptr175 = load half*, half** %91, align 8, !dbg !28
-  call void @llvm.dbg.declare(metadata half* %C_void_ptr175, metadata !96, metadata !DIExpression()), !dbg !28
-  call void @llvm.dbg.declare(metadata half* %C_void_ptr175, metadata !96, metadata !DIExpression()), !dbg !28
-  call void @llvm.assume(i1 true) [ "align"(half* %C_void_ptr175, i64 64) ], !dbg !28
-  %92 = getelementptr inbounds i8, i8* %A, i64 20, !dbg !28
-  %93 = load i8, i8* %92, align 1, !dbg !28
-  %94 = icmp eq i8 %93, 1, !dbg !28
-  %95 = getelementptr inbounds i8, i8* %A, i64 21, !dbg !28
-  %96 = load i8, i8* %95, align 1, !dbg !28
-  %97 = icmp eq i8 %96, 8, !dbg !28
-  %98 = and i1 %94, %97, !dbg !28
-  %99 = getelementptr inbounds i8, i8* %A, i64 22, !dbg !28
-  %100 = bitcast i8* %99 to i16*, !dbg !28
-  %101 = load i16, i16* %100, align 2, !dbg !28
-  %102 = icmp eq i16 %101, 1, !dbg !28
-  %103 = and i1 %98, %102, !dbg !28
-  br i1 %103, label %assert_end54, label %assert_fail53, !dbg !28, !prof !29
+  %60 = getelementptr inbounds %1, ptr %C, i64 0, i32 4, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape = load ptr, ptr %60, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
+  %61 = getelementptr inbounds %1, ptr %C, i64 0, i32 5, !dbg !24
+  %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides = load ptr, ptr %61, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
+  %C164 = load ptr, ptr %C, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %C164, metadata !92, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %C164, metadata !92, metadata !DIExpression()), !dbg !24
+  call void @llvm.assume(i1 true) [ "align"(ptr %C164, i64 64) ], !dbg !24
+  %62 = getelementptr inbounds %1, ptr %A, i64 0, i32 3, i32 0, !dbg !24
+  %63 = load i8, ptr %62, align 1, !dbg !24
+  %64 = icmp eq i8 %63, 1, !dbg !24
+  %65 = getelementptr inbounds %1, ptr %A, i64 0, i32 3, i32 1, !dbg !24
+  %66 = load i8, ptr %65, align 1, !dbg !24
+  %67 = icmp eq i8 %66, 8, !dbg !24
+  %68 = and i1 %64, %67, !dbg !24
+  %69 = getelementptr inbounds %1, ptr %A, i64 0, i32 3, i32 2, !dbg !24
+  %70 = load i16, ptr %69, align 2, !dbg !24
+  %71 = icmp eq i16 %70, 1, !dbg !24
+  %72 = and i1 %68, %71, !dbg !24
+  br i1 %72, label %assert_end54, label %assert_fail53, !dbg !24, !prof !25
 
 assert_fail53:                                    ; preds = %assert_end50
-  %104 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %104(i8* getelementptr inbounds ([239 x i8], [239 x i8]* @.str.21, i64 0, i64 0)), !dbg !28
+  %73 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %73(ptr nonnull @.str.21), !dbg !24
   br label %common.ret
 
 assert_end54:                                     ; preds = %assert_end50
-  %105 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, align 8, !dbg !28, !tbaa !97
-  %106 = trunc i64 %105 to i32, !dbg !28
-  %107 = icmp eq i32 %106, 50, !dbg !28
-  br i1 %107, label %assert_end56, label %assert_fail55, !dbg !28, !prof !29
+  %74 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, align 8, !dbg !24, !tbaa !93
+  %75 = and i64 %74, 4294967295, !dbg !24
+  %76 = icmp eq i64 %75, 25, !dbg !24
+  br i1 %76, label %assert_end56, label %assert_fail55, !dbg !24, !prof !25
 
 assert_fail55:                                    ; preds = %assert_end54
-  %108 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %108(i8* getelementptr inbounds ([241 x i8], [241 x i8]* @.str.22, i64 0, i64 0)), !dbg !28
+  %77 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %77(ptr nonnull @.str.22), !dbg !24
   br label %common.ret
 
 assert_end56:                                     ; preds = %assert_end54
-  %109 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, i64 1, !dbg !28
-  %110 = load i64, i64* %109, align 8, !dbg !28, !tbaa !107
-  %111 = trunc i64 %110 to i32, !dbg !28
-  %112 = icmp eq i32 %111, 800, !dbg !28
-  br i1 %112, label %assert_end58, label %assert_fail57, !dbg !28, !prof !29
+  %78 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, i64 1, !dbg !24
+  %79 = load i64, ptr %78, align 8, !dbg !24, !tbaa !103
+  %80 = and i64 %79, 4294967295, !dbg !24
+  %81 = icmp eq i64 %80, 800, !dbg !24
+  br i1 %81, label %assert_end58, label %assert_fail57, !dbg !24, !prof !25
 
 assert_fail57:                                    ; preds = %assert_end56
-  %113 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %113(i8* getelementptr inbounds ([243 x i8], [243 x i8]* @.str.23, i64 0, i64 0)), !dbg !28
+  %82 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %82(ptr nonnull @.str.23), !dbg !24
   br label %common.ret
 
 assert_end58:                                     ; preds = %assert_end56
-  %114 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, i64 2, !dbg !28
-  %115 = load i64, i64* %114, align 8, !dbg !28, !tbaa !109
-  %116 = trunc i64 %115 to i32, !dbg !28
-  %117 = icmp eq i32 %116, 64, !dbg !28
-  br i1 %117, label %assert_end60, label %assert_fail59, !dbg !28, !prof !29
+  %83 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape, i64 2, !dbg !24
+  %84 = load i64, ptr %83, align 8, !dbg !24, !tbaa !105
+  %85 = and i64 %84, 4294967295, !dbg !24
+  %86 = icmp eq i64 %85, 128, !dbg !24
+  br i1 %86, label %assert_end60, label %assert_fail59, !dbg !24, !prof !25
 
 assert_fail59:                                    ; preds = %assert_end58
-  %118 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %118(i8* getelementptr inbounds ([241 x i8], [241 x i8]* @.str.24, i64 0, i64 0)), !dbg !28
+  %87 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %87(ptr nonnull @.str.24), !dbg !24
   br label %common.ret
 
 assert_end60:                                     ; preds = %assert_end58
-  %.not176 = icmp eq i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, null, !dbg !28
-  br i1 %.not176, label %if_end, label %if_then, !dbg !28, !prof !33
+  %.not172 = icmp eq ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, null, !dbg !24
+  br i1 %.not172, label %if_end, label %if_then, !dbg !24, !prof !29
 
 if_then:                                          ; preds = %assert_end60
-  %119 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, i64 2, !dbg !28
-  %120 = load i64, i64* %119, align 8, !dbg !28, !tbaa !112
-  %121 = trunc i64 %120 to i32, !dbg !28
-  %122 = icmp eq i32 %121, 1, !dbg !28
-  %123 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, i64 1, !dbg !28
-  %124 = load i64, i64* %123, align 8, !dbg !28, !tbaa !122
-  %125 = trunc i64 %124 to i32, !dbg !28
-  %126 = icmp eq i32 %125, 64, !dbg !28
-  %127 = and i1 %122, %126, !dbg !28
-  %128 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, align 8, !dbg !28, !tbaa !125
-  %129 = trunc i64 %128 to i32, !dbg !28
-  %130 = icmp eq i32 %129, 51200, !dbg !28
-  %131 = and i1 %127, %130, !dbg !28
-  br i1 %131, label %if_end, label %assert_fail61, !dbg !28, !prof !29
+  %88 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, i64 2, !dbg !24
+  %89 = load i64, ptr %88, align 8, !dbg !24, !tbaa !108
+  %90 = and i64 %89, 4294967295, !dbg !24
+  %91 = icmp eq i64 %90, 1, !dbg !24
+  %92 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, i64 1, !dbg !24
+  %93 = load i64, ptr %92, align 8, !dbg !24, !tbaa !118
+  %94 = and i64 %93, 4294967295, !dbg !24
+  %95 = icmp eq i64 %94, 128, !dbg !24
+  %96 = and i1 %91, %95, !dbg !24
+  %97 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides, align 8, !dbg !24, !tbaa !121
+  %98 = and i64 %97, 4294967295, !dbg !24
+  %99 = icmp eq i64 %98, 102400, !dbg !24
+  %100 = and i1 %96, %99, !dbg !24
+  br i1 %100, label %if_end, label %assert_fail61, !dbg !24, !prof !25
 
 if_end:                                           ; preds = %if_then, %assert_end60
-  %132 = getelementptr inbounds i8, i8* %A, i64 40, !dbg !28
-  %133 = bitcast i8* %132 to i64*, !dbg !28
-  %134 = load i64, i64* %133, align 8, !dbg !28
-  %135 = icmp eq i64 %134, 0, !dbg !28
-  br i1 %135, label %assert_end64, label %assert_fail63, !dbg !28, !prof !29
+  %101 = getelementptr inbounds %1, ptr %A, i64 0, i32 6, !dbg !24
+  %102 = load i64, ptr %101, align 8, !dbg !24
+  %103 = icmp eq i64 %102, 0, !dbg !24
+  br i1 %103, label %assert_end64, label %assert_fail63, !dbg !24, !prof !25
 
 assert_fail61:                                    ; preds = %if_then
-  %136 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %136(i8* getelementptr inbounds ([316 x i8], [316 x i8]* @.str.25, i64 0, i64 0)), !dbg !28
+  %104 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %104(ptr nonnull @.str.25), !dbg !24
   br label %common.ret
 
 assert_fail63:                                    ; preds = %if_end
-  %137 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %137(i8* getelementptr inbounds ([206 x i8], [206 x i8]* @.str.26, i64 0, i64 0)), !dbg !28
+  %105 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %105(ptr nonnull @.str.26), !dbg !24
   br label %common.ret
 
 assert_end64:                                     ; preds = %if_end
-  %138 = getelementptr inbounds i8, i8* %A, i64 8, !dbg !28
-  %139 = bitcast i8* %138 to i32*, !dbg !28
-  %140 = load i32, i32* %139, align 4, !dbg !28
-  %141 = icmp eq i32 %140, 1, !dbg !28
-  br i1 %141, label %assert_end66, label %assert_fail65, !dbg !28, !prof !29
+  %106 = getelementptr inbounds %1, ptr %A, i64 0, i32 1, i32 0, !dbg !24
+  %107 = load i32, ptr %106, align 4, !dbg !24
+  %108 = icmp eq i32 %107, 1, !dbg !24
+  br i1 %108, label %assert_end66, label %assert_fail65, !dbg !24, !prof !25
 
 assert_fail65:                                    ; preds = %assert_end64
-  %142 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %142(i8* getelementptr inbounds ([186 x i8], [186 x i8]* @.str.27, i64 0, i64 0)), !dbg !28
+  %109 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %109(ptr nonnull @.str.27), !dbg !24
   br label %common.ret
 
 assert_end66:                                     ; preds = %assert_end64
-  %.not177 = icmp eq i8* %A160, null, !dbg !28
-  br i1 %.not177, label %assert_fail67, label %assert_end68, !dbg !28, !prof !33
+  %.not173 = icmp eq ptr %A160, null, !dbg !24
+  br i1 %.not173, label %assert_fail67, label %assert_end68, !dbg !24, !prof !29
 
 assert_fail67:                                    ; preds = %assert_end66
-  %143 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %143(i8* getelementptr inbounds ([113 x i8], [113 x i8]* @.str.28, i64 0, i64 0)), !dbg !28
+  %110 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %110(ptr nonnull @.str.28), !dbg !24
   br label %common.ret
 
 assert_end68:                                     ; preds = %assert_end66
-  %144 = getelementptr inbounds i8, i8* %LUT, i64 20, !dbg !28
-  %145 = load i8, i8* %144, align 1, !dbg !28
-  %146 = icmp eq i8 %145, 0, !dbg !28
-  %147 = getelementptr inbounds i8, i8* %LUT, i64 21, !dbg !28
-  %148 = load i8, i8* %147, align 1, !dbg !28
-  %149 = icmp eq i8 %148, 8, !dbg !28
-  %150 = and i1 %146, %149, !dbg !28
-  %151 = getelementptr inbounds i8, i8* %LUT, i64 22, !dbg !28
-  %152 = bitcast i8* %151 to i16*, !dbg !28
-  %153 = load i16, i16* %152, align 2, !dbg !28
-  %154 = icmp eq i16 %153, 1, !dbg !28
-  %155 = and i1 %150, %154, !dbg !28
-  br i1 %155, label %assert_end70, label %assert_fail69, !dbg !28, !prof !29
+  %111 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 3, i32 0, !dbg !24
+  %112 = load i8, ptr %111, align 1, !dbg !24
+  %113 = icmp eq i8 %112, 0, !dbg !24
+  %114 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 3, i32 1, !dbg !24
+  %115 = load i8, ptr %114, align 1, !dbg !24
+  %116 = icmp eq i8 %115, 8, !dbg !24
+  %117 = and i1 %113, %116, !dbg !24
+  %118 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 3, i32 2, !dbg !24
+  %119 = load i16, ptr %118, align 2, !dbg !24
+  %120 = icmp eq i16 %119, 1, !dbg !24
+  %121 = and i1 %117, %120, !dbg !24
+  br i1 %121, label %assert_end70, label %assert_fail69, !dbg !24, !prof !25
 
 assert_fail69:                                    ; preds = %assert_end68
-  %156 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %156(i8* getelementptr inbounds ([246 x i8], [246 x i8]* @.str.29, i64 0, i64 0)), !dbg !28
+  %122 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %122(ptr nonnull @.str.29), !dbg !24
   br label %common.ret
 
 assert_end70:                                     ; preds = %assert_end68
-  %157 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, align 8, !dbg !28, !tbaa !127
-  %158 = trunc i64 %157 to i32, !dbg !28
-  %159 = icmp eq i32 %158, 1, !dbg !28
-  br i1 %159, label %assert_end72, label %assert_fail71, !dbg !28, !prof !29
+  %123 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, align 8, !dbg !24, !tbaa !123
+  %124 = and i64 %123, 4294967295, !dbg !24
+  %125 = icmp eq i64 %124, 1, !dbg !24
+  br i1 %125, label %assert_end72, label %assert_fail71, !dbg !24, !prof !25
 
 assert_fail71:                                    ; preds = %assert_end70
-  %160 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %160(i8* getelementptr inbounds ([245 x i8], [245 x i8]* @.str.30, i64 0, i64 0)), !dbg !28
+  %126 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %126(ptr nonnull @.str.30), !dbg !24
   br label %common.ret
 
 assert_end72:                                     ; preds = %assert_end70
-  %161 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, i64 1, !dbg !28
-  %162 = load i64, i64* %161, align 8, !dbg !28, !tbaa !137
-  %163 = trunc i64 %162 to i32, !dbg !28
-  %164 = icmp eq i32 %163, 800, !dbg !28
-  br i1 %164, label %assert_end74, label %assert_fail73, !dbg !28, !prof !29
+  %127 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, i64 1, !dbg !24
+  %128 = load i64, ptr %127, align 8, !dbg !24, !tbaa !133
+  %129 = and i64 %128, 4294967295, !dbg !24
+  %130 = icmp eq i64 %129, 800, !dbg !24
+  br i1 %130, label %assert_end74, label %assert_fail73, !dbg !24, !prof !25
 
 assert_fail73:                                    ; preds = %assert_end72
-  %165 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %165(i8* getelementptr inbounds ([249 x i8], [249 x i8]* @.str.31, i64 0, i64 0)), !dbg !28
+  %131 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %131(ptr nonnull @.str.31), !dbg !24
   br label %common.ret
 
 assert_end74:                                     ; preds = %assert_end72
-  %166 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, i64 2, !dbg !28
-  %167 = load i64, i64* %166, align 8, !dbg !28, !tbaa !139
-  %168 = trunc i64 %167 to i32, !dbg !28
-  %169 = icmp eq i32 %168, 16, !dbg !28
-  br i1 %169, label %assert_end76, label %assert_fail75, !dbg !28, !prof !29
+  %132 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape, i64 2, !dbg !24
+  %133 = load i64, ptr %132, align 8, !dbg !24, !tbaa !135
+  %134 = and i64 %133, 4294967295, !dbg !24
+  %135 = icmp eq i64 %134, 16, !dbg !24
+  br i1 %135, label %assert_end76, label %assert_fail75, !dbg !24, !prof !25
 
 assert_fail75:                                    ; preds = %assert_end74
-  %170 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %170(i8* getelementptr inbounds ([247 x i8], [247 x i8]* @.str.32, i64 0, i64 0)), !dbg !28
+  %136 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %136(ptr nonnull @.str.32), !dbg !24
   br label %common.ret
 
 assert_end76:                                     ; preds = %assert_end74
-  %.not178 = icmp eq i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, null, !dbg !28
-  br i1 %.not178, label %if_end78, label %if_then77, !dbg !28, !prof !33
+  %.not174 = icmp eq ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, null, !dbg !24
+  br i1 %.not174, label %if_end78, label %if_then77, !dbg !24, !prof !29
 
 if_then77:                                        ; preds = %assert_end76
-  %171 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, i64 2, !dbg !28
-  %172 = load i64, i64* %171, align 8, !dbg !28, !tbaa !142
-  %173 = trunc i64 %172 to i32, !dbg !28
-  %174 = icmp eq i32 %173, 1, !dbg !28
-  %175 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, i64 1, !dbg !28
-  %176 = load i64, i64* %175, align 8, !dbg !28, !tbaa !152
-  %177 = trunc i64 %176 to i32, !dbg !28
-  %178 = icmp eq i32 %177, 16, !dbg !28
-  %179 = and i1 %174, %178, !dbg !28
-  br i1 %179, label %if_end78, label %assert_fail79, !dbg !28, !prof !29
+  %137 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, i64 2, !dbg !24
+  %138 = load i64, ptr %137, align 8, !dbg !24, !tbaa !138
+  %139 = and i64 %138, 4294967295, !dbg !24
+  %140 = icmp eq i64 %139, 1, !dbg !24
+  %141 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides, i64 1, !dbg !24
+  %142 = load i64, ptr %141, align 8, !dbg !24, !tbaa !148
+  %143 = and i64 %142, 4294967295, !dbg !24
+  %144 = icmp eq i64 %143, 16, !dbg !24
+  %145 = and i1 %140, %144, !dbg !24
+  br i1 %145, label %if_end78, label %assert_fail79, !dbg !24, !prof !25
 
 if_end78:                                         ; preds = %if_then77, %assert_end76
-  %180 = getelementptr inbounds i8, i8* %LUT, i64 40, !dbg !28
-  %181 = bitcast i8* %180 to i64*, !dbg !28
-  %182 = load i64, i64* %181, align 8, !dbg !28
-  %183 = icmp eq i64 %182, 0, !dbg !28
-  br i1 %183, label %assert_end82, label %assert_fail81, !dbg !28, !prof !29
+  %146 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 6, !dbg !24
+  %147 = load i64, ptr %146, align 8, !dbg !24
+  %148 = icmp eq i64 %147, 0, !dbg !24
+  br i1 %148, label %assert_end82, label %assert_fail81, !dbg !24, !prof !25
 
 assert_fail79:                                    ; preds = %if_then77
-  %184 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %184(i8* getelementptr inbounds ([243 x i8], [243 x i8]* @.str.33, i64 0, i64 0)), !dbg !28
+  %149 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %149(ptr nonnull @.str.33), !dbg !24
   br label %common.ret
 
 assert_fail81:                                    ; preds = %if_end78
-  %185 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %185(i8* getelementptr inbounds ([212 x i8], [212 x i8]* @.str.34, i64 0, i64 0)), !dbg !28
+  %150 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %150(ptr nonnull @.str.34), !dbg !24
   br label %common.ret
 
 assert_end82:                                     ; preds = %if_end78
-  %186 = getelementptr inbounds i8, i8* %LUT, i64 8, !dbg !28
-  %187 = bitcast i8* %186 to i32*, !dbg !28
-  %188 = load i32, i32* %187, align 4, !dbg !28
-  %189 = icmp eq i32 %188, 1, !dbg !28
-  br i1 %189, label %assert_end84, label %assert_fail83, !dbg !28, !prof !29
+  %151 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 1, i32 0, !dbg !24
+  %152 = load i32, ptr %151, align 4, !dbg !24
+  %153 = icmp eq i32 %152, 1, !dbg !24
+  br i1 %153, label %assert_end84, label %assert_fail83, !dbg !24, !prof !25
 
 assert_fail83:                                    ; preds = %assert_end82
-  %190 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %190(i8* getelementptr inbounds ([192 x i8], [192 x i8]* @.str.35, i64 0, i64 0)), !dbg !28
+  %154 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %154(ptr nonnull @.str.35), !dbg !24
   br label %common.ret
 
 assert_end84:                                     ; preds = %assert_end82
-  %191 = getelementptr inbounds i8, i8* %LUT, i64 12, !dbg !28
-  %192 = bitcast i8* %191 to i32*, !dbg !28
-  %193 = load i32, i32* %192, align 4, !dbg !28
-  %194 = icmp eq i32 %dev_id, %193, !dbg !28
-  br i1 %194, label %assert_end86, label %assert_fail85, !dbg !28, !prof !29
+  %155 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 1, i32 1, !dbg !24
+  %156 = load i32, ptr %155, align 4, !dbg !24
+  %157 = icmp eq i32 %dev_id, %156, !dbg !24
+  br i1 %157, label %assert_end86, label %assert_fail85, !dbg !24, !prof !25
 
 assert_fail85:                                    ; preds = %assert_end84
-  %195 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %195(i8* getelementptr inbounds ([198 x i8], [198 x i8]* @.str.36, i64 0, i64 0)), !dbg !28
+  %158 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %158(ptr nonnull @.str.36), !dbg !24
   br label %common.ret
 
 assert_end86:                                     ; preds = %assert_end84
-  %.not179 = icmp eq i8* %LUT159, null, !dbg !28
-  br i1 %.not179, label %assert_fail87, label %assert_end88, !dbg !28, !prof !33
+  %.not175 = icmp eq ptr %LUT159, null, !dbg !24
+  br i1 %.not175, label %assert_fail87, label %assert_end88, !dbg !24, !prof !29
 
 assert_fail87:                                    ; preds = %assert_end86
-  %196 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %196(i8* getelementptr inbounds ([117 x i8], [117 x i8]* @.str.37, i64 0, i64 0)), !dbg !28
+  %159 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %159(ptr nonnull @.str.37), !dbg !24
   br label %common.ret
 
 assert_end88:                                     ; preds = %assert_end86
-  %197 = getelementptr inbounds i8, i8* %Scales, i64 20, !dbg !28
-  %198 = load i8, i8* %197, align 1, !dbg !28
-  %199 = icmp eq i8 %198, 2, !dbg !28
-  %200 = getelementptr inbounds i8, i8* %Scales, i64 21, !dbg !28
-  %201 = load i8, i8* %200, align 1, !dbg !28
-  %202 = icmp eq i8 %201, 16, !dbg !28
-  %203 = and i1 %199, %202, !dbg !28
-  %204 = getelementptr inbounds i8, i8* %Scales, i64 22, !dbg !28
-  %205 = bitcast i8* %204 to i16*, !dbg !28
-  %206 = load i16, i16* %205, align 2, !dbg !28
-  %207 = icmp eq i16 %206, 1, !dbg !28
-  %208 = and i1 %203, %207, !dbg !28
-  br i1 %208, label %assert_end90, label %assert_fail89, !dbg !28, !prof !29
+  %160 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 3, i32 0, !dbg !24
+  %161 = load i8, ptr %160, align 1, !dbg !24
+  %162 = icmp eq i8 %161, 2, !dbg !24
+  %163 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 3, i32 1, !dbg !24
+  %164 = load i8, ptr %163, align 1, !dbg !24
+  %165 = icmp eq i8 %164, 16, !dbg !24
+  %166 = and i1 %162, %165, !dbg !24
+  %167 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 3, i32 2, !dbg !24
+  %168 = load i16, ptr %167, align 2, !dbg !24
+  %169 = icmp eq i16 %168, 1, !dbg !24
+  %170 = and i1 %166, %169, !dbg !24
+  br i1 %170, label %assert_end90, label %assert_fail89, !dbg !24, !prof !25
 
 assert_fail89:                                    ; preds = %assert_end88
-  %209 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %209(i8* getelementptr inbounds ([262 x i8], [262 x i8]* @.str.38, i64 0, i64 0)), !dbg !28
+  %171 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %171(ptr nonnull @.str.38), !dbg !24
   br label %common.ret
 
 assert_end90:                                     ; preds = %assert_end88
-  %210 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, align 8, !dbg !28, !tbaa !155
-  %211 = trunc i64 %210 to i32, !dbg !28
-  %212 = icmp eq i32 %211, 1, !dbg !28
-  br i1 %212, label %if_end94, label %assert_fail91, !dbg !28, !prof !29
+  %172 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape, align 8, !dbg !24, !tbaa !151
+  %173 = and i64 %172, 4294967295, !dbg !24
+  %174 = icmp eq i64 %173, 1, !dbg !24
+  br i1 %174, label %if_end94, label %assert_fail91, !dbg !24, !prof !25
 
 assert_fail91:                                    ; preds = %assert_end90
-  %213 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %213(i8* getelementptr inbounds ([254 x i8], [254 x i8]* @.str.39, i64 0, i64 0)), !dbg !28
+  %175 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %175(ptr nonnull @.str.39), !dbg !24
   br label %common.ret
 
 if_end94:                                         ; preds = %assert_end90
-  %214 = getelementptr inbounds i8, i8* %Scales, i64 40, !dbg !28
-  %215 = bitcast i8* %214 to i64*, !dbg !28
-  %216 = load i64, i64* %215, align 8, !dbg !28
-  %217 = icmp eq i64 %216, 0, !dbg !28
-  br i1 %217, label %assert_end98, label %assert_fail97, !dbg !28, !prof !29
+  %176 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 6, !dbg !24
+  %177 = load i64, ptr %176, align 8, !dbg !24
+  %178 = icmp eq i64 %177, 0, !dbg !24
+  br i1 %178, label %assert_end98, label %assert_fail97, !dbg !24, !prof !25
 
 assert_fail97:                                    ; preds = %if_end94
-  %218 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %218(i8* getelementptr inbounds ([221 x i8], [221 x i8]* @.str.41, i64 0, i64 0)), !dbg !28
+  %179 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %179(ptr nonnull @.str.41), !dbg !24
   br label %common.ret
 
 assert_end98:                                     ; preds = %if_end94
-  %219 = getelementptr inbounds i8, i8* %Scales, i64 8, !dbg !28
-  %220 = bitcast i8* %219 to i32*, !dbg !28
-  %221 = load i32, i32* %220, align 4, !dbg !28
-  %222 = icmp eq i32 %221, 1, !dbg !28
-  br i1 %222, label %assert_end100, label %assert_fail99, !dbg !28, !prof !29
+  %180 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 1, i32 0, !dbg !24
+  %181 = load i32, ptr %180, align 4, !dbg !24
+  %182 = icmp eq i32 %181, 1, !dbg !24
+  br i1 %182, label %assert_end100, label %assert_fail99, !dbg !24, !prof !25
 
 assert_fail99:                                    ; preds = %assert_end98
-  %223 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %223(i8* getelementptr inbounds ([201 x i8], [201 x i8]* @.str.42, i64 0, i64 0)), !dbg !28
+  %183 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %183(ptr nonnull @.str.42), !dbg !24
   br label %common.ret
 
 assert_end100:                                    ; preds = %assert_end98
-  %224 = getelementptr inbounds i8, i8* %Scales, i64 12, !dbg !28
-  %225 = bitcast i8* %224 to i32*, !dbg !28
-  %226 = load i32, i32* %225, align 4, !dbg !28
-  %227 = icmp eq i32 %dev_id, %226, !dbg !28
-  br i1 %227, label %assert_end102, label %assert_fail101, !dbg !28, !prof !29
+  %184 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 1, i32 1, !dbg !24
+  %185 = load i32, ptr %184, align 4, !dbg !24
+  %186 = icmp eq i32 %dev_id, %185, !dbg !24
+  br i1 %186, label %assert_end102, label %assert_fail101, !dbg !24, !prof !25
 
 assert_fail101:                                   ; preds = %assert_end100
-  %228 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %228(i8* getelementptr inbounds ([207 x i8], [207 x i8]* @.str.43, i64 0, i64 0)), !dbg !28
+  %187 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %187(ptr nonnull @.str.43), !dbg !24
   br label %common.ret
 
 assert_end102:                                    ; preds = %assert_end100
-  %.not180 = icmp eq half* %Scales_void_ptr169, null, !dbg !28
-  br i1 %.not180, label %assert_fail103, label %assert_end104, !dbg !28, !prof !33
+  %.not176 = icmp eq ptr %Scales161, null, !dbg !24
+  br i1 %.not176, label %assert_fail103, label %assert_end104, !dbg !24, !prof !29
 
 assert_fail103:                                   ; preds = %assert_end102
-  %229 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %229(i8* getelementptr inbounds ([123 x i8], [123 x i8]* @.str.44, i64 0, i64 0)), !dbg !28
+  %188 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %188(ptr nonnull @.str.44), !dbg !24
   br label %common.ret
 
 assert_end104:                                    ; preds = %assert_end102
-  %230 = getelementptr inbounds i8, i8* %LUT_Scales, i64 20, !dbg !28
-  %231 = load i8, i8* %230, align 1, !dbg !28
-  %232 = icmp eq i8 %231, 2, !dbg !28
-  %233 = getelementptr inbounds i8, i8* %LUT_Scales, i64 21, !dbg !28
-  %234 = load i8, i8* %233, align 1, !dbg !28
-  %235 = icmp eq i8 %234, 16, !dbg !28
-  %236 = and i1 %232, %235, !dbg !28
-  %237 = getelementptr inbounds i8, i8* %LUT_Scales, i64 22, !dbg !28
-  %238 = bitcast i8* %237 to i16*, !dbg !28
-  %239 = load i16, i16* %238, align 2, !dbg !28
-  %240 = icmp eq i16 %239, 1, !dbg !28
-  %241 = and i1 %236, %240, !dbg !28
-  br i1 %241, label %assert_end106, label %assert_fail105, !dbg !28, !prof !29
+  %189 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 3, i32 0, !dbg !24
+  %190 = load i8, ptr %189, align 1, !dbg !24
+  %191 = icmp eq i8 %190, 2, !dbg !24
+  %192 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 3, i32 1, !dbg !24
+  %193 = load i8, ptr %192, align 1, !dbg !24
+  %194 = icmp eq i8 %193, 16, !dbg !24
+  %195 = and i1 %191, %194, !dbg !24
+  %196 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 3, i32 2, !dbg !24
+  %197 = load i16, ptr %196, align 2, !dbg !24
+  %198 = icmp eq i16 %197, 1, !dbg !24
+  %199 = and i1 %195, %198, !dbg !24
+  br i1 %199, label %assert_end106, label %assert_fail105, !dbg !24, !prof !25
 
 assert_fail105:                                   ; preds = %assert_end104
-  %242 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %242(i8* getelementptr inbounds ([278 x i8], [278 x i8]* @.str.45, i64 0, i64 0)), !dbg !28
+  %200 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %200(ptr nonnull @.str.45), !dbg !24
   br label %common.ret
 
 assert_end106:                                    ; preds = %assert_end104
-  %243 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, align 8, !dbg !28, !tbaa !165
-  %244 = trunc i64 %243 to i32, !dbg !28
-  %245 = icmp eq i32 %244, 1, !dbg !28
-  br i1 %245, label %assert_end108, label %assert_fail107, !dbg !28, !prof !29
+  %201 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, align 8, !dbg !24, !tbaa !161
+  %202 = and i64 %201, 4294967295, !dbg !24
+  %203 = icmp eq i64 %202, 1, !dbg !24
+  br i1 %203, label %assert_end108, label %assert_fail107, !dbg !24, !prof !25
 
 assert_fail107:                                   ; preds = %assert_end106
-  %246 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %246(i8* getelementptr inbounds ([266 x i8], [266 x i8]* @.str.46, i64 0, i64 0)), !dbg !28
+  %204 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %204(ptr nonnull @.str.46), !dbg !24
   br label %common.ret
 
 assert_end108:                                    ; preds = %assert_end106
-  %247 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, i64 1, !dbg !28
-  %248 = load i64, i64* %247, align 8, !dbg !28, !tbaa !175
-  %249 = trunc i64 %248 to i32, !dbg !28
-  %250 = icmp eq i32 %249, 50, !dbg !28
-  br i1 %250, label %assert_end110, label %assert_fail109, !dbg !28, !prof !29
+  %205 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, i64 1, !dbg !24
+  %206 = load i64, ptr %205, align 8, !dbg !24, !tbaa !171
+  %207 = and i64 %206, 4294967295, !dbg !24
+  %208 = icmp eq i64 %207, 50, !dbg !24
+  br i1 %208, label %assert_end110, label %assert_fail109, !dbg !24, !prof !25
 
 assert_fail109:                                   ; preds = %assert_end108
-  %251 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %251(i8* getelementptr inbounds ([268 x i8], [268 x i8]* @.str.47, i64 0, i64 0)), !dbg !28
+  %209 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %209(ptr nonnull @.str.47), !dbg !24
   br label %common.ret
 
 assert_end110:                                    ; preds = %assert_end108
-  %.not181 = icmp eq i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, null, !dbg !28
-  br i1 %.not181, label %if_end112, label %if_then111, !dbg !28, !prof !33
+  %.not177 = icmp eq ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, null, !dbg !24
+  br i1 %.not177, label %if_end112, label %if_then111, !dbg !24, !prof !29
 
 if_then111:                                       ; preds = %assert_end110
-  %252 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, i64 1, !dbg !28
-  %253 = load i64, i64* %252, align 8, !dbg !28, !tbaa !177
-  %254 = trunc i64 %253 to i32, !dbg !28
-  %255 = icmp eq i32 %254, 1, !dbg !28
-  br i1 %255, label %if_end112, label %assert_fail113, !dbg !28, !prof !29
+  %210 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, i64 1, !dbg !24
+  %211 = load i64, ptr %210, align 8, !dbg !24, !tbaa !173
+  %212 = and i64 %211, 4294967295, !dbg !24
+  %213 = icmp eq i64 %212, 1, !dbg !24
+  br i1 %213, label %if_end112, label %assert_fail113, !dbg !24, !prof !25
 
 if_end112:                                        ; preds = %if_then111, %assert_end110
-  %256 = getelementptr inbounds i8, i8* %LUT_Scales, i64 40, !dbg !28
-  %257 = bitcast i8* %256 to i64*, !dbg !28
-  %258 = load i64, i64* %257, align 8, !dbg !28
-  %259 = icmp eq i64 %258, 0, !dbg !28
-  br i1 %259, label %assert_end116, label %assert_fail115, !dbg !28, !prof !29
+  %214 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 6, !dbg !24
+  %215 = load i64, ptr %214, align 8, !dbg !24
+  %216 = icmp eq i64 %215, 0, !dbg !24
+  br i1 %216, label %assert_end116, label %assert_fail115, !dbg !24, !prof !25
 
 assert_fail113:                                   ; preds = %if_then111
-  %260 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %260(i8* getelementptr inbounds ([179 x i8], [179 x i8]* @.str.48, i64 0, i64 0)), !dbg !28
+  %217 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %217(ptr nonnull @.str.48), !dbg !24
   br label %common.ret
 
 assert_fail115:                                   ; preds = %if_end112
-  %261 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %261(i8* getelementptr inbounds ([233 x i8], [233 x i8]* @.str.49, i64 0, i64 0)), !dbg !28
+  %218 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %218(ptr nonnull @.str.49), !dbg !24
   br label %common.ret
 
 assert_end116:                                    ; preds = %if_end112
-  %262 = getelementptr inbounds i8, i8* %LUT_Scales, i64 8, !dbg !28
-  %263 = bitcast i8* %262 to i32*, !dbg !28
-  %264 = load i32, i32* %263, align 4, !dbg !28
-  %265 = icmp eq i32 %264, 1, !dbg !28
-  br i1 %265, label %assert_end118, label %assert_fail117, !dbg !28, !prof !29
+  %219 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 1, i32 0, !dbg !24
+  %220 = load i32, ptr %219, align 4, !dbg !24
+  %221 = icmp eq i32 %220, 1, !dbg !24
+  br i1 %221, label %assert_end118, label %assert_fail117, !dbg !24, !prof !25
 
 assert_fail117:                                   ; preds = %assert_end116
-  %266 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %266(i8* getelementptr inbounds ([213 x i8], [213 x i8]* @.str.50, i64 0, i64 0)), !dbg !28
+  %222 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %222(ptr nonnull @.str.50), !dbg !24
   br label %common.ret
 
 assert_end118:                                    ; preds = %assert_end116
-  %267 = getelementptr inbounds i8, i8* %LUT_Scales, i64 12, !dbg !28
-  %268 = bitcast i8* %267 to i32*, !dbg !28
-  %269 = load i32, i32* %268, align 4, !dbg !28
-  %270 = icmp eq i32 %dev_id, %269, !dbg !28
-  br i1 %270, label %assert_end120, label %assert_fail119, !dbg !28, !prof !29
+  %223 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 1, i32 1, !dbg !24
+  %224 = load i32, ptr %223, align 4, !dbg !24
+  %225 = icmp eq i32 %dev_id, %224, !dbg !24
+  br i1 %225, label %assert_end120, label %assert_fail119, !dbg !24, !prof !25
 
 assert_fail119:                                   ; preds = %assert_end118
-  %271 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %271(i8* getelementptr inbounds ([219 x i8], [219 x i8]* @.str.51, i64 0, i64 0)), !dbg !28
+  %226 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %226(ptr nonnull @.str.51), !dbg !24
   br label %common.ret
 
 assert_end120:                                    ; preds = %assert_end118
-  %.not182 = icmp eq half* %LUT_Scales_void_ptr171, null, !dbg !28
-  br i1 %.not182, label %assert_fail121, label %assert_end122, !dbg !28, !prof !33
+  %.not178 = icmp eq ptr %LUT_Scales162, null, !dbg !24
+  br i1 %.not178, label %assert_fail121, label %assert_end122, !dbg !24, !prof !29
 
 assert_fail121:                                   ; preds = %assert_end120
-  %272 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %272(i8* getelementptr inbounds ([131 x i8], [131 x i8]* @.str.52, i64 0, i64 0)), !dbg !28
+  %227 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %227(ptr nonnull @.str.52), !dbg !24
   br label %common.ret
 
 assert_end122:                                    ; preds = %assert_end120
-  %273 = getelementptr inbounds i8, i8* %LUT_Biases, i64 20, !dbg !28
-  %274 = load i8, i8* %273, align 1, !dbg !28
-  %275 = icmp eq i8 %274, 2, !dbg !28
-  %276 = getelementptr inbounds i8, i8* %LUT_Biases, i64 21, !dbg !28
-  %277 = load i8, i8* %276, align 1, !dbg !28
-  %278 = icmp eq i8 %277, 16, !dbg !28
-  %279 = and i1 %275, %278, !dbg !28
-  %280 = getelementptr inbounds i8, i8* %LUT_Biases, i64 22, !dbg !28
-  %281 = bitcast i8* %280 to i16*, !dbg !28
-  %282 = load i16, i16* %281, align 2, !dbg !28
-  %283 = icmp eq i16 %282, 1, !dbg !28
-  %284 = and i1 %279, %283, !dbg !28
-  br i1 %284, label %assert_end124, label %assert_fail123, !dbg !28, !prof !29
+  %228 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 3, i32 0, !dbg !24
+  %229 = load i8, ptr %228, align 1, !dbg !24
+  %230 = icmp eq i8 %229, 2, !dbg !24
+  %231 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 3, i32 1, !dbg !24
+  %232 = load i8, ptr %231, align 1, !dbg !24
+  %233 = icmp eq i8 %232, 16, !dbg !24
+  %234 = and i1 %230, %233, !dbg !24
+  %235 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 3, i32 2, !dbg !24
+  %236 = load i16, ptr %235, align 2, !dbg !24
+  %237 = icmp eq i16 %236, 1, !dbg !24
+  %238 = and i1 %234, %237, !dbg !24
+  br i1 %238, label %assert_end124, label %assert_fail123, !dbg !24, !prof !25
 
 assert_fail123:                                   ; preds = %assert_end122
-  %285 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %285(i8* getelementptr inbounds ([278 x i8], [278 x i8]* @.str.53, i64 0, i64 0)), !dbg !28
+  %239 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %239(ptr nonnull @.str.53), !dbg !24
   br label %common.ret
 
 assert_end124:                                    ; preds = %assert_end122
-  %286 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, align 8, !dbg !28, !tbaa !187
-  %287 = trunc i64 %286 to i32, !dbg !28
-  %288 = icmp eq i32 %287, 1, !dbg !28
-  br i1 %288, label %assert_end126, label %assert_fail125, !dbg !28, !prof !29
+  %240 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, align 8, !dbg !24, !tbaa !183
+  %241 = and i64 %240, 4294967295, !dbg !24
+  %242 = icmp eq i64 %241, 1, !dbg !24
+  br i1 %242, label %assert_end126, label %assert_fail125, !dbg !24, !prof !25
 
 assert_fail125:                                   ; preds = %assert_end124
-  %289 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %289(i8* getelementptr inbounds ([266 x i8], [266 x i8]* @.str.54, i64 0, i64 0)), !dbg !28
+  %243 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %243(ptr nonnull @.str.54), !dbg !24
   br label %common.ret
 
 assert_end126:                                    ; preds = %assert_end124
-  %290 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, i64 1, !dbg !28
-  %291 = load i64, i64* %290, align 8, !dbg !28, !tbaa !197
-  %292 = trunc i64 %291 to i32, !dbg !28
-  %293 = icmp eq i32 %292, 50, !dbg !28
-  br i1 %293, label %assert_end128, label %assert_fail127, !dbg !28, !prof !29
+  %244 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, i64 1, !dbg !24
+  %245 = load i64, ptr %244, align 8, !dbg !24, !tbaa !193
+  %246 = and i64 %245, 4294967295, !dbg !24
+  %247 = icmp eq i64 %246, 50, !dbg !24
+  br i1 %247, label %assert_end128, label %assert_fail127, !dbg !24, !prof !25
 
 assert_fail127:                                   ; preds = %assert_end126
-  %294 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %294(i8* getelementptr inbounds ([268 x i8], [268 x i8]* @.str.55, i64 0, i64 0)), !dbg !28
+  %248 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %248(ptr nonnull @.str.55), !dbg !24
   br label %common.ret
 
 assert_end128:                                    ; preds = %assert_end126
-  %.not183 = icmp eq i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, null, !dbg !28
-  br i1 %.not183, label %if_end130, label %if_then129, !dbg !28, !prof !33
+  %.not179 = icmp eq ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, null, !dbg !24
+  br i1 %.not179, label %if_end130, label %if_then129, !dbg !24, !prof !29
 
 if_then129:                                       ; preds = %assert_end128
-  %295 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, i64 1, !dbg !28
-  %296 = load i64, i64* %295, align 8, !dbg !28, !tbaa !199
-  %297 = trunc i64 %296 to i32, !dbg !28
-  %298 = icmp eq i32 %297, 1, !dbg !28
-  br i1 %298, label %if_end130, label %assert_fail131, !dbg !28, !prof !29
+  %249 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, i64 1, !dbg !24
+  %250 = load i64, ptr %249, align 8, !dbg !24, !tbaa !195
+  %251 = and i64 %250, 4294967295, !dbg !24
+  %252 = icmp eq i64 %251, 1, !dbg !24
+  br i1 %252, label %if_end130, label %assert_fail131, !dbg !24, !prof !25
 
 if_end130:                                        ; preds = %if_then129, %assert_end128
-  %299 = getelementptr inbounds i8, i8* %LUT_Biases, i64 40, !dbg !28
-  %300 = bitcast i8* %299 to i64*, !dbg !28
-  %301 = load i64, i64* %300, align 8, !dbg !28
-  %302 = icmp eq i64 %301, 0, !dbg !28
-  br i1 %302, label %assert_end134, label %assert_fail133, !dbg !28, !prof !29
+  %253 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 6, !dbg !24
+  %254 = load i64, ptr %253, align 8, !dbg !24
+  %255 = icmp eq i64 %254, 0, !dbg !24
+  br i1 %255, label %assert_end134, label %assert_fail133, !dbg !24, !prof !25
 
 assert_fail131:                                   ; preds = %if_then129
-  %303 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %303(i8* getelementptr inbounds ([179 x i8], [179 x i8]* @.str.56, i64 0, i64 0)), !dbg !28
+  %256 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %256(ptr nonnull @.str.56), !dbg !24
   br label %common.ret
 
 assert_fail133:                                   ; preds = %if_end130
-  %304 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %304(i8* getelementptr inbounds ([233 x i8], [233 x i8]* @.str.57, i64 0, i64 0)), !dbg !28
+  %257 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %257(ptr nonnull @.str.57), !dbg !24
   br label %common.ret
 
 assert_end134:                                    ; preds = %if_end130
-  %305 = getelementptr inbounds i8, i8* %LUT_Biases, i64 8, !dbg !28
-  %306 = bitcast i8* %305 to i32*, !dbg !28
-  %307 = load i32, i32* %306, align 4, !dbg !28
-  %308 = icmp eq i32 %307, 1, !dbg !28
-  br i1 %308, label %assert_end136, label %assert_fail135, !dbg !28, !prof !29
+  %258 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 1, i32 0, !dbg !24
+  %259 = load i32, ptr %258, align 4, !dbg !24
+  %260 = icmp eq i32 %259, 1, !dbg !24
+  br i1 %260, label %assert_end136, label %assert_fail135, !dbg !24, !prof !25
 
 assert_fail135:                                   ; preds = %assert_end134
-  %309 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %309(i8* getelementptr inbounds ([213 x i8], [213 x i8]* @.str.58, i64 0, i64 0)), !dbg !28
+  %261 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %261(ptr nonnull @.str.58), !dbg !24
   br label %common.ret
 
 assert_end136:                                    ; preds = %assert_end134
-  %310 = getelementptr inbounds i8, i8* %LUT_Biases, i64 12, !dbg !28
-  %311 = bitcast i8* %310 to i32*, !dbg !28
-  %312 = load i32, i32* %311, align 4, !dbg !28
-  %313 = icmp eq i32 %dev_id, %312, !dbg !28
-  br i1 %313, label %assert_end138, label %assert_fail137, !dbg !28, !prof !29
+  %262 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 1, i32 1, !dbg !24
+  %263 = load i32, ptr %262, align 4, !dbg !24
+  %264 = icmp eq i32 %dev_id, %263, !dbg !24
+  br i1 %264, label %assert_end138, label %assert_fail137, !dbg !24, !prof !25
 
 assert_fail137:                                   ; preds = %assert_end136
-  %314 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %314(i8* getelementptr inbounds ([219 x i8], [219 x i8]* @.str.59, i64 0, i64 0)), !dbg !28
+  %265 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %265(ptr nonnull @.str.59), !dbg !24
   br label %common.ret
 
 assert_end138:                                    ; preds = %assert_end136
-  %.not184 = icmp eq half* %LUT_Biases_void_ptr173, null, !dbg !28
-  br i1 %.not184, label %assert_fail139, label %assert_end140, !dbg !28, !prof !33
+  %.not180 = icmp eq ptr %LUT_Biases163, null, !dbg !24
+  br i1 %.not180, label %assert_fail139, label %assert_end140, !dbg !24, !prof !29
 
 assert_fail139:                                   ; preds = %assert_end138
-  %315 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %315(i8* getelementptr inbounds ([131 x i8], [131 x i8]* @.str.60, i64 0, i64 0)), !dbg !28
+  %266 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %266(ptr nonnull @.str.60), !dbg !24
   br label %common.ret
 
 assert_end140:                                    ; preds = %assert_end138
-  %316 = getelementptr inbounds i8, i8* %C, i64 20, !dbg !28
-  %317 = load i8, i8* %316, align 1, !dbg !28
-  %318 = icmp eq i8 %317, 2, !dbg !28
-  %319 = getelementptr inbounds i8, i8* %C, i64 21, !dbg !28
-  %320 = load i8, i8* %319, align 1, !dbg !28
-  %321 = icmp eq i8 %320, 16, !dbg !28
-  %322 = and i1 %318, %321, !dbg !28
-  %323 = getelementptr inbounds i8, i8* %C, i64 22, !dbg !28
-  %324 = bitcast i8* %323 to i16*, !dbg !28
-  %325 = load i16, i16* %324, align 2, !dbg !28
-  %326 = icmp eq i16 %325, 1, !dbg !28
-  %327 = and i1 %322, %326, !dbg !28
-  br i1 %327, label %assert_end142, label %assert_fail141, !dbg !28, !prof !29
+  %267 = getelementptr inbounds %1, ptr %C, i64 0, i32 3, i32 0, !dbg !24
+  %268 = load i8, ptr %267, align 1, !dbg !24
+  %269 = icmp eq i8 %268, 2, !dbg !24
+  %270 = getelementptr inbounds %1, ptr %C, i64 0, i32 3, i32 1, !dbg !24
+  %271 = load i8, ptr %270, align 1, !dbg !24
+  %272 = icmp eq i8 %271, 16, !dbg !24
+  %273 = and i1 %269, %272, !dbg !24
+  %274 = getelementptr inbounds %1, ptr %C, i64 0, i32 3, i32 2, !dbg !24
+  %275 = load i16, ptr %274, align 2, !dbg !24
+  %276 = icmp eq i16 %275, 1, !dbg !24
+  %277 = and i1 %273, %276, !dbg !24
+  br i1 %277, label %assert_end142, label %assert_fail141, !dbg !24, !prof !25
 
 assert_fail141:                                   ; preds = %assert_end140
-  %328 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %328(i8* getelementptr inbounds ([242 x i8], [242 x i8]* @.str.61, i64 0, i64 0)), !dbg !28
+  %278 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %278(ptr nonnull @.str.61), !dbg !24
   br label %common.ret
 
 assert_end142:                                    ; preds = %assert_end140
-  %329 = load i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, align 8, !dbg !28, !tbaa !209
-  %330 = trunc i64 %329 to i32, !dbg !28
-  %331 = icmp eq i32 %330, 1, !dbg !28
-  br i1 %331, label %assert_end144, label %assert_fail143, !dbg !28, !prof !29
+  %279 = load i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, align 8, !dbg !24, !tbaa !205
+  %280 = and i64 %279, 4294967295, !dbg !24
+  %281 = icmp eq i64 %280, 1, !dbg !24
+  br i1 %281, label %assert_end144, label %assert_fail143, !dbg !24, !prof !25
 
 assert_fail143:                                   ; preds = %assert_end142
-  %332 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %332(i8* getelementptr inbounds ([239 x i8], [239 x i8]* @.str.62, i64 0, i64 0)), !dbg !28
+  %282 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %282(ptr nonnull @.str.62), !dbg !24
   br label %common.ret
 
 assert_end144:                                    ; preds = %assert_end142
-  %333 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, i64 1, !dbg !28
-  %334 = load i64, i64* %333, align 8, !dbg !28, !tbaa !219
-  %335 = trunc i64 %334 to i32, !dbg !28
-  %336 = icmp eq i32 %335, 3200, !dbg !28
-  br i1 %336, label %assert_end146, label %assert_fail145, !dbg !28, !prof !29
+  %283 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape, i64 1, !dbg !24
+  %284 = load i64, ptr %283, align 8, !dbg !24, !tbaa !215
+  %285 = and i64 %284, 4294967295, !dbg !24
+  %286 = icmp eq i64 %285, 3200, !dbg !24
+  br i1 %286, label %assert_end146, label %assert_fail145, !dbg !24, !prof !25
 
 assert_fail145:                                   ; preds = %assert_end144
-  %337 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %337(i8* getelementptr inbounds ([245 x i8], [245 x i8]* @.str.63, i64 0, i64 0)), !dbg !28
+  %287 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %287(ptr nonnull @.str.63), !dbg !24
   br label %common.ret
 
 assert_end146:                                    ; preds = %assert_end144
-  %.not185 = icmp eq i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, null, !dbg !28
-  br i1 %.not185, label %if_end148, label %if_then147, !dbg !28, !prof !33
+  %.not181 = icmp eq ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, null, !dbg !24
+  br i1 %.not181, label %if_end148, label %if_then147, !dbg !24, !prof !29
 
 if_then147:                                       ; preds = %assert_end146
-  %338 = getelementptr inbounds i64, i64* %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, i64 1, !dbg !28
-  %339 = load i64, i64* %338, align 8, !dbg !28, !tbaa !221
-  %340 = trunc i64 %339 to i32, !dbg !28
-  %341 = icmp eq i32 %340, 1, !dbg !28
-  br i1 %341, label %if_end148, label %assert_fail149, !dbg !28, !prof !29
+  %288 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides, i64 1, !dbg !24
+  %289 = load i64, ptr %288, align 8, !dbg !24, !tbaa !217
+  %290 = and i64 %289, 4294967295, !dbg !24
+  %291 = icmp eq i64 %290, 1, !dbg !24
+  br i1 %291, label %if_end148, label %assert_fail149, !dbg !24, !prof !25
 
 if_end148:                                        ; preds = %if_then147, %assert_end146
-  %342 = getelementptr inbounds i8, i8* %C, i64 40, !dbg !28
-  %343 = bitcast i8* %342 to i64*, !dbg !28
-  %344 = load i64, i64* %343, align 8, !dbg !28
-  %345 = icmp eq i64 %344, 0, !dbg !28
-  br i1 %345, label %assert_end152, label %assert_fail151, !dbg !28, !prof !29
+  %292 = getelementptr inbounds %1, ptr %C, i64 0, i32 6, !dbg !24
+  %293 = load i64, ptr %292, align 8, !dbg !24
+  %294 = icmp eq i64 %293, 0, !dbg !24
+  br i1 %294, label %assert_end152, label %assert_fail151, !dbg !24, !prof !25
 
 assert_fail149:                                   ; preds = %if_then147
-  %346 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %346(i8* getelementptr inbounds ([161 x i8], [161 x i8]* @.str.64, i64 0, i64 0)), !dbg !28
+  %295 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %295(ptr nonnull @.str.64), !dbg !24
   br label %common.ret
 
 assert_fail151:                                   ; preds = %if_end148
-  %347 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %347(i8* getelementptr inbounds ([206 x i8], [206 x i8]* @.str.65, i64 0, i64 0)), !dbg !28
+  %296 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %296(ptr nonnull @.str.65), !dbg !24
   br label %common.ret
 
 assert_end152:                                    ; preds = %if_end148
-  %348 = getelementptr inbounds i8, i8* %C, i64 8, !dbg !28
-  %349 = bitcast i8* %348 to i32*, !dbg !28
-  %350 = load i32, i32* %349, align 4, !dbg !28
-  %351 = icmp eq i32 %350, 1, !dbg !28
-  br i1 %351, label %assert_end154, label %assert_fail153, !dbg !28, !prof !29
+  %297 = getelementptr inbounds %1, ptr %C, i64 0, i32 1, i32 0, !dbg !24
+  %298 = load i32, ptr %297, align 4, !dbg !24
+  %299 = icmp eq i32 %298, 1, !dbg !24
+  br i1 %299, label %assert_end154, label %assert_fail153, !dbg !24, !prof !25
 
 assert_fail153:                                   ; preds = %assert_end152
-  %352 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %352(i8* getelementptr inbounds ([186 x i8], [186 x i8]* @.str.66, i64 0, i64 0)), !dbg !28
+  %300 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %300(ptr nonnull @.str.66), !dbg !24
   br label %common.ret
 
 assert_end154:                                    ; preds = %assert_end152
-  %353 = getelementptr inbounds i8, i8* %C, i64 12, !dbg !28
-  %354 = bitcast i8* %353 to i32*, !dbg !28
-  %355 = load i32, i32* %354, align 4, !dbg !28
-  %356 = icmp eq i32 %dev_id, %355, !dbg !28
-  br i1 %356, label %assert_end156, label %assert_fail155, !dbg !28, !prof !29
+  %301 = getelementptr inbounds %1, ptr %C, i64 0, i32 1, i32 1, !dbg !24
+  %302 = load i32, ptr %301, align 4, !dbg !24
+  %303 = icmp eq i32 %dev_id, %302, !dbg !24
+  br i1 %303, label %assert_end156, label %assert_fail155, !dbg !24, !prof !25
 
 assert_fail155:                                   ; preds = %assert_end154
-  %357 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %357(i8* getelementptr inbounds ([192 x i8], [192 x i8]* @.str.67, i64 0, i64 0)), !dbg !28
+  %304 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %304(ptr nonnull @.str.67), !dbg !24
   br label %common.ret
 
 assert_end156:                                    ; preds = %assert_end154
-  %.not186 = icmp eq half* %C_void_ptr175, null, !dbg !28
-  br i1 %.not186, label %assert_fail157, label %assert_end158, !dbg !28, !prof !33
+  %.not182 = icmp eq ptr %C164, null, !dbg !24
+  br i1 %.not182, label %assert_fail157, label %assert_end158, !dbg !24, !prof !29
 
 assert_fail157:                                   ; preds = %assert_end156
-  %358 = load void (i8*)*, void (i8*)** @__TVMAPISetLastError, align 8, !dbg !28, !tbaa !30
-  tail call void %358(i8* getelementptr inbounds ([113 x i8], [113 x i8]* @.str.68, i64 0, i64 0)), !dbg !28
+  %305 = load ptr, ptr @__TVMAPISetLastError, align 8, !dbg !24, !tbaa !26
+  tail call void %305(ptr nonnull @.str.68), !dbg !24
   br label %common.ret
 
 assert_end158:                                    ; preds = %assert_end156
-  %359 = tail call fastcc i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_(i8* nonnull %LUT159, i8* nonnull %A160, half* nonnull %Scales_void_ptr169, half* nonnull %LUT_Scales_void_ptr171, half* nonnull %LUT_Biases_void_ptr173, half* nonnull %C_void_ptr175), !dbg !28
+  %306 = tail call fastcc i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_(ptr nonnull %LUT159, ptr nonnull %A160, ptr nonnull %Scales161, ptr nonnull %LUT_Scales162, ptr nonnull %LUT_Biases163, ptr nonnull %C164), !dbg !24
   br label %common.ret
 }
 
-; Function Attrs: mustprogress nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
 declare void @llvm.dbg.declare(metadata, metadata, metadata) #1
 
-; Function Attrs: inaccessiblememonly mustprogress nofree nosync nounwind willreturn
+; Function Attrs: mustprogress nocallback nofree nosync nounwind willreturn memory(inaccessiblemem: readwrite)
 declare void @llvm.assume(i1 noundef) #2
 
 ; Function Attrs: noinline
-define internal fastcc i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_(i8* noalias align 64 %LUT, i8* noalias align 64 %A, half* noalias align 64 %Scales, half* noalias align 64 %LUT_Scales, half* noalias align 64 %LUT_Biases, half* noalias align 64 %C) unnamed_addr #3 !dbg !231 {
+define internal fastcc i32 @qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_(ptr noalias align 64 %LUT, ptr noalias align 64 %A, ptr noalias align 64 %Scales, ptr noalias align 64 %LUT_Scales, ptr noalias align 64 %LUT_Biases, ptr noalias align 64 %C) unnamed_addr #3 !dbg !227 {
 entry:
-  call void @llvm.dbg.value(metadata i8* %LUT, metadata !235, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.value(metadata i8* %A, metadata !236, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.value(metadata half* %Scales, metadata !237, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.value(metadata half* %LUT_Scales, metadata !238, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.value(metadata half* %LUT_Biases, metadata !239, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.value(metadata half* %C, metadata !240, metadata !DIExpression()), !dbg !241
-  %0 = alloca %closure_loop_parallel_m.outer, align 8, !dbg !241
-  %1 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 0, !dbg !241
-  store i8* %LUT, i8** %1, align 8, !dbg !241
-  %2 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 1, !dbg !241
-  store i8* %A, i8** %2, align 8, !dbg !241
-  %3 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 2, !dbg !241
-  store half* %Scales, half** %3, align 8, !dbg !241
-  %4 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 3, !dbg !241
-  store half* %LUT_Scales, half** %4, align 8, !dbg !241
-  %5 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 4, !dbg !241
-  store half* %LUT_Biases, half** %5, align 8, !dbg !241
-  %6 = getelementptr inbounds %closure_loop_parallel_m.outer, %closure_loop_parallel_m.outer* %0, i64 0, i32 5, !dbg !241
-  store half* %C, half** %6, align 8, !dbg !241
-  %7 = load i32 (i32 (i32, %0*, i8*)*, i8*, i32)*, i32 (i32 (i32, %0*, i8*)*, i8*, i32)** @__TVMBackendParallelLaunch, align 8, !dbg !241, !tbaa !30
-  %8 = bitcast %closure_loop_parallel_m.outer* %0 to i8*, !dbg !241
-  %9 = call i32 %7(i32 (i32, %0*, i8*)* nonnull @__tvm_parallel_lambda, i8* nonnull %8, i32 0), !dbg !241
-  ret i32 %9, !dbg !241
+  call void @llvm.dbg.value(metadata ptr %LUT, metadata !231, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.value(metadata ptr %A, metadata !232, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.value(metadata ptr %Scales, metadata !233, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.value(metadata ptr %LUT_Scales, metadata !234, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.value(metadata ptr %LUT_Biases, metadata !235, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.value(metadata ptr %C, metadata !236, metadata !DIExpression()), !dbg !237
+  %0 = alloca %closure_loop_parallel_m.outer, align 8, !dbg !237
+  store ptr %LUT, ptr %0, align 8, !dbg !237
+  %1 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 1, !dbg !237
+  store ptr %A, ptr %1, align 8, !dbg !237
+  %2 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 2, !dbg !237
+  store ptr %Scales, ptr %2, align 8, !dbg !237
+  %3 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 3, !dbg !237
+  store ptr %LUT_Scales, ptr %3, align 8, !dbg !237
+  %4 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 4, !dbg !237
+  store ptr %LUT_Biases, ptr %4, align 8, !dbg !237
+  %5 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 5, !dbg !237
+  store ptr %C, ptr %5, align 8, !dbg !237
+  %6 = load ptr, ptr @__TVMBackendParallelLaunch, align 8, !dbg !237, !tbaa !26
+  %7 = call i32 %6(ptr nonnull @__tvm_parallel_lambda, ptr nonnull %0, i32 0), !dbg !237
+  ret i32 %7, !dbg !237
 }
 
-; Function Attrs: nofree nosync nounwind
-define private i32 @__tvm_parallel_lambda(i32 %task_id, %0* nocapture readonly %0, i8* nocapture readonly %1) #4 {
+; Function Attrs: nofree nosync nounwind memory(readwrite, inaccessiblemem: none)
+define private i32 @__tvm_parallel_lambda(i32 %task_id, ptr nocapture readonly %0, ptr nocapture readonly %1) #4 {
 parallel_closure_entry:
-  %C.global1 = alloca [64 x half], align 16, !dbg !241
-  %CBits2 = alloca [128 x half], align 16, !dbg !241
-  %2 = bitcast i8* %1 to i8**, !dbg !241
-  %LUT = load i8*, i8** %2, align 8, !dbg !241
-  %3 = getelementptr inbounds i8, i8* %1, i64 8, !dbg !241
-  %4 = bitcast i8* %3 to i8**, !dbg !241
-  %A = load i8*, i8** %4, align 8, !dbg !241
-  %5 = getelementptr inbounds i8, i8* %1, i64 16, !dbg !241
-  %6 = bitcast i8* %5 to half**, !dbg !241
-  %Scales34 = load half*, half** %6, align 8, !dbg !241
-  %7 = getelementptr inbounds i8, i8* %1, i64 24, !dbg !241
-  %8 = bitcast i8* %7 to half**, !dbg !241
-  %LUT_Scales = load half*, half** %8, align 8, !dbg !241
-  %9 = getelementptr inbounds i8, i8* %1, i64 32, !dbg !241
-  %10 = bitcast i8* %9 to half**, !dbg !241
-  %LUT_Biases = load half*, half** %10, align 8, !dbg !241
-  %11 = getelementptr inbounds i8, i8* %1, i64 40, !dbg !241
-  %12 = bitcast i8* %11 to half**, !dbg !241
-  %C = load half*, half** %12, align 8, !dbg !241
-  %13 = getelementptr inbounds %0, %0* %0, i64 0, i32 1, !dbg !241
-  %num_task = load i32, i32* %13, align 4, !dbg !241
-  %14 = add nsw i32 %num_task, 49, !dbg !241
-  %15 = sdiv i32 %14, %num_task, !dbg !241
-  %16 = mul nsw i32 %15, %task_id, !dbg !241
-  %17 = icmp slt i32 %16, 50, !dbg !241
-  %18 = select i1 %17, i32 %16, i32 50, !dbg !241
-  %19 = add nsw i32 %task_id, 1, !dbg !241
-  %20 = mul nsw i32 %15, %19, !dbg !241
-  %21 = icmp slt i32 %20, 50, !dbg !241
-  %22 = select i1 %21, i32 %20, i32 50, !dbg !241
-  call void @llvm.dbg.declare(metadata i32 %18, metadata !242, metadata !DIExpression()), !dbg !241
-  %23 = icmp slt i32 %18, %22, !dbg !241
-  br i1 %23, label %for_body_m.outer.lr.ph, label %for_end_m.outer, !dbg !241, !prof !29
+  %CBits2 = alloca [256 x half], align 16, !dbg !237
+  %LUT = load ptr, ptr %1, align 8, !dbg !237
+  %2 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 1, !dbg !237
+  %A = load ptr, ptr %2, align 8, !dbg !237
+  %3 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 2, !dbg !237
+  %Scales = load ptr, ptr %3, align 8, !dbg !237
+  %4 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 3, !dbg !237
+  %LUT_Scales = load ptr, ptr %4, align 8, !dbg !237
+  %5 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 4, !dbg !237
+  %LUT_Biases = load ptr, ptr %5, align 8, !dbg !237
+  %6 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 5, !dbg !237
+  %C = load ptr, ptr %6, align 8, !dbg !237
+  %7 = getelementptr inbounds %4, ptr %0, i64 0, i32 1, !dbg !237
+  %num_task = load i32, ptr %7, align 4, !dbg !237
+  %8 = add nsw i32 %num_task, 24, !dbg !237
+  %9 = sdiv i32 %8, %num_task, !dbg !237
+  %10 = mul i32 %9, %task_id, !dbg !237
+  %11 = tail call i32 @llvm.smin.i32(i32 %10, i32 25), !dbg !237
+  %12 = add nsw i32 %task_id, 1, !dbg !237
+  %13 = mul nsw i32 %9, %12, !dbg !237
+  %14 = tail call i32 @llvm.smin.i32(i32 %13, i32 25), !dbg !237
+  call void @llvm.dbg.declare(metadata i32 %11, metadata !238, metadata !DIExpression()), !dbg !237
+  %15 = icmp slt i32 %11, %14, !dbg !237
+  br i1 %15, label %for_body_m.outer.preheader, label %for_end_m.outer, !dbg !237, !prof !25
 
-for_body_m.outer.lr.ph:                           ; preds = %parallel_closure_entry
-  %24 = bitcast [128 x half]* %CBits2 to i8*
-  %25 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 0, !dbg !241
-  %26 = sext i32 %18 to i64, !dbg !241
-  %wide.trip.count = sext i32 %22 to i64, !dbg !241
-  %27 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 1
-  %28 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 2
-  %29 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 3
-  %30 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 4
-  %31 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 5
-  %32 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 6
-  %33 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 7
-  %34 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 8
-  %35 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 9
-  %36 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 10
-  %37 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 11
-  %38 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 12
-  %39 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 13
-  %40 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 14
-  %41 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 15
-  %42 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 16
-  %43 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 17
-  %44 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 18
-  %45 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 19
-  %46 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 20
-  %47 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 21
-  %48 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 22
-  %49 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 23
-  %50 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 24
-  %51 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 25
-  %52 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 26
-  %53 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 27
-  %54 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 28
-  %55 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 29
-  %56 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 30
-  %57 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 31
-  %58 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 32
-  %59 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 33
-  %60 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 34
-  %61 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 35
-  %62 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 36
-  %63 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 37
-  %64 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 38
-  %65 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 39
-  %66 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 40
-  %67 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 41
-  %68 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 42
-  %69 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 43
-  %70 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 44
-  %71 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 45
-  %72 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 46
-  %73 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 47
-  %74 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 48
-  %75 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 49
-  %76 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 50
-  %77 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 51
-  %78 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 52
-  %79 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 53
-  %80 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 54
-  %81 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 55
-  %82 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 56
-  %83 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 57
-  %84 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 58
-  %85 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 59
-  %86 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 60
-  %87 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 61
-  %88 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 62
-  %89 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 63
-  %90 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 8, !dbg !241
-  %91 = bitcast [128 x half]* %CBits2 to <8 x half>*, !dbg !241
-  %92 = bitcast half* %90 to <8 x half>*
-  %93 = bitcast [64 x half]* %C.global1 to <8 x half>*
-  %94 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 16
-  %95 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 24
-  %96 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 8
-  %97 = bitcast half* %94 to <8 x half>*
-  %98 = bitcast half* %95 to <8 x half>*
-  %99 = bitcast half* %96 to <8 x half>*
-  %100 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 32
-  %101 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 40
-  %102 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 16
-  %103 = bitcast half* %100 to <8 x half>*
-  %104 = bitcast half* %101 to <8 x half>*
-  %105 = bitcast half* %102 to <8 x half>*
-  %106 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 48
-  %107 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 56
-  %108 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 24
-  %109 = bitcast half* %106 to <8 x half>*
-  %110 = bitcast half* %107 to <8 x half>*
-  %111 = bitcast half* %108 to <8 x half>*
-  %112 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 64
-  %113 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 72
-  %114 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 32
-  %115 = bitcast half* %112 to <8 x half>*
-  %116 = bitcast half* %113 to <8 x half>*
-  %117 = bitcast half* %114 to <8 x half>*
-  %118 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 80
-  %119 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 88
-  %120 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 40
-  %121 = bitcast half* %118 to <8 x half>*
-  %122 = bitcast half* %119 to <8 x half>*
-  %123 = bitcast half* %120 to <8 x half>*
-  %124 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 96
-  %125 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 104
-  %126 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 48
-  %127 = bitcast half* %124 to <8 x half>*
-  %128 = bitcast half* %125 to <8 x half>*
-  %129 = bitcast half* %126 to <8 x half>*
-  %130 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 112
-  %131 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 120
-  %132 = getelementptr inbounds [64 x half], [64 x half]* %C.global1, i64 0, i64 56
-  %133 = bitcast half* %130 to <8 x half>*
-  %134 = bitcast half* %131 to <8 x half>*
-  %135 = bitcast half* %132 to <8 x half>*
-  br label %for_body_m.outer, !dbg !241
+for_body_m.outer.preheader:                       ; preds = %parallel_closure_entry
+  %16 = tail call i32 @llvm.smin.i32(i32 %10, i32 25), !dbg !237
+  %smin = sext i32 %16 to i64, !dbg !237
+  %17 = add i32 %14, %16, !dbg !237
+  %18 = sub i32 %17, %11, !dbg !237
+  %19 = getelementptr inbounds half, ptr %CBits2, i64 8, !dbg !237
+  %20 = getelementptr inbounds half, ptr %CBits2, i64 16
+  %21 = getelementptr inbounds half, ptr %CBits2, i64 24
+  %22 = getelementptr inbounds half, ptr %CBits2, i64 32
+  %23 = getelementptr inbounds half, ptr %CBits2, i64 40
+  %24 = getelementptr inbounds half, ptr %CBits2, i64 48
+  %25 = getelementptr inbounds half, ptr %CBits2, i64 56
+  %26 = getelementptr inbounds half, ptr %CBits2, i64 64
+  %27 = getelementptr inbounds half, ptr %CBits2, i64 72
+  %28 = getelementptr inbounds half, ptr %CBits2, i64 80
+  %29 = getelementptr inbounds half, ptr %CBits2, i64 88
+  %30 = getelementptr inbounds half, ptr %CBits2, i64 96
+  %31 = getelementptr inbounds half, ptr %CBits2, i64 104
+  %32 = getelementptr inbounds half, ptr %CBits2, i64 112
+  %33 = getelementptr inbounds half, ptr %CBits2, i64 120
+  %34 = getelementptr inbounds half, ptr %CBits2, i64 128
+  %35 = getelementptr inbounds half, ptr %CBits2, i64 136
+  %36 = getelementptr inbounds half, ptr %CBits2, i64 144
+  %37 = getelementptr inbounds half, ptr %CBits2, i64 152
+  %38 = getelementptr inbounds half, ptr %CBits2, i64 160
+  %39 = getelementptr inbounds half, ptr %CBits2, i64 168
+  %40 = getelementptr inbounds half, ptr %CBits2, i64 176
+  %41 = getelementptr inbounds half, ptr %CBits2, i64 184
+  %42 = getelementptr inbounds half, ptr %CBits2, i64 192
+  %43 = getelementptr inbounds half, ptr %CBits2, i64 200
+  %44 = getelementptr inbounds half, ptr %CBits2, i64 208
+  %45 = getelementptr inbounds half, ptr %CBits2, i64 216
+  %46 = getelementptr inbounds half, ptr %CBits2, i64 224
+  %47 = getelementptr inbounds half, ptr %CBits2, i64 232
+  %48 = getelementptr inbounds half, ptr %CBits2, i64 240
+  %49 = getelementptr inbounds half, ptr %CBits2, i64 248
+  br label %for_body_m.outer, !dbg !237
 
-for_body_m.outer:                                 ; preds = %for_body_m.outer.lr.ph, %for_body_m.c.outer
-  %indvars.iv20 = phi i64 [ %26, %for_body_m.outer.lr.ph ], [ %indvars.iv.next21, %for_body_m.c.outer ]
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv20, metadata !242, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata [128 x half]* %CBits2, metadata !243, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata [64 x half]* %C.global1, metadata !244, metadata !DIExpression()), !dbg !241
-  call void @llvm.memset.p0i8.i64(i8* noundef nonnull align 16 dereferenceable(256) %24, i8 0, i64 256, i1 false) #10, !dbg !241
-  %136 = mul nsw i64 %indvars.iv20, 51200
-  call void @llvm.dbg.declare(metadata i32 0, metadata !245, metadata !DIExpression()), !dbg !241
-  %137 = load half, half* %Scales34, align 2, !tbaa !246
-  %138 = insertelement <8 x half> poison, half %137, i64 0
-  %139 = shufflevector <8 x half> %138, <8 x half> poison, <8 x i32> zeroinitializer
-  br label %for_body_k.outer, !dbg !241
+for_body_m.outer:                                 ; preds = %for_body_m.outer.preheader, %for_body_m.c.outer
+  %indvars.iv20 = phi i64 [ %smin, %for_body_m.outer.preheader ], [ %indvars.iv.next21, %for_body_m.c.outer ]
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv20, metadata !238, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata ptr %CBits2, metadata !239, metadata !DIExpression()), !dbg !237
+  call void @llvm.memset.p0.i64(ptr noundef nonnull align 16 dereferenceable(512) %CBits2, i8 0, i64 512, i1 false), !dbg !237
+  %50 = mul nsw i64 %indvars.iv20, 102400
+  call void @llvm.dbg.declare(metadata i32 0, metadata !240, metadata !DIExpression()), !dbg !237
+  %51 = load half, ptr %Scales, align 2, !tbaa !241
+  %52 = insertelement <8 x half> poison, half %51, i64 0
+  %53 = shufflevector <8 x half> %52, <8 x half> poison, <8 x i32> zeroinitializer
+  br label %for_body_k.outer, !dbg !237
 
 for_end_m.outer:                                  ; preds = %for_body_m.c.outer, %parallel_closure_entry
-  ret i32 0, !dbg !241
+  ret i32 0, !dbg !237
 
 for_body_k.outer:                                 ; preds = %for_body_m.outer, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit
   %indvars.iv = phi i64 [ 0, %for_body_m.outer ], [ %indvars.iv.next, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit ]
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv, metadata !245, metadata !DIExpression()), !dbg !241
-  %140 = shl nuw nsw i64 %indvars.iv, 8, !dbg !241
-  %141 = getelementptr inbounds i8, i8* %LUT, i64 %140, !dbg !241
-  %142 = shl nuw nsw i64 %indvars.iv, 10, !dbg !241
-  %143 = add nsw i64 %142, %136, !dbg !241
-  %144 = getelementptr inbounds i8, i8* %A, i64 %143, !dbg !241
-  %145 = getelementptr inbounds half, half* %LUT_Scales, i64 %indvars.iv, !dbg !241
-  %146 = getelementptr inbounds half, half* %LUT_Biases, i64 %indvars.iv, !dbg !241
-  %147 = bitcast i8* %141 to <16 x i8>*, !dbg !241
-  %148 = load <16 x i8>, <16 x i8>* %147, align 1, !dbg !241
-  %149 = getelementptr inbounds i8, i8* %141, i64 16, !dbg !241
-  %150 = bitcast i8* %149 to <16 x i8>*, !dbg !241
-  %151 = load <16 x i8>, <16 x i8>* %150, align 1, !dbg !241
-  %152 = getelementptr inbounds i8, i8* %141, i64 32, !dbg !241
-  %153 = bitcast i8* %152 to <16 x i8>*, !dbg !241
-  %154 = load <16 x i8>, <16 x i8>* %153, align 1, !dbg !241
-  %155 = getelementptr inbounds i8, i8* %141, i64 48, !dbg !241
-  %156 = bitcast i8* %155 to <16 x i8>*, !dbg !241
-  %157 = load <16 x i8>, <16 x i8>* %156, align 1, !dbg !241
-  %158 = getelementptr inbounds i8, i8* %141, i64 64, !dbg !241
-  %159 = bitcast i8* %158 to <16 x i8>*, !dbg !241
-  %160 = load <16 x i8>, <16 x i8>* %159, align 1, !dbg !241
-  %161 = getelementptr inbounds i8, i8* %141, i64 80, !dbg !241
-  %162 = bitcast i8* %161 to <16 x i8>*, !dbg !241
-  %163 = load <16 x i8>, <16 x i8>* %162, align 1, !dbg !241
-  %164 = getelementptr inbounds i8, i8* %141, i64 96, !dbg !241
-  %165 = bitcast i8* %164 to <16 x i8>*, !dbg !241
-  %166 = load <16 x i8>, <16 x i8>* %165, align 1, !dbg !241
-  %167 = getelementptr inbounds i8, i8* %141, i64 112, !dbg !241
-  %168 = bitcast i8* %167 to <16 x i8>*, !dbg !241
-  %169 = load <16 x i8>, <16 x i8>* %168, align 1, !dbg !241
-  %170 = getelementptr inbounds i8, i8* %141, i64 128, !dbg !241
-  %171 = bitcast i8* %170 to <16 x i8>*, !dbg !241
-  %172 = load <16 x i8>, <16 x i8>* %171, align 1, !dbg !241
-  %173 = getelementptr inbounds i8, i8* %141, i64 144, !dbg !241
-  %174 = bitcast i8* %173 to <16 x i8>*, !dbg !241
-  %175 = load <16 x i8>, <16 x i8>* %174, align 1, !dbg !241
-  %176 = getelementptr inbounds i8, i8* %141, i64 160, !dbg !241
-  %177 = bitcast i8* %176 to <16 x i8>*, !dbg !241
-  %178 = load <16 x i8>, <16 x i8>* %177, align 1, !dbg !241
-  %179 = getelementptr inbounds i8, i8* %141, i64 176, !dbg !241
-  %180 = bitcast i8* %179 to <16 x i8>*, !dbg !241
-  %181 = load <16 x i8>, <16 x i8>* %180, align 1, !dbg !241
-  %182 = getelementptr inbounds i8, i8* %141, i64 192, !dbg !241
-  %183 = bitcast i8* %182 to <16 x i8>*, !dbg !241
-  %184 = load <16 x i8>, <16 x i8>* %183, align 1, !dbg !241
-  %185 = getelementptr inbounds i8, i8* %141, i64 208, !dbg !241
-  %186 = bitcast i8* %185 to <16 x i8>*, !dbg !241
-  %187 = load <16 x i8>, <16 x i8>* %186, align 1, !dbg !241
-  %188 = getelementptr inbounds i8, i8* %141, i64 224, !dbg !241
-  %189 = bitcast i8* %188 to <16 x i8>*, !dbg !241
-  %190 = load <16 x i8>, <16 x i8>* %189, align 1, !dbg !241
-  %191 = getelementptr inbounds i8, i8* %141, i64 240, !dbg !241
-  %192 = bitcast i8* %191 to <16 x i8>*, !dbg !241
-  %193 = load <16 x i8>, <16 x i8>* %192, align 1, !dbg !241
-  %194 = load half, half* %145, align 2, !tbaa !246
-  %195 = load half, half* %146, align 2, !tbaa !246
-  %196 = insertelement <8 x half> poison, half %194, i64 0
-  %197 = insertelement <8 x half> poison, half %195, i64 0
-  %198 = shufflevector <8 x half> %196, <8 x half> poison, <8 x i32> zeroinitializer
-  %199 = shufflevector <8 x half> %197, <8 x half> poison, <8 x i32> zeroinitializer
-  br label %200, !dbg !241
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv, metadata !240, metadata !DIExpression()), !dbg !237
+  %54 = shl nuw nsw i64 %indvars.iv, 8, !dbg !237
+  %55 = getelementptr inbounds i8, ptr %LUT, i64 %54, !dbg !237
+  %56 = shl nuw nsw i64 %indvars.iv, 11, !dbg !237
+  %57 = add nsw i64 %56, %50, !dbg !237
+  %58 = getelementptr inbounds i8, ptr %A, i64 %57, !dbg !237
+  %59 = getelementptr inbounds half, ptr %LUT_Scales, i64 %indvars.iv, !dbg !237
+  %60 = getelementptr inbounds half, ptr %LUT_Biases, i64 %indvars.iv, !dbg !237
+  %61 = load <16 x i8>, ptr %55, align 1, !dbg !237
+  %62 = getelementptr inbounds i8, ptr %55, i64 16, !dbg !237
+  %63 = load <16 x i8>, ptr %62, align 1, !dbg !237
+  %64 = getelementptr inbounds i8, ptr %55, i64 32, !dbg !237
+  %65 = load <16 x i8>, ptr %64, align 1, !dbg !237
+  %66 = getelementptr inbounds i8, ptr %55, i64 48, !dbg !237
+  %67 = load <16 x i8>, ptr %66, align 1, !dbg !237
+  %68 = getelementptr inbounds i8, ptr %55, i64 64, !dbg !237
+  %69 = load <16 x i8>, ptr %68, align 1, !dbg !237
+  %70 = getelementptr inbounds i8, ptr %55, i64 80, !dbg !237
+  %71 = load <16 x i8>, ptr %70, align 1, !dbg !237
+  %72 = getelementptr inbounds i8, ptr %55, i64 96, !dbg !237
+  %73 = load <16 x i8>, ptr %72, align 1, !dbg !237
+  %74 = getelementptr inbounds i8, ptr %55, i64 112, !dbg !237
+  %75 = load <16 x i8>, ptr %74, align 1, !dbg !237
+  %76 = getelementptr inbounds i8, ptr %55, i64 128, !dbg !237
+  %77 = load <16 x i8>, ptr %76, align 1, !dbg !237
+  %78 = getelementptr inbounds i8, ptr %55, i64 144, !dbg !237
+  %79 = load <16 x i8>, ptr %78, align 1, !dbg !237
+  %80 = getelementptr inbounds i8, ptr %55, i64 160, !dbg !237
+  %81 = load <16 x i8>, ptr %80, align 1, !dbg !237
+  %82 = getelementptr inbounds i8, ptr %55, i64 176, !dbg !237
+  %83 = load <16 x i8>, ptr %82, align 1, !dbg !237
+  %84 = getelementptr inbounds i8, ptr %55, i64 192, !dbg !237
+  %85 = load <16 x i8>, ptr %84, align 1, !dbg !237
+  %86 = getelementptr inbounds i8, ptr %55, i64 208, !dbg !237
+  %87 = load <16 x i8>, ptr %86, align 1, !dbg !237
+  %88 = getelementptr inbounds i8, ptr %55, i64 224, !dbg !237
+  %89 = load <16 x i8>, ptr %88, align 1, !dbg !237
+  %90 = getelementptr inbounds i8, ptr %55, i64 240, !dbg !237
+  %91 = load <16 x i8>, ptr %90, align 1, !dbg !237
+  %92 = load half, ptr %59, align 2, !tbaa !241
+  %93 = load half, ptr %60, align 2, !tbaa !241
+  %94 = insertelement <8 x half> poison, half %92, i64 0
+  %95 = insertelement <8 x half> poison, half %93, i64 0
+  %96 = shufflevector <8 x half> %94, <8 x half> poison, <8 x i32> zeroinitializer
+  %97 = shufflevector <8 x half> %95, <8 x half> poison, <8 x i32> zeroinitializer
+  br label %98, !dbg !237
 
-200:                                              ; preds = %200, %for_body_k.outer
-  %201 = phi i64 [ 0, %for_body_k.outer ], [ %528, %200 ], !dbg !241
-  %202 = shl nuw nsw i64 %201, 4, !dbg !241
-  %203 = getelementptr inbounds i8, i8* %144, i64 %202, !dbg !241
-  %204 = bitcast i8* %203 to <16 x i8>*, !dbg !241
-  %205 = load <16 x i8>, <16 x i8>* %204, align 1, !dbg !241
-  %206 = lshr <16 x i8> %205, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %207 = and <16 x i8> %205, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %208 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %148, <16 x i8> %207) #10, !dbg !241
-  %209 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %148, <16 x i8> %206) #10, !dbg !241
-  %210 = getelementptr inbounds i8, i8* %203, i64 16, !dbg !241
-  %211 = bitcast i8* %210 to <16 x i8>*, !dbg !241
-  %212 = load <16 x i8>, <16 x i8>* %211, align 1, !dbg !241
-  %213 = lshr <16 x i8> %212, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %214 = and <16 x i8> %212, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %215 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %151, <16 x i8> %214) #10, !dbg !241
-  %216 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %151, <16 x i8> %213) #10, !dbg !241
-  %217 = shufflevector <16 x i8> %208, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %218 = shufflevector <16 x i8> %215, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %219 = sext <8 x i8> %217 to <8 x i16>, !dbg !241
-  %220 = sext <8 x i8> %218 to <8 x i16>, !dbg !241
-  %221 = shufflevector <16 x i8> %208, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %222 = sext <8 x i8> %221 to <8 x i16>, !dbg !241
-  %223 = shufflevector <16 x i8> %215, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %224 = sext <8 x i8> %223 to <8 x i16>, !dbg !241
-  %225 = add nsw <8 x i16> %220, %219, !dbg !241
-  %226 = add nsw <8 x i16> %224, %222, !dbg !241
-  %227 = shufflevector <16 x i8> %209, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %228 = shufflevector <16 x i8> %216, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %229 = sext <8 x i8> %227 to <8 x i16>, !dbg !241
-  %230 = sext <8 x i8> %228 to <8 x i16>, !dbg !241
-  %231 = shufflevector <16 x i8> %209, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %232 = sext <8 x i8> %231 to <8 x i16>, !dbg !241
-  %233 = shufflevector <16 x i8> %216, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %234 = sext <8 x i8> %233 to <8 x i16>, !dbg !241
-  %235 = getelementptr inbounds i8, i8* %203, i64 32, !dbg !241
-  %236 = bitcast i8* %235 to <16 x i8>*, !dbg !241
-  %237 = load <16 x i8>, <16 x i8>* %236, align 1, !dbg !241
-  %238 = lshr <16 x i8> %237, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %239 = and <16 x i8> %237, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %240 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %154, <16 x i8> %239) #10, !dbg !241
-  %241 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %154, <16 x i8> %238) #10, !dbg !241
-  %242 = getelementptr inbounds i8, i8* %203, i64 48, !dbg !241
-  %243 = bitcast i8* %242 to <16 x i8>*, !dbg !241
-  %244 = load <16 x i8>, <16 x i8>* %243, align 1, !dbg !241
-  %245 = lshr <16 x i8> %244, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %246 = and <16 x i8> %244, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %247 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %157, <16 x i8> %246) #10, !dbg !241
-  %248 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %157, <16 x i8> %245) #10, !dbg !241
-  %249 = shufflevector <16 x i8> %248, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %250 = sext <8 x i8> %249 to <8 x i16>, !dbg !241
-  %251 = shufflevector <16 x i8> %241, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %252 = sext <8 x i8> %251 to <8 x i16>, !dbg !241
-  %253 = shufflevector <16 x i8> %248, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %254 = sext <8 x i8> %253 to <8 x i16>, !dbg !241
-  %255 = shufflevector <16 x i8> %241, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %256 = sext <8 x i8> %255 to <8 x i16>, !dbg !241
-  %257 = shufflevector <16 x i8> %240, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %258 = sext <8 x i8> %257 to <8 x i16>, !dbg !241
-  %259 = add nsw <8 x i16> %226, %258, !dbg !241
-  %260 = shufflevector <16 x i8> %247, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %261 = sext <8 x i8> %260 to <8 x i16>, !dbg !241
-  %262 = add nsw <8 x i16> %259, %261, !dbg !241
-  %263 = shufflevector <16 x i8> %240, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %264 = sext <8 x i8> %263 to <8 x i16>, !dbg !241
-  %265 = add nsw <8 x i16> %225, %264, !dbg !241
-  %266 = shufflevector <16 x i8> %247, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %267 = sext <8 x i8> %266 to <8 x i16>, !dbg !241
-  %268 = add nsw <8 x i16> %265, %267, !dbg !241
-  %269 = getelementptr inbounds i8, i8* %203, i64 64, !dbg !241
-  %270 = bitcast i8* %269 to <16 x i8>*, !dbg !241
-  %271 = load <16 x i8>, <16 x i8>* %270, align 1, !dbg !241
-  %272 = lshr <16 x i8> %271, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %273 = and <16 x i8> %271, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %274 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %160, <16 x i8> %273) #10, !dbg !241
-  %275 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %160, <16 x i8> %272) #10, !dbg !241
-  %276 = getelementptr inbounds i8, i8* %203, i64 80, !dbg !241
-  %277 = bitcast i8* %276 to <16 x i8>*, !dbg !241
-  %278 = load <16 x i8>, <16 x i8>* %277, align 1, !dbg !241
-  %279 = lshr <16 x i8> %278, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %280 = and <16 x i8> %278, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %281 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %163, <16 x i8> %280) #10, !dbg !241
-  %282 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %163, <16 x i8> %279) #10, !dbg !241
-  %283 = shufflevector <16 x i8> %282, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %284 = sext <8 x i8> %283 to <8 x i16>, !dbg !241
-  %285 = shufflevector <16 x i8> %275, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %286 = sext <8 x i8> %285 to <8 x i16>, !dbg !241
-  %287 = shufflevector <16 x i8> %282, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %288 = sext <8 x i8> %287 to <8 x i16>, !dbg !241
-  %289 = shufflevector <16 x i8> %275, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %290 = sext <8 x i8> %289 to <8 x i16>, !dbg !241
-  %291 = shufflevector <16 x i8> %274, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %292 = sext <8 x i8> %291 to <8 x i16>, !dbg !241
-  %293 = add nsw <8 x i16> %262, %292, !dbg !241
-  %294 = shufflevector <16 x i8> %281, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %295 = sext <8 x i8> %294 to <8 x i16>, !dbg !241
-  %296 = add nsw <8 x i16> %293, %295, !dbg !241
-  %297 = shufflevector <16 x i8> %274, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %298 = sext <8 x i8> %297 to <8 x i16>, !dbg !241
-  %299 = add nsw <8 x i16> %268, %298, !dbg !241
-  %300 = shufflevector <16 x i8> %281, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %301 = sext <8 x i8> %300 to <8 x i16>, !dbg !241
-  %302 = add nsw <8 x i16> %299, %301, !dbg !241
-  %303 = getelementptr inbounds i8, i8* %203, i64 96, !dbg !241
-  %304 = bitcast i8* %303 to <16 x i8>*, !dbg !241
-  %305 = load <16 x i8>, <16 x i8>* %304, align 1, !dbg !241
-  %306 = lshr <16 x i8> %305, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %307 = and <16 x i8> %305, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %308 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %166, <16 x i8> %307) #10, !dbg !241
-  %309 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %166, <16 x i8> %306) #10, !dbg !241
-  %310 = getelementptr inbounds i8, i8* %203, i64 112, !dbg !241
-  %311 = bitcast i8* %310 to <16 x i8>*, !dbg !241
-  %312 = load <16 x i8>, <16 x i8>* %311, align 1, !dbg !241
-  %313 = lshr <16 x i8> %312, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %314 = and <16 x i8> %312, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %315 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %169, <16 x i8> %314) #10, !dbg !241
-  %316 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %169, <16 x i8> %313) #10, !dbg !241
-  %317 = shufflevector <16 x i8> %316, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %318 = sext <8 x i8> %317 to <8 x i16>, !dbg !241
-  %319 = shufflevector <16 x i8> %309, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %320 = sext <8 x i8> %319 to <8 x i16>, !dbg !241
-  %321 = shufflevector <16 x i8> %316, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %322 = sext <8 x i8> %321 to <8 x i16>, !dbg !241
-  %323 = shufflevector <16 x i8> %309, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %324 = sext <8 x i8> %323 to <8 x i16>, !dbg !241
-  %325 = shufflevector <16 x i8> %308, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %326 = sext <8 x i8> %325 to <8 x i16>, !dbg !241
-  %327 = add nsw <8 x i16> %296, %326, !dbg !241
-  %328 = shufflevector <16 x i8> %315, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %329 = sext <8 x i8> %328 to <8 x i16>, !dbg !241
-  %330 = add <8 x i16> %327, %329, !dbg !241
-  %331 = shufflevector <16 x i8> %308, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %332 = sext <8 x i8> %331 to <8 x i16>, !dbg !241
-  %333 = add nsw <8 x i16> %302, %332, !dbg !241
-  %334 = shufflevector <16 x i8> %315, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %335 = sext <8 x i8> %334 to <8 x i16>, !dbg !241
-  %336 = add <8 x i16> %333, %335, !dbg !241
-  %337 = getelementptr inbounds i8, i8* %203, i64 128, !dbg !241
-  %338 = bitcast i8* %337 to <16 x i8>*, !dbg !241
-  %339 = load <16 x i8>, <16 x i8>* %338, align 1, !dbg !241
-  %340 = lshr <16 x i8> %339, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %341 = and <16 x i8> %339, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %342 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %172, <16 x i8> %341) #10, !dbg !241
-  %343 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %172, <16 x i8> %340) #10, !dbg !241
-  %344 = getelementptr inbounds i8, i8* %203, i64 144, !dbg !241
-  %345 = bitcast i8* %344 to <16 x i8>*, !dbg !241
-  %346 = load <16 x i8>, <16 x i8>* %345, align 1, !dbg !241
-  %347 = lshr <16 x i8> %346, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %348 = and <16 x i8> %346, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %349 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %175, <16 x i8> %348) #10, !dbg !241
-  %350 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %175, <16 x i8> %347) #10, !dbg !241
-  %351 = shufflevector <16 x i8> %350, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %352 = sext <8 x i8> %351 to <8 x i16>, !dbg !241
-  %353 = shufflevector <16 x i8> %343, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %354 = sext <8 x i8> %353 to <8 x i16>, !dbg !241
-  %355 = shufflevector <16 x i8> %350, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %356 = sext <8 x i8> %355 to <8 x i16>, !dbg !241
-  %357 = shufflevector <16 x i8> %343, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %358 = sext <8 x i8> %357 to <8 x i16>, !dbg !241
-  %359 = shufflevector <16 x i8> %342, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %360 = sext <8 x i8> %359 to <8 x i16>, !dbg !241
-  %361 = add <8 x i16> %330, %360, !dbg !241
-  %362 = shufflevector <16 x i8> %349, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %363 = sext <8 x i8> %362 to <8 x i16>, !dbg !241
-  %364 = add <8 x i16> %361, %363, !dbg !241
-  %365 = shufflevector <16 x i8> %342, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %366 = sext <8 x i8> %365 to <8 x i16>, !dbg !241
-  %367 = add <8 x i16> %336, %366, !dbg !241
-  %368 = shufflevector <16 x i8> %349, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %369 = sext <8 x i8> %368 to <8 x i16>, !dbg !241
-  %370 = add <8 x i16> %367, %369, !dbg !241
-  %371 = getelementptr inbounds i8, i8* %203, i64 160, !dbg !241
-  %372 = bitcast i8* %371 to <16 x i8>*, !dbg !241
-  %373 = load <16 x i8>, <16 x i8>* %372, align 1, !dbg !241
-  %374 = lshr <16 x i8> %373, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %375 = and <16 x i8> %373, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %376 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %178, <16 x i8> %375) #10, !dbg !241
-  %377 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %178, <16 x i8> %374) #10, !dbg !241
-  %378 = getelementptr inbounds i8, i8* %203, i64 176, !dbg !241
-  %379 = bitcast i8* %378 to <16 x i8>*, !dbg !241
-  %380 = load <16 x i8>, <16 x i8>* %379, align 1, !dbg !241
-  %381 = lshr <16 x i8> %380, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %382 = and <16 x i8> %380, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %383 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %181, <16 x i8> %382) #10, !dbg !241
-  %384 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %181, <16 x i8> %381) #10, !dbg !241
-  %385 = shufflevector <16 x i8> %384, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %386 = sext <8 x i8> %385 to <8 x i16>, !dbg !241
-  %387 = shufflevector <16 x i8> %377, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %388 = sext <8 x i8> %387 to <8 x i16>, !dbg !241
-  %389 = shufflevector <16 x i8> %384, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %390 = sext <8 x i8> %389 to <8 x i16>, !dbg !241
-  %391 = shufflevector <16 x i8> %377, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %392 = sext <8 x i8> %391 to <8 x i16>, !dbg !241
-  %393 = shufflevector <16 x i8> %376, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %394 = sext <8 x i8> %393 to <8 x i16>, !dbg !241
-  %395 = add <8 x i16> %364, %394, !dbg !241
-  %396 = shufflevector <16 x i8> %383, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %397 = sext <8 x i8> %396 to <8 x i16>, !dbg !241
-  %398 = add <8 x i16> %395, %397, !dbg !241
-  %399 = shufflevector <16 x i8> %376, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %400 = sext <8 x i8> %399 to <8 x i16>, !dbg !241
-  %401 = add <8 x i16> %370, %400, !dbg !241
-  %402 = shufflevector <16 x i8> %383, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %403 = sext <8 x i8> %402 to <8 x i16>, !dbg !241
-  %404 = add <8 x i16> %401, %403, !dbg !241
-  %405 = getelementptr inbounds i8, i8* %203, i64 192, !dbg !241
-  %406 = bitcast i8* %405 to <16 x i8>*, !dbg !241
-  %407 = load <16 x i8>, <16 x i8>* %406, align 1, !dbg !241
-  %408 = lshr <16 x i8> %407, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %409 = and <16 x i8> %407, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %410 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %184, <16 x i8> %409) #10, !dbg !241
-  %411 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %184, <16 x i8> %408) #10, !dbg !241
-  %412 = getelementptr inbounds i8, i8* %203, i64 208, !dbg !241
-  %413 = bitcast i8* %412 to <16 x i8>*, !dbg !241
-  %414 = load <16 x i8>, <16 x i8>* %413, align 1, !dbg !241
-  %415 = lshr <16 x i8> %414, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %416 = and <16 x i8> %414, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %417 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %187, <16 x i8> %416) #10, !dbg !241
-  %418 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %187, <16 x i8> %415) #10, !dbg !241
-  %419 = shufflevector <16 x i8> %418, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %420 = sext <8 x i8> %419 to <8 x i16>, !dbg !241
-  %421 = shufflevector <16 x i8> %411, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %422 = sext <8 x i8> %421 to <8 x i16>, !dbg !241
-  %423 = shufflevector <16 x i8> %418, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %424 = sext <8 x i8> %423 to <8 x i16>, !dbg !241
-  %425 = shufflevector <16 x i8> %411, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %426 = sext <8 x i8> %425 to <8 x i16>, !dbg !241
-  %427 = shufflevector <16 x i8> %410, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %428 = sext <8 x i8> %427 to <8 x i16>, !dbg !241
-  %429 = add <8 x i16> %398, %428, !dbg !241
-  %430 = shufflevector <16 x i8> %417, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %431 = sext <8 x i8> %430 to <8 x i16>, !dbg !241
-  %432 = add <8 x i16> %429, %431, !dbg !241
-  %433 = shufflevector <16 x i8> %410, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %434 = sext <8 x i8> %433 to <8 x i16>, !dbg !241
-  %435 = add <8 x i16> %404, %434, !dbg !241
-  %436 = shufflevector <16 x i8> %417, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %437 = sext <8 x i8> %436 to <8 x i16>, !dbg !241
-  %438 = add <8 x i16> %435, %437, !dbg !241
-  %439 = getelementptr inbounds i8, i8* %203, i64 224, !dbg !241
-  %440 = bitcast i8* %439 to <16 x i8>*, !dbg !241
-  %441 = load <16 x i8>, <16 x i8>* %440, align 1, !dbg !241
-  %442 = lshr <16 x i8> %441, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %443 = and <16 x i8> %441, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %444 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %190, <16 x i8> %443) #10, !dbg !241
-  %445 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %190, <16 x i8> %442) #10, !dbg !241
-  %446 = getelementptr inbounds i8, i8* %203, i64 240, !dbg !241
-  %447 = bitcast i8* %446 to <16 x i8>*, !dbg !241
-  %448 = load <16 x i8>, <16 x i8>* %447, align 1, !dbg !241
-  %449 = lshr <16 x i8> %448, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !241
-  %450 = and <16 x i8> %448, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !241
-  %451 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %193, <16 x i8> %450) #10, !dbg !241
-  %452 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %193, <16 x i8> %449) #10, !dbg !241
-  %453 = shufflevector <16 x i8> %452, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %454 = sext <8 x i8> %453 to <8 x i16>, !dbg !241
-  %455 = shufflevector <16 x i8> %445, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %456 = sext <8 x i8> %455 to <8 x i16>, !dbg !241
-  %457 = shufflevector <16 x i8> %452, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %458 = sext <8 x i8> %457 to <8 x i16>, !dbg !241
-  %459 = shufflevector <16 x i8> %445, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %460 = sext <8 x i8> %459 to <8 x i16>, !dbg !241
-  %461 = shufflevector <16 x i8> %444, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %462 = sext <8 x i8> %461 to <8 x i16>, !dbg !241
-  %463 = add <8 x i16> %432, %462, !dbg !241
-  %464 = shufflevector <16 x i8> %451, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !241
-  %465 = sext <8 x i8> %464 to <8 x i16>, !dbg !241
-  %466 = add <8 x i16> %463, %465, !dbg !241
-  %467 = shufflevector <16 x i8> %444, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %468 = sext <8 x i8> %467 to <8 x i16>, !dbg !241
-  %469 = add <8 x i16> %438, %468, !dbg !241
-  %470 = shufflevector <16 x i8> %451, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !241
-  %471 = sext <8 x i8> %470 to <8 x i16>, !dbg !241
-  %472 = add <8 x i16> %469, %471, !dbg !241
-  %473 = add nsw <8 x i16> %230, %229, !dbg !241
-  %474 = add nsw <8 x i16> %473, %256, !dbg !241
-  %475 = add nsw <8 x i16> %474, %254, !dbg !241
-  %476 = add nsw <8 x i16> %475, %290, !dbg !241
-  %477 = add nsw <8 x i16> %476, %288, !dbg !241
-  %478 = add nsw <8 x i16> %477, %324, !dbg !241
-  %479 = add <8 x i16> %478, %322, !dbg !241
-  %480 = add <8 x i16> %479, %358, !dbg !241
-  %481 = add <8 x i16> %480, %356, !dbg !241
-  %482 = add <8 x i16> %481, %392, !dbg !241
-  %483 = add <8 x i16> %482, %390, !dbg !241
-  %484 = add <8 x i16> %483, %426, !dbg !241
-  %485 = add <8 x i16> %484, %424, !dbg !241
-  %486 = add <8 x i16> %485, %460, !dbg !241
-  %487 = add <8 x i16> %486, %458, !dbg !241
-  %488 = add nsw <8 x i16> %234, %232, !dbg !241
-  %489 = add nsw <8 x i16> %488, %252, !dbg !241
-  %490 = add nsw <8 x i16> %489, %250, !dbg !241
-  %491 = add nsw <8 x i16> %490, %286, !dbg !241
-  %492 = add nsw <8 x i16> %491, %284, !dbg !241
-  %493 = add nsw <8 x i16> %492, %320, !dbg !241
-  %494 = add <8 x i16> %493, %318, !dbg !241
-  %495 = add <8 x i16> %494, %354, !dbg !241
-  %496 = add <8 x i16> %495, %352, !dbg !241
-  %497 = add <8 x i16> %496, %388, !dbg !241
-  %498 = add <8 x i16> %497, %386, !dbg !241
-  %499 = add <8 x i16> %498, %422, !dbg !241
-  %500 = add <8 x i16> %499, %420, !dbg !241
-  %501 = add <8 x i16> %500, %456, !dbg !241
-  %502 = add <8 x i16> %501, %454, !dbg !241
-  %503 = sitofp <8 x i16> %472 to <8 x half>, !dbg !241
-  %504 = sitofp <8 x i16> %466 to <8 x half>, !dbg !241
-  %505 = sitofp <8 x i16> %487 to <8 x half>, !dbg !241
-  %506 = sitofp <8 x i16> %502 to <8 x half>, !dbg !241
-  %507 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %503, <8 x half> %198, <8 x half> %199) #10, !dbg !241
-  %508 = fmul <8 x half> %198, %504, !dbg !241
-  %509 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %505, <8 x half> %198, <8 x half> %199) #10, !dbg !241
-  %510 = fmul <8 x half> %198, %506, !dbg !241
-  %511 = shl nuw nsw i64 %201, 1, !dbg !241
-  %512 = getelementptr inbounds [128 x half], [128 x half]* %CBits2, i64 0, i64 %511, !dbg !241
-  %513 = bitcast half* %512 to <8 x half>*, !dbg !241
-  %514 = load <8 x half>, <8 x half>* %513, align 16, !dbg !241
-  %515 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %507, <8 x half> %139, <8 x half> %514) #10, !dbg !241
-  store <8 x half> %515, <8 x half>* %513, align 16, !dbg !241
-  %516 = getelementptr inbounds half, half* %512, i64 8, !dbg !241
-  %517 = bitcast half* %516 to <8 x half>*, !dbg !241
-  %518 = load <8 x half>, <8 x half>* %517, align 16, !dbg !241
-  %519 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %508, <8 x half> %139, <8 x half> %518) #10, !dbg !241
-  store <8 x half> %519, <8 x half>* %517, align 16, !dbg !241
-  %520 = getelementptr inbounds half, half* %512, i64 16, !dbg !241
-  %521 = bitcast half* %520 to <8 x half>*, !dbg !241
-  %522 = load <8 x half>, <8 x half>* %521, align 16, !dbg !241
-  %523 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %509, <8 x half> %139, <8 x half> %522) #10, !dbg !241
-  store <8 x half> %523, <8 x half>* %521, align 16, !dbg !241
-  %524 = getelementptr inbounds half, half* %512, i64 24, !dbg !241
-  %525 = bitcast half* %524 to <8 x half>*, !dbg !241
-  %526 = load <8 x half>, <8 x half>* %525, align 16, !dbg !241
-  %527 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %510, <8 x half> %139, <8 x half> %526) #10, !dbg !241
-  store <8 x half> %527, <8 x half>* %525, align 16, !dbg !241
-  %528 = add nuw nsw i64 %201, 16, !dbg !241
-  %529 = icmp ult i64 %201, 48, !dbg !241
-  br i1 %529, label %200, label %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit, !dbg !241, !llvm.loop !250
+98:                                               ; preds = %98, %for_body_k.outer
+  %99 = phi i64 [ 0, %for_body_k.outer ], [ %406, %98 ], !dbg !237
+  %100 = shl nuw nsw i64 %99, 4, !dbg !237
+  %101 = getelementptr inbounds i8, ptr %58, i64 %100, !dbg !237
+  %102 = load <16 x i8>, ptr %101, align 1, !dbg !237
+  %103 = lshr <16 x i8> %102, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %104 = and <16 x i8> %102, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %105 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %61, <16 x i8> %104), !dbg !237
+  %106 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %61, <16 x i8> %103), !dbg !237
+  %107 = getelementptr inbounds i8, ptr %101, i64 16, !dbg !237
+  %108 = load <16 x i8>, ptr %107, align 1, !dbg !237
+  %109 = lshr <16 x i8> %108, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %110 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %63, <16 x i8> %109), !dbg !237
+  %111 = and <16 x i8> %108, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %112 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %63, <16 x i8> %111), !dbg !237
+  %113 = shufflevector <16 x i8> %105, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %114 = shufflevector <16 x i8> %112, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %115 = sext <8 x i8> %113 to <8 x i16>, !dbg !237
+  %116 = sext <8 x i8> %114 to <8 x i16>, !dbg !237
+  %117 = shufflevector <16 x i8> %105, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %118 = sext <8 x i8> %117 to <8 x i16>, !dbg !237
+  %119 = shufflevector <16 x i8> %112, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %120 = sext <8 x i8> %119 to <8 x i16>, !dbg !237
+  %121 = add nsw <8 x i16> %116, %115, !dbg !237
+  %122 = add nsw <8 x i16> %120, %118, !dbg !237
+  %123 = shufflevector <16 x i8> %106, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %124 = shufflevector <16 x i8> %110, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %125 = sext <8 x i8> %123 to <8 x i16>, !dbg !237
+  %126 = sext <8 x i8> %124 to <8 x i16>, !dbg !237
+  %127 = shufflevector <16 x i8> %106, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %128 = sext <8 x i8> %127 to <8 x i16>, !dbg !237
+  %129 = shufflevector <16 x i8> %110, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %130 = sext <8 x i8> %129 to <8 x i16>, !dbg !237
+  %131 = getelementptr inbounds i8, ptr %101, i64 32, !dbg !237
+  %132 = load <16 x i8>, ptr %131, align 1, !dbg !237
+  %133 = lshr <16 x i8> %132, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %134 = and <16 x i8> %132, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %135 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %65, <16 x i8> %134), !dbg !237
+  %136 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %65, <16 x i8> %133), !dbg !237
+  %137 = getelementptr inbounds i8, ptr %101, i64 48, !dbg !237
+  %138 = load <16 x i8>, ptr %137, align 1, !dbg !237
+  %139 = and <16 x i8> %138, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %140 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %67, <16 x i8> %139), !dbg !237
+  %141 = shufflevector <16 x i8> %135, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %142 = shufflevector <16 x i8> %140, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %143 = sext <8 x i8> %141 to <8 x i16>, !dbg !237
+  %144 = sext <8 x i8> %142 to <8 x i16>, !dbg !237
+  %145 = shufflevector <16 x i8> %135, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %146 = sext <8 x i8> %145 to <8 x i16>, !dbg !237
+  %147 = shufflevector <16 x i8> %140, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %148 = sext <8 x i8> %147 to <8 x i16>, !dbg !237
+  %149 = add nsw <8 x i16> %121, %143, !dbg !237
+  %150 = add nsw <8 x i16> %149, %144, !dbg !237
+  %151 = add nsw <8 x i16> %122, %146, !dbg !237
+  %152 = add nsw <8 x i16> %151, %148, !dbg !237
+  %153 = lshr <16 x i8> %138, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %154 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %67, <16 x i8> %153), !dbg !237
+  %155 = shufflevector <16 x i8> %154, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %156 = sext <8 x i8> %155 to <8 x i16>, !dbg !237
+  %157 = shufflevector <16 x i8> %136, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %158 = sext <8 x i8> %157 to <8 x i16>, !dbg !237
+  %159 = shufflevector <16 x i8> %154, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %160 = sext <8 x i8> %159 to <8 x i16>, !dbg !237
+  %161 = shufflevector <16 x i8> %136, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %162 = sext <8 x i8> %161 to <8 x i16>, !dbg !237
+  %163 = getelementptr inbounds i8, ptr %101, i64 64, !dbg !237
+  %164 = load <16 x i8>, ptr %163, align 1, !dbg !237
+  %165 = lshr <16 x i8> %164, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %166 = and <16 x i8> %164, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %167 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %69, <16 x i8> %166), !dbg !237
+  %168 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %69, <16 x i8> %165), !dbg !237
+  %169 = getelementptr inbounds i8, ptr %101, i64 80, !dbg !237
+  %170 = load <16 x i8>, ptr %169, align 1, !dbg !237
+  %171 = and <16 x i8> %170, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %172 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %71, <16 x i8> %171), !dbg !237
+  %173 = shufflevector <16 x i8> %167, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %174 = shufflevector <16 x i8> %172, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %175 = sext <8 x i8> %173 to <8 x i16>, !dbg !237
+  %176 = sext <8 x i8> %174 to <8 x i16>, !dbg !237
+  %177 = shufflevector <16 x i8> %167, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %178 = sext <8 x i8> %177 to <8 x i16>, !dbg !237
+  %179 = shufflevector <16 x i8> %172, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %180 = sext <8 x i8> %179 to <8 x i16>, !dbg !237
+  %181 = add nsw <8 x i16> %150, %175, !dbg !237
+  %182 = add nsw <8 x i16> %181, %176, !dbg !237
+  %183 = add nsw <8 x i16> %152, %178, !dbg !237
+  %184 = add nsw <8 x i16> %183, %180, !dbg !237
+  %185 = lshr <16 x i8> %170, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %186 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %71, <16 x i8> %185), !dbg !237
+  %187 = shufflevector <16 x i8> %186, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %188 = sext <8 x i8> %187 to <8 x i16>, !dbg !237
+  %189 = shufflevector <16 x i8> %168, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %190 = sext <8 x i8> %189 to <8 x i16>, !dbg !237
+  %191 = shufflevector <16 x i8> %186, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %192 = sext <8 x i8> %191 to <8 x i16>, !dbg !237
+  %193 = shufflevector <16 x i8> %168, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %194 = sext <8 x i8> %193 to <8 x i16>, !dbg !237
+  %195 = getelementptr inbounds i8, ptr %101, i64 96, !dbg !237
+  %196 = load <16 x i8>, ptr %195, align 1, !dbg !237
+  %197 = lshr <16 x i8> %196, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %198 = and <16 x i8> %196, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %199 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %73, <16 x i8> %198), !dbg !237
+  %200 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %73, <16 x i8> %197), !dbg !237
+  %201 = getelementptr inbounds i8, ptr %101, i64 112, !dbg !237
+  %202 = load <16 x i8>, ptr %201, align 1, !dbg !237
+  %203 = and <16 x i8> %202, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %204 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %75, <16 x i8> %203), !dbg !237
+  %205 = shufflevector <16 x i8> %199, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %206 = shufflevector <16 x i8> %204, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %207 = sext <8 x i8> %205 to <8 x i16>, !dbg !237
+  %208 = sext <8 x i8> %206 to <8 x i16>, !dbg !237
+  %209 = shufflevector <16 x i8> %199, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %210 = sext <8 x i8> %209 to <8 x i16>, !dbg !237
+  %211 = shufflevector <16 x i8> %204, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %212 = sext <8 x i8> %211 to <8 x i16>, !dbg !237
+  %213 = add nsw <8 x i16> %182, %207, !dbg !237
+  %214 = add <8 x i16> %213, %208, !dbg !237
+  %215 = add nsw <8 x i16> %184, %210, !dbg !237
+  %216 = add <8 x i16> %215, %212, !dbg !237
+  %217 = lshr <16 x i8> %202, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %218 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %75, <16 x i8> %217), !dbg !237
+  %219 = shufflevector <16 x i8> %218, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %220 = sext <8 x i8> %219 to <8 x i16>, !dbg !237
+  %221 = shufflevector <16 x i8> %200, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %222 = sext <8 x i8> %221 to <8 x i16>, !dbg !237
+  %223 = shufflevector <16 x i8> %218, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %224 = sext <8 x i8> %223 to <8 x i16>, !dbg !237
+  %225 = shufflevector <16 x i8> %200, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %226 = sext <8 x i8> %225 to <8 x i16>, !dbg !237
+  %227 = getelementptr inbounds i8, ptr %101, i64 128, !dbg !237
+  %228 = load <16 x i8>, ptr %227, align 1, !dbg !237
+  %229 = lshr <16 x i8> %228, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %230 = and <16 x i8> %228, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %231 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %77, <16 x i8> %230), !dbg !237
+  %232 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %77, <16 x i8> %229), !dbg !237
+  %233 = getelementptr inbounds i8, ptr %101, i64 144, !dbg !237
+  %234 = load <16 x i8>, ptr %233, align 1, !dbg !237
+  %235 = and <16 x i8> %234, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %236 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %79, <16 x i8> %235), !dbg !237
+  %237 = shufflevector <16 x i8> %231, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %238 = shufflevector <16 x i8> %236, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %239 = sext <8 x i8> %237 to <8 x i16>, !dbg !237
+  %240 = sext <8 x i8> %238 to <8 x i16>, !dbg !237
+  %241 = shufflevector <16 x i8> %231, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %242 = sext <8 x i8> %241 to <8 x i16>, !dbg !237
+  %243 = shufflevector <16 x i8> %236, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %244 = sext <8 x i8> %243 to <8 x i16>, !dbg !237
+  %245 = add <8 x i16> %214, %239, !dbg !237
+  %246 = add <8 x i16> %245, %240, !dbg !237
+  %247 = add <8 x i16> %216, %242, !dbg !237
+  %248 = add <8 x i16> %247, %244, !dbg !237
+  %249 = lshr <16 x i8> %234, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %250 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %79, <16 x i8> %249), !dbg !237
+  %251 = shufflevector <16 x i8> %250, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %252 = sext <8 x i8> %251 to <8 x i16>, !dbg !237
+  %253 = shufflevector <16 x i8> %232, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %254 = sext <8 x i8> %253 to <8 x i16>, !dbg !237
+  %255 = shufflevector <16 x i8> %250, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %256 = sext <8 x i8> %255 to <8 x i16>, !dbg !237
+  %257 = shufflevector <16 x i8> %232, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %258 = sext <8 x i8> %257 to <8 x i16>, !dbg !237
+  %259 = getelementptr inbounds i8, ptr %101, i64 160, !dbg !237
+  %260 = load <16 x i8>, ptr %259, align 1, !dbg !237
+  %261 = lshr <16 x i8> %260, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %262 = and <16 x i8> %260, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %263 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %81, <16 x i8> %262), !dbg !237
+  %264 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %81, <16 x i8> %261), !dbg !237
+  %265 = getelementptr inbounds i8, ptr %101, i64 176, !dbg !237
+  %266 = load <16 x i8>, ptr %265, align 1, !dbg !237
+  %267 = and <16 x i8> %266, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %268 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %83, <16 x i8> %267), !dbg !237
+  %269 = shufflevector <16 x i8> %263, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %270 = shufflevector <16 x i8> %268, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %271 = sext <8 x i8> %269 to <8 x i16>, !dbg !237
+  %272 = sext <8 x i8> %270 to <8 x i16>, !dbg !237
+  %273 = shufflevector <16 x i8> %263, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %274 = sext <8 x i8> %273 to <8 x i16>, !dbg !237
+  %275 = shufflevector <16 x i8> %268, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %276 = sext <8 x i8> %275 to <8 x i16>, !dbg !237
+  %277 = add <8 x i16> %246, %271, !dbg !237
+  %278 = add <8 x i16> %277, %272, !dbg !237
+  %279 = add <8 x i16> %248, %274, !dbg !237
+  %280 = add <8 x i16> %279, %276, !dbg !237
+  %281 = lshr <16 x i8> %266, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %282 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %83, <16 x i8> %281), !dbg !237
+  %283 = shufflevector <16 x i8> %282, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %284 = sext <8 x i8> %283 to <8 x i16>, !dbg !237
+  %285 = shufflevector <16 x i8> %264, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %286 = sext <8 x i8> %285 to <8 x i16>, !dbg !237
+  %287 = shufflevector <16 x i8> %282, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %288 = sext <8 x i8> %287 to <8 x i16>, !dbg !237
+  %289 = shufflevector <16 x i8> %264, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %290 = sext <8 x i8> %289 to <8 x i16>, !dbg !237
+  %291 = getelementptr inbounds i8, ptr %101, i64 192, !dbg !237
+  %292 = load <16 x i8>, ptr %291, align 1, !dbg !237
+  %293 = lshr <16 x i8> %292, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %294 = and <16 x i8> %292, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %295 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %85, <16 x i8> %294), !dbg !237
+  %296 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %85, <16 x i8> %293), !dbg !237
+  %297 = getelementptr inbounds i8, ptr %101, i64 208, !dbg !237
+  %298 = load <16 x i8>, ptr %297, align 1, !dbg !237
+  %299 = and <16 x i8> %298, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %300 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %87, <16 x i8> %299), !dbg !237
+  %301 = shufflevector <16 x i8> %295, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %302 = shufflevector <16 x i8> %300, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %303 = sext <8 x i8> %301 to <8 x i16>, !dbg !237
+  %304 = sext <8 x i8> %302 to <8 x i16>, !dbg !237
+  %305 = shufflevector <16 x i8> %295, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %306 = sext <8 x i8> %305 to <8 x i16>, !dbg !237
+  %307 = shufflevector <16 x i8> %300, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %308 = sext <8 x i8> %307 to <8 x i16>, !dbg !237
+  %309 = add <8 x i16> %278, %303, !dbg !237
+  %310 = add <8 x i16> %309, %304, !dbg !237
+  %311 = add <8 x i16> %280, %306, !dbg !237
+  %312 = add <8 x i16> %311, %308, !dbg !237
+  %313 = lshr <16 x i8> %298, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %314 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %87, <16 x i8> %313), !dbg !237
+  %315 = shufflevector <16 x i8> %314, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %316 = sext <8 x i8> %315 to <8 x i16>, !dbg !237
+  %317 = shufflevector <16 x i8> %296, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %318 = sext <8 x i8> %317 to <8 x i16>, !dbg !237
+  %319 = shufflevector <16 x i8> %314, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %320 = sext <8 x i8> %319 to <8 x i16>, !dbg !237
+  %321 = shufflevector <16 x i8> %296, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %322 = sext <8 x i8> %321 to <8 x i16>, !dbg !237
+  %323 = getelementptr inbounds i8, ptr %101, i64 224, !dbg !237
+  %324 = load <16 x i8>, ptr %323, align 1, !dbg !237
+  %325 = lshr <16 x i8> %324, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %326 = and <16 x i8> %324, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %327 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %89, <16 x i8> %326), !dbg !237
+  %328 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %89, <16 x i8> %325), !dbg !237
+  %329 = getelementptr inbounds i8, ptr %101, i64 240, !dbg !237
+  %330 = load <16 x i8>, ptr %329, align 1, !dbg !237
+  %331 = and <16 x i8> %330, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !237
+  %332 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %91, <16 x i8> %331), !dbg !237
+  %333 = shufflevector <16 x i8> %327, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %334 = shufflevector <16 x i8> %332, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %335 = sext <8 x i8> %333 to <8 x i16>, !dbg !237
+  %336 = sext <8 x i8> %334 to <8 x i16>, !dbg !237
+  %337 = shufflevector <16 x i8> %327, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %338 = sext <8 x i8> %337 to <8 x i16>, !dbg !237
+  %339 = shufflevector <16 x i8> %332, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %340 = sext <8 x i8> %339 to <8 x i16>, !dbg !237
+  %341 = add <8 x i16> %310, %335, !dbg !237
+  %342 = add <8 x i16> %341, %336, !dbg !237
+  %343 = add <8 x i16> %312, %338, !dbg !237
+  %344 = add <8 x i16> %343, %340, !dbg !237
+  %345 = lshr <16 x i8> %330, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !237
+  %346 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %91, <16 x i8> %345), !dbg !237
+  %347 = shufflevector <16 x i8> %346, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %348 = sext <8 x i8> %347 to <8 x i16>, !dbg !237
+  %349 = shufflevector <16 x i8> %328, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !237
+  %350 = sext <8 x i8> %349 to <8 x i16>, !dbg !237
+  %351 = add nsw <8 x i16> %130, %128, !dbg !237
+  %352 = add nsw <8 x i16> %351, %158, !dbg !237
+  %353 = add nsw <8 x i16> %352, %156, !dbg !237
+  %354 = add nsw <8 x i16> %353, %190, !dbg !237
+  %355 = add nsw <8 x i16> %354, %188, !dbg !237
+  %356 = add nsw <8 x i16> %355, %222, !dbg !237
+  %357 = add <8 x i16> %356, %220, !dbg !237
+  %358 = add <8 x i16> %357, %254, !dbg !237
+  %359 = add <8 x i16> %358, %252, !dbg !237
+  %360 = add <8 x i16> %359, %286, !dbg !237
+  %361 = add <8 x i16> %360, %284, !dbg !237
+  %362 = add <8 x i16> %361, %318, !dbg !237
+  %363 = add <8 x i16> %362, %316, !dbg !237
+  %364 = add <8 x i16> %363, %350, !dbg !237
+  %365 = add <8 x i16> %364, %348, !dbg !237
+  %366 = shufflevector <16 x i8> %346, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %367 = sext <8 x i8> %366 to <8 x i16>, !dbg !237
+  %368 = shufflevector <16 x i8> %328, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !237
+  %369 = sext <8 x i8> %368 to <8 x i16>, !dbg !237
+  %370 = add nsw <8 x i16> %126, %125, !dbg !237
+  %371 = add nsw <8 x i16> %370, %162, !dbg !237
+  %372 = add nsw <8 x i16> %371, %160, !dbg !237
+  %373 = add nsw <8 x i16> %372, %194, !dbg !237
+  %374 = add nsw <8 x i16> %373, %192, !dbg !237
+  %375 = add nsw <8 x i16> %374, %226, !dbg !237
+  %376 = add <8 x i16> %375, %224, !dbg !237
+  %377 = add <8 x i16> %376, %258, !dbg !237
+  %378 = add <8 x i16> %377, %256, !dbg !237
+  %379 = add <8 x i16> %378, %290, !dbg !237
+  %380 = add <8 x i16> %379, %288, !dbg !237
+  %381 = add <8 x i16> %380, %322, !dbg !237
+  %382 = add <8 x i16> %381, %320, !dbg !237
+  %383 = add <8 x i16> %382, %369, !dbg !237
+  %384 = add <8 x i16> %383, %367, !dbg !237
+  %385 = sitofp <8 x i16> %342 to <8 x half>, !dbg !237
+  %386 = sitofp <8 x i16> %344 to <8 x half>, !dbg !237
+  %387 = sitofp <8 x i16> %384 to <8 x half>, !dbg !237
+  %388 = sitofp <8 x i16> %365 to <8 x half>, !dbg !237
+  %389 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %385, <8 x half> %96, <8 x half> %97), !dbg !237
+  %390 = fmul <8 x half> %96, %386, !dbg !237
+  %391 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %387, <8 x half> %96, <8 x half> %97), !dbg !237
+  %392 = fmul <8 x half> %96, %388, !dbg !237
+  %393 = shl nuw nsw i64 %99, 1, !dbg !237
+  %394 = getelementptr inbounds half, ptr %CBits2, i64 %393, !dbg !237
+  %395 = load <8 x half>, ptr %394, align 16, !dbg !237
+  %396 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %389, <8 x half> %53, <8 x half> %395), !dbg !237
+  store <8 x half> %396, ptr %394, align 16, !dbg !237
+  %397 = getelementptr inbounds half, ptr %394, i64 8, !dbg !237
+  %398 = load <8 x half>, ptr %397, align 16, !dbg !237
+  %399 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %390, <8 x half> %53, <8 x half> %398), !dbg !237
+  store <8 x half> %399, ptr %397, align 16, !dbg !237
+  %400 = getelementptr inbounds half, ptr %394, i64 16, !dbg !237
+  %401 = load <8 x half>, ptr %400, align 16, !dbg !237
+  %402 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %391, <8 x half> %53, <8 x half> %401), !dbg !237
+  store <8 x half> %402, ptr %400, align 16, !dbg !237
+  %403 = getelementptr inbounds half, ptr %394, i64 24, !dbg !237
+  %404 = load <8 x half>, ptr %403, align 16, !dbg !237
+  %405 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %392, <8 x half> %53, <8 x half> %404), !dbg !237
+  store <8 x half> %405, ptr %403, align 16, !dbg !237
+  %406 = add nuw nsw i64 %99, 16, !dbg !237
+  %407 = icmp ult i64 %99, 112, !dbg !237
+  br i1 %407, label %98, label %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit, !dbg !237, !llvm.loop !245
 
-tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit: ; preds = %200
-  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next, metadata !245, metadata !DIExpression()), !dbg !241
-  %exitcond.not = icmp eq i64 %indvars.iv.next, 50, !dbg !241
-  br i1 %exitcond.not, label %for_body_m.c.outer, label %for_body_k.outer, !dbg !241, !prof !33
+tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit: ; preds = %98
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next, metadata !240, metadata !DIExpression()), !dbg !237
+  %exitcond.not = icmp eq i64 %indvars.iv.next, 50, !dbg !237
+  br i1 %exitcond.not, label %for_body_m.c.outer, label %for_body_k.outer, !dbg !237, !prof !29
 
 for_body_m.c.outer:                               ; preds = %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_ostrue.exit
-  call void @llvm.dbg.declare(metadata i64 0, metadata !252, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !253, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !253, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !254, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !254, metadata !DIExpression()), !dbg !241
-  %530 = load <8 x half>, <8 x half>* %91, align 16, !dbg !241, !tbaa !255
-  %531 = fpext <8 x half> %530 to <8 x float>, !dbg !241
-  %532 = load <8 x half>, <8 x half>* %92, align 16, !dbg !241, !tbaa !255
-  %533 = fpext <8 x half> %532 to <8 x float>, !dbg !241
-  %534 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %531, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %533), !dbg !241
-  %535 = fptrunc <8 x float> %534 to <8 x half>, !dbg !241
-  store <8 x half> %535, <8 x half>* %93, align 16, !dbg !241, !tbaa !257
-  %536 = load <8 x half>, <8 x half>* %97, align 16, !dbg !241, !tbaa !255
-  %537 = fpext <8 x half> %536 to <8 x float>, !dbg !241
-  %538 = load <8 x half>, <8 x half>* %98, align 16, !dbg !241, !tbaa !255
-  %539 = fpext <8 x half> %538 to <8 x float>, !dbg !241
-  %540 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %537, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %539), !dbg !241
-  %541 = fptrunc <8 x float> %540 to <8 x half>, !dbg !241
-  store <8 x half> %541, <8 x half>* %99, align 16, !dbg !241, !tbaa !257
-  %542 = load <8 x half>, <8 x half>* %103, align 16, !dbg !241, !tbaa !255
-  %543 = fpext <8 x half> %542 to <8 x float>, !dbg !241
-  %544 = load <8 x half>, <8 x half>* %104, align 16, !dbg !241, !tbaa !255
-  %545 = fpext <8 x half> %544 to <8 x float>, !dbg !241
-  %546 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %543, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %545), !dbg !241
-  %547 = fptrunc <8 x float> %546 to <8 x half>, !dbg !241
-  store <8 x half> %547, <8 x half>* %105, align 16, !dbg !241, !tbaa !257
-  %548 = load <8 x half>, <8 x half>* %109, align 16, !dbg !241, !tbaa !255
-  %549 = fpext <8 x half> %548 to <8 x float>, !dbg !241
-  %550 = load <8 x half>, <8 x half>* %110, align 16, !dbg !241, !tbaa !255
-  %551 = fpext <8 x half> %550 to <8 x float>, !dbg !241
-  %552 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %549, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %551), !dbg !241
-  %553 = fptrunc <8 x float> %552 to <8 x half>, !dbg !241
-  store <8 x half> %553, <8 x half>* %111, align 16, !dbg !241, !tbaa !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !252, metadata !DIExpression(DW_OP_plus_uconst, 1)), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 1, metadata !252, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 64, metadata !253, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 64, metadata !253, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 32, metadata !254, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 32, metadata !254, metadata !DIExpression()), !dbg !241
-  %554 = load <8 x half>, <8 x half>* %115, align 16, !dbg !241, !tbaa !255
-  %555 = fpext <8 x half> %554 to <8 x float>, !dbg !241
-  %556 = load <8 x half>, <8 x half>* %116, align 16, !dbg !241, !tbaa !255
-  %557 = fpext <8 x half> %556 to <8 x float>, !dbg !241
-  %558 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %555, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %557), !dbg !241
-  %559 = fptrunc <8 x float> %558 to <8 x half>, !dbg !241
-  store <8 x half> %559, <8 x half>* %117, align 16, !dbg !241, !tbaa !257
-  %560 = load <8 x half>, <8 x half>* %121, align 16, !dbg !241, !tbaa !255
-  %561 = fpext <8 x half> %560 to <8 x float>, !dbg !241
-  %562 = load <8 x half>, <8 x half>* %122, align 16, !dbg !241, !tbaa !255
-  %563 = fpext <8 x half> %562 to <8 x float>, !dbg !241
-  %564 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %561, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %563), !dbg !241
-  %565 = fptrunc <8 x float> %564 to <8 x half>, !dbg !241
-  store <8 x half> %565, <8 x half>* %123, align 16, !dbg !241, !tbaa !257
-  %566 = load <8 x half>, <8 x half>* %127, align 16, !dbg !241, !tbaa !255
-  %567 = fpext <8 x half> %566 to <8 x float>, !dbg !241
-  %568 = load <8 x half>, <8 x half>* %128, align 16, !dbg !241, !tbaa !255
-  %569 = fpext <8 x half> %568 to <8 x float>, !dbg !241
-  %570 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %567, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %569), !dbg !241
-  %571 = fptrunc <8 x float> %570 to <8 x half>, !dbg !241
-  store <8 x half> %571, <8 x half>* %129, align 16, !dbg !241, !tbaa !257
-  %572 = load <8 x half>, <8 x half>* %133, align 16, !dbg !241, !tbaa !255
-  %573 = fpext <8 x half> %572 to <8 x float>, !dbg !241
-  %574 = load <8 x half>, <8 x half>* %134, align 16, !dbg !241, !tbaa !255
-  %575 = fpext <8 x half> %574 to <8 x float>, !dbg !241
-  %576 = call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %573, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %575), !dbg !241
-  %577 = fptrunc <8 x float> %576 to <8 x half>, !dbg !241
-  store <8 x half> %577, <8 x half>* %135, align 16, !dbg !241, !tbaa !257
-  call void @llvm.dbg.declare(metadata i64 1, metadata !252, metadata !DIExpression(DW_OP_plus_uconst, 1)), !dbg !241
-  %578 = trunc i64 %indvars.iv20 to i32
-  %579 = shl nsw i32 %578, 6
-  call void @llvm.dbg.declare(metadata i32 0, metadata !259, metadata !DIExpression()), !dbg !241
-  %580 = sext i32 %579 to i64, !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !259, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !260, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 0, metadata !260, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %580, metadata !261, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %580, metadata !261, metadata !DIExpression()), !dbg !241
-  %581 = load half, half* %25, align 16, !dbg !241, !tbaa !257
-  %582 = getelementptr inbounds half, half* %C, i64 %580, !dbg !241
-  store half %581, half* %582, align 64, !dbg !241, !tbaa !262
-  %583 = load half, half* %27, align 2, !dbg !241, !tbaa !257
-  %584 = or i32 %579, 1, !dbg !241
-  %585 = sext i32 %584 to i64, !dbg !241
-  %586 = getelementptr inbounds half, half* %C, i64 %585, !dbg !241
-  store half %583, half* %586, align 2, !dbg !241, !tbaa !262
-  %587 = load half, half* %28, align 4, !dbg !241, !tbaa !257
-  %588 = or i32 %579, 2, !dbg !241
-  %589 = sext i32 %588 to i64, !dbg !241
-  %590 = getelementptr inbounds half, half* %C, i64 %589, !dbg !241
-  store half %587, half* %590, align 4, !dbg !241, !tbaa !262
-  %591 = load half, half* %29, align 2, !dbg !241, !tbaa !257
-  %592 = or i32 %579, 3, !dbg !241
-  %593 = sext i32 %592 to i64, !dbg !241
-  %594 = getelementptr inbounds half, half* %C, i64 %593, !dbg !241
-  store half %591, half* %594, align 2, !dbg !241, !tbaa !262
-  %595 = load half, half* %30, align 8, !dbg !241, !tbaa !257
-  %596 = or i32 %579, 4, !dbg !241
-  %597 = sext i32 %596 to i64, !dbg !241
-  %598 = getelementptr inbounds half, half* %C, i64 %597, !dbg !241
-  store half %595, half* %598, align 8, !dbg !241, !tbaa !262
-  %599 = load half, half* %31, align 2, !dbg !241, !tbaa !257
-  %600 = or i32 %579, 5, !dbg !241
-  %601 = sext i32 %600 to i64, !dbg !241
-  %602 = getelementptr inbounds half, half* %C, i64 %601, !dbg !241
-  store half %599, half* %602, align 2, !dbg !241, !tbaa !262
-  %603 = load half, half* %32, align 4, !dbg !241, !tbaa !257
-  %604 = or i32 %579, 6, !dbg !241
-  %605 = sext i32 %604 to i64, !dbg !241
-  %606 = getelementptr inbounds half, half* %C, i64 %605, !dbg !241
-  store half %603, half* %606, align 4, !dbg !241, !tbaa !262
-  %607 = load half, half* %33, align 2, !dbg !241, !tbaa !257
-  %608 = or i32 %579, 7, !dbg !241
-  %609 = sext i32 %608 to i64, !dbg !241
-  %610 = getelementptr inbounds half, half* %C, i64 %609, !dbg !241
-  store half %607, half* %610, align 2, !dbg !241, !tbaa !262
-  %611 = load half, half* %34, align 16, !dbg !241, !tbaa !257
-  %612 = or i32 %579, 8, !dbg !241
-  %613 = sext i32 %612 to i64, !dbg !241
-  %614 = getelementptr inbounds half, half* %C, i64 %613, !dbg !241
-  store half %611, half* %614, align 16, !dbg !241, !tbaa !262
-  %615 = load half, half* %35, align 2, !dbg !241, !tbaa !257
-  %616 = or i32 %579, 9, !dbg !241
-  %617 = sext i32 %616 to i64, !dbg !241
-  %618 = getelementptr inbounds half, half* %C, i64 %617, !dbg !241
-  store half %615, half* %618, align 2, !dbg !241, !tbaa !262
-  %619 = load half, half* %36, align 4, !dbg !241, !tbaa !257
-  %620 = or i32 %579, 10, !dbg !241
-  %621 = sext i32 %620 to i64, !dbg !241
-  %622 = getelementptr inbounds half, half* %C, i64 %621, !dbg !241
-  store half %619, half* %622, align 4, !dbg !241, !tbaa !262
-  %623 = load half, half* %37, align 2, !dbg !241, !tbaa !257
-  %624 = or i32 %579, 11, !dbg !241
-  %625 = sext i32 %624 to i64, !dbg !241
-  %626 = getelementptr inbounds half, half* %C, i64 %625, !dbg !241
-  store half %623, half* %626, align 2, !dbg !241, !tbaa !262
-  %627 = load half, half* %38, align 8, !dbg !241, !tbaa !257
-  %628 = or i32 %579, 12, !dbg !241
-  %629 = sext i32 %628 to i64, !dbg !241
-  %630 = getelementptr inbounds half, half* %C, i64 %629, !dbg !241
-  store half %627, half* %630, align 8, !dbg !241, !tbaa !262
-  %631 = load half, half* %39, align 2, !dbg !241, !tbaa !257
-  %632 = or i32 %579, 13, !dbg !241
-  %633 = sext i32 %632 to i64, !dbg !241
-  %634 = getelementptr inbounds half, half* %C, i64 %633, !dbg !241
-  store half %631, half* %634, align 2, !dbg !241, !tbaa !262
-  %635 = load half, half* %40, align 4, !dbg !241, !tbaa !257
-  %636 = or i32 %579, 14, !dbg !241
-  %637 = sext i32 %636 to i64, !dbg !241
-  %638 = getelementptr inbounds half, half* %C, i64 %637, !dbg !241
-  store half %635, half* %638, align 4, !dbg !241, !tbaa !262
-  %639 = load half, half* %41, align 2, !dbg !241, !tbaa !257
-  %640 = or i32 %579, 15, !dbg !241
-  %641 = sext i32 %640 to i64, !dbg !241
-  %642 = getelementptr inbounds half, half* %C, i64 %641, !dbg !241
-  store half %639, half* %642, align 2, !dbg !241, !tbaa !262
-  %643 = load half, half* %42, align 16, !dbg !241, !tbaa !257
-  %644 = or i32 %579, 16, !dbg !241
-  %645 = sext i32 %644 to i64, !dbg !241
-  %646 = getelementptr inbounds half, half* %C, i64 %645, !dbg !241
-  store half %643, half* %646, align 32, !dbg !241, !tbaa !262
-  %647 = load half, half* %43, align 2, !dbg !241, !tbaa !257
-  %648 = or i32 %579, 17, !dbg !241
-  %649 = sext i32 %648 to i64, !dbg !241
-  %650 = getelementptr inbounds half, half* %C, i64 %649, !dbg !241
-  store half %647, half* %650, align 2, !dbg !241, !tbaa !262
-  %651 = load half, half* %44, align 4, !dbg !241, !tbaa !257
-  %652 = or i32 %579, 18, !dbg !241
-  %653 = sext i32 %652 to i64, !dbg !241
-  %654 = getelementptr inbounds half, half* %C, i64 %653, !dbg !241
-  store half %651, half* %654, align 4, !dbg !241, !tbaa !262
-  %655 = load half, half* %45, align 2, !dbg !241, !tbaa !257
-  %656 = or i32 %579, 19, !dbg !241
-  %657 = sext i32 %656 to i64, !dbg !241
-  %658 = getelementptr inbounds half, half* %C, i64 %657, !dbg !241
-  store half %655, half* %658, align 2, !dbg !241, !tbaa !262
-  %659 = load half, half* %46, align 8, !dbg !241, !tbaa !257
-  %660 = or i32 %579, 20, !dbg !241
-  %661 = sext i32 %660 to i64, !dbg !241
-  %662 = getelementptr inbounds half, half* %C, i64 %661, !dbg !241
-  store half %659, half* %662, align 8, !dbg !241, !tbaa !262
-  %663 = load half, half* %47, align 2, !dbg !241, !tbaa !257
-  %664 = or i32 %579, 21, !dbg !241
-  %665 = sext i32 %664 to i64, !dbg !241
-  %666 = getelementptr inbounds half, half* %C, i64 %665, !dbg !241
-  store half %663, half* %666, align 2, !dbg !241, !tbaa !262
-  %667 = load half, half* %48, align 4, !dbg !241, !tbaa !257
-  %668 = or i32 %579, 22, !dbg !241
-  %669 = sext i32 %668 to i64, !dbg !241
-  %670 = getelementptr inbounds half, half* %C, i64 %669, !dbg !241
-  store half %667, half* %670, align 4, !dbg !241, !tbaa !262
-  %671 = load half, half* %49, align 2, !dbg !241, !tbaa !257
-  %672 = or i32 %579, 23, !dbg !241
-  %673 = sext i32 %672 to i64, !dbg !241
-  %674 = getelementptr inbounds half, half* %C, i64 %673, !dbg !241
-  store half %671, half* %674, align 2, !dbg !241, !tbaa !262
-  %675 = load half, half* %50, align 16, !dbg !241, !tbaa !257
-  %676 = or i32 %579, 24, !dbg !241
-  %677 = sext i32 %676 to i64, !dbg !241
-  %678 = getelementptr inbounds half, half* %C, i64 %677, !dbg !241
-  store half %675, half* %678, align 16, !dbg !241, !tbaa !262
-  %679 = load half, half* %51, align 2, !dbg !241, !tbaa !257
-  %680 = or i32 %579, 25, !dbg !241
-  %681 = sext i32 %680 to i64, !dbg !241
-  %682 = getelementptr inbounds half, half* %C, i64 %681, !dbg !241
-  store half %679, half* %682, align 2, !dbg !241, !tbaa !262
-  %683 = load half, half* %52, align 4, !dbg !241, !tbaa !257
-  %684 = or i32 %579, 26, !dbg !241
-  %685 = sext i32 %684 to i64, !dbg !241
-  %686 = getelementptr inbounds half, half* %C, i64 %685, !dbg !241
-  store half %683, half* %686, align 4, !dbg !241, !tbaa !262
-  %687 = load half, half* %53, align 2, !dbg !241, !tbaa !257
-  %688 = or i32 %579, 27, !dbg !241
-  %689 = sext i32 %688 to i64, !dbg !241
-  %690 = getelementptr inbounds half, half* %C, i64 %689, !dbg !241
-  store half %687, half* %690, align 2, !dbg !241, !tbaa !262
-  %691 = load half, half* %54, align 8, !dbg !241, !tbaa !257
-  %692 = or i32 %579, 28, !dbg !241
-  %693 = sext i32 %692 to i64, !dbg !241
-  %694 = getelementptr inbounds half, half* %C, i64 %693, !dbg !241
-  store half %691, half* %694, align 8, !dbg !241, !tbaa !262
-  %695 = load half, half* %55, align 2, !dbg !241, !tbaa !257
-  %696 = or i32 %579, 29, !dbg !241
-  %697 = sext i32 %696 to i64, !dbg !241
-  %698 = getelementptr inbounds half, half* %C, i64 %697, !dbg !241
-  store half %695, half* %698, align 2, !dbg !241, !tbaa !262
-  %699 = load half, half* %56, align 4, !dbg !241, !tbaa !257
-  %700 = or i32 %579, 30, !dbg !241
-  %701 = sext i32 %700 to i64, !dbg !241
-  %702 = getelementptr inbounds half, half* %C, i64 %701, !dbg !241
-  store half %699, half* %702, align 4, !dbg !241, !tbaa !262
-  %703 = load half, half* %57, align 2, !dbg !241, !tbaa !257
-  %704 = or i32 %579, 31, !dbg !241
-  %705 = sext i32 %704 to i64, !dbg !241
-  %706 = getelementptr inbounds half, half* %C, i64 %705, !dbg !241
-  store half %703, half* %706, align 2, !dbg !241, !tbaa !262
-  call void @llvm.dbg.declare(metadata i64 1, metadata !259, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 1, metadata !259, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 32, metadata !260, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 32, metadata !260, metadata !DIExpression()), !dbg !241
-  %707 = or i64 %580, 32, !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %707, metadata !261, metadata !DIExpression()), !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %707, metadata !261, metadata !DIExpression()), !dbg !241
-  %708 = load half, half* %58, align 16, !dbg !241, !tbaa !257
-  %709 = getelementptr inbounds half, half* %C, i64 %707, !dbg !241
-  store half %708, half* %709, align 64, !dbg !241, !tbaa !262
-  %710 = load half, half* %59, align 2, !dbg !241, !tbaa !257
-  %711 = or i32 %579, 33, !dbg !241
-  %712 = sext i32 %711 to i64, !dbg !241
-  %713 = getelementptr inbounds half, half* %C, i64 %712, !dbg !241
-  store half %710, half* %713, align 2, !dbg !241, !tbaa !262
-  %714 = load half, half* %60, align 4, !dbg !241, !tbaa !257
-  %715 = or i32 %579, 34, !dbg !241
-  %716 = sext i32 %715 to i64, !dbg !241
-  %717 = getelementptr inbounds half, half* %C, i64 %716, !dbg !241
-  store half %714, half* %717, align 4, !dbg !241, !tbaa !262
-  %718 = load half, half* %61, align 2, !dbg !241, !tbaa !257
-  %719 = or i32 %579, 35, !dbg !241
-  %720 = sext i32 %719 to i64, !dbg !241
-  %721 = getelementptr inbounds half, half* %C, i64 %720, !dbg !241
-  store half %718, half* %721, align 2, !dbg !241, !tbaa !262
-  %722 = load half, half* %62, align 8, !dbg !241, !tbaa !257
-  %723 = or i32 %579, 36, !dbg !241
-  %724 = sext i32 %723 to i64, !dbg !241
-  %725 = getelementptr inbounds half, half* %C, i64 %724, !dbg !241
-  store half %722, half* %725, align 8, !dbg !241, !tbaa !262
-  %726 = load half, half* %63, align 2, !dbg !241, !tbaa !257
-  %727 = or i32 %579, 37, !dbg !241
-  %728 = sext i32 %727 to i64, !dbg !241
-  %729 = getelementptr inbounds half, half* %C, i64 %728, !dbg !241
-  store half %726, half* %729, align 2, !dbg !241, !tbaa !262
-  %730 = load half, half* %64, align 4, !dbg !241, !tbaa !257
-  %731 = or i32 %579, 38, !dbg !241
-  %732 = sext i32 %731 to i64, !dbg !241
-  %733 = getelementptr inbounds half, half* %C, i64 %732, !dbg !241
-  store half %730, half* %733, align 4, !dbg !241, !tbaa !262
-  %734 = load half, half* %65, align 2, !dbg !241, !tbaa !257
-  %735 = or i32 %579, 39, !dbg !241
-  %736 = sext i32 %735 to i64, !dbg !241
-  %737 = getelementptr inbounds half, half* %C, i64 %736, !dbg !241
-  store half %734, half* %737, align 2, !dbg !241, !tbaa !262
-  %738 = load half, half* %66, align 16, !dbg !241, !tbaa !257
-  %739 = or i32 %579, 40, !dbg !241
-  %740 = sext i32 %739 to i64, !dbg !241
-  %741 = getelementptr inbounds half, half* %C, i64 %740, !dbg !241
-  store half %738, half* %741, align 16, !dbg !241, !tbaa !262
-  %742 = load half, half* %67, align 2, !dbg !241, !tbaa !257
-  %743 = or i32 %579, 41, !dbg !241
-  %744 = sext i32 %743 to i64, !dbg !241
-  %745 = getelementptr inbounds half, half* %C, i64 %744, !dbg !241
-  store half %742, half* %745, align 2, !dbg !241, !tbaa !262
-  %746 = load half, half* %68, align 4, !dbg !241, !tbaa !257
-  %747 = or i32 %579, 42, !dbg !241
-  %748 = sext i32 %747 to i64, !dbg !241
-  %749 = getelementptr inbounds half, half* %C, i64 %748, !dbg !241
-  store half %746, half* %749, align 4, !dbg !241, !tbaa !262
-  %750 = load half, half* %69, align 2, !dbg !241, !tbaa !257
-  %751 = or i32 %579, 43, !dbg !241
-  %752 = sext i32 %751 to i64, !dbg !241
-  %753 = getelementptr inbounds half, half* %C, i64 %752, !dbg !241
-  store half %750, half* %753, align 2, !dbg !241, !tbaa !262
-  %754 = load half, half* %70, align 8, !dbg !241, !tbaa !257
-  %755 = or i32 %579, 44, !dbg !241
-  %756 = sext i32 %755 to i64, !dbg !241
-  %757 = getelementptr inbounds half, half* %C, i64 %756, !dbg !241
-  store half %754, half* %757, align 8, !dbg !241, !tbaa !262
-  %758 = load half, half* %71, align 2, !dbg !241, !tbaa !257
-  %759 = or i32 %579, 45, !dbg !241
-  %760 = sext i32 %759 to i64, !dbg !241
-  %761 = getelementptr inbounds half, half* %C, i64 %760, !dbg !241
-  store half %758, half* %761, align 2, !dbg !241, !tbaa !262
-  %762 = load half, half* %72, align 4, !dbg !241, !tbaa !257
-  %763 = or i32 %579, 46, !dbg !241
-  %764 = sext i32 %763 to i64, !dbg !241
-  %765 = getelementptr inbounds half, half* %C, i64 %764, !dbg !241
-  store half %762, half* %765, align 4, !dbg !241, !tbaa !262
-  %766 = load half, half* %73, align 2, !dbg !241, !tbaa !257
-  %767 = or i32 %579, 47, !dbg !241
-  %768 = sext i32 %767 to i64, !dbg !241
-  %769 = getelementptr inbounds half, half* %C, i64 %768, !dbg !241
-  store half %766, half* %769, align 2, !dbg !241, !tbaa !262
-  %770 = load half, half* %74, align 16, !dbg !241, !tbaa !257
-  %771 = or i32 %579, 48, !dbg !241
-  %772 = sext i32 %771 to i64, !dbg !241
-  %773 = getelementptr inbounds half, half* %C, i64 %772, !dbg !241
-  store half %770, half* %773, align 32, !dbg !241, !tbaa !262
-  %774 = load half, half* %75, align 2, !dbg !241, !tbaa !257
-  %775 = or i32 %579, 49, !dbg !241
-  %776 = sext i32 %775 to i64, !dbg !241
-  %777 = getelementptr inbounds half, half* %C, i64 %776, !dbg !241
-  store half %774, half* %777, align 2, !dbg !241, !tbaa !262
-  %778 = load half, half* %76, align 4, !dbg !241, !tbaa !257
-  %779 = or i32 %579, 50, !dbg !241
-  %780 = sext i32 %779 to i64, !dbg !241
-  %781 = getelementptr inbounds half, half* %C, i64 %780, !dbg !241
-  store half %778, half* %781, align 4, !dbg !241, !tbaa !262
-  %782 = load half, half* %77, align 2, !dbg !241, !tbaa !257
-  %783 = or i32 %579, 51, !dbg !241
-  %784 = sext i32 %783 to i64, !dbg !241
-  %785 = getelementptr inbounds half, half* %C, i64 %784, !dbg !241
-  store half %782, half* %785, align 2, !dbg !241, !tbaa !262
-  %786 = load half, half* %78, align 8, !dbg !241, !tbaa !257
-  %787 = or i32 %579, 52, !dbg !241
-  %788 = sext i32 %787 to i64, !dbg !241
-  %789 = getelementptr inbounds half, half* %C, i64 %788, !dbg !241
-  store half %786, half* %789, align 8, !dbg !241, !tbaa !262
-  %790 = load half, half* %79, align 2, !dbg !241, !tbaa !257
-  %791 = or i32 %579, 53, !dbg !241
-  %792 = sext i32 %791 to i64, !dbg !241
-  %793 = getelementptr inbounds half, half* %C, i64 %792, !dbg !241
-  store half %790, half* %793, align 2, !dbg !241, !tbaa !262
-  %794 = load half, half* %80, align 4, !dbg !241, !tbaa !257
-  %795 = or i32 %579, 54, !dbg !241
-  %796 = sext i32 %795 to i64, !dbg !241
-  %797 = getelementptr inbounds half, half* %C, i64 %796, !dbg !241
-  store half %794, half* %797, align 4, !dbg !241, !tbaa !262
-  %798 = load half, half* %81, align 2, !dbg !241, !tbaa !257
-  %799 = or i32 %579, 55, !dbg !241
-  %800 = sext i32 %799 to i64, !dbg !241
-  %801 = getelementptr inbounds half, half* %C, i64 %800, !dbg !241
-  store half %798, half* %801, align 2, !dbg !241, !tbaa !262
-  %802 = load half, half* %82, align 16, !dbg !241, !tbaa !257
-  %803 = or i32 %579, 56, !dbg !241
-  %804 = sext i32 %803 to i64, !dbg !241
-  %805 = getelementptr inbounds half, half* %C, i64 %804, !dbg !241
-  store half %802, half* %805, align 16, !dbg !241, !tbaa !262
-  %806 = load half, half* %83, align 2, !dbg !241, !tbaa !257
-  %807 = or i32 %579, 57, !dbg !241
-  %808 = sext i32 %807 to i64, !dbg !241
-  %809 = getelementptr inbounds half, half* %C, i64 %808, !dbg !241
-  store half %806, half* %809, align 2, !dbg !241, !tbaa !262
-  %810 = load half, half* %84, align 4, !dbg !241, !tbaa !257
-  %811 = or i32 %579, 58, !dbg !241
-  %812 = sext i32 %811 to i64, !dbg !241
-  %813 = getelementptr inbounds half, half* %C, i64 %812, !dbg !241
-  store half %810, half* %813, align 4, !dbg !241, !tbaa !262
-  %814 = load half, half* %85, align 2, !dbg !241, !tbaa !257
-  %815 = or i32 %579, 59, !dbg !241
-  %816 = sext i32 %815 to i64, !dbg !241
-  %817 = getelementptr inbounds half, half* %C, i64 %816, !dbg !241
-  store half %814, half* %817, align 2, !dbg !241, !tbaa !262
-  %818 = load half, half* %86, align 8, !dbg !241, !tbaa !257
-  %819 = or i32 %579, 60, !dbg !241
-  %820 = sext i32 %819 to i64, !dbg !241
-  %821 = getelementptr inbounds half, half* %C, i64 %820, !dbg !241
-  store half %818, half* %821, align 8, !dbg !241, !tbaa !262
-  %822 = load half, half* %87, align 2, !dbg !241, !tbaa !257
-  %823 = or i32 %579, 61, !dbg !241
-  %824 = sext i32 %823 to i64, !dbg !241
-  %825 = getelementptr inbounds half, half* %C, i64 %824, !dbg !241
-  store half %822, half* %825, align 2, !dbg !241, !tbaa !262
-  %826 = load half, half* %88, align 4, !dbg !241, !tbaa !257
-  %827 = or i32 %579, 62, !dbg !241
-  %828 = sext i32 %827 to i64, !dbg !241
-  %829 = getelementptr inbounds half, half* %C, i64 %828, !dbg !241
-  store half %826, half* %829, align 4, !dbg !241, !tbaa !262
-  %830 = load half, half* %89, align 2, !dbg !241, !tbaa !257
-  %831 = or i32 %579, 63, !dbg !241
-  %832 = sext i32 %831 to i64, !dbg !241
-  %833 = getelementptr inbounds half, half* %C, i64 %832, !dbg !241
-  store half %830, half* %833, align 2, !dbg !241, !tbaa !262
-  call void @llvm.dbg.declare(metadata i64 2, metadata !259, metadata !DIExpression()), !dbg !241
-  %indvars.iv.next21 = add nsw i64 %indvars.iv20, 1, !dbg !241
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next21, metadata !242, metadata !DIExpression()), !dbg !241
-  %exitcond23.not = icmp eq i64 %indvars.iv.next21, %wide.trip.count, !dbg !241
-  br i1 %exitcond23.not, label %for_end_m.outer, label %for_body_m.outer, !dbg !241, !prof !33
+  call void @llvm.dbg.declare(metadata i64 0, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !249, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !249, metadata !DIExpression()), !dbg !237
+  %408 = load <8 x half>, ptr %CBits2, align 16, !dbg !237, !tbaa !250
+  %409 = fpext <8 x half> %408 to <8 x float>, !dbg !237
+  %410 = load <8 x half>, ptr %19, align 16, !dbg !237, !tbaa !250
+  %411 = fpext <8 x half> %410 to <8 x float>, !dbg !237
+  %412 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %409, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %411), !dbg !237
+  %413 = fptrunc <8 x float> %412 to <8 x half>, !dbg !237
+  call void @llvm.dbg.value(metadata <8 x half> %413, metadata !252, metadata !DIExpression()), !dbg !237
+  %414 = load <8 x half>, ptr %20, align 16, !dbg !237, !tbaa !250
+  %415 = fpext <8 x half> %414 to <8 x float>, !dbg !237
+  %416 = load <8 x half>, ptr %21, align 16, !dbg !237, !tbaa !250
+  %417 = fpext <8 x half> %416 to <8 x float>, !dbg !237
+  %418 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %415, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %417), !dbg !237
+  %419 = fptrunc <8 x float> %418 to <8 x half>, !dbg !237
+  %420 = load <8 x half>, ptr %22, align 16, !dbg !237, !tbaa !250
+  %421 = fpext <8 x half> %420 to <8 x float>, !dbg !237
+  %422 = load <8 x half>, ptr %23, align 16, !dbg !237, !tbaa !250
+  %423 = fpext <8 x half> %422 to <8 x float>, !dbg !237
+  %424 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %421, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %423), !dbg !237
+  %425 = fptrunc <8 x float> %424 to <8 x half>, !dbg !237
+  %426 = load <8 x half>, ptr %24, align 16, !dbg !237, !tbaa !250
+  %427 = fpext <8 x half> %426 to <8 x float>, !dbg !237
+  %428 = load <8 x half>, ptr %25, align 16, !dbg !237, !tbaa !250
+  %429 = fpext <8 x half> %428 to <8 x float>, !dbg !237
+  %430 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %427, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %429), !dbg !237
+  %431 = fptrunc <8 x float> %430 to <8 x half>, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 1, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 1, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 32, metadata !249, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 32, metadata !249, metadata !DIExpression()), !dbg !237
+  %432 = load <8 x half>, ptr %26, align 16, !dbg !237, !tbaa !250
+  %433 = fpext <8 x half> %432 to <8 x float>, !dbg !237
+  %434 = load <8 x half>, ptr %27, align 16, !dbg !237, !tbaa !250
+  %435 = fpext <8 x half> %434 to <8 x float>, !dbg !237
+  %436 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %433, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %435), !dbg !237
+  %437 = fptrunc <8 x float> %436 to <8 x half>, !dbg !237
+  %438 = load <8 x half>, ptr %28, align 16, !dbg !237, !tbaa !250
+  %439 = fpext <8 x half> %438 to <8 x float>, !dbg !237
+  %440 = load <8 x half>, ptr %29, align 16, !dbg !237, !tbaa !250
+  %441 = fpext <8 x half> %440 to <8 x float>, !dbg !237
+  %442 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %439, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %441), !dbg !237
+  %443 = fptrunc <8 x float> %442 to <8 x half>, !dbg !237
+  %444 = load <8 x half>, ptr %30, align 16, !dbg !237, !tbaa !250
+  %445 = fpext <8 x half> %444 to <8 x float>, !dbg !237
+  %446 = load <8 x half>, ptr %31, align 16, !dbg !237, !tbaa !250
+  %447 = fpext <8 x half> %446 to <8 x float>, !dbg !237
+  %448 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %445, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %447), !dbg !237
+  %449 = fptrunc <8 x float> %448 to <8 x half>, !dbg !237
+  %450 = load <8 x half>, ptr %32, align 16, !dbg !237, !tbaa !250
+  %451 = fpext <8 x half> %450 to <8 x float>, !dbg !237
+  %452 = load <8 x half>, ptr %33, align 16, !dbg !237, !tbaa !250
+  %453 = fpext <8 x half> %452 to <8 x float>, !dbg !237
+  %454 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %451, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %453), !dbg !237
+  %455 = fptrunc <8 x float> %454 to <8 x half>, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 2, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 2, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 128, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 128, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !249, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !249, metadata !DIExpression()), !dbg !237
+  %456 = load <8 x half>, ptr %34, align 16, !dbg !237, !tbaa !250
+  %457 = fpext <8 x half> %456 to <8 x float>, !dbg !237
+  %458 = load <8 x half>, ptr %35, align 16, !dbg !237, !tbaa !250
+  %459 = fpext <8 x half> %458 to <8 x float>, !dbg !237
+  %460 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %457, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %459), !dbg !237
+  %461 = fptrunc <8 x float> %460 to <8 x half>, !dbg !237
+  %462 = load <8 x half>, ptr %36, align 16, !dbg !237, !tbaa !250
+  %463 = fpext <8 x half> %462 to <8 x float>, !dbg !237
+  %464 = load <8 x half>, ptr %37, align 16, !dbg !237, !tbaa !250
+  %465 = fpext <8 x half> %464 to <8 x float>, !dbg !237
+  %466 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %463, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %465), !dbg !237
+  %467 = fptrunc <8 x float> %466 to <8 x half>, !dbg !237
+  %468 = load <8 x half>, ptr %38, align 16, !dbg !237, !tbaa !250
+  %469 = fpext <8 x half> %468 to <8 x float>, !dbg !237
+  %470 = load <8 x half>, ptr %39, align 16, !dbg !237, !tbaa !250
+  %471 = fpext <8 x half> %470 to <8 x float>, !dbg !237
+  %472 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %469, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %471), !dbg !237
+  %473 = fptrunc <8 x float> %472 to <8 x half>, !dbg !237
+  %474 = load <8 x half>, ptr %40, align 16, !dbg !237, !tbaa !250
+  %475 = fpext <8 x half> %474 to <8 x float>, !dbg !237
+  %476 = load <8 x half>, ptr %41, align 16, !dbg !237, !tbaa !250
+  %477 = fpext <8 x half> %476 to <8 x float>, !dbg !237
+  %478 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %475, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %477), !dbg !237
+  %479 = fptrunc <8 x float> %478 to <8 x half>, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 3, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 3, metadata !247, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 192, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 192, metadata !248, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 96, metadata !249, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 96, metadata !249, metadata !DIExpression()), !dbg !237
+  %480 = load <8 x half>, ptr %42, align 16, !dbg !237, !tbaa !250
+  %481 = fpext <8 x half> %480 to <8 x float>, !dbg !237
+  %482 = load <8 x half>, ptr %43, align 16, !dbg !237, !tbaa !250
+  %483 = fpext <8 x half> %482 to <8 x float>, !dbg !237
+  %484 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %481, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %483), !dbg !237
+  %485 = fptrunc <8 x float> %484 to <8 x half>, !dbg !237
+  %486 = load <8 x half>, ptr %44, align 16, !dbg !237, !tbaa !250
+  %487 = fpext <8 x half> %486 to <8 x float>, !dbg !237
+  %488 = load <8 x half>, ptr %45, align 16, !dbg !237, !tbaa !250
+  %489 = fpext <8 x half> %488 to <8 x float>, !dbg !237
+  %490 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %487, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %489), !dbg !237
+  %491 = fptrunc <8 x float> %490 to <8 x half>, !dbg !237
+  %492 = load <8 x half>, ptr %46, align 16, !dbg !237, !tbaa !250
+  %493 = fpext <8 x half> %492 to <8 x float>, !dbg !237
+  %494 = load <8 x half>, ptr %47, align 16, !dbg !237, !tbaa !250
+  %495 = fpext <8 x half> %494 to <8 x float>, !dbg !237
+  %496 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %493, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %495), !dbg !237
+  %497 = fptrunc <8 x float> %496 to <8 x half>, !dbg !237
+  %498 = load <8 x half>, ptr %48, align 16, !dbg !237, !tbaa !250
+  %499 = fpext <8 x half> %498 to <8 x float>, !dbg !237
+  %500 = load <8 x half>, ptr %49, align 16, !dbg !237, !tbaa !250
+  %501 = fpext <8 x half> %500 to <8 x float>, !dbg !237
+  %502 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %499, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %501), !dbg !237
+  %503 = fptrunc <8 x float> %502 to <8 x half>, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 4, metadata !247, metadata !DIExpression()), !dbg !237
+  %504 = trunc i64 %indvars.iv20 to i32
+  %505 = shl nsw i32 %504, 7
+  call void @llvm.dbg.declare(metadata i32 0, metadata !253, metadata !DIExpression()), !dbg !237
+  %506 = sext i32 %505 to i64, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !254, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 0, metadata !254, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %506, metadata !255, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %506, metadata !255, metadata !DIExpression()), !dbg !237
+  %C.global1.sroa.0.0.vec.extract = extractelement <8 x half> %413, i64 0, !dbg !237
+  %507 = getelementptr inbounds half, ptr %C, i64 %506, !dbg !237
+  store half %C.global1.sroa.0.0.vec.extract, ptr %507, align 64, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.2.vec.extract = extractelement <8 x half> %413, i64 1, !dbg !237
+  %508 = or i32 %505, 1, !dbg !237
+  %509 = sext i32 %508 to i64, !dbg !237
+  %510 = getelementptr inbounds half, ptr %C, i64 %509, !dbg !237
+  store half %C.global1.sroa.0.2.vec.extract, ptr %510, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.4.vec.extract = extractelement <8 x half> %413, i64 2, !dbg !237
+  %511 = or i32 %505, 2, !dbg !237
+  %512 = sext i32 %511 to i64, !dbg !237
+  %513 = getelementptr inbounds half, ptr %C, i64 %512, !dbg !237
+  store half %C.global1.sroa.0.4.vec.extract, ptr %513, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.6.vec.extract = extractelement <8 x half> %413, i64 3, !dbg !237
+  %514 = or i32 %505, 3, !dbg !237
+  %515 = sext i32 %514 to i64, !dbg !237
+  %516 = getelementptr inbounds half, ptr %C, i64 %515, !dbg !237
+  store half %C.global1.sroa.0.6.vec.extract, ptr %516, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.8.vec.extract = extractelement <8 x half> %413, i64 4, !dbg !237
+  %517 = or i32 %505, 4, !dbg !237
+  %518 = sext i32 %517 to i64, !dbg !237
+  %519 = getelementptr inbounds half, ptr %C, i64 %518, !dbg !237
+  store half %C.global1.sroa.0.8.vec.extract, ptr %519, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.10.vec.extract = extractelement <8 x half> %413, i64 5, !dbg !237
+  %520 = or i32 %505, 5, !dbg !237
+  %521 = sext i32 %520 to i64, !dbg !237
+  %522 = getelementptr inbounds half, ptr %C, i64 %521, !dbg !237
+  store half %C.global1.sroa.0.10.vec.extract, ptr %522, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.12.vec.extract = extractelement <8 x half> %413, i64 6, !dbg !237
+  %523 = or i32 %505, 6, !dbg !237
+  %524 = sext i32 %523 to i64, !dbg !237
+  %525 = getelementptr inbounds half, ptr %C, i64 %524, !dbg !237
+  store half %C.global1.sroa.0.12.vec.extract, ptr %525, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.0.14.vec.extract = extractelement <8 x half> %413, i64 7, !dbg !237
+  %526 = or i32 %505, 7, !dbg !237
+  %527 = sext i32 %526 to i64, !dbg !237
+  %528 = getelementptr inbounds half, ptr %C, i64 %527, !dbg !237
+  store half %C.global1.sroa.0.14.vec.extract, ptr %528, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.16.vec.extract = extractelement <8 x half> %419, i64 0, !dbg !237
+  %529 = or i32 %505, 8, !dbg !237
+  %530 = sext i32 %529 to i64, !dbg !237
+  %531 = getelementptr inbounds half, ptr %C, i64 %530, !dbg !237
+  store half %C.global1.sroa.9.16.vec.extract, ptr %531, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.18.vec.extract = extractelement <8 x half> %419, i64 1, !dbg !237
+  %532 = or i32 %505, 9, !dbg !237
+  %533 = sext i32 %532 to i64, !dbg !237
+  %534 = getelementptr inbounds half, ptr %C, i64 %533, !dbg !237
+  store half %C.global1.sroa.9.18.vec.extract, ptr %534, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.20.vec.extract = extractelement <8 x half> %419, i64 2, !dbg !237
+  %535 = or i32 %505, 10, !dbg !237
+  %536 = sext i32 %535 to i64, !dbg !237
+  %537 = getelementptr inbounds half, ptr %C, i64 %536, !dbg !237
+  store half %C.global1.sroa.9.20.vec.extract, ptr %537, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.22.vec.extract = extractelement <8 x half> %419, i64 3, !dbg !237
+  %538 = or i32 %505, 11, !dbg !237
+  %539 = sext i32 %538 to i64, !dbg !237
+  %540 = getelementptr inbounds half, ptr %C, i64 %539, !dbg !237
+  store half %C.global1.sroa.9.22.vec.extract, ptr %540, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.24.vec.extract = extractelement <8 x half> %419, i64 4, !dbg !237
+  %541 = or i32 %505, 12, !dbg !237
+  %542 = sext i32 %541 to i64, !dbg !237
+  %543 = getelementptr inbounds half, ptr %C, i64 %542, !dbg !237
+  store half %C.global1.sroa.9.24.vec.extract, ptr %543, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.26.vec.extract = extractelement <8 x half> %419, i64 5, !dbg !237
+  %544 = or i32 %505, 13, !dbg !237
+  %545 = sext i32 %544 to i64, !dbg !237
+  %546 = getelementptr inbounds half, ptr %C, i64 %545, !dbg !237
+  store half %C.global1.sroa.9.26.vec.extract, ptr %546, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.28.vec.extract = extractelement <8 x half> %419, i64 6, !dbg !237
+  %547 = or i32 %505, 14, !dbg !237
+  %548 = sext i32 %547 to i64, !dbg !237
+  %549 = getelementptr inbounds half, ptr %C, i64 %548, !dbg !237
+  store half %C.global1.sroa.9.28.vec.extract, ptr %549, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.9.30.vec.extract = extractelement <8 x half> %419, i64 7, !dbg !237
+  %550 = or i32 %505, 15, !dbg !237
+  %551 = sext i32 %550 to i64, !dbg !237
+  %552 = getelementptr inbounds half, ptr %C, i64 %551, !dbg !237
+  store half %C.global1.sroa.9.30.vec.extract, ptr %552, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.32.vec.extract = extractelement <8 x half> %425, i64 0, !dbg !237
+  %553 = or i32 %505, 16, !dbg !237
+  %554 = sext i32 %553 to i64, !dbg !237
+  %555 = getelementptr inbounds half, ptr %C, i64 %554, !dbg !237
+  store half %C.global1.sroa.18.32.vec.extract, ptr %555, align 32, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.34.vec.extract = extractelement <8 x half> %425, i64 1, !dbg !237
+  %556 = or i32 %505, 17, !dbg !237
+  %557 = sext i32 %556 to i64, !dbg !237
+  %558 = getelementptr inbounds half, ptr %C, i64 %557, !dbg !237
+  store half %C.global1.sroa.18.34.vec.extract, ptr %558, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.36.vec.extract = extractelement <8 x half> %425, i64 2, !dbg !237
+  %559 = or i32 %505, 18, !dbg !237
+  %560 = sext i32 %559 to i64, !dbg !237
+  %561 = getelementptr inbounds half, ptr %C, i64 %560, !dbg !237
+  store half %C.global1.sroa.18.36.vec.extract, ptr %561, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.38.vec.extract = extractelement <8 x half> %425, i64 3, !dbg !237
+  %562 = or i32 %505, 19, !dbg !237
+  %563 = sext i32 %562 to i64, !dbg !237
+  %564 = getelementptr inbounds half, ptr %C, i64 %563, !dbg !237
+  store half %C.global1.sroa.18.38.vec.extract, ptr %564, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.40.vec.extract = extractelement <8 x half> %425, i64 4, !dbg !237
+  %565 = or i32 %505, 20, !dbg !237
+  %566 = sext i32 %565 to i64, !dbg !237
+  %567 = getelementptr inbounds half, ptr %C, i64 %566, !dbg !237
+  store half %C.global1.sroa.18.40.vec.extract, ptr %567, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.42.vec.extract = extractelement <8 x half> %425, i64 5, !dbg !237
+  %568 = or i32 %505, 21, !dbg !237
+  %569 = sext i32 %568 to i64, !dbg !237
+  %570 = getelementptr inbounds half, ptr %C, i64 %569, !dbg !237
+  store half %C.global1.sroa.18.42.vec.extract, ptr %570, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.44.vec.extract = extractelement <8 x half> %425, i64 6, !dbg !237
+  %571 = or i32 %505, 22, !dbg !237
+  %572 = sext i32 %571 to i64, !dbg !237
+  %573 = getelementptr inbounds half, ptr %C, i64 %572, !dbg !237
+  store half %C.global1.sroa.18.44.vec.extract, ptr %573, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.18.46.vec.extract = extractelement <8 x half> %425, i64 7, !dbg !237
+  %574 = or i32 %505, 23, !dbg !237
+  %575 = sext i32 %574 to i64, !dbg !237
+  %576 = getelementptr inbounds half, ptr %C, i64 %575, !dbg !237
+  store half %C.global1.sroa.18.46.vec.extract, ptr %576, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.48.vec.extract = extractelement <8 x half> %431, i64 0, !dbg !237
+  %577 = or i32 %505, 24, !dbg !237
+  %578 = sext i32 %577 to i64, !dbg !237
+  %579 = getelementptr inbounds half, ptr %C, i64 %578, !dbg !237
+  store half %C.global1.sroa.27.48.vec.extract, ptr %579, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.50.vec.extract = extractelement <8 x half> %431, i64 1, !dbg !237
+  %580 = or i32 %505, 25, !dbg !237
+  %581 = sext i32 %580 to i64, !dbg !237
+  %582 = getelementptr inbounds half, ptr %C, i64 %581, !dbg !237
+  store half %C.global1.sroa.27.50.vec.extract, ptr %582, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.52.vec.extract = extractelement <8 x half> %431, i64 2, !dbg !237
+  %583 = or i32 %505, 26, !dbg !237
+  %584 = sext i32 %583 to i64, !dbg !237
+  %585 = getelementptr inbounds half, ptr %C, i64 %584, !dbg !237
+  store half %C.global1.sroa.27.52.vec.extract, ptr %585, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.54.vec.extract = extractelement <8 x half> %431, i64 3, !dbg !237
+  %586 = or i32 %505, 27, !dbg !237
+  %587 = sext i32 %586 to i64, !dbg !237
+  %588 = getelementptr inbounds half, ptr %C, i64 %587, !dbg !237
+  store half %C.global1.sroa.27.54.vec.extract, ptr %588, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.56.vec.extract = extractelement <8 x half> %431, i64 4, !dbg !237
+  %589 = or i32 %505, 28, !dbg !237
+  %590 = sext i32 %589 to i64, !dbg !237
+  %591 = getelementptr inbounds half, ptr %C, i64 %590, !dbg !237
+  store half %C.global1.sroa.27.56.vec.extract, ptr %591, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.58.vec.extract = extractelement <8 x half> %431, i64 5, !dbg !237
+  %592 = or i32 %505, 29, !dbg !237
+  %593 = sext i32 %592 to i64, !dbg !237
+  %594 = getelementptr inbounds half, ptr %C, i64 %593, !dbg !237
+  store half %C.global1.sroa.27.58.vec.extract, ptr %594, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.60.vec.extract = extractelement <8 x half> %431, i64 6, !dbg !237
+  %595 = or i32 %505, 30, !dbg !237
+  %596 = sext i32 %595 to i64, !dbg !237
+  %597 = getelementptr inbounds half, ptr %C, i64 %596, !dbg !237
+  store half %C.global1.sroa.27.60.vec.extract, ptr %597, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.27.62.vec.extract = extractelement <8 x half> %431, i64 7, !dbg !237
+  %598 = or i32 %505, 31, !dbg !237
+  %599 = sext i32 %598 to i64, !dbg !237
+  %600 = getelementptr inbounds half, ptr %C, i64 %599, !dbg !237
+  store half %C.global1.sroa.27.62.vec.extract, ptr %600, align 2, !dbg !237, !tbaa !256
+  call void @llvm.dbg.declare(metadata i64 1, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 1, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 32, metadata !254, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 32, metadata !254, metadata !DIExpression()), !dbg !237
+  %601 = or i64 %506, 32, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %601, metadata !255, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %601, metadata !255, metadata !DIExpression()), !dbg !237
+  %C.global1.sroa.36.64.vec.extract = extractelement <8 x half> %437, i64 0, !dbg !237
+  %602 = getelementptr inbounds half, ptr %C, i64 %601, !dbg !237
+  store half %C.global1.sroa.36.64.vec.extract, ptr %602, align 64, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.66.vec.extract = extractelement <8 x half> %437, i64 1, !dbg !237
+  %603 = or i32 %505, 33, !dbg !237
+  %604 = sext i32 %603 to i64, !dbg !237
+  %605 = getelementptr inbounds half, ptr %C, i64 %604, !dbg !237
+  store half %C.global1.sroa.36.66.vec.extract, ptr %605, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.68.vec.extract = extractelement <8 x half> %437, i64 2, !dbg !237
+  %606 = or i32 %505, 34, !dbg !237
+  %607 = sext i32 %606 to i64, !dbg !237
+  %608 = getelementptr inbounds half, ptr %C, i64 %607, !dbg !237
+  store half %C.global1.sroa.36.68.vec.extract, ptr %608, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.70.vec.extract = extractelement <8 x half> %437, i64 3, !dbg !237
+  %609 = or i32 %505, 35, !dbg !237
+  %610 = sext i32 %609 to i64, !dbg !237
+  %611 = getelementptr inbounds half, ptr %C, i64 %610, !dbg !237
+  store half %C.global1.sroa.36.70.vec.extract, ptr %611, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.72.vec.extract = extractelement <8 x half> %437, i64 4, !dbg !237
+  %612 = or i32 %505, 36, !dbg !237
+  %613 = sext i32 %612 to i64, !dbg !237
+  %614 = getelementptr inbounds half, ptr %C, i64 %613, !dbg !237
+  store half %C.global1.sroa.36.72.vec.extract, ptr %614, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.74.vec.extract = extractelement <8 x half> %437, i64 5, !dbg !237
+  %615 = or i32 %505, 37, !dbg !237
+  %616 = sext i32 %615 to i64, !dbg !237
+  %617 = getelementptr inbounds half, ptr %C, i64 %616, !dbg !237
+  store half %C.global1.sroa.36.74.vec.extract, ptr %617, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.76.vec.extract = extractelement <8 x half> %437, i64 6, !dbg !237
+  %618 = or i32 %505, 38, !dbg !237
+  %619 = sext i32 %618 to i64, !dbg !237
+  %620 = getelementptr inbounds half, ptr %C, i64 %619, !dbg !237
+  store half %C.global1.sroa.36.76.vec.extract, ptr %620, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.36.78.vec.extract = extractelement <8 x half> %437, i64 7, !dbg !237
+  %621 = or i32 %505, 39, !dbg !237
+  %622 = sext i32 %621 to i64, !dbg !237
+  %623 = getelementptr inbounds half, ptr %C, i64 %622, !dbg !237
+  store half %C.global1.sroa.36.78.vec.extract, ptr %623, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.80.vec.extract = extractelement <8 x half> %443, i64 0, !dbg !237
+  %624 = or i32 %505, 40, !dbg !237
+  %625 = sext i32 %624 to i64, !dbg !237
+  %626 = getelementptr inbounds half, ptr %C, i64 %625, !dbg !237
+  store half %C.global1.sroa.45.80.vec.extract, ptr %626, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.82.vec.extract = extractelement <8 x half> %443, i64 1, !dbg !237
+  %627 = or i32 %505, 41, !dbg !237
+  %628 = sext i32 %627 to i64, !dbg !237
+  %629 = getelementptr inbounds half, ptr %C, i64 %628, !dbg !237
+  store half %C.global1.sroa.45.82.vec.extract, ptr %629, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.84.vec.extract = extractelement <8 x half> %443, i64 2, !dbg !237
+  %630 = or i32 %505, 42, !dbg !237
+  %631 = sext i32 %630 to i64, !dbg !237
+  %632 = getelementptr inbounds half, ptr %C, i64 %631, !dbg !237
+  store half %C.global1.sroa.45.84.vec.extract, ptr %632, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.86.vec.extract = extractelement <8 x half> %443, i64 3, !dbg !237
+  %633 = or i32 %505, 43, !dbg !237
+  %634 = sext i32 %633 to i64, !dbg !237
+  %635 = getelementptr inbounds half, ptr %C, i64 %634, !dbg !237
+  store half %C.global1.sroa.45.86.vec.extract, ptr %635, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.88.vec.extract = extractelement <8 x half> %443, i64 4, !dbg !237
+  %636 = or i32 %505, 44, !dbg !237
+  %637 = sext i32 %636 to i64, !dbg !237
+  %638 = getelementptr inbounds half, ptr %C, i64 %637, !dbg !237
+  store half %C.global1.sroa.45.88.vec.extract, ptr %638, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.90.vec.extract = extractelement <8 x half> %443, i64 5, !dbg !237
+  %639 = or i32 %505, 45, !dbg !237
+  %640 = sext i32 %639 to i64, !dbg !237
+  %641 = getelementptr inbounds half, ptr %C, i64 %640, !dbg !237
+  store half %C.global1.sroa.45.90.vec.extract, ptr %641, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.92.vec.extract = extractelement <8 x half> %443, i64 6, !dbg !237
+  %642 = or i32 %505, 46, !dbg !237
+  %643 = sext i32 %642 to i64, !dbg !237
+  %644 = getelementptr inbounds half, ptr %C, i64 %643, !dbg !237
+  store half %C.global1.sroa.45.92.vec.extract, ptr %644, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.45.94.vec.extract = extractelement <8 x half> %443, i64 7, !dbg !237
+  %645 = or i32 %505, 47, !dbg !237
+  %646 = sext i32 %645 to i64, !dbg !237
+  %647 = getelementptr inbounds half, ptr %C, i64 %646, !dbg !237
+  store half %C.global1.sroa.45.94.vec.extract, ptr %647, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.96.vec.extract = extractelement <8 x half> %449, i64 0, !dbg !237
+  %648 = or i32 %505, 48, !dbg !237
+  %649 = sext i32 %648 to i64, !dbg !237
+  %650 = getelementptr inbounds half, ptr %C, i64 %649, !dbg !237
+  store half %C.global1.sroa.54.96.vec.extract, ptr %650, align 32, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.98.vec.extract = extractelement <8 x half> %449, i64 1, !dbg !237
+  %651 = or i32 %505, 49, !dbg !237
+  %652 = sext i32 %651 to i64, !dbg !237
+  %653 = getelementptr inbounds half, ptr %C, i64 %652, !dbg !237
+  store half %C.global1.sroa.54.98.vec.extract, ptr %653, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.100.vec.extract = extractelement <8 x half> %449, i64 2, !dbg !237
+  %654 = or i32 %505, 50, !dbg !237
+  %655 = sext i32 %654 to i64, !dbg !237
+  %656 = getelementptr inbounds half, ptr %C, i64 %655, !dbg !237
+  store half %C.global1.sroa.54.100.vec.extract, ptr %656, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.102.vec.extract = extractelement <8 x half> %449, i64 3, !dbg !237
+  %657 = or i32 %505, 51, !dbg !237
+  %658 = sext i32 %657 to i64, !dbg !237
+  %659 = getelementptr inbounds half, ptr %C, i64 %658, !dbg !237
+  store half %C.global1.sroa.54.102.vec.extract, ptr %659, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.104.vec.extract = extractelement <8 x half> %449, i64 4, !dbg !237
+  %660 = or i32 %505, 52, !dbg !237
+  %661 = sext i32 %660 to i64, !dbg !237
+  %662 = getelementptr inbounds half, ptr %C, i64 %661, !dbg !237
+  store half %C.global1.sroa.54.104.vec.extract, ptr %662, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.106.vec.extract = extractelement <8 x half> %449, i64 5, !dbg !237
+  %663 = or i32 %505, 53, !dbg !237
+  %664 = sext i32 %663 to i64, !dbg !237
+  %665 = getelementptr inbounds half, ptr %C, i64 %664, !dbg !237
+  store half %C.global1.sroa.54.106.vec.extract, ptr %665, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.108.vec.extract = extractelement <8 x half> %449, i64 6, !dbg !237
+  %666 = or i32 %505, 54, !dbg !237
+  %667 = sext i32 %666 to i64, !dbg !237
+  %668 = getelementptr inbounds half, ptr %C, i64 %667, !dbg !237
+  store half %C.global1.sroa.54.108.vec.extract, ptr %668, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.54.110.vec.extract = extractelement <8 x half> %449, i64 7, !dbg !237
+  %669 = or i32 %505, 55, !dbg !237
+  %670 = sext i32 %669 to i64, !dbg !237
+  %671 = getelementptr inbounds half, ptr %C, i64 %670, !dbg !237
+  store half %C.global1.sroa.54.110.vec.extract, ptr %671, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.112.vec.extract = extractelement <8 x half> %455, i64 0, !dbg !237
+  %672 = or i32 %505, 56, !dbg !237
+  %673 = sext i32 %672 to i64, !dbg !237
+  %674 = getelementptr inbounds half, ptr %C, i64 %673, !dbg !237
+  store half %C.global1.sroa.63.112.vec.extract, ptr %674, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.114.vec.extract = extractelement <8 x half> %455, i64 1, !dbg !237
+  %675 = or i32 %505, 57, !dbg !237
+  %676 = sext i32 %675 to i64, !dbg !237
+  %677 = getelementptr inbounds half, ptr %C, i64 %676, !dbg !237
+  store half %C.global1.sroa.63.114.vec.extract, ptr %677, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.116.vec.extract = extractelement <8 x half> %455, i64 2, !dbg !237
+  %678 = or i32 %505, 58, !dbg !237
+  %679 = sext i32 %678 to i64, !dbg !237
+  %680 = getelementptr inbounds half, ptr %C, i64 %679, !dbg !237
+  store half %C.global1.sroa.63.116.vec.extract, ptr %680, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.118.vec.extract = extractelement <8 x half> %455, i64 3, !dbg !237
+  %681 = or i32 %505, 59, !dbg !237
+  %682 = sext i32 %681 to i64, !dbg !237
+  %683 = getelementptr inbounds half, ptr %C, i64 %682, !dbg !237
+  store half %C.global1.sroa.63.118.vec.extract, ptr %683, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.120.vec.extract = extractelement <8 x half> %455, i64 4, !dbg !237
+  %684 = or i32 %505, 60, !dbg !237
+  %685 = sext i32 %684 to i64, !dbg !237
+  %686 = getelementptr inbounds half, ptr %C, i64 %685, !dbg !237
+  store half %C.global1.sroa.63.120.vec.extract, ptr %686, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.122.vec.extract = extractelement <8 x half> %455, i64 5, !dbg !237
+  %687 = or i32 %505, 61, !dbg !237
+  %688 = sext i32 %687 to i64, !dbg !237
+  %689 = getelementptr inbounds half, ptr %C, i64 %688, !dbg !237
+  store half %C.global1.sroa.63.122.vec.extract, ptr %689, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.124.vec.extract = extractelement <8 x half> %455, i64 6, !dbg !237
+  %690 = or i32 %505, 62, !dbg !237
+  %691 = sext i32 %690 to i64, !dbg !237
+  %692 = getelementptr inbounds half, ptr %C, i64 %691, !dbg !237
+  store half %C.global1.sroa.63.124.vec.extract, ptr %692, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.63.126.vec.extract = extractelement <8 x half> %455, i64 7, !dbg !237
+  %693 = or i32 %505, 63, !dbg !237
+  %694 = sext i32 %693 to i64, !dbg !237
+  %695 = getelementptr inbounds half, ptr %C, i64 %694, !dbg !237
+  store half %C.global1.sroa.63.126.vec.extract, ptr %695, align 2, !dbg !237, !tbaa !256
+  call void @llvm.dbg.declare(metadata i64 2, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 2, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !254, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 64, metadata !254, metadata !DIExpression()), !dbg !237
+  %696 = or i64 %506, 64, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %696, metadata !255, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %696, metadata !255, metadata !DIExpression()), !dbg !237
+  %C.global1.sroa.72.128.vec.extract = extractelement <8 x half> %461, i64 0, !dbg !237
+  %697 = getelementptr inbounds half, ptr %C, i64 %696, !dbg !237
+  store half %C.global1.sroa.72.128.vec.extract, ptr %697, align 64, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.130.vec.extract = extractelement <8 x half> %461, i64 1, !dbg !237
+  %698 = or i32 %505, 65, !dbg !237
+  %699 = sext i32 %698 to i64, !dbg !237
+  %700 = getelementptr inbounds half, ptr %C, i64 %699, !dbg !237
+  store half %C.global1.sroa.72.130.vec.extract, ptr %700, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.132.vec.extract = extractelement <8 x half> %461, i64 2, !dbg !237
+  %701 = or i32 %505, 66, !dbg !237
+  %702 = sext i32 %701 to i64, !dbg !237
+  %703 = getelementptr inbounds half, ptr %C, i64 %702, !dbg !237
+  store half %C.global1.sroa.72.132.vec.extract, ptr %703, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.134.vec.extract = extractelement <8 x half> %461, i64 3, !dbg !237
+  %704 = or i32 %505, 67, !dbg !237
+  %705 = sext i32 %704 to i64, !dbg !237
+  %706 = getelementptr inbounds half, ptr %C, i64 %705, !dbg !237
+  store half %C.global1.sroa.72.134.vec.extract, ptr %706, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.136.vec.extract = extractelement <8 x half> %461, i64 4, !dbg !237
+  %707 = or i32 %505, 68, !dbg !237
+  %708 = sext i32 %707 to i64, !dbg !237
+  %709 = getelementptr inbounds half, ptr %C, i64 %708, !dbg !237
+  store half %C.global1.sroa.72.136.vec.extract, ptr %709, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.138.vec.extract = extractelement <8 x half> %461, i64 5, !dbg !237
+  %710 = or i32 %505, 69, !dbg !237
+  %711 = sext i32 %710 to i64, !dbg !237
+  %712 = getelementptr inbounds half, ptr %C, i64 %711, !dbg !237
+  store half %C.global1.sroa.72.138.vec.extract, ptr %712, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.140.vec.extract = extractelement <8 x half> %461, i64 6, !dbg !237
+  %713 = or i32 %505, 70, !dbg !237
+  %714 = sext i32 %713 to i64, !dbg !237
+  %715 = getelementptr inbounds half, ptr %C, i64 %714, !dbg !237
+  store half %C.global1.sroa.72.140.vec.extract, ptr %715, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.72.142.vec.extract = extractelement <8 x half> %461, i64 7, !dbg !237
+  %716 = or i32 %505, 71, !dbg !237
+  %717 = sext i32 %716 to i64, !dbg !237
+  %718 = getelementptr inbounds half, ptr %C, i64 %717, !dbg !237
+  store half %C.global1.sroa.72.142.vec.extract, ptr %718, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.144.vec.extract = extractelement <8 x half> %467, i64 0, !dbg !237
+  %719 = or i32 %505, 72, !dbg !237
+  %720 = sext i32 %719 to i64, !dbg !237
+  %721 = getelementptr inbounds half, ptr %C, i64 %720, !dbg !237
+  store half %C.global1.sroa.81.144.vec.extract, ptr %721, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.146.vec.extract = extractelement <8 x half> %467, i64 1, !dbg !237
+  %722 = or i32 %505, 73, !dbg !237
+  %723 = sext i32 %722 to i64, !dbg !237
+  %724 = getelementptr inbounds half, ptr %C, i64 %723, !dbg !237
+  store half %C.global1.sroa.81.146.vec.extract, ptr %724, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.148.vec.extract = extractelement <8 x half> %467, i64 2, !dbg !237
+  %725 = or i32 %505, 74, !dbg !237
+  %726 = sext i32 %725 to i64, !dbg !237
+  %727 = getelementptr inbounds half, ptr %C, i64 %726, !dbg !237
+  store half %C.global1.sroa.81.148.vec.extract, ptr %727, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.150.vec.extract = extractelement <8 x half> %467, i64 3, !dbg !237
+  %728 = or i32 %505, 75, !dbg !237
+  %729 = sext i32 %728 to i64, !dbg !237
+  %730 = getelementptr inbounds half, ptr %C, i64 %729, !dbg !237
+  store half %C.global1.sroa.81.150.vec.extract, ptr %730, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.152.vec.extract = extractelement <8 x half> %467, i64 4, !dbg !237
+  %731 = or i32 %505, 76, !dbg !237
+  %732 = sext i32 %731 to i64, !dbg !237
+  %733 = getelementptr inbounds half, ptr %C, i64 %732, !dbg !237
+  store half %C.global1.sroa.81.152.vec.extract, ptr %733, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.154.vec.extract = extractelement <8 x half> %467, i64 5, !dbg !237
+  %734 = or i32 %505, 77, !dbg !237
+  %735 = sext i32 %734 to i64, !dbg !237
+  %736 = getelementptr inbounds half, ptr %C, i64 %735, !dbg !237
+  store half %C.global1.sroa.81.154.vec.extract, ptr %736, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.156.vec.extract = extractelement <8 x half> %467, i64 6, !dbg !237
+  %737 = or i32 %505, 78, !dbg !237
+  %738 = sext i32 %737 to i64, !dbg !237
+  %739 = getelementptr inbounds half, ptr %C, i64 %738, !dbg !237
+  store half %C.global1.sroa.81.156.vec.extract, ptr %739, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.81.158.vec.extract = extractelement <8 x half> %467, i64 7, !dbg !237
+  %740 = or i32 %505, 79, !dbg !237
+  %741 = sext i32 %740 to i64, !dbg !237
+  %742 = getelementptr inbounds half, ptr %C, i64 %741, !dbg !237
+  store half %C.global1.sroa.81.158.vec.extract, ptr %742, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.160.vec.extract = extractelement <8 x half> %473, i64 0, !dbg !237
+  %743 = or i32 %505, 80, !dbg !237
+  %744 = sext i32 %743 to i64, !dbg !237
+  %745 = getelementptr inbounds half, ptr %C, i64 %744, !dbg !237
+  store half %C.global1.sroa.90.160.vec.extract, ptr %745, align 32, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.162.vec.extract = extractelement <8 x half> %473, i64 1, !dbg !237
+  %746 = or i32 %505, 81, !dbg !237
+  %747 = sext i32 %746 to i64, !dbg !237
+  %748 = getelementptr inbounds half, ptr %C, i64 %747, !dbg !237
+  store half %C.global1.sroa.90.162.vec.extract, ptr %748, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.164.vec.extract = extractelement <8 x half> %473, i64 2, !dbg !237
+  %749 = or i32 %505, 82, !dbg !237
+  %750 = sext i32 %749 to i64, !dbg !237
+  %751 = getelementptr inbounds half, ptr %C, i64 %750, !dbg !237
+  store half %C.global1.sroa.90.164.vec.extract, ptr %751, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.166.vec.extract = extractelement <8 x half> %473, i64 3, !dbg !237
+  %752 = or i32 %505, 83, !dbg !237
+  %753 = sext i32 %752 to i64, !dbg !237
+  %754 = getelementptr inbounds half, ptr %C, i64 %753, !dbg !237
+  store half %C.global1.sroa.90.166.vec.extract, ptr %754, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.168.vec.extract = extractelement <8 x half> %473, i64 4, !dbg !237
+  %755 = or i32 %505, 84, !dbg !237
+  %756 = sext i32 %755 to i64, !dbg !237
+  %757 = getelementptr inbounds half, ptr %C, i64 %756, !dbg !237
+  store half %C.global1.sroa.90.168.vec.extract, ptr %757, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.170.vec.extract = extractelement <8 x half> %473, i64 5, !dbg !237
+  %758 = or i32 %505, 85, !dbg !237
+  %759 = sext i32 %758 to i64, !dbg !237
+  %760 = getelementptr inbounds half, ptr %C, i64 %759, !dbg !237
+  store half %C.global1.sroa.90.170.vec.extract, ptr %760, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.172.vec.extract = extractelement <8 x half> %473, i64 6, !dbg !237
+  %761 = or i32 %505, 86, !dbg !237
+  %762 = sext i32 %761 to i64, !dbg !237
+  %763 = getelementptr inbounds half, ptr %C, i64 %762, !dbg !237
+  store half %C.global1.sroa.90.172.vec.extract, ptr %763, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.90.174.vec.extract = extractelement <8 x half> %473, i64 7, !dbg !237
+  %764 = or i32 %505, 87, !dbg !237
+  %765 = sext i32 %764 to i64, !dbg !237
+  %766 = getelementptr inbounds half, ptr %C, i64 %765, !dbg !237
+  store half %C.global1.sroa.90.174.vec.extract, ptr %766, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.176.vec.extract = extractelement <8 x half> %479, i64 0, !dbg !237
+  %767 = or i32 %505, 88, !dbg !237
+  %768 = sext i32 %767 to i64, !dbg !237
+  %769 = getelementptr inbounds half, ptr %C, i64 %768, !dbg !237
+  store half %C.global1.sroa.99.176.vec.extract, ptr %769, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.178.vec.extract = extractelement <8 x half> %479, i64 1, !dbg !237
+  %770 = or i32 %505, 89, !dbg !237
+  %771 = sext i32 %770 to i64, !dbg !237
+  %772 = getelementptr inbounds half, ptr %C, i64 %771, !dbg !237
+  store half %C.global1.sroa.99.178.vec.extract, ptr %772, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.180.vec.extract = extractelement <8 x half> %479, i64 2, !dbg !237
+  %773 = or i32 %505, 90, !dbg !237
+  %774 = sext i32 %773 to i64, !dbg !237
+  %775 = getelementptr inbounds half, ptr %C, i64 %774, !dbg !237
+  store half %C.global1.sroa.99.180.vec.extract, ptr %775, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.182.vec.extract = extractelement <8 x half> %479, i64 3, !dbg !237
+  %776 = or i32 %505, 91, !dbg !237
+  %777 = sext i32 %776 to i64, !dbg !237
+  %778 = getelementptr inbounds half, ptr %C, i64 %777, !dbg !237
+  store half %C.global1.sroa.99.182.vec.extract, ptr %778, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.184.vec.extract = extractelement <8 x half> %479, i64 4, !dbg !237
+  %779 = or i32 %505, 92, !dbg !237
+  %780 = sext i32 %779 to i64, !dbg !237
+  %781 = getelementptr inbounds half, ptr %C, i64 %780, !dbg !237
+  store half %C.global1.sroa.99.184.vec.extract, ptr %781, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.186.vec.extract = extractelement <8 x half> %479, i64 5, !dbg !237
+  %782 = or i32 %505, 93, !dbg !237
+  %783 = sext i32 %782 to i64, !dbg !237
+  %784 = getelementptr inbounds half, ptr %C, i64 %783, !dbg !237
+  store half %C.global1.sroa.99.186.vec.extract, ptr %784, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.188.vec.extract = extractelement <8 x half> %479, i64 6, !dbg !237
+  %785 = or i32 %505, 94, !dbg !237
+  %786 = sext i32 %785 to i64, !dbg !237
+  %787 = getelementptr inbounds half, ptr %C, i64 %786, !dbg !237
+  store half %C.global1.sroa.99.188.vec.extract, ptr %787, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.99.190.vec.extract = extractelement <8 x half> %479, i64 7, !dbg !237
+  %788 = or i32 %505, 95, !dbg !237
+  %789 = sext i32 %788 to i64, !dbg !237
+  %790 = getelementptr inbounds half, ptr %C, i64 %789, !dbg !237
+  store half %C.global1.sroa.99.190.vec.extract, ptr %790, align 2, !dbg !237, !tbaa !256
+  call void @llvm.dbg.declare(metadata i64 3, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 3, metadata !253, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 96, metadata !254, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 96, metadata !254, metadata !DIExpression()), !dbg !237
+  %791 = or i64 %506, 96, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %791, metadata !255, metadata !DIExpression()), !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %791, metadata !255, metadata !DIExpression()), !dbg !237
+  %C.global1.sroa.108.192.vec.extract = extractelement <8 x half> %485, i64 0, !dbg !237
+  %792 = getelementptr inbounds half, ptr %C, i64 %791, !dbg !237
+  store half %C.global1.sroa.108.192.vec.extract, ptr %792, align 64, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.194.vec.extract = extractelement <8 x half> %485, i64 1, !dbg !237
+  %793 = or i32 %505, 97, !dbg !237
+  %794 = sext i32 %793 to i64, !dbg !237
+  %795 = getelementptr inbounds half, ptr %C, i64 %794, !dbg !237
+  store half %C.global1.sroa.108.194.vec.extract, ptr %795, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.196.vec.extract = extractelement <8 x half> %485, i64 2, !dbg !237
+  %796 = or i32 %505, 98, !dbg !237
+  %797 = sext i32 %796 to i64, !dbg !237
+  %798 = getelementptr inbounds half, ptr %C, i64 %797, !dbg !237
+  store half %C.global1.sroa.108.196.vec.extract, ptr %798, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.198.vec.extract = extractelement <8 x half> %485, i64 3, !dbg !237
+  %799 = or i32 %505, 99, !dbg !237
+  %800 = sext i32 %799 to i64, !dbg !237
+  %801 = getelementptr inbounds half, ptr %C, i64 %800, !dbg !237
+  store half %C.global1.sroa.108.198.vec.extract, ptr %801, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.200.vec.extract = extractelement <8 x half> %485, i64 4, !dbg !237
+  %802 = or i32 %505, 100, !dbg !237
+  %803 = sext i32 %802 to i64, !dbg !237
+  %804 = getelementptr inbounds half, ptr %C, i64 %803, !dbg !237
+  store half %C.global1.sroa.108.200.vec.extract, ptr %804, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.202.vec.extract = extractelement <8 x half> %485, i64 5, !dbg !237
+  %805 = or i32 %505, 101, !dbg !237
+  %806 = sext i32 %805 to i64, !dbg !237
+  %807 = getelementptr inbounds half, ptr %C, i64 %806, !dbg !237
+  store half %C.global1.sroa.108.202.vec.extract, ptr %807, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.204.vec.extract = extractelement <8 x half> %485, i64 6, !dbg !237
+  %808 = or i32 %505, 102, !dbg !237
+  %809 = sext i32 %808 to i64, !dbg !237
+  %810 = getelementptr inbounds half, ptr %C, i64 %809, !dbg !237
+  store half %C.global1.sroa.108.204.vec.extract, ptr %810, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.108.206.vec.extract = extractelement <8 x half> %485, i64 7, !dbg !237
+  %811 = or i32 %505, 103, !dbg !237
+  %812 = sext i32 %811 to i64, !dbg !237
+  %813 = getelementptr inbounds half, ptr %C, i64 %812, !dbg !237
+  store half %C.global1.sroa.108.206.vec.extract, ptr %813, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.208.vec.extract = extractelement <8 x half> %491, i64 0, !dbg !237
+  %814 = or i32 %505, 104, !dbg !237
+  %815 = sext i32 %814 to i64, !dbg !237
+  %816 = getelementptr inbounds half, ptr %C, i64 %815, !dbg !237
+  store half %C.global1.sroa.117.208.vec.extract, ptr %816, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.210.vec.extract = extractelement <8 x half> %491, i64 1, !dbg !237
+  %817 = or i32 %505, 105, !dbg !237
+  %818 = sext i32 %817 to i64, !dbg !237
+  %819 = getelementptr inbounds half, ptr %C, i64 %818, !dbg !237
+  store half %C.global1.sroa.117.210.vec.extract, ptr %819, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.212.vec.extract = extractelement <8 x half> %491, i64 2, !dbg !237
+  %820 = or i32 %505, 106, !dbg !237
+  %821 = sext i32 %820 to i64, !dbg !237
+  %822 = getelementptr inbounds half, ptr %C, i64 %821, !dbg !237
+  store half %C.global1.sroa.117.212.vec.extract, ptr %822, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.214.vec.extract = extractelement <8 x half> %491, i64 3, !dbg !237
+  %823 = or i32 %505, 107, !dbg !237
+  %824 = sext i32 %823 to i64, !dbg !237
+  %825 = getelementptr inbounds half, ptr %C, i64 %824, !dbg !237
+  store half %C.global1.sroa.117.214.vec.extract, ptr %825, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.216.vec.extract = extractelement <8 x half> %491, i64 4, !dbg !237
+  %826 = or i32 %505, 108, !dbg !237
+  %827 = sext i32 %826 to i64, !dbg !237
+  %828 = getelementptr inbounds half, ptr %C, i64 %827, !dbg !237
+  store half %C.global1.sroa.117.216.vec.extract, ptr %828, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.218.vec.extract = extractelement <8 x half> %491, i64 5, !dbg !237
+  %829 = or i32 %505, 109, !dbg !237
+  %830 = sext i32 %829 to i64, !dbg !237
+  %831 = getelementptr inbounds half, ptr %C, i64 %830, !dbg !237
+  store half %C.global1.sroa.117.218.vec.extract, ptr %831, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.220.vec.extract = extractelement <8 x half> %491, i64 6, !dbg !237
+  %832 = or i32 %505, 110, !dbg !237
+  %833 = sext i32 %832 to i64, !dbg !237
+  %834 = getelementptr inbounds half, ptr %C, i64 %833, !dbg !237
+  store half %C.global1.sroa.117.220.vec.extract, ptr %834, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.117.222.vec.extract = extractelement <8 x half> %491, i64 7, !dbg !237
+  %835 = or i32 %505, 111, !dbg !237
+  %836 = sext i32 %835 to i64, !dbg !237
+  %837 = getelementptr inbounds half, ptr %C, i64 %836, !dbg !237
+  store half %C.global1.sroa.117.222.vec.extract, ptr %837, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.224.vec.extract = extractelement <8 x half> %497, i64 0, !dbg !237
+  %838 = or i32 %505, 112, !dbg !237
+  %839 = sext i32 %838 to i64, !dbg !237
+  %840 = getelementptr inbounds half, ptr %C, i64 %839, !dbg !237
+  store half %C.global1.sroa.126.224.vec.extract, ptr %840, align 32, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.226.vec.extract = extractelement <8 x half> %497, i64 1, !dbg !237
+  %841 = or i32 %505, 113, !dbg !237
+  %842 = sext i32 %841 to i64, !dbg !237
+  %843 = getelementptr inbounds half, ptr %C, i64 %842, !dbg !237
+  store half %C.global1.sroa.126.226.vec.extract, ptr %843, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.228.vec.extract = extractelement <8 x half> %497, i64 2, !dbg !237
+  %844 = or i32 %505, 114, !dbg !237
+  %845 = sext i32 %844 to i64, !dbg !237
+  %846 = getelementptr inbounds half, ptr %C, i64 %845, !dbg !237
+  store half %C.global1.sroa.126.228.vec.extract, ptr %846, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.230.vec.extract = extractelement <8 x half> %497, i64 3, !dbg !237
+  %847 = or i32 %505, 115, !dbg !237
+  %848 = sext i32 %847 to i64, !dbg !237
+  %849 = getelementptr inbounds half, ptr %C, i64 %848, !dbg !237
+  store half %C.global1.sroa.126.230.vec.extract, ptr %849, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.232.vec.extract = extractelement <8 x half> %497, i64 4, !dbg !237
+  %850 = or i32 %505, 116, !dbg !237
+  %851 = sext i32 %850 to i64, !dbg !237
+  %852 = getelementptr inbounds half, ptr %C, i64 %851, !dbg !237
+  store half %C.global1.sroa.126.232.vec.extract, ptr %852, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.234.vec.extract = extractelement <8 x half> %497, i64 5, !dbg !237
+  %853 = or i32 %505, 117, !dbg !237
+  %854 = sext i32 %853 to i64, !dbg !237
+  %855 = getelementptr inbounds half, ptr %C, i64 %854, !dbg !237
+  store half %C.global1.sroa.126.234.vec.extract, ptr %855, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.236.vec.extract = extractelement <8 x half> %497, i64 6, !dbg !237
+  %856 = or i32 %505, 118, !dbg !237
+  %857 = sext i32 %856 to i64, !dbg !237
+  %858 = getelementptr inbounds half, ptr %C, i64 %857, !dbg !237
+  store half %C.global1.sroa.126.236.vec.extract, ptr %858, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.126.238.vec.extract = extractelement <8 x half> %497, i64 7, !dbg !237
+  %859 = or i32 %505, 119, !dbg !237
+  %860 = sext i32 %859 to i64, !dbg !237
+  %861 = getelementptr inbounds half, ptr %C, i64 %860, !dbg !237
+  store half %C.global1.sroa.126.238.vec.extract, ptr %861, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.240.vec.extract = extractelement <8 x half> %503, i64 0, !dbg !237
+  %862 = or i32 %505, 120, !dbg !237
+  %863 = sext i32 %862 to i64, !dbg !237
+  %864 = getelementptr inbounds half, ptr %C, i64 %863, !dbg !237
+  store half %C.global1.sroa.135.240.vec.extract, ptr %864, align 16, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.242.vec.extract = extractelement <8 x half> %503, i64 1, !dbg !237
+  %865 = or i32 %505, 121, !dbg !237
+  %866 = sext i32 %865 to i64, !dbg !237
+  %867 = getelementptr inbounds half, ptr %C, i64 %866, !dbg !237
+  store half %C.global1.sroa.135.242.vec.extract, ptr %867, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.244.vec.extract = extractelement <8 x half> %503, i64 2, !dbg !237
+  %868 = or i32 %505, 122, !dbg !237
+  %869 = sext i32 %868 to i64, !dbg !237
+  %870 = getelementptr inbounds half, ptr %C, i64 %869, !dbg !237
+  store half %C.global1.sroa.135.244.vec.extract, ptr %870, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.246.vec.extract = extractelement <8 x half> %503, i64 3, !dbg !237
+  %871 = or i32 %505, 123, !dbg !237
+  %872 = sext i32 %871 to i64, !dbg !237
+  %873 = getelementptr inbounds half, ptr %C, i64 %872, !dbg !237
+  store half %C.global1.sroa.135.246.vec.extract, ptr %873, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.248.vec.extract = extractelement <8 x half> %503, i64 4, !dbg !237
+  %874 = or i32 %505, 124, !dbg !237
+  %875 = sext i32 %874 to i64, !dbg !237
+  %876 = getelementptr inbounds half, ptr %C, i64 %875, !dbg !237
+  store half %C.global1.sroa.135.248.vec.extract, ptr %876, align 8, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.250.vec.extract = extractelement <8 x half> %503, i64 5, !dbg !237
+  %877 = or i32 %505, 125, !dbg !237
+  %878 = sext i32 %877 to i64, !dbg !237
+  %879 = getelementptr inbounds half, ptr %C, i64 %878, !dbg !237
+  store half %C.global1.sroa.135.250.vec.extract, ptr %879, align 2, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.252.vec.extract = extractelement <8 x half> %503, i64 6, !dbg !237
+  %880 = or i32 %505, 126, !dbg !237
+  %881 = sext i32 %880 to i64, !dbg !237
+  %882 = getelementptr inbounds half, ptr %C, i64 %881, !dbg !237
+  store half %C.global1.sroa.135.252.vec.extract, ptr %882, align 4, !dbg !237, !tbaa !256
+  %C.global1.sroa.135.254.vec.extract = extractelement <8 x half> %503, i64 7, !dbg !237
+  %883 = or i32 %505, 127, !dbg !237
+  %884 = sext i32 %883 to i64, !dbg !237
+  %885 = getelementptr inbounds half, ptr %C, i64 %884, !dbg !237
+  store half %C.global1.sroa.135.254.vec.extract, ptr %885, align 2, !dbg !237, !tbaa !256
+  call void @llvm.dbg.declare(metadata i64 4, metadata !253, metadata !DIExpression()), !dbg !237
+  %indvars.iv.next21 = add nsw i64 %indvars.iv20, 1, !dbg !237
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next21, metadata !238, metadata !DIExpression()), !dbg !237
+  %lftr.wideiv = trunc i64 %indvars.iv.next21 to i32, !dbg !237
+  %exitcond22.not = icmp eq i32 %18, %lftr.wideiv, !dbg !237
+  br i1 %exitcond22.not, label %for_end_m.outer, label %for_body_m.outer, !dbg !237, !prof !29
 }
 
-; Function Attrs: nofree nosync nounwind readnone
-define weak dso_local i16 @__truncsfhf2(float %a0) local_unnamed_addr #5 section ".text.tvm.fp16.conv" {
+; Function Attrs: nofree nosync nounwind memory(none)
+define weak dso_local i16 @__truncsfhf2(float %a0) local_unnamed_addr #5 {
 b0:
   %v0 = bitcast float %a0 to i32
   %v1 = and i32 %v0, 2147483647
@@ -2198,8 +2407,8 @@ b13:                                              ; preds = %b12, %b11, %b10, %b
   ret i16 %vlast
 }
 
-; Function Attrs: nofree nosync nounwind readnone
-define weak dso_local float @__extendhfsf2(i16 %a0) local_unnamed_addr #5 section ".text.tvm.fp16.conv" {
+; Function Attrs: nofree nosync nounwind memory(none)
+define weak dso_local float @__extendhfsf2(i16 %a0) local_unnamed_addr #5 {
 b0:
   %v1 = and i16 %a0, 32767
   %v2 = zext i16 %v1 to i32
@@ -2247,8 +2456,8 @@ b5:                                               ; preds = %b4
   %v29 = add nsw i32 %v28, -8
   %v30 = shl i32 %v2, %v29
   %v31 = xor i32 %v30, 8388608
-  %v32.neg = mul i32 %v28, -8388608
-  %v33 = add i32 %v32.neg, 1124073472
+  %v32 = shl i32 %v28, 23
+  %v33 = sub i32 1124073472, %v32
   %v34 = or i32 %v31, %v33
   br label %b6
 
@@ -2262,298 +2471,294 @@ b6:                                               ; preds = %b5, %b4, %b3, %b1
   ret float %v40
 }
 
-; Function Attrs: alwaysinline argmemonly mustprogress nofree nounwind willreturn writeonly
-declare void @llvm.memset.p0i8.i64(i8* nocapture writeonly, i8, i64, i1 immarg) #6
+; Function Attrs: alwaysinline mustprogress nocallback nofree nounwind willreturn memory(argmem: write)
+declare void @llvm.memset.p0.i64(ptr nocapture writeonly, i8, i64, i1 immarg) #6
 
-; Function Attrs: alwaysinline mustprogress nofree nosync nounwind readnone willreturn
+; Function Attrs: alwaysinline mustprogress nocallback nofree nosync nounwind willreturn memory(none)
 declare <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8>, <16 x i8>) #7
 
-; Function Attrs: alwaysinline mustprogress nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: alwaysinline mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
 declare <8 x half> @llvm.fmuladd.v8f16(<8 x half>, <8 x half>, <8 x half>) #8
 
-; Function Attrs: mustprogress nofree nosync nounwind readnone speculatable willreturn
-declare void @llvm.dbg.value(metadata, metadata, metadata) #1
+; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare void @llvm.dbg.value(metadata, metadata, metadata) #9
 
-; Function Attrs: nofree nosync nounwind readnone speculatable willreturn
+; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare i32 @llvm.smin.i32(i32, i32) #9
+
+; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
 declare <8 x float> @llvm.fmuladd.v8f32(<8 x float>, <8 x float>, <8 x float>) #9
 
-attributes #0 = { "target-cpu"="generic" "target-features"="+v8.2a,+fullfp16,+fp-armv8,+neon" }
-attributes #1 = { mustprogress nofree nosync nounwind readnone speculatable willreturn }
-attributes #2 = { inaccessiblememonly mustprogress nofree nosync nounwind willreturn }
-attributes #3 = { noinline "target-cpu"="generic" "target-features"="+v8.2a,+fullfp16,+fp-armv8,+neon" }
-attributes #4 = { nofree nosync nounwind "target-cpu"="generic" "target-features"="+v8.2a,+fullfp16,+fp-armv8,+neon" }
-attributes #5 = { nofree nosync nounwind readnone "target-cpu"="generic" "target-features"="+v8.2a,+fullfp16,+fp-armv8,+neon" }
-attributes #6 = { alwaysinline argmemonly mustprogress nofree nounwind willreturn writeonly }
-attributes #7 = { alwaysinline mustprogress nofree nosync nounwind readnone willreturn }
-attributes #8 = { alwaysinline mustprogress nofree nosync nounwind readnone speculatable willreturn }
-attributes #9 = { nofree nosync nounwind readnone speculatable willreturn }
-attributes #10 = { nounwind }
+attributes #0 = { "target-cpu"="apple-m2" }
+attributes #1 = { mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #2 = { mustprogress nocallback nofree nosync nounwind willreturn memory(inaccessiblemem: readwrite) }
+attributes #3 = { noinline "target-cpu"="apple-m2" }
+attributes #4 = { nofree nosync nounwind memory(readwrite, inaccessiblemem: none) "probe-stack"="__chkstk_darwin" "target-cpu"="apple-m2" }
+attributes #5 = { nofree nosync nounwind memory(none) "target-cpu"="apple-m2" "target-features" }
+attributes #6 = { alwaysinline mustprogress nocallback nofree nounwind willreturn memory(argmem: write) }
+attributes #7 = { alwaysinline mustprogress nocallback nofree nosync nounwind willreturn memory(none) }
+attributes #8 = { alwaysinline mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #9 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
 
 !llvm.dbg.cu = !{!0}
 !llvm.ident = !{!2}
-!llvm.module.flags = !{!3, !4, !5, !6, !7, !8, !9, !10, !11, !12, !13, !14}
+!llvm.module.flags = !{!3, !4, !5, !6, !7, !8, !9, !10}
 
 !0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "TVM", isOptimized: false, runtimeVersion: 0, emissionKind: FullDebug)
 !1 = !DIFile(filename: "IRModule.CodeGenLLVM", directory: ".")
-!2 = !{!"Ubuntu clang version 14.0.0-1ubuntu1.1"}
-!3 = !{i32 1, !"wchar_size", i32 4}
-!4 = !{i32 1, !"branch-target-enforcement", i32 0}
-!5 = !{i32 1, !"sign-return-address", i32 0}
-!6 = !{i32 1, !"sign-return-address-all", i32 0}
-!7 = !{i32 1, !"sign-return-address-with-bkey", i32 0}
-!8 = !{i32 7, !"PIC Level", i32 2}
-!9 = !{i32 7, !"PIE Level", i32 2}
-!10 = !{i32 7, !"uwtable", i32 1}
-!11 = !{i32 7, !"frame-pointer", i32 1}
-!12 = !{i32 2, !"tvm_target", !"llvm -mtriple=aarch64-linux-gnu -mattr=+v8.2a,+fullfp16,+fp-armv8,+neon"}
-!13 = !{i32 4, !"Debug Info Version", i32 3}
-!14 = !{i32 4, !"Dwarf Version", i32 4}
-!15 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2", scope: !1, file: !1, type: !16, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !21)
-!16 = !DISubroutineType(types: !17)
-!17 = !{!18, !19, !20, !18, !19, !20, !19}
-!18 = !DIBasicType(name: "int32", size: 32, encoding: DW_ATE_signed)
-!19 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: null)
-!20 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !18)
-!21 = !{!22, !23, !24, !25, !26, !27}
-!22 = !DILocalVariable(name: "args", arg: 1, scope: !15, file: !1, type: !19)
-!23 = !DILocalVariable(name: "arg_type_ids", arg: 2, scope: !15, file: !1, type: !20)
-!24 = !DILocalVariable(name: "num_args", arg: 3, scope: !15, file: !1, type: !18)
-!25 = !DILocalVariable(name: "out_ret_value", arg: 4, scope: !15, file: !1, type: !19)
-!26 = !DILocalVariable(name: "out_ret_tcode", arg: 5, scope: !15, file: !1, type: !20)
-!27 = !DILocalVariable(name: "resource_handle", arg: 6, scope: !15, file: !1, type: !19)
-!28 = !DILocation(line: 0, scope: !15)
-!29 = !{!"branch_weights", i32 1048576, i32 1}
+!2 = !{!"Apple clang version 16.0.0 (clang-1600.0.26.6)"}
+!3 = !{i32 2, !"SDK Version", [2 x i32] [i32 15, i32 2]}
+!4 = !{i32 1, !"wchar_size", i32 4}
+!5 = !{i32 8, !"PIC Level", i32 2}
+!6 = !{i32 7, !"uwtable", i32 1}
+!7 = !{i32 7, !"frame-pointer", i32 1}
+!8 = !{i32 2, !"tvm_target", !"llvm -mtriple=arm64-apple-darwin23.1.0 -mcpu=apple-m2"}
+!9 = !{i32 4, !"Debug Info Version", i32 3}
+!10 = !{i32 4, !"Dwarf Version", i32 2}
+!11 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2", scope: !1, file: !1, type: !12, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !17)
+!12 = !DISubroutineType(types: !13)
+!13 = !{!14, !15, !16, !14, !15, !16, !15}
+!14 = !DIBasicType(name: "int32", size: 32, encoding: DW_ATE_signed)
+!15 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: null)
+!16 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !14)
+!17 = !{!18, !19, !20, !21, !22, !23}
+!18 = !DILocalVariable(name: "args", arg: 1, scope: !11, file: !1, type: !15)
+!19 = !DILocalVariable(name: "arg_type_ids", arg: 2, scope: !11, file: !1, type: !16)
+!20 = !DILocalVariable(name: "num_args", arg: 3, scope: !11, file: !1, type: !14)
+!21 = !DILocalVariable(name: "out_ret_value", arg: 4, scope: !11, file: !1, type: !15)
+!22 = !DILocalVariable(name: "out_ret_tcode", arg: 5, scope: !11, file: !1, type: !16)
+!23 = !DILocalVariable(name: "resource_handle", arg: 6, scope: !11, file: !1, type: !15)
+!24 = !DILocation(line: 0, scope: !11)
+!25 = !{!"branch_weights", i32 1048576, i32 1}
+!26 = !{!27, !27, i64 0}
+!27 = !{!"ctx_ptr", !28, i64 0}
+!28 = !{!"tvm-tbaa"}
+!29 = !{!"branch_weights", i32 1, i32 1048576}
 !30 = !{!31, !31, i64 0}
-!31 = !{!"ctx_ptr", !32, i64 0}
-!32 = !{!"tvm-tbaa"}
-!33 = !{!"branch_weights", i32 1, i32 1048576}
-!34 = !{!35, !35, i64 0}
-!35 = !{!"0x2ca3c4e0.w4.b0", !36, i64 0}
-!36 = !{!"0x2ca3c4e0.w8.b0", !37, i64 0}
-!37 = !{!"0x2ca3c4e0.w16.b0", !38, i64 0}
-!38 = !{!"0x2ca3c4e0.w32.b0", !39, i64 0}
-!39 = !{!"0x2ca3c4e0.w64.b0", !40, i64 0}
-!40 = !{!"0x2ca3c4e0.w128.b0", !41, i64 0}
-!41 = !{!"0x2ca3c4e0.w256.b0", !42, i64 0}
-!42 = !{!"0x2ca3c4e0.w512.b0", !43, i64 0}
-!43 = !{!"0x2ca3c4e0.w1024.b0", !44, i64 0}
-!44 = !{!"0x2ca3c4e0", !32, i64 0}
-!45 = !DILocalVariable(name: "A.code", scope: !15, file: !1, type: !18)
-!46 = !{!47, !47, i64 0}
-!47 = !{!"0x2ca3c4e0.w4.b4", !36, i64 0}
-!48 = !DILocalVariable(name: "LUT.code", scope: !15, file: !1, type: !18)
+!31 = !{!"0x6000030bf390.w4.b0", !32, i64 0}
+!32 = !{!"0x6000030bf390.w8.b0", !33, i64 0}
+!33 = !{!"0x6000030bf390.w16.b0", !34, i64 0}
+!34 = !{!"0x6000030bf390.w32.b0", !35, i64 0}
+!35 = !{!"0x6000030bf390.w64.b0", !36, i64 0}
+!36 = !{!"0x6000030bf390.w128.b0", !37, i64 0}
+!37 = !{!"0x6000030bf390.w256.b0", !38, i64 0}
+!38 = !{!"0x6000030bf390.w512.b0", !39, i64 0}
+!39 = !{!"0x6000030bf390.w1024.b0", !40, i64 0}
+!40 = !{!"0x6000030bf390", !28, i64 0}
+!41 = !DILocalVariable(name: "A.code", scope: !11, file: !1, type: !14)
+!42 = !{!43, !43, i64 0}
+!43 = !{!"0x6000030bf390.w4.b4", !32, i64 0}
+!44 = !DILocalVariable(name: "LUT.code", scope: !11, file: !1, type: !14)
+!45 = !{!46, !46, i64 0}
+!46 = !{!"0x6000030bf390.w4.b8", !47, i64 0}
+!47 = !{!"0x6000030bf390.w8.b8", !33, i64 0}
+!48 = !DILocalVariable(name: "Scales.code", scope: !11, file: !1, type: !14)
 !49 = !{!50, !50, i64 0}
-!50 = !{!"0x2ca3c4e0.w4.b8", !51, i64 0}
-!51 = !{!"0x2ca3c4e0.w8.b8", !37, i64 0}
-!52 = !DILocalVariable(name: "Scales.code", scope: !15, file: !1, type: !18)
-!53 = !{!54, !54, i64 0}
-!54 = !{!"0x2ca3c4e0.w4.b12", !51, i64 0}
-!55 = !DILocalVariable(name: "LUT_Scales.code", scope: !15, file: !1, type: !18)
-!56 = !{!57, !57, i64 0}
-!57 = !{!"0x2ca3c4e0.w4.b16", !58, i64 0}
-!58 = !{!"0x2ca3c4e0.w8.b16", !59, i64 0}
-!59 = !{!"0x2ca3c4e0.w16.b16", !38, i64 0}
-!60 = !DILocalVariable(name: "LUT_Biases.code", scope: !15, file: !1, type: !18)
-!61 = !{!62, !62, i64 0}
-!62 = !{!"0x2ca3c4e0.w4.b20", !58, i64 0}
-!63 = !DILocalVariable(name: "C.code", scope: !15, file: !1, type: !18)
-!64 = !DILocalVariable(name: "A", scope: !15, file: !1, type: !19)
-!65 = !DILocalVariable(name: "LUT", scope: !15, file: !1, type: !19)
-!66 = !DILocalVariable(name: "Scales", scope: !15, file: !1, type: !19)
-!67 = !DILocalVariable(name: "LUT_Scales", scope: !15, file: !1, type: !19)
-!68 = !DILocalVariable(name: "LUT_Biases", scope: !15, file: !1, type: !19)
-!69 = !DILocalVariable(name: "C", scope: !15, file: !1, type: !19)
-!70 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape", scope: !15, file: !1, type: !71)
-!71 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !72)
-!72 = !DIBasicType(name: "int64", size: 64, encoding: DW_ATE_signed)
-!73 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides", scope: !15, file: !1, type: !71)
-!74 = !DILocalVariable(name: "dev_id", scope: !15, file: !1, type: !18)
-!75 = !DILocalVariable(name: "A", scope: !15, file: !1, type: !76)
-!76 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !77)
-!77 = !DIBasicType(name: "uint8", size: 8, encoding: DW_ATE_unsigned)
-!78 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape", scope: !15, file: !1, type: !71)
-!79 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides", scope: !15, file: !1, type: !71)
-!80 = !DILocalVariable(name: "LUT", scope: !15, file: !1, type: !81)
-!81 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !82)
-!82 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_signed)
-!83 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape", scope: !15, file: !1, type: !71)
-!84 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.strides", scope: !15, file: !1, type: !71)
-!85 = !DILocalVariable(name: "Scales", scope: !15, file: !1, type: !86)
-!86 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !87)
-!87 = !DIBasicType(name: "float16", size: 16, encoding: DW_ATE_float)
-!88 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape", scope: !15, file: !1, type: !71)
-!89 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides", scope: !15, file: !1, type: !71)
-!90 = !DILocalVariable(name: "LUT_Scales", scope: !15, file: !1, type: !86)
-!91 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape", scope: !15, file: !1, type: !71)
-!92 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides", scope: !15, file: !1, type: !71)
-!93 = !DILocalVariable(name: "LUT_Biases", scope: !15, file: !1, type: !86)
-!94 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape", scope: !15, file: !1, type: !71)
-!95 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides", scope: !15, file: !1, type: !71)
-!96 = !DILocalVariable(name: "C", scope: !15, file: !1, type: !86)
-!97 = !{!98, !98, i64 0}
-!98 = !{!"0x2cbf9bf0.w8.b0", !99, i64 0}
-!99 = !{!"0x2cbf9bf0.w16.b0", !100, i64 0}
-!100 = !{!"0x2cbf9bf0.w32.b0", !101, i64 0}
-!101 = !{!"0x2cbf9bf0.w64.b0", !102, i64 0}
-!102 = !{!"0x2cbf9bf0.w128.b0", !103, i64 0}
-!103 = !{!"0x2cbf9bf0.w256.b0", !104, i64 0}
-!104 = !{!"0x2cbf9bf0.w512.b0", !105, i64 0}
-!105 = !{!"0x2cbf9bf0.w1024.b0", !106, i64 0}
-!106 = !{!"0x2cbf9bf0", !32, i64 0}
-!107 = !{!108, !108, i64 0}
-!108 = !{!"0x2cbf9bf0.w8.b8", !99, i64 0}
-!109 = !{!110, !110, i64 0}
-!110 = !{!"0x2cbf9bf0.w8.b16", !111, i64 0}
-!111 = !{!"0x2cbf9bf0.w16.b16", !100, i64 0}
-!112 = !{!113, !113, i64 0}
-!113 = !{!"0x2cb71f80.w8.b16", !114, i64 0}
-!114 = !{!"0x2cb71f80.w16.b16", !115, i64 0}
-!115 = !{!"0x2cb71f80.w32.b0", !116, i64 0}
-!116 = !{!"0x2cb71f80.w64.b0", !117, i64 0}
-!117 = !{!"0x2cb71f80.w128.b0", !118, i64 0}
-!118 = !{!"0x2cb71f80.w256.b0", !119, i64 0}
-!119 = !{!"0x2cb71f80.w512.b0", !120, i64 0}
-!120 = !{!"0x2cb71f80.w1024.b0", !121, i64 0}
-!121 = !{!"0x2cb71f80", !32, i64 0}
-!122 = !{!123, !123, i64 0}
-!123 = !{!"0x2cb71f80.w8.b8", !124, i64 0}
-!124 = !{!"0x2cb71f80.w16.b0", !115, i64 0}
-!125 = !{!126, !126, i64 0}
-!126 = !{!"0x2cb71f80.w8.b0", !124, i64 0}
-!127 = !{!128, !128, i64 0}
-!128 = !{!"0x2cd37a10.w8.b0", !129, i64 0}
-!129 = !{!"0x2cd37a10.w16.b0", !130, i64 0}
-!130 = !{!"0x2cd37a10.w32.b0", !131, i64 0}
-!131 = !{!"0x2cd37a10.w64.b0", !132, i64 0}
-!132 = !{!"0x2cd37a10.w128.b0", !133, i64 0}
-!133 = !{!"0x2cd37a10.w256.b0", !134, i64 0}
-!134 = !{!"0x2cd37a10.w512.b0", !135, i64 0}
-!135 = !{!"0x2cd37a10.w1024.b0", !136, i64 0}
-!136 = !{!"0x2cd37a10", !32, i64 0}
-!137 = !{!138, !138, i64 0}
-!138 = !{!"0x2cd37a10.w8.b8", !129, i64 0}
-!139 = !{!140, !140, i64 0}
-!140 = !{!"0x2cd37a10.w8.b16", !141, i64 0}
-!141 = !{!"0x2cd37a10.w16.b16", !130, i64 0}
-!142 = !{!143, !143, i64 0}
-!143 = !{!"0x2cd646e0.w8.b16", !144, i64 0}
-!144 = !{!"0x2cd646e0.w16.b16", !145, i64 0}
-!145 = !{!"0x2cd646e0.w32.b0", !146, i64 0}
-!146 = !{!"0x2cd646e0.w64.b0", !147, i64 0}
-!147 = !{!"0x2cd646e0.w128.b0", !148, i64 0}
-!148 = !{!"0x2cd646e0.w256.b0", !149, i64 0}
-!149 = !{!"0x2cd646e0.w512.b0", !150, i64 0}
-!150 = !{!"0x2cd646e0.w1024.b0", !151, i64 0}
-!151 = !{!"0x2cd646e0", !32, i64 0}
-!152 = !{!153, !153, i64 0}
-!153 = !{!"0x2cd646e0.w8.b8", !154, i64 0}
-!154 = !{!"0x2cd646e0.w16.b0", !145, i64 0}
-!155 = !{!156, !156, i64 0}
-!156 = !{!"0x2ccd3f60.w8.b0", !157, i64 0}
-!157 = !{!"0x2ccd3f60.w16.b0", !158, i64 0}
-!158 = !{!"0x2ccd3f60.w32.b0", !159, i64 0}
-!159 = !{!"0x2ccd3f60.w64.b0", !160, i64 0}
-!160 = !{!"0x2ccd3f60.w128.b0", !161, i64 0}
-!161 = !{!"0x2ccd3f60.w256.b0", !162, i64 0}
-!162 = !{!"0x2ccd3f60.w512.b0", !163, i64 0}
-!163 = !{!"0x2ccd3f60.w1024.b0", !164, i64 0}
-!164 = !{!"0x2ccd3f60", !32, i64 0}
-!165 = !{!166, !166, i64 0}
-!166 = !{!"0x2ca50580.w8.b0", !167, i64 0}
-!167 = !{!"0x2ca50580.w16.b0", !168, i64 0}
-!168 = !{!"0x2ca50580.w32.b0", !169, i64 0}
-!169 = !{!"0x2ca50580.w64.b0", !170, i64 0}
-!170 = !{!"0x2ca50580.w128.b0", !171, i64 0}
-!171 = !{!"0x2ca50580.w256.b0", !172, i64 0}
-!172 = !{!"0x2ca50580.w512.b0", !173, i64 0}
-!173 = !{!"0x2ca50580.w1024.b0", !174, i64 0}
-!174 = !{!"0x2ca50580", !32, i64 0}
-!175 = !{!176, !176, i64 0}
-!176 = !{!"0x2ca50580.w8.b8", !167, i64 0}
-!177 = !{!178, !178, i64 0}
-!178 = !{!"0x2cb6c120.w8.b8", !179, i64 0}
-!179 = !{!"0x2cb6c120.w16.b0", !180, i64 0}
-!180 = !{!"0x2cb6c120.w32.b0", !181, i64 0}
-!181 = !{!"0x2cb6c120.w64.b0", !182, i64 0}
-!182 = !{!"0x2cb6c120.w128.b0", !183, i64 0}
-!183 = !{!"0x2cb6c120.w256.b0", !184, i64 0}
-!184 = !{!"0x2cb6c120.w512.b0", !185, i64 0}
-!185 = !{!"0x2cb6c120.w1024.b0", !186, i64 0}
-!186 = !{!"0x2cb6c120", !32, i64 0}
-!187 = !{!188, !188, i64 0}
-!188 = !{!"0x2caad0b0.w8.b0", !189, i64 0}
-!189 = !{!"0x2caad0b0.w16.b0", !190, i64 0}
-!190 = !{!"0x2caad0b0.w32.b0", !191, i64 0}
-!191 = !{!"0x2caad0b0.w64.b0", !192, i64 0}
-!192 = !{!"0x2caad0b0.w128.b0", !193, i64 0}
-!193 = !{!"0x2caad0b0.w256.b0", !194, i64 0}
-!194 = !{!"0x2caad0b0.w512.b0", !195, i64 0}
-!195 = !{!"0x2caad0b0.w1024.b0", !196, i64 0}
-!196 = !{!"0x2caad0b0", !32, i64 0}
-!197 = !{!198, !198, i64 0}
-!198 = !{!"0x2caad0b0.w8.b8", !189, i64 0}
-!199 = !{!200, !200, i64 0}
-!200 = !{!"0x2caae040.w8.b8", !201, i64 0}
-!201 = !{!"0x2caae040.w16.b0", !202, i64 0}
-!202 = !{!"0x2caae040.w32.b0", !203, i64 0}
-!203 = !{!"0x2caae040.w64.b0", !204, i64 0}
-!204 = !{!"0x2caae040.w128.b0", !205, i64 0}
-!205 = !{!"0x2caae040.w256.b0", !206, i64 0}
-!206 = !{!"0x2caae040.w512.b0", !207, i64 0}
-!207 = !{!"0x2caae040.w1024.b0", !208, i64 0}
-!208 = !{!"0x2caae040", !32, i64 0}
-!209 = !{!210, !210, i64 0}
-!210 = !{!"0x2cd3efc0.w8.b0", !211, i64 0}
-!211 = !{!"0x2cd3efc0.w16.b0", !212, i64 0}
-!212 = !{!"0x2cd3efc0.w32.b0", !213, i64 0}
-!213 = !{!"0x2cd3efc0.w64.b0", !214, i64 0}
-!214 = !{!"0x2cd3efc0.w128.b0", !215, i64 0}
-!215 = !{!"0x2cd3efc0.w256.b0", !216, i64 0}
-!216 = !{!"0x2cd3efc0.w512.b0", !217, i64 0}
-!217 = !{!"0x2cd3efc0.w1024.b0", !218, i64 0}
-!218 = !{!"0x2cd3efc0", !32, i64 0}
-!219 = !{!220, !220, i64 0}
-!220 = !{!"0x2cd3efc0.w8.b8", !211, i64 0}
-!221 = !{!222, !222, i64 0}
-!222 = !{!"0x2cbaedc0.w8.b8", !223, i64 0}
-!223 = !{!"0x2cbaedc0.w16.b0", !224, i64 0}
-!224 = !{!"0x2cbaedc0.w32.b0", !225, i64 0}
-!225 = !{!"0x2cbaedc0.w64.b0", !226, i64 0}
-!226 = !{!"0x2cbaedc0.w128.b0", !227, i64 0}
-!227 = !{!"0x2cbaedc0.w256.b0", !228, i64 0}
-!228 = !{!"0x2cbaedc0.w512.b0", !229, i64 0}
-!229 = !{!"0x2cbaedc0.w1024.b0", !230, i64 0}
-!230 = !{!"0x2cbaedc0", !32, i64 0}
-!231 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_", scope: !1, file: !1, type: !232, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !234)
-!232 = !DISubroutineType(types: !233)
-!233 = !{!18, !81, !76, !86, !86, !86, !86}
-!234 = !{!235, !236, !237, !238, !239, !240}
-!235 = !DILocalVariable(name: "LUT", arg: 1, scope: !231, file: !1, type: !81)
-!236 = !DILocalVariable(name: "A", arg: 2, scope: !231, file: !1, type: !76)
-!237 = !DILocalVariable(name: "Scales", arg: 3, scope: !231, file: !1, type: !86)
-!238 = !DILocalVariable(name: "LUT_Scales", arg: 4, scope: !231, file: !1, type: !86)
-!239 = !DILocalVariable(name: "LUT_Biases", arg: 5, scope: !231, file: !1, type: !86)
-!240 = !DILocalVariable(name: "C", arg: 6, scope: !231, file: !1, type: !86)
-!241 = !DILocation(line: 0, scope: !231)
-!242 = !DILocalVariable(name: "m.outer", scope: !231, file: !1, type: !18)
-!243 = !DILocalVariable(name: "CBits", scope: !231, file: !1, type: !86)
-!244 = !DILocalVariable(name: "C.global", scope: !231, file: !1, type: !86)
-!245 = !DILocalVariable(name: "k.outer", scope: !231, file: !1, type: !18)
-!246 = !{!247, !247, i64 0}
-!247 = !{!"__fp16", !248, i64 0}
-!248 = !{!"omnipotent char", !249, i64 0}
-!249 = !{!"Simple C++ TBAA"}
-!250 = distinct !{!250, !251}
-!251 = !{!"llvm.loop.mustprogress"}
-!252 = !DILocalVariable(name: "m.c.outer", scope: !231, file: !1, type: !18)
-!253 = !DILocalVariable(name: "cse_var_2", scope: !231, file: !1, type: !18)
-!254 = !DILocalVariable(name: "cse_var_1", scope: !231, file: !1, type: !18)
-!255 = !{!256, !256, i64 0}
-!256 = !{!"0x2cb72f70", !32, i64 0}
-!257 = !{!258, !258, i64 0}
-!258 = !{!"0x2ca05980", !32, i64 0}
-!259 = !DILocalVariable(name: "m.inner.outer", scope: !231, file: !1, type: !18)
-!260 = !DILocalVariable(name: "cse_var_4", scope: !231, file: !1, type: !18)
-!261 = !DILocalVariable(name: "cse_var_3", scope: !231, file: !1, type: !18)
-!262 = !{!263, !263, i64 0}
-!263 = !{!"0x2c97ebb0", !32, i64 0}
+!50 = !{!"0x6000030bf390.w4.b12", !47, i64 0}
+!51 = !DILocalVariable(name: "LUT_Scales.code", scope: !11, file: !1, type: !14)
+!52 = !{!53, !53, i64 0}
+!53 = !{!"0x6000030bf390.w4.b16", !54, i64 0}
+!54 = !{!"0x6000030bf390.w8.b16", !55, i64 0}
+!55 = !{!"0x6000030bf390.w16.b16", !34, i64 0}
+!56 = !DILocalVariable(name: "LUT_Biases.code", scope: !11, file: !1, type: !14)
+!57 = !{!58, !58, i64 0}
+!58 = !{!"0x6000030bf390.w4.b20", !54, i64 0}
+!59 = !DILocalVariable(name: "C.code", scope: !11, file: !1, type: !14)
+!60 = !DILocalVariable(name: "A", scope: !11, file: !1, type: !15)
+!61 = !DILocalVariable(name: "LUT", scope: !11, file: !1, type: !15)
+!62 = !DILocalVariable(name: "Scales", scope: !11, file: !1, type: !15)
+!63 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !15)
+!64 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !15)
+!65 = !DILocalVariable(name: "C", scope: !11, file: !1, type: !15)
+!66 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.shape", scope: !11, file: !1, type: !67)
+!67 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !68)
+!68 = !DIBasicType(name: "int64", size: 64, encoding: DW_ATE_signed)
+!69 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.A.strides", scope: !11, file: !1, type: !67)
+!70 = !DILocalVariable(name: "dev_id", scope: !11, file: !1, type: !14)
+!71 = !DILocalVariable(name: "A", scope: !11, file: !1, type: !72)
+!72 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !73)
+!73 = !DIBasicType(name: "uint8", size: 8, encoding: DW_ATE_unsigned)
+!74 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.shape", scope: !11, file: !1, type: !67)
+!75 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT.strides", scope: !11, file: !1, type: !67)
+!76 = !DILocalVariable(name: "LUT", scope: !11, file: !1, type: !77)
+!77 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !78)
+!78 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_signed)
+!79 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.shape", scope: !11, file: !1, type: !67)
+!80 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.Scales.strides", scope: !11, file: !1, type: !67)
+!81 = !DILocalVariable(name: "Scales", scope: !11, file: !1, type: !82)
+!82 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !83)
+!83 = !DIBasicType(name: "float16", size: 16, encoding: DW_ATE_float)
+!84 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape", scope: !11, file: !1, type: !67)
+!85 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides", scope: !11, file: !1, type: !67)
+!86 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !82)
+!87 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape", scope: !11, file: !1, type: !67)
+!88 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides", scope: !11, file: !1, type: !67)
+!89 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !82)
+!90 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.shape", scope: !11, file: !1, type: !67)
+!91 = !DILocalVariable(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2.C.strides", scope: !11, file: !1, type: !67)
+!92 = !DILocalVariable(name: "C", scope: !11, file: !1, type: !82)
+!93 = !{!94, !94, i64 0}
+!94 = !{!"0x6000031da790.w8.b0", !95, i64 0}
+!95 = !{!"0x6000031da790.w16.b0", !96, i64 0}
+!96 = !{!"0x6000031da790.w32.b0", !97, i64 0}
+!97 = !{!"0x6000031da790.w64.b0", !98, i64 0}
+!98 = !{!"0x6000031da790.w128.b0", !99, i64 0}
+!99 = !{!"0x6000031da790.w256.b0", !100, i64 0}
+!100 = !{!"0x6000031da790.w512.b0", !101, i64 0}
+!101 = !{!"0x6000031da790.w1024.b0", !102, i64 0}
+!102 = !{!"0x6000031da790", !28, i64 0}
+!103 = !{!104, !104, i64 0}
+!104 = !{!"0x6000031da790.w8.b8", !95, i64 0}
+!105 = !{!106, !106, i64 0}
+!106 = !{!"0x6000031da790.w8.b16", !107, i64 0}
+!107 = !{!"0x6000031da790.w16.b16", !96, i64 0}
+!108 = !{!109, !109, i64 0}
+!109 = !{!"0x600003055800.w8.b16", !110, i64 0}
+!110 = !{!"0x600003055800.w16.b16", !111, i64 0}
+!111 = !{!"0x600003055800.w32.b0", !112, i64 0}
+!112 = !{!"0x600003055800.w64.b0", !113, i64 0}
+!113 = !{!"0x600003055800.w128.b0", !114, i64 0}
+!114 = !{!"0x600003055800.w256.b0", !115, i64 0}
+!115 = !{!"0x600003055800.w512.b0", !116, i64 0}
+!116 = !{!"0x600003055800.w1024.b0", !117, i64 0}
+!117 = !{!"0x600003055800", !28, i64 0}
+!118 = !{!119, !119, i64 0}
+!119 = !{!"0x600003055800.w8.b8", !120, i64 0}
+!120 = !{!"0x600003055800.w16.b0", !111, i64 0}
+!121 = !{!122, !122, i64 0}
+!122 = !{!"0x600003055800.w8.b0", !120, i64 0}
+!123 = !{!124, !124, i64 0}
+!124 = !{!"0x600003057300.w8.b0", !125, i64 0}
+!125 = !{!"0x600003057300.w16.b0", !126, i64 0}
+!126 = !{!"0x600003057300.w32.b0", !127, i64 0}
+!127 = !{!"0x600003057300.w64.b0", !128, i64 0}
+!128 = !{!"0x600003057300.w128.b0", !129, i64 0}
+!129 = !{!"0x600003057300.w256.b0", !130, i64 0}
+!130 = !{!"0x600003057300.w512.b0", !131, i64 0}
+!131 = !{!"0x600003057300.w1024.b0", !132, i64 0}
+!132 = !{!"0x600003057300", !28, i64 0}
+!133 = !{!134, !134, i64 0}
+!134 = !{!"0x600003057300.w8.b8", !125, i64 0}
+!135 = !{!136, !136, i64 0}
+!136 = !{!"0x600003057300.w8.b16", !137, i64 0}
+!137 = !{!"0x600003057300.w16.b16", !126, i64 0}
+!138 = !{!139, !139, i64 0}
+!139 = !{!"0x6000030578d0.w8.b16", !140, i64 0}
+!140 = !{!"0x6000030578d0.w16.b16", !141, i64 0}
+!141 = !{!"0x6000030578d0.w32.b0", !142, i64 0}
+!142 = !{!"0x6000030578d0.w64.b0", !143, i64 0}
+!143 = !{!"0x6000030578d0.w128.b0", !144, i64 0}
+!144 = !{!"0x6000030578d0.w256.b0", !145, i64 0}
+!145 = !{!"0x6000030578d0.w512.b0", !146, i64 0}
+!146 = !{!"0x6000030578d0.w1024.b0", !147, i64 0}
+!147 = !{!"0x6000030578d0", !28, i64 0}
+!148 = !{!149, !149, i64 0}
+!149 = !{!"0x6000030578d0.w8.b8", !150, i64 0}
+!150 = !{!"0x6000030578d0.w16.b0", !141, i64 0}
+!151 = !{!152, !152, i64 0}
+!152 = !{!"0x600003056c70.w8.b0", !153, i64 0}
+!153 = !{!"0x600003056c70.w16.b0", !154, i64 0}
+!154 = !{!"0x600003056c70.w32.b0", !155, i64 0}
+!155 = !{!"0x600003056c70.w64.b0", !156, i64 0}
+!156 = !{!"0x600003056c70.w128.b0", !157, i64 0}
+!157 = !{!"0x600003056c70.w256.b0", !158, i64 0}
+!158 = !{!"0x600003056c70.w512.b0", !159, i64 0}
+!159 = !{!"0x600003056c70.w1024.b0", !160, i64 0}
+!160 = !{!"0x600003056c70", !28, i64 0}
+!161 = !{!162, !162, i64 0}
+!162 = !{!"0x600003044060.w8.b0", !163, i64 0}
+!163 = !{!"0x600003044060.w16.b0", !164, i64 0}
+!164 = !{!"0x600003044060.w32.b0", !165, i64 0}
+!165 = !{!"0x600003044060.w64.b0", !166, i64 0}
+!166 = !{!"0x600003044060.w128.b0", !167, i64 0}
+!167 = !{!"0x600003044060.w256.b0", !168, i64 0}
+!168 = !{!"0x600003044060.w512.b0", !169, i64 0}
+!169 = !{!"0x600003044060.w1024.b0", !170, i64 0}
+!170 = !{!"0x600003044060", !28, i64 0}
+!171 = !{!172, !172, i64 0}
+!172 = !{!"0x600003044060.w8.b8", !163, i64 0}
+!173 = !{!174, !174, i64 0}
+!174 = !{!"0x600003044960.w8.b8", !175, i64 0}
+!175 = !{!"0x600003044960.w16.b0", !176, i64 0}
+!176 = !{!"0x600003044960.w32.b0", !177, i64 0}
+!177 = !{!"0x600003044960.w64.b0", !178, i64 0}
+!178 = !{!"0x600003044960.w128.b0", !179, i64 0}
+!179 = !{!"0x600003044960.w256.b0", !180, i64 0}
+!180 = !{!"0x600003044960.w512.b0", !181, i64 0}
+!181 = !{!"0x600003044960.w1024.b0", !182, i64 0}
+!182 = !{!"0x600003044960", !28, i64 0}
+!183 = !{!184, !184, i64 0}
+!184 = !{!"0x600003045560.w8.b0", !185, i64 0}
+!185 = !{!"0x600003045560.w16.b0", !186, i64 0}
+!186 = !{!"0x600003045560.w32.b0", !187, i64 0}
+!187 = !{!"0x600003045560.w64.b0", !188, i64 0}
+!188 = !{!"0x600003045560.w128.b0", !189, i64 0}
+!189 = !{!"0x600003045560.w256.b0", !190, i64 0}
+!190 = !{!"0x600003045560.w512.b0", !191, i64 0}
+!191 = !{!"0x600003045560.w1024.b0", !192, i64 0}
+!192 = !{!"0x600003045560", !28, i64 0}
+!193 = !{!194, !194, i64 0}
+!194 = !{!"0x600003045560.w8.b8", !185, i64 0}
+!195 = !{!196, !196, i64 0}
+!196 = !{!"0x600003045e60.w8.b8", !197, i64 0}
+!197 = !{!"0x600003045e60.w16.b0", !198, i64 0}
+!198 = !{!"0x600003045e60.w32.b0", !199, i64 0}
+!199 = !{!"0x600003045e60.w64.b0", !200, i64 0}
+!200 = !{!"0x600003045e60.w128.b0", !201, i64 0}
+!201 = !{!"0x600003045e60.w256.b0", !202, i64 0}
+!202 = !{!"0x600003045e60.w512.b0", !203, i64 0}
+!203 = !{!"0x600003045e60.w1024.b0", !204, i64 0}
+!204 = !{!"0x600003045e60", !28, i64 0}
+!205 = !{!206, !206, i64 0}
+!206 = !{!"0x600003046a00.w8.b0", !207, i64 0}
+!207 = !{!"0x600003046a00.w16.b0", !208, i64 0}
+!208 = !{!"0x600003046a00.w32.b0", !209, i64 0}
+!209 = !{!"0x600003046a00.w64.b0", !210, i64 0}
+!210 = !{!"0x600003046a00.w128.b0", !211, i64 0}
+!211 = !{!"0x600003046a00.w256.b0", !212, i64 0}
+!212 = !{!"0x600003046a00.w512.b0", !213, i64 0}
+!213 = !{!"0x600003046a00.w1024.b0", !214, i64 0}
+!214 = !{!"0x600003046a00", !28, i64 0}
+!215 = !{!216, !216, i64 0}
+!216 = !{!"0x600003046a00.w8.b8", !207, i64 0}
+!217 = !{!218, !218, i64 0}
+!218 = !{!"0x6000030473c0.w8.b8", !219, i64 0}
+!219 = !{!"0x6000030473c0.w16.b0", !220, i64 0}
+!220 = !{!"0x6000030473c0.w32.b0", !221, i64 0}
+!221 = !{!"0x6000030473c0.w64.b0", !222, i64 0}
+!222 = !{!"0x6000030473c0.w128.b0", !223, i64 0}
+!223 = !{!"0x6000030473c0.w256.b0", !224, i64 0}
+!224 = !{!"0x6000030473c0.w512.b0", !225, i64 0}
+!225 = !{!"0x6000030473c0.w1024.b0", !226, i64 0}
+!226 = !{!"0x6000030473c0", !28, i64 0}
+!227 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m6400_k3200_n1_b2_compute_", scope: !1, file: !1, type: !228, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !230)
+!228 = !DISubroutineType(types: !229)
+!229 = !{!14, !77, !72, !82, !82, !82, !82}
+!230 = !{!231, !232, !233, !234, !235, !236}
+!231 = !DILocalVariable(name: "LUT", arg: 1, scope: !227, file: !1, type: !77)
+!232 = !DILocalVariable(name: "A", arg: 2, scope: !227, file: !1, type: !72)
+!233 = !DILocalVariable(name: "Scales", arg: 3, scope: !227, file: !1, type: !82)
+!234 = !DILocalVariable(name: "LUT_Scales", arg: 4, scope: !227, file: !1, type: !82)
+!235 = !DILocalVariable(name: "LUT_Biases", arg: 5, scope: !227, file: !1, type: !82)
+!236 = !DILocalVariable(name: "C", arg: 6, scope: !227, file: !1, type: !82)
+!237 = !DILocation(line: 0, scope: !227)
+!238 = !DILocalVariable(name: "m.outer", scope: !227, file: !1, type: !14)
+!239 = !DILocalVariable(name: "CBits", scope: !227, file: !1, type: !82)
+!240 = !DILocalVariable(name: "k.outer", scope: !227, file: !1, type: !14)
+!241 = !{!242, !242, i64 0}
+!242 = !{!"__fp16", !243, i64 0}
+!243 = !{!"omnipotent char", !244, i64 0}
+!244 = !{!"Simple C++ TBAA"}
+!245 = distinct !{!245, !246}
+!246 = !{!"llvm.loop.mustprogress"}
+!247 = !DILocalVariable(name: "m.c.outer", scope: !227, file: !1, type: !14)
+!248 = !DILocalVariable(name: "cse_var_2", scope: !227, file: !1, type: !14)
+!249 = !DILocalVariable(name: "cse_var_1", scope: !227, file: !1, type: !14)
+!250 = !{!251, !251, i64 0}
+!251 = !{!"0x60000312bf00", !28, i64 0}
+!252 = !DILocalVariable(name: "C.global", scope: !227, file: !1, type: !82)
+!253 = !DILocalVariable(name: "m.inner.outer", scope: !227, file: !1, type: !14)
+!254 = !DILocalVariable(name: "cse_var_4", scope: !227, file: !1, type: !14)
+!255 = !DILocalVariable(name: "cse_var_3", scope: !227, file: !1, type: !14)
+!256 = !{!257, !257, i64 0}
+!257 = !{!"0x600003176ee0", !28, i64 0}
