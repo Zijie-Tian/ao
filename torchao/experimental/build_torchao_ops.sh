@@ -11,7 +11,14 @@ if [[ $# -ne 1 ]]; then
 fi
 TARGET="${1}"
 export CMAKE_PREFIX_PATH=$(python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')
-export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/Users/tianzijie/libs/torch_v26/pytorch/torch
+# Dynamically detect torch installation path
+TORCH_PATH=$(python -c "import torch; print(torch.__file__)" 2>/dev/null)
+if [ -z "$TORCH_PATH" ]; then
+    echo "Error: PyTorch is not installed or not in PYTHONPATH"
+    exit 1
+fi
+TORCH_PREFIX=$(dirname $(dirname $TORCH_PATH))
+export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:${TORCH_PREFIX}
 echo "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}"
 if [[ $TARGET == "executorch" ]]; then
     TORCHAO_BUILD_EXECUTORCH_OPS=ON

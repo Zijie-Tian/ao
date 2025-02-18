@@ -35,7 +35,11 @@ include(CMakePrintHelpers)
 message("TORCHAO_INCLUDE_DIRS: ${TORCHAO_INCLUDE_DIRS}")
 include_directories(${TORCHAO_INCLUDE_DIRS})
 # include_directories("/home/edgellm/anaconda3/envs/torchao/include/python3.10/")
-include_directories("/Users/tianzijie/anaconda3/envs/torchao/include/python3.10/")
+# include_directories("/Users/tianzijie/anaconda3/envs/torchao/include/python3.10/")
+find_package(Python REQUIRED COMPONENTS Development)
+include_directories(${Python_INCLUDE_DIRS})
+
+message("Python_INCLUDE_DIRS: ${Python_INCLUDE_DIRS}")
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
     if(TORCHAO_BUILD_KLEIDIAI)
@@ -60,22 +64,6 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
         EXPORT _targets
         DESTINATION lib
     )
-    # if(TORCHAO_BUILD_EXECUTORCH_OPS)
-    #     add_library(torchao_ops_executorch STATIC)
-    #     target_link_libraries(torchao_ops_executorch PRIVATE
-    #         torchao_ops_linear_8bit_act_xbit_weight_executorch
-    #         torchao_ops_embedding_xbit_executorch
-    #     )
-    #     install(
-    #         TARGETS
-    #             torchao_ops_executorch
-    #             torchao_kernels_aarch64
-    #             torchao_ops_linear_8bit_act_xbit_weight_executorch
-    #             torchao_ops_embedding_xbit_executorch
-    #         EXPORT _targets
-    #         DESTINATION lib
-    #     )
-    # endif()
 
 elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
     add_subdirectory(ops/tmac)
