@@ -85,60 +85,6 @@ namespace {
             LOG(WARNING) << "输入张量非连续，已自动转换为连续内存";
         }
 
-        //> Debug block
-        /**
-        {
-            auto is_continuous = activation.is_contiguous();
-            auto activation_continuous = activation.contiguous();
-            int64_t n = activation_continuous.numel();
-            
-            std::stringstream data_ss;
-            data_ss << "A_t data: [";
-            
-            AT_DISPATCH_FLOATING_TYPES(activation.scalar_type(), "qgemm_lut", ([&] {
-                scalar_t*  A_t = activation.data_ptr<scalar_t>();
-                for (int i = 0; i < n; i++) {
-                    data_ss << A_t[i] << ", ";
-                }
-            }));
-
-            data_ss << "]";
-            LOG(INFO) << data_ss.str();
-        }
-
-        {
-            auto is_continuous = qlut.is_contiguous();
-            auto qlut_continuous = qlut.contiguous();
-            int64_t n = qlut_continuous.numel();
-            
-            std::stringstream data_ss;
-            data_ss << "qlut data: [";
-            
-            AT_DISPATCH_FLOATING_TYPES(qlut.scalar_type(), "qgemm_lut", ([&] {
-                scalar_t*  qlut_t = qlut.data_ptr<scalar_t>();
-                for (int i = 0; i < n; i++) {
-                    data_ss << qlut_t[i] << ", ";
-                }
-            }));
-
-            data_ss << "]";
-            LOG(INFO) << data_ss.str();
-        }*/
-
-        LOG(INFO) << "M: " << activation.size(0) << ", K: " << activation.size(1) << ", bits: " << bits;
-        
-        LOG(INFO) << "A_t : ";
-        activation.print();
-        LOG(INFO) << "qlut : ";
-        qlut.print();
-        LOG(INFO) << "scales : ";
-        scales.print();
-        LOG(INFO) << "lut_scales : ";
-        lut_scales.print();
-        LOG(INFO) << "lut_biases : ";
-        lut_biases.print();
-
-
         // 获取底层指针（确保张量内存布局正确）
         void* A_ptr = activation.data_ptr();
         void* qlut_ptr = qlut.contiguous().data_ptr();

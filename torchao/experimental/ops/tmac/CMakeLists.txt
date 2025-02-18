@@ -58,7 +58,7 @@ endif()
 find_package(Torch REQUIRED)
 add_library(torchao_ops_tmac_aten OBJECT
     op_tmac_aten.cpp
-    tuned/kernels.cc
+    t-mac/kernels.cc
 )
 set_target_properties(torchao_ops_tmac_aten PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_torchao_parallel_backend(torchao_ops_tmac_aten openmp)

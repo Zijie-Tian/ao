@@ -1,8 +1,8 @@
 	.section	__TEXT,__text,regular,pure_instructions
 	.build_version macos, 14, 0	sdk_version 15, 2
-	.globl	_preprocessor_t4_int8_m6400_k3200_n1_b2
+	.globl	_preprocessor_t4_int8_m8192_k14336_n1_b2
 	.p2align	2
-_preprocessor_t4_int8_m6400_k3200_n1_b2:
+_preprocessor_t4_int8_m8192_k14336_n1_b2:
 Lfunc_begin0:
 	.file	1 "." "IRModule.CodeGenLLVM"
 	.loc	1 0 0
@@ -118,7 +118,8 @@ Ltmp34:
 Ltmp35:
 	ldr	w9, [x9, #8]
 Ltmp36:
-	cmp	w9, #3200
+	mov	w11, #14336
+	cmp	w9, w11
 	b.ne	LBB0_81
 Ltmp37:
 	ldr	x5, [x16, #32]
@@ -174,7 +175,7 @@ Ltmp56:
 	b.ne	LBB0_87
 Ltmp57:
 	ldr	w16, [x4, #8]
-	cmp	w16, #50
+	cmp	w16, #224
 	b.ne	LBB0_88
 Ltmp58:
 	cbz	x17, LBB0_35
@@ -215,7 +216,7 @@ Ltmp68:
 	b.ne	LBB0_95
 Ltmp69:
 	ldr	w13, [x15, #8]
-	cmp	w13, #50
+	cmp	w13, #224
 	b.ne	LBB0_96
 Ltmp70:
 	cbz	x14, LBB0_46
@@ -255,7 +256,7 @@ Ltmp80:
 	b.ne	LBB0_103
 Ltmp81:
 	ldr	w10, [x12, #8]
-	cmp	w10, #800
+	cmp	w10, #3584
 	b.ne	LBB0_104
 Ltmp82:
 	ldr	w10, [x12, #16]
@@ -287,7 +288,7 @@ Ltmp89:
 Ltmp90:
 	cbz	x2, LBB0_110
 Ltmp91:
-	bl	_preprocessor_t4_int8_m6400_k3200_n1_b2_compute_
+	bl	_preprocessor_t4_int8_m8192_k14336_n1_b2_compute_
 Ltmp92:
 	mov	w0, #0
 	ldp	x29, x30, [sp], #16
@@ -1816,7 +1817,7 @@ lCPI1_31:
 	.byte	255
 	.section	__TEXT,__text,regular,pure_instructions
 	.p2align	2
-_preprocessor_t4_int8_m6400_k3200_n1_b2_compute_:
+_preprocessor_t4_int8_m8192_k14336_n1_b2_compute_:
 Lfunc_begin1:
 	.loc	1 0 0
 	.cfi_startproc
@@ -1872,7 +1873,7 @@ LBB1_1:
 	str	h2, [x0, x8]
 	add	x8, x8, #2
 	add	x9, x9, #128
-	cmp	x8, #100
+	cmp	x8, #448
 	b.ne	LBB1_1
 Ltmp269:
 	mov	x8, #0
@@ -2251,7 +2252,7 @@ Ltmp273:
 	add	x1, x1, #128
 Ltmp274:
 	add	x9, x9, #256
-	cmp	x8, #50
+	cmp	x8, #224
 	b.ne	LBB1_3
 Ltmp275:
 	ldp	x28, x27, [sp, #432]
@@ -2481,150 +2482,150 @@ ___TVMAPISetLastError:
 
 	.section	__TEXT,__const
 l_.str:
-	.asciz	"Assert fail: num_args == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: num_args should be 4"
+	.asciz	"Assert fail: num_args == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: num_args should be 4"
 
 l_.str.1:
-	.asciz	"Assert fail: not T.isnullptr(args), preprocessor_t4_int8_m6400_k3200_n1_b2: TVMValue* arg pointer was NULL"
+	.asciz	"Assert fail: not T.isnullptr(args), preprocessor_t4_int8_m8192_k14336_n1_b2: TVMValue* arg pointer was NULL"
 
 l_.str.2:
-	.asciz	"Assert fail: not T.isnullptr(arg_type_ids), preprocessor_t4_int8_m6400_k3200_n1_b2: int* type_codes was NULL"
+	.asciz	"Assert fail: not T.isnullptr(arg_type_ids), preprocessor_t4_int8_m8192_k14336_n1_b2: int* type_codes was NULL"
 
 l_.str.3:
-	.asciz	"Assert fail: B_code == 3 or B_code == 13 or B_code == 7 or B_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[0] to be pointer"
+	.asciz	"Assert fail: B_code == 3 or B_code == 13 or B_code == 7 or B_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[0] to be pointer"
 
 l_.str.4:
-	.asciz	"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[1] to be pointer"
+	.asciz	"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[1] to be pointer"
 
 l_.str.5:
-	.asciz	"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[2] to be pointer"
+	.asciz	"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[2] to be pointer"
 
 l_.str.6:
-	.asciz	"Assert fail: QLUT_code == 3 or QLUT_code == 13 or QLUT_code == 7 or QLUT_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[3] to be pointer"
+	.asciz	"Assert fail: QLUT_code == 3 or QLUT_code == 13 or QLUT_code == 7 or QLUT_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[3] to be pointer"
 
 l_.str.7:
-	.asciz	"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m6400_k3200_n1_b2.B is expected to have non-NULL DLTensor* pointer"
+	.asciz	"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m8192_k14336_n1_b2.B is expected to have non-NULL DLTensor* pointer"
 
 l_.str.8:
-	.asciz	"Assert fail: 2 == T.tvm_struct_get(B, 0, 4, \"int32\"), preprocessor_t4_int8_m6400_k3200_n1_b2.B.ndim is expected to equal 2"
+	.asciz	"Assert fail: 2 == T.tvm_struct_get(B, 0, 4, \"int32\"), preprocessor_t4_int8_m8192_k14336_n1_b2.B.ndim is expected to equal 2"
 
 l_.str.9:
-	.asciz	"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer"
+	.asciz	"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer"
 
 l_.str.10:
-	.asciz	"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \"int32\"), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.ndim is expected to equal 2"
+	.asciz	"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \"int32\"), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.ndim is expected to equal 2"
 
 l_.str.11:
-	.asciz	"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer"
+	.asciz	"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer"
 
 l_.str.12:
-	.asciz	"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \"int32\"), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.ndim is expected to equal 2"
+	.asciz	"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \"int32\"), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.ndim is expected to equal 2"
 
 l_.str.13:
-	.asciz	"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT is expected to have non-NULL DLTensor* pointer"
+	.asciz	"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT is expected to have non-NULL DLTensor* pointer"
 
 l_.str.14:
-	.asciz	"Assert fail: 3 == T.tvm_struct_get(QLUT, 0, 4, \"int32\"), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.ndim is expected to equal 3"
+	.asciz	"Assert fail: 3 == T.tvm_struct_get(QLUT, 0, 4, \"int32\"), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.ndim is expected to equal 3"
 
 l_.str.15:
-	.asciz	"Assert fail: T.tvm_struct_get(B, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(B, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(B, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.B.dtype is expected to be float16"
+	.asciz	"Assert fail: T.tvm_struct_get(B, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(B, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(B, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.B.dtype is expected to be float16"
 
 l_.str.16:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[0])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[0])"
 
 l_.str.17:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[1]) == 3200, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape[1] has an unsatisfied constraint: 3200 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[1])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[1]) == 14336, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape[1] has an unsatisfied constraint: 14336 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[1])"
 
 l_.str.18:
-	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_B_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides: expected to be compact array"
+	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_B_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides: expected to be compact array"
 
 l_.str.19:
-	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \"uint64\")"
+	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \"uint64\")"
 
 l_.str.20:
-	.asciz	"Assert fail: T.tvm_struct_get(B, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(B, 0, 10, \"int32\")"
+	.asciz	"Assert fail: T.tvm_struct_get(B, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(B, 0, 10, \"int32\")"
 
 l_.str.21:
-	.asciz	"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m6400_k3200_n1_b2.B is expected to have non-NULL data pointer"
+	.asciz	"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m8192_k14336_n1_b2.B is expected to have non-NULL data pointer"
 
 l_.str.22:
-	.asciz	"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.dtype is expected to be float16"
+	.asciz	"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.dtype is expected to be float16"
 
 l_.str.23:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[0])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0])"
 
 l_.str.24:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[1]) == 50, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 50 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[1])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1]) == 224, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 224 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1])"
 
 l_.str.25:
-	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides: expected to be compact array"
+	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides: expected to be compact array"
 
 l_.str.26:
-	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \"uint64\")"
+	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \"uint64\")"
 
 l_.str.27:
-	.asciz	"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \"int32\")"
+	.asciz	"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \"int32\")"
 
 l_.str.28:
-	.asciz	"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \"int32\")"
+	.asciz	"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \"int32\")"
 
 l_.str.29:
-	.asciz	"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales is expected to have non-NULL data pointer"
+	.asciz	"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL data pointer"
 
 l_.str.30:
-	.asciz	"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.dtype is expected to be float16"
+	.asciz	"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \"uint8\") == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \"uint8\") == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.dtype is expected to be float16"
 
 l_.str.31:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[0])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0])"
 
 l_.str.32:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[1]) == 50, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 50 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[1])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1]) == 224, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 224 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1])"
 
 l_.str.33:
-	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides: expected to be compact array"
+	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides: expected to be compact array"
 
 l_.str.34:
-	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \"uint64\")"
+	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \"uint64\")"
 
 l_.str.35:
-	.asciz	"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \"int32\")"
+	.asciz	"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \"int32\")"
 
 l_.str.36:
-	.asciz	"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \"int32\")"
+	.asciz	"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \"int32\")"
 
 l_.str.37:
-	.asciz	"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases is expected to have non-NULL data pointer"
+	.asciz	"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL data pointer"
 
 l_.str.38:
-	.asciz	"Assert fail: T.tvm_struct_get(QLUT, 0, 5, \"uint8\") == T.uint8(0) and T.tvm_struct_get(QLUT, 0, 6, \"uint8\") == T.uint8(8) and T.tvm_struct_get(QLUT, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.dtype is expected to be int8"
+	.asciz	"Assert fail: T.tvm_struct_get(QLUT, 0, 5, \"uint8\") == T.uint8(0) and T.tvm_struct_get(QLUT, 0, 6, \"uint8\") == T.uint8(8) and T.tvm_struct_get(QLUT, 0, 7, \"uint16\") == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.dtype is expected to be int8"
 
 l_.str.39:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[0])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[0])"
 
 l_.str.40:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[1]) == 800, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[1] has an unsatisfied constraint: 800 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[1])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[1]) == 3584, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[1] has an unsatisfied constraint: 3584 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[1])"
 
 l_.str.41:
-	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[2]) == 16, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[2])"
+	.asciz	"Assert fail: T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[2]) == 16, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[2])"
 
 l_.str.42:
-	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_strides[2]) and 16 == T.Cast(\"int32\", preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides: expected to be compact array"
+	.asciz	"Assert fail: 1 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_strides[2]) and 16 == T.Cast(\"int32\", preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides: expected to be compact array"
 
 l_.str.43:
-	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \"uint64\")"
+	.asciz	"Assert fail: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \"uint64\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \"uint64\")"
 
 l_.str.44:
-	.asciz	"Assert fail: T.tvm_struct_get(QLUT, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(QLUT, 0, 10, \"int32\")"
+	.asciz	"Assert fail: T.tvm_struct_get(QLUT, 0, 10, \"int32\") == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(QLUT, 0, 10, \"int32\")"
 
 l_.str.45:
-	.asciz	"Assert fail: dev_id == T.tvm_struct_get(QLUT, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(QLUT, 0, 9, \"int32\")"
+	.asciz	"Assert fail: dev_id == T.tvm_struct_get(QLUT, 0, 9, \"int32\"), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(QLUT, 0, 9, \"int32\")"
 
 l_.str.46:
-	.asciz	"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT is expected to have non-NULL data pointer"
+	.asciz	"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT is expected to have non-NULL data pointer"
 
 	.globl	___tvm_main__
 	.weak_definition	___tvm_main__
 ___tvm_main__:
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2"
 
 	.section	__DWARF,__debug_loc,regular,debug
 Lsection_debug_loc:
@@ -7496,137 +7497,137 @@ Ldebug_info_start0:
 	.byte	3
 .set Lset1325, Ldebug_loc0-Lsection_debug_loc
 	.long	Lset1325
-	.long	120
+	.long	122
 	.long	526
 	.byte	3
 .set Lset1326, Ldebug_loc1-Lsection_debug_loc
 	.long	Lset1326
-	.long	125
+	.long	127
 	.long	527
 	.byte	3
 .set Lset1327, Ldebug_loc2-Lsection_debug_loc
 	.long	Lset1327
-	.long	138
+	.long	140
 	.long	519
 	.byte	3
 .set Lset1328, Ldebug_loc3-Lsection_debug_loc
 	.long	Lset1328
-	.long	147
+	.long	149
 	.long	526
 	.byte	3
 .set Lset1329, Ldebug_loc4-Lsection_debug_loc
 	.long	Lset1329
-	.long	161
+	.long	163
 	.long	527
 	.byte	3
 .set Lset1330, Ldebug_loc5-Lsection_debug_loc
 	.long	Lset1330
-	.long	175
+	.long	177
 	.long	526
 	.byte	4
 .set Lset1331, Ldebug_loc6-Lsection_debug_loc
 	.long	Lset1331
-	.long	191
+	.long	193
 	.long	519
 	.byte	4
 .set Lset1332, Ldebug_loc7-Lsection_debug_loc
 	.long	Lset1332
-	.long	198
+	.long	200
 	.long	519
 	.byte	4
 .set Lset1333, Ldebug_loc8-Lsection_debug_loc
 	.long	Lset1333
-	.long	214
+	.long	216
 	.long	519
 	.byte	4
 .set Lset1334, Ldebug_loc9-Lsection_debug_loc
 	.long	Lset1334
-	.long	230
+	.long	232
 	.long	519
 	.byte	4
 .set Lset1335, Ldebug_loc10-Lsection_debug_loc
 	.long	Lset1335
-	.long	240
+	.long	242
 	.long	526
 	.byte	4
 .set Lset1336, Ldebug_loc11-Lsection_debug_loc
 	.long	Lset1336
-	.long	245
+	.long	247
 	.long	526
 	.byte	4
 .set Lset1337, Ldebug_loc12-Lsection_debug_loc
 	.long	Lset1337
-	.long	256
+	.long	258
 	.long	526
 	.byte	4
 .set Lset1338, Ldebug_loc13-Lsection_debug_loc
 	.long	Lset1338
-	.long	267
+	.long	269
 	.long	526
 	.byte	4
 .set Lset1339, Ldebug_loc14-Lsection_debug_loc
 	.long	Lset1339
-	.long	267
+	.long	269
 	.long	532
 	.byte	4
 .set Lset1340, Ldebug_loc15-Lsection_debug_loc
 	.long	Lset1340
-	.long	277
+	.long	279
 	.long	519
 	.byte	4
 .set Lset1341, Ldebug_loc16-Lsection_debug_loc
 	.long	Lset1341
-	.long	284
+	.long	286
 	.long	544
 	.byte	4
 .set Lset1342, Ldebug_loc17-Lsection_debug_loc
 	.long	Lset1342
-	.long	339
+	.long	342
 	.long	544
 	.byte	4
 .set Lset1343, Ldebug_loc18-Lsection_debug_loc
 	.long	Lset1343
-	.long	256
+	.long	258
 	.long	532
 	.byte	4
 .set Lset1344, Ldebug_loc19-Lsection_debug_loc
 	.long	Lset1344
-	.long	386
+	.long	390
 	.long	544
 	.byte	4
 .set Lset1345, Ldebug_loc20-Lsection_debug_loc
 	.long	Lset1345
-	.long	444
+	.long	449
 	.long	544
 	.byte	4
 .set Lset1346, Ldebug_loc21-Lsection_debug_loc
 	.long	Lset1346
-	.long	245
+	.long	247
 	.long	532
 	.byte	4
 .set Lset1347, Ldebug_loc22-Lsection_debug_loc
 	.long	Lset1347
-	.long	500
+	.long	506
 	.long	544
 	.byte	4
 .set Lset1348, Ldebug_loc23-Lsection_debug_loc
 	.long	Lset1348
-	.long	558
+	.long	565
 	.long	544
 	.byte	4
 .set Lset1349, Ldebug_loc24-Lsection_debug_loc
 	.long	Lset1349
-	.long	614
+	.long	622
 	.long	544
 	.byte	4
 .set Lset1350, Ldebug_loc25-Lsection_debug_loc
 	.long	Lset1350
-	.long	664
+	.long	673
 	.long	544
 	.byte	4
 .set Lset1351, Ldebug_loc26-Lsection_debug_loc
 	.long	Lset1351
-	.long	240
+	.long	242
 	.long	556
 	.byte	0
 	.byte	5
@@ -7635,7 +7636,7 @@ Ldebug_info_start0:
 	.byte	1
 	.byte	1
 	.byte	111
-	.long	66
+	.long	67
 	.byte	1
 	.byte	3
 	.long	519
@@ -7643,31 +7644,31 @@ Ldebug_info_start0:
 	.byte	6
 	.byte	1
 	.byte	80
-	.long	256
+	.long	258
 	.long	532
 	.byte	3
 .set Lset1352, Ldebug_loc27-Lsection_debug_loc
 	.long	Lset1352
-	.long	267
+	.long	269
 	.long	532
 	.byte	6
 	.byte	1
 	.byte	82
-	.long	240
+	.long	242
 	.long	556
 	.byte	6
 	.byte	1
 	.byte	83
-	.long	245
+	.long	247
 	.long	532
 	.byte	4
 .set Lset1353, Ldebug_loc28-Lsection_debug_loc
 	.long	Lset1353
-	.long	721
+	.long	731
 	.long	519
 	.byte	0
 	.byte	7
-	.long	114
+	.long	116
 	.byte	5
 	.byte	4
 	.byte	8
@@ -7676,19 +7677,19 @@ Ldebug_info_start0:
 	.byte	9
 	.long	537
 	.byte	7
-	.long	269
+	.long	271
 	.byte	4
 	.byte	2
 	.byte	9
 	.long	549
 	.byte	7
-	.long	333
+	.long	336
 	.byte	5
 	.byte	8
 	.byte	9
 	.long	561
 	.byte	7
-	.long	716
+	.long	726
 	.byte	5
 	.byte	1
 	.byte	0
@@ -7698,8 +7699,8 @@ Linfo_string:
 	.asciz	"TVM"
 	.asciz	"IRModule.CodeGenLLVM"
 	.asciz	"."
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2_compute_"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2_compute_"
 	.asciz	"int32"
 	.asciz	"args"
 	.asciz	"arg_type_ids"
@@ -7717,15 +7718,15 @@ Linfo_string:
 	.asciz	"B"
 	.asciz	"float16"
 	.asciz	"dev_id"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides"
 	.asciz	"int64"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape"
-	.asciz	"preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape"
+	.asciz	"preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides"
 	.asciz	"int8"
 	.asciz	"k.outer"
 	.section	__DWARF,__apple_names,regular,debug
@@ -7742,14 +7743,14 @@ Lnames_begin:
 	.short	6
 	.long	0
 	.long	1
-	.long	150086374
-	.long	1480547403
+	.long	1607553132
+	.long	1107200785
 .set Lset1354, LNames1-Lnames_begin
 	.long	Lset1354
 .set Lset1355, LNames0-Lnames_begin
 	.long	Lset1355
 LNames1:
-	.long	66
+	.long	67
 	.long	1
 	.long	428
 	.long	0
@@ -7817,28 +7818,28 @@ Ltypes_begin:
 .set Lset1359, Ltypes1-Ltypes_begin
 	.long	Lset1359
 Ltypes3:
-	.long	716
+	.long	726
 	.long	1
 	.long	561
 	.short	36
 	.byte	0
 	.long	0
 Ltypes0:
-	.long	114
+	.long	116
 	.long	1
 	.long	519
 	.short	36
 	.byte	0
 	.long	0
 Ltypes2:
-	.long	333
+	.long	336
 	.long	1
 	.long	549
 	.short	36
 	.byte	0
 	.long	0
 Ltypes1:
-	.long	269
+	.long	271
 	.long	1
 	.long	537
 	.short	36

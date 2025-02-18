@@ -9,57 +9,57 @@ target triple = "arm64-apple-darwin23.1.0"
 %3 = type { i8, i8, i16 }
 
 @__TVMAPISetLastError = linkonce dllexport local_unnamed_addr global ptr null, align 8
-@.str = private constant [89 x i8] c"Assert fail: num_args == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: num_args should be 4\00", align 1
-@.str.1 = private constant [107 x i8] c"Assert fail: not T.isnullptr(args), preprocessor_t4_int8_m6400_k3200_n1_b2: TVMValue* arg pointer was NULL\00", align 1
-@.str.2 = private constant [109 x i8] c"Assert fail: not T.isnullptr(arg_type_ids), preprocessor_t4_int8_m6400_k3200_n1_b2: int* type_codes was NULL\00", align 1
-@.str.3 = private constant [140 x i8] c"Assert fail: B_code == 3 or B_code == 13 or B_code == 7 or B_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[0] to be pointer\00", align 1
-@.str.4 = private constant [176 x i8] c"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[1] to be pointer\00", align 1
-@.str.5 = private constant [176 x i8] c"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[2] to be pointer\00", align 1
-@.str.6 = private constant [152 x i8] c"Assert fail: QLUT_code == 3 or QLUT_code == 13 or QLUT_code == 7 or QLUT_code == 4, preprocessor_t4_int8_m6400_k3200_n1_b2: Expect arg[3] to be pointer\00", align 1
-@.str.7 = private constant [121 x i8] c"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m6400_k3200_n1_b2.B is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.8 = private constant [123 x i8] c"Assert fail: 2 == T.tvm_struct_get(B, 0, 4, \22int32\22), preprocessor_t4_int8_m6400_k3200_n1_b2.B.ndim is expected to equal 2\00", align 1
-@.str.9 = private constant [139 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.10 = private constant [141 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \22int32\22), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.ndim is expected to equal 2\00", align 1
-@.str.11 = private constant [139 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.12 = private constant [141 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \22int32\22), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.ndim is expected to equal 2\00", align 1
-@.str.13 = private constant [127 x i8] c"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.14 = private constant [129 x i8] c"Assert fail: 3 == T.tvm_struct_get(QLUT, 0, 4, \22int32\22), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.ndim is expected to equal 3\00", align 1
-@.str.15 = private constant [245 x i8] c"Assert fail: T.tvm_struct_get(B, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(B, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(B, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.B.dtype is expected to be float16\00", align 1
-@.str.16 = private constant [248 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[0])\00", align 1
-@.str.17 = private constant [254 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[1]) == 3200, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape[1] has an unsatisfied constraint: 3200 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_B_shape[1])\00", align 1
-@.str.18 = private constant [167 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_B_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides: expected to be compact array\00", align 1
-@.str.19 = private constant [209 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \22uint64\22)\00", align 1
-@.str.20 = private constant [189 x i8] c"Assert fail: T.tvm_struct_get(B, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.B.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(B, 0, 10, \22int32\22)\00", align 1
-@.str.21 = private constant [116 x i8] c"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m6400_k3200_n1_b2.B is expected to have non-NULL data pointer\00", align 1
-@.str.22 = private constant [281 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.dtype is expected to be float16\00", align 1
-@.str.23 = private constant [275 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[0])\00", align 1
-@.str.24 = private constant [277 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[1]) == 50, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 50 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_shape[1])\00", align 1
-@.str.25 = private constant [185 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Scales_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides: expected to be compact array\00", align 1
-@.str.26 = private constant [236 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22)\00", align 1
-@.str.27 = private constant [216 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22)\00", align 1
-@.str.28 = private constant [222 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22)\00", align 1
-@.str.29 = private constant [134 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales is expected to have non-NULL data pointer\00", align 1
-@.str.30 = private constant [281 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.dtype is expected to be float16\00", align 1
-@.str.31 = private constant [275 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[0])\00", align 1
-@.str.32 = private constant [277 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[1]) == 50, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 50 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_shape[1])\00", align 1
-@.str.33 = private constant [185 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_LUT_Biases_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides: expected to be compact array\00", align 1
-@.str.34 = private constant [236 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22)\00", align 1
-@.str.35 = private constant [216 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22)\00", align 1
-@.str.36 = private constant [222 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22)\00", align 1
-@.str.37 = private constant [134 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases is expected to have non-NULL data pointer\00", align 1
-@.str.38 = private constant [253 x i8] c"Assert fail: T.tvm_struct_get(QLUT, 0, 5, \22uint8\22) == T.uint8(0) and T.tvm_struct_get(QLUT, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(QLUT, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.dtype is expected to be int8\00", align 1
-@.str.39 = private constant [257 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[0]) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[0])\00", align 1
-@.str.40 = private constant [261 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[1]) == 800, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[1] has an unsatisfied constraint: 800 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[1])\00", align 1
-@.str.41 = private constant [259 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[2]) == 16, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_shape[2])\00", align 1
-@.str.42 = private constant [255 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_strides[2]) and 16 == T.Cast(\22int32\22, preprocessor_t4_int8_m6400_k3200_n1_b2_QLUT_strides[1]), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides: expected to be compact array\00", align 1
-@.str.43 = private constant [218 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \22uint64\22)\00", align 1
-@.str.44 = private constant [198 x i8] c"Assert fail: T.tvm_struct_get(QLUT, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(QLUT, 0, 10, \22int32\22)\00", align 1
-@.str.45 = private constant [204 x i8] c"Assert fail: dev_id == T.tvm_struct_get(QLUT, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(QLUT, 0, 9, \22int32\22)\00", align 1
-@.str.46 = private constant [122 x i8] c"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT is expected to have non-NULL data pointer\00", align 1
-@__tvm_main__ = weak dllexport local_unnamed_addr constant [39 x i8] c"preprocessor_t4_int8_m6400_k3200_n1_b2\00", align 1
+@.str = private constant [90 x i8] c"Assert fail: num_args == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: num_args should be 4\00", align 1
+@.str.1 = private constant [108 x i8] c"Assert fail: not T.isnullptr(args), preprocessor_t4_int8_m8192_k14336_n1_b2: TVMValue* arg pointer was NULL\00", align 1
+@.str.2 = private constant [110 x i8] c"Assert fail: not T.isnullptr(arg_type_ids), preprocessor_t4_int8_m8192_k14336_n1_b2: int* type_codes was NULL\00", align 1
+@.str.3 = private constant [141 x i8] c"Assert fail: B_code == 3 or B_code == 13 or B_code == 7 or B_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[0] to be pointer\00", align 1
+@.str.4 = private constant [177 x i8] c"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[1] to be pointer\00", align 1
+@.str.5 = private constant [177 x i8] c"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[2] to be pointer\00", align 1
+@.str.6 = private constant [153 x i8] c"Assert fail: QLUT_code == 3 or QLUT_code == 13 or QLUT_code == 7 or QLUT_code == 4, preprocessor_t4_int8_m8192_k14336_n1_b2: Expect arg[3] to be pointer\00", align 1
+@.str.7 = private constant [122 x i8] c"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m8192_k14336_n1_b2.B is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.8 = private constant [124 x i8] c"Assert fail: 2 == T.tvm_struct_get(B, 0, 4, \22int32\22), preprocessor_t4_int8_m8192_k14336_n1_b2.B.ndim is expected to equal 2\00", align 1
+@.str.9 = private constant [140 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.10 = private constant [142 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \22int32\22), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.ndim is expected to equal 2\00", align 1
+@.str.11 = private constant [140 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.12 = private constant [142 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \22int32\22), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.ndim is expected to equal 2\00", align 1
+@.str.13 = private constant [128 x i8] c"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.14 = private constant [130 x i8] c"Assert fail: 3 == T.tvm_struct_get(QLUT, 0, 4, \22int32\22), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.ndim is expected to equal 3\00", align 1
+@.str.15 = private constant [246 x i8] c"Assert fail: T.tvm_struct_get(B, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(B, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(B, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.B.dtype is expected to be float16\00", align 1
+@.str.16 = private constant [251 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[0])\00", align 1
+@.str.17 = private constant [259 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[1]) == 14336, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape[1] has an unsatisfied constraint: 14336 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_B_shape[1])\00", align 1
+@.str.18 = private constant [169 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_B_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides: expected to be compact array\00", align 1
+@.str.19 = private constant [210 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(B, 0, 8, \22uint64\22)\00", align 1
+@.str.20 = private constant [190 x i8] c"Assert fail: T.tvm_struct_get(B, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.B.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(B, 0, 10, \22int32\22)\00", align 1
+@.str.21 = private constant [117 x i8] c"Assert fail: not T.isnullptr(B), preprocessor_t4_int8_m8192_k14336_n1_b2.B is expected to have non-NULL data pointer\00", align 1
+@.str.22 = private constant [282 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.dtype is expected to be float16\00", align 1
+@.str.23 = private constant [278 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0])\00", align 1
+@.str.24 = private constant [282 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1]) == 224, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 224 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1])\00", align 1
+@.str.25 = private constant [187 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Scales_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides: expected to be compact array\00", align 1
+@.str.26 = private constant [237 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22)\00", align 1
+@.str.27 = private constant [217 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22)\00", align 1
+@.str.28 = private constant [223 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22)\00", align 1
+@.str.29 = private constant [135 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL data pointer\00", align 1
+@.str.30 = private constant [282 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.dtype is expected to be float16\00", align 1
+@.str.31 = private constant [278 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0])\00", align 1
+@.str.32 = private constant [282 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1]) == 224, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 224 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1])\00", align 1
+@.str.33 = private constant [187 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_LUT_Biases_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides: expected to be compact array\00", align 1
+@.str.34 = private constant [237 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22)\00", align 1
+@.str.35 = private constant [217 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22)\00", align 1
+@.str.36 = private constant [223 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22)\00", align 1
+@.str.37 = private constant [135 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL data pointer\00", align 1
+@.str.38 = private constant [254 x i8] c"Assert fail: T.tvm_struct_get(QLUT, 0, 5, \22uint8\22) == T.uint8(0) and T.tvm_struct_get(QLUT, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(QLUT, 0, 7, \22uint16\22) == T.uint16(1), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.dtype is expected to be int8\00", align 1
+@.str.39 = private constant [260 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[0]) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[0])\00", align 1
+@.str.40 = private constant [266 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[1]) == 3584, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[1] has an unsatisfied constraint: 3584 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[1])\00", align 1
+@.str.41 = private constant [262 x i8] c"Assert fail: T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[2]) == 16, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_shape[2])\00", align 1
+@.str.42 = private constant [258 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_strides[2]) and 16 == T.Cast(\22int32\22, preprocessor_t4_int8_m8192_k14336_n1_b2_QLUT_strides[1]), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides: expected to be compact array\00", align 1
+@.str.43 = private constant [219 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \22uint64\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(QLUT, 0, 8, \22uint64\22)\00", align 1
+@.str.44 = private constant [199 x i8] c"Assert fail: T.tvm_struct_get(QLUT, 0, 10, \22int32\22) == 1, Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(QLUT, 0, 10, \22int32\22)\00", align 1
+@.str.45 = private constant [205 x i8] c"Assert fail: dev_id == T.tvm_struct_get(QLUT, 0, 9, \22int32\22), Argument preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(QLUT, 0, 9, \22int32\22)\00", align 1
+@.str.46 = private constant [123 x i8] c"Assert fail: not T.isnullptr(QLUT), preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT is expected to have non-NULL data pointer\00", align 1
+@__tvm_main__ = weak dllexport local_unnamed_addr constant [40 x i8] c"preprocessor_t4_int8_m8192_k14336_n1_b2\00", align 1
 @llvm.global_ctors = appending global [0 x { i32, ptr, ptr }] zeroinitializer
 
-define dllexport i32 @preprocessor_t4_int8_m6400_k3200_n1_b2(ptr noalias readonly %args, ptr noalias readonly %arg_type_ids, i32 %num_args, ptr noalias nocapture readnone %out_ret_value, ptr noalias nocapture readnone %out_ret_tcode, ptr noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !11 {
+define dllexport i32 @preprocessor_t4_int8_m8192_k14336_n1_b2(ptr noalias readonly %args, ptr noalias readonly %arg_type_ids, i32 %num_args, ptr noalias nocapture readnone %out_ret_value, ptr noalias nocapture readnone %out_ret_tcode, ptr noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !11 {
 entry:
   call void @llvm.dbg.value(metadata ptr %args, metadata !18, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.value(metadata ptr %arg_type_ids, metadata !19, metadata !DIExpression()), !dbg !24
@@ -201,13 +201,13 @@ assert_fail15:                                    ; preds = %assert_end14
 
 assert_end16:                                     ; preds = %assert_end14
   %19 = getelementptr inbounds %1, ptr %B, i64 0, i32 4, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape = load ptr, ptr %19, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape, metadata !56, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape, metadata !56, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape = load ptr, ptr %19, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape, metadata !56, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape, metadata !56, metadata !DIExpression()), !dbg !24
   %20 = getelementptr inbounds %1, ptr %B, i64 0, i32 5, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides = load ptr, ptr %20, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides, metadata !59, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides, metadata !59, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides = load ptr, ptr %20, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides, metadata !59, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides, metadata !59, metadata !DIExpression()), !dbg !24
   %21 = getelementptr inbounds %1, ptr %B, i64 0, i32 1, i32 1, !dbg !24
   %dev_id = load i32, ptr %21, align 4, !dbg !24
   call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !60, metadata !DIExpression()), !dbg !24
@@ -237,13 +237,13 @@ assert_fail21:                                    ; preds = %assert_end20
 
 assert_end22:                                     ; preds = %assert_end20
   %27 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 4, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape = load ptr, ptr %27, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !64, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, metadata !64, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape = load ptr, ptr %27, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, metadata !64, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, metadata !64, metadata !DIExpression()), !dbg !24
   %28 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 5, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides = load ptr, ptr %28, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !65, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, metadata !65, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides = load ptr, ptr %28, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, metadata !65, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, metadata !65, metadata !DIExpression()), !dbg !24
   %LUT_Scales107 = load ptr, ptr %LUT_Scales, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Scales107, metadata !66, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Scales107, metadata !66, metadata !DIExpression()), !dbg !24
@@ -269,13 +269,13 @@ assert_fail27:                                    ; preds = %assert_end26
 
 assert_end28:                                     ; preds = %assert_end26
   %34 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 4, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape = load ptr, ptr %34, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !67, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, metadata !67, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape = load ptr, ptr %34, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, metadata !67, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, metadata !67, metadata !DIExpression()), !dbg !24
   %35 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 5, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides = load ptr, ptr %35, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !68, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, metadata !68, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides = load ptr, ptr %35, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, metadata !68, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, metadata !68, metadata !DIExpression()), !dbg !24
   %LUT_Biases110 = load ptr, ptr %LUT_Biases, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Biases110, metadata !69, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Biases110, metadata !69, metadata !DIExpression()), !dbg !24
@@ -301,13 +301,13 @@ assert_fail33:                                    ; preds = %assert_end32
 
 assert_end34:                                     ; preds = %assert_end32
   %41 = getelementptr inbounds %1, ptr %QLUT, i64 0, i32 4, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape = load ptr, ptr %41, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape, metadata !70, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape, metadata !70, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape = load ptr, ptr %41, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape, metadata !70, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape, metadata !70, metadata !DIExpression()), !dbg !24
   %42 = getelementptr inbounds %1, ptr %QLUT, i64 0, i32 5, !dbg !24
-  %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides = load ptr, ptr %42, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides, metadata !71, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides, metadata !71, metadata !DIExpression()), !dbg !24
+  %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides = load ptr, ptr %42, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides, metadata !71, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides, metadata !71, metadata !DIExpression()), !dbg !24
   %QLUT109 = load ptr, ptr %QLUT, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %QLUT109, metadata !72, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %QLUT109, metadata !72, metadata !DIExpression()), !dbg !24
@@ -331,7 +331,7 @@ assert_fail37:                                    ; preds = %assert_end34
   br label %common.ret
 
 assert_end38:                                     ; preds = %assert_end34
-  %55 = load i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape, align 8, !dbg !24, !tbaa !75
+  %55 = load i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape, align 8, !dbg !24, !tbaa !75
   %56 = and i64 %55, 4294967295, !dbg !24
   %57 = icmp eq i64 %56, 1, !dbg !24
   br i1 %57, label %assert_end40, label %assert_fail39, !dbg !24, !prof !25
@@ -342,10 +342,10 @@ assert_fail39:                                    ; preds = %assert_end38
   br label %common.ret
 
 assert_end40:                                     ; preds = %assert_end38
-  %59 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape, i64 1, !dbg !24
+  %59 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape, i64 1, !dbg !24
   %60 = load i64, ptr %59, align 8, !dbg !24, !tbaa !85
   %61 = and i64 %60, 4294967295, !dbg !24
-  %62 = icmp eq i64 %61, 3200, !dbg !24
+  %62 = icmp eq i64 %61, 14336, !dbg !24
   br i1 %62, label %assert_end42, label %assert_fail41, !dbg !24, !prof !25
 
 assert_fail41:                                    ; preds = %assert_end40
@@ -354,11 +354,11 @@ assert_fail41:                                    ; preds = %assert_end40
   br label %common.ret
 
 assert_end42:                                     ; preds = %assert_end40
-  %.not116 = icmp eq ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides, null, !dbg !24
+  %.not116 = icmp eq ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides, null, !dbg !24
   br i1 %.not116, label %if_end, label %if_then, !dbg !24, !prof !29
 
 if_then:                                          ; preds = %assert_end42
-  %64 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides, i64 1, !dbg !24
+  %64 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides, i64 1, !dbg !24
   %65 = load i64, ptr %64, align 8, !dbg !24, !tbaa !87
   %66 = and i64 %65, 4294967295, !dbg !24
   %67 = icmp eq i64 %66, 1, !dbg !24
@@ -420,7 +420,7 @@ assert_fail51:                                    ; preds = %assert_end50
   br label %common.ret
 
 assert_end52:                                     ; preds = %assert_end50
-  %90 = load i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, align 8, !dbg !24, !tbaa !97
+  %90 = load i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, align 8, !dbg !24, !tbaa !97
   %91 = and i64 %90, 4294967295, !dbg !24
   %92 = icmp eq i64 %91, 1, !dbg !24
   br i1 %92, label %assert_end54, label %assert_fail53, !dbg !24, !prof !25
@@ -431,10 +431,10 @@ assert_fail53:                                    ; preds = %assert_end52
   br label %common.ret
 
 assert_end54:                                     ; preds = %assert_end52
-  %94 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape, i64 1, !dbg !24
+  %94 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, i64 1, !dbg !24
   %95 = load i64, ptr %94, align 8, !dbg !24, !tbaa !107
   %96 = and i64 %95, 4294967295, !dbg !24
-  %97 = icmp eq i64 %96, 50, !dbg !24
+  %97 = icmp eq i64 %96, 224, !dbg !24
   br i1 %97, label %assert_end56, label %assert_fail55, !dbg !24, !prof !25
 
 assert_fail55:                                    ; preds = %assert_end54
@@ -443,11 +443,11 @@ assert_fail55:                                    ; preds = %assert_end54
   br label %common.ret
 
 assert_end56:                                     ; preds = %assert_end54
-  %.not118 = icmp eq ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, null, !dbg !24
+  %.not118 = icmp eq ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, null, !dbg !24
   br i1 %.not118, label %if_end58, label %if_then57, !dbg !24, !prof !29
 
 if_then57:                                        ; preds = %assert_end56
-  %99 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides, i64 1, !dbg !24
+  %99 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, i64 1, !dbg !24
   %100 = load i64, ptr %99, align 8, !dbg !24, !tbaa !109
   %101 = and i64 %100, 4294967295, !dbg !24
   %102 = icmp eq i64 %101, 1, !dbg !24
@@ -520,7 +520,7 @@ assert_fail69:                                    ; preds = %assert_end68
   br label %common.ret
 
 assert_end70:                                     ; preds = %assert_end68
-  %129 = load i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, align 8, !dbg !24, !tbaa !119
+  %129 = load i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, align 8, !dbg !24, !tbaa !119
   %130 = and i64 %129, 4294967295, !dbg !24
   %131 = icmp eq i64 %130, 1, !dbg !24
   br i1 %131, label %assert_end72, label %assert_fail71, !dbg !24, !prof !25
@@ -531,10 +531,10 @@ assert_fail71:                                    ; preds = %assert_end70
   br label %common.ret
 
 assert_end72:                                     ; preds = %assert_end70
-  %133 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape, i64 1, !dbg !24
+  %133 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, i64 1, !dbg !24
   %134 = load i64, ptr %133, align 8, !dbg !24, !tbaa !129
   %135 = and i64 %134, 4294967295, !dbg !24
-  %136 = icmp eq i64 %135, 50, !dbg !24
+  %136 = icmp eq i64 %135, 224, !dbg !24
   br i1 %136, label %assert_end74, label %assert_fail73, !dbg !24, !prof !25
 
 assert_fail73:                                    ; preds = %assert_end72
@@ -543,11 +543,11 @@ assert_fail73:                                    ; preds = %assert_end72
   br label %common.ret
 
 assert_end74:                                     ; preds = %assert_end72
-  %.not120 = icmp eq ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, null, !dbg !24
+  %.not120 = icmp eq ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, null, !dbg !24
   br i1 %.not120, label %if_end76, label %if_then75, !dbg !24, !prof !29
 
 if_then75:                                        ; preds = %assert_end74
-  %138 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides, i64 1, !dbg !24
+  %138 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, i64 1, !dbg !24
   %139 = load i64, ptr %138, align 8, !dbg !24, !tbaa !131
   %140 = and i64 %139, 4294967295, !dbg !24
   %141 = icmp eq i64 %140, 1, !dbg !24
@@ -620,7 +620,7 @@ assert_fail87:                                    ; preds = %assert_end86
   br label %common.ret
 
 assert_end88:                                     ; preds = %assert_end86
-  %168 = load i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape, align 8, !dbg !24, !tbaa !141
+  %168 = load i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape, align 8, !dbg !24, !tbaa !141
   %169 = and i64 %168, 4294967295, !dbg !24
   %170 = icmp eq i64 %169, 1, !dbg !24
   br i1 %170, label %assert_end90, label %assert_fail89, !dbg !24, !prof !25
@@ -631,10 +631,10 @@ assert_fail89:                                    ; preds = %assert_end88
   br label %common.ret
 
 assert_end90:                                     ; preds = %assert_end88
-  %172 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape, i64 1, !dbg !24
+  %172 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape, i64 1, !dbg !24
   %173 = load i64, ptr %172, align 8, !dbg !24, !tbaa !151
   %174 = and i64 %173, 4294967295, !dbg !24
-  %175 = icmp eq i64 %174, 800, !dbg !24
+  %175 = icmp eq i64 %174, 3584, !dbg !24
   br i1 %175, label %assert_end92, label %assert_fail91, !dbg !24, !prof !25
 
 assert_fail91:                                    ; preds = %assert_end90
@@ -643,7 +643,7 @@ assert_fail91:                                    ; preds = %assert_end90
   br label %common.ret
 
 assert_end92:                                     ; preds = %assert_end90
-  %177 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape, i64 2, !dbg !24
+  %177 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape, i64 2, !dbg !24
   %178 = load i64, ptr %177, align 8, !dbg !24, !tbaa !153
   %179 = and i64 %178, 4294967295, !dbg !24
   %180 = icmp eq i64 %179, 16, !dbg !24
@@ -655,15 +655,15 @@ assert_fail93:                                    ; preds = %assert_end92
   br label %common.ret
 
 assert_end94:                                     ; preds = %assert_end92
-  %.not122 = icmp eq ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides, null, !dbg !24
+  %.not122 = icmp eq ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides, null, !dbg !24
   br i1 %.not122, label %if_end96, label %if_then95, !dbg !24, !prof !29
 
 if_then95:                                        ; preds = %assert_end94
-  %182 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides, i64 2, !dbg !24
+  %182 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides, i64 2, !dbg !24
   %183 = load i64, ptr %182, align 8, !dbg !24, !tbaa !156
   %184 = and i64 %183, 4294967295, !dbg !24
   %185 = icmp eq i64 %184, 1, !dbg !24
-  %186 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides, i64 1, !dbg !24
+  %186 = getelementptr inbounds i64, ptr %preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides, i64 1, !dbg !24
   %187 = load i64, ptr %186, align 8, !dbg !24, !tbaa !166
   %188 = and i64 %187, 4294967295, !dbg !24
   %189 = icmp eq i64 %188, 16, !dbg !24
@@ -718,7 +718,7 @@ assert_fail105:                                   ; preds = %assert_end104
   br label %common.ret
 
 assert_end106:                                    ; preds = %assert_end104
-  tail call fastcc void @preprocessor_t4_int8_m6400_k3200_n1_b2_compute_(ptr nonnull %LUT_Scales107, ptr nonnull %B108, ptr nonnull %QLUT109, ptr nonnull %LUT_Biases110), !dbg !24
+  tail call fastcc void @preprocessor_t4_int8_m8192_k14336_n1_b2_compute_(ptr nonnull %LUT_Scales107, ptr nonnull %B108, ptr nonnull %QLUT109, ptr nonnull %LUT_Biases110), !dbg !24
   br label %common.ret
 }
 
@@ -729,7 +729,7 @@ declare void @llvm.dbg.declare(metadata, metadata, metadata) #1
 declare void @llvm.assume(i1 noundef) #2
 
 ; Function Attrs: nofree noinline nosync nounwind memory(argmem: readwrite)
-define internal fastcc void @preprocessor_t4_int8_m6400_k3200_n1_b2_compute_(ptr noalias nocapture align 64 %LUT_Scales, ptr noalias align 64 %B, ptr noalias writeonly align 64 %QLUT, ptr noalias nocapture writeonly align 64 %LUT_Biases) unnamed_addr #3 !dbg !169 {
+define internal fastcc void @preprocessor_t4_int8_m8192_k14336_n1_b2_compute_(ptr noalias nocapture align 64 %LUT_Scales, ptr noalias align 64 %B, ptr noalias writeonly align 64 %QLUT, ptr noalias nocapture writeonly align 64 %LUT_Biases) unnamed_addr #3 !dbg !169 {
 entry:
   call void @llvm.dbg.value(metadata ptr %LUT_Scales, metadata !173, metadata !DIExpression()), !dbg !177
   call void @llvm.dbg.value(metadata ptr %B, metadata !174, metadata !DIExpression()), !dbg !177
@@ -786,7 +786,7 @@ for_body_kk.outer:                                ; preds = %entry, %for_body_kk
   store half %36, ptr %0, align 2, !dbg !177, !tbaa !180
   %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !177
   call void @llvm.dbg.declare(metadata i64 %indvars.iv.next, metadata !178, metadata !DIExpression()), !dbg !177
-  %exitcond.not = icmp eq i64 %indvars.iv.next, 50, !dbg !177
+  %exitcond.not = icmp eq i64 %indvars.iv.next, 224, !dbg !177
   br i1 %exitcond.not, label %for_body_k.outer2, label %for_body_kk.outer, !dbg !177, !prof !29
 
 for_body_k.outer2:                                ; preds = %for_body_kk.outer, %lut_ctor_g4_int8_k0_b2.exit
@@ -1313,7 +1313,7 @@ lut_ctor_g4_int8_k0_b2.exit:                      ; preds = %55
   store half %417, ptr %420, align 2, !dbg !177, !tbaa !180
   %indvars.iv.next13 = add nuw nsw i64 %indvars.iv12, 1, !dbg !177
   call void @llvm.dbg.declare(metadata i64 %indvars.iv.next13, metadata !179, metadata !DIExpression()), !dbg !177
-  %exitcond15.not = icmp eq i64 %indvars.iv.next13, 50, !dbg !177
+  %exitcond15.not = icmp eq i64 %indvars.iv.next13, 224, !dbg !177
   br i1 %exitcond15.not, label %for_end_k.outer3, label %for_body_k.outer2, !dbg !177, !prof !29
 
 for_end_k.outer3:                                 ; preds = %lut_ctor_g4_int8_k0_b2.exit
@@ -1515,7 +1515,7 @@ attributes #8 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !8 = !{i32 2, !"tvm_target", !"llvm -mtriple=arm64-apple-darwin23.1.0 -mcpu=apple-m2"}
 !9 = !{i32 4, !"Debug Info Version", i32 3}
 !10 = !{i32 4, !"Dwarf Version", i32 2}
-!11 = distinct !DISubprogram(name: "preprocessor_t4_int8_m6400_k3200_n1_b2", scope: !1, file: !1, type: !12, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !17)
+!11 = distinct !DISubprogram(name: "preprocessor_t4_int8_m8192_k14336_n1_b2", scope: !1, file: !1, type: !12, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !17)
 !12 = !DISubroutineType(types: !13)
 !13 = !{!14, !15, !16, !14, !15, !16, !15}
 !14 = !DIBasicType(name: "int32", size: 32, encoding: DW_ATE_signed)
@@ -1535,145 +1535,145 @@ attributes #8 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !28 = !{!"tvm-tbaa"}
 !29 = !{!"branch_weights", i32 1, i32 1048576}
 !30 = !{!31, !31, i64 0}
-!31 = !{!"0x6000030d3960.w4.b0", !32, i64 0}
-!32 = !{!"0x6000030d3960.w8.b0", !33, i64 0}
-!33 = !{!"0x6000030d3960.w16.b0", !34, i64 0}
-!34 = !{!"0x6000030d3960.w32.b0", !35, i64 0}
-!35 = !{!"0x6000030d3960.w64.b0", !36, i64 0}
-!36 = !{!"0x6000030d3960.w128.b0", !37, i64 0}
-!37 = !{!"0x6000030d3960.w256.b0", !38, i64 0}
-!38 = !{!"0x6000030d3960.w512.b0", !39, i64 0}
-!39 = !{!"0x6000030d3960.w1024.b0", !40, i64 0}
-!40 = !{!"0x6000030d3960", !28, i64 0}
+!31 = !{!"0x600000c8a970.w4.b0", !32, i64 0}
+!32 = !{!"0x600000c8a970.w8.b0", !33, i64 0}
+!33 = !{!"0x600000c8a970.w16.b0", !34, i64 0}
+!34 = !{!"0x600000c8a970.w32.b0", !35, i64 0}
+!35 = !{!"0x600000c8a970.w64.b0", !36, i64 0}
+!36 = !{!"0x600000c8a970.w128.b0", !37, i64 0}
+!37 = !{!"0x600000c8a970.w256.b0", !38, i64 0}
+!38 = !{!"0x600000c8a970.w512.b0", !39, i64 0}
+!39 = !{!"0x600000c8a970.w1024.b0", !40, i64 0}
+!40 = !{!"0x600000c8a970", !28, i64 0}
 !41 = !DILocalVariable(name: "B.code", scope: !11, file: !1, type: !14)
 !42 = !{!43, !43, i64 0}
-!43 = !{!"0x6000030d3960.w4.b4", !32, i64 0}
+!43 = !{!"0x600000c8a970.w4.b4", !32, i64 0}
 !44 = !DILocalVariable(name: "LUT_Scales.code", scope: !11, file: !1, type: !14)
 !45 = !{!46, !46, i64 0}
-!46 = !{!"0x6000030d3960.w4.b8", !47, i64 0}
-!47 = !{!"0x6000030d3960.w8.b8", !33, i64 0}
+!46 = !{!"0x600000c8a970.w4.b8", !47, i64 0}
+!47 = !{!"0x600000c8a970.w8.b8", !33, i64 0}
 !48 = !DILocalVariable(name: "LUT_Biases.code", scope: !11, file: !1, type: !14)
 !49 = !{!50, !50, i64 0}
-!50 = !{!"0x6000030d3960.w4.b12", !47, i64 0}
+!50 = !{!"0x600000c8a970.w4.b12", !47, i64 0}
 !51 = !DILocalVariable(name: "QLUT.code", scope: !11, file: !1, type: !14)
 !52 = !DILocalVariable(name: "B", scope: !11, file: !1, type: !15)
 !53 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !15)
 !54 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !15)
 !55 = !DILocalVariable(name: "QLUT", scope: !11, file: !1, type: !15)
-!56 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.B.shape", scope: !11, file: !1, type: !57)
+!56 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.B.shape", scope: !11, file: !1, type: !57)
 !57 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !58)
 !58 = !DIBasicType(name: "int64", size: 64, encoding: DW_ATE_signed)
-!59 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.B.strides", scope: !11, file: !1, type: !57)
+!59 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.B.strides", scope: !11, file: !1, type: !57)
 !60 = !DILocalVariable(name: "dev_id", scope: !11, file: !1, type: !14)
 !61 = !DILocalVariable(name: "B", scope: !11, file: !1, type: !62)
 !62 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !63)
 !63 = !DIBasicType(name: "float16", size: 16, encoding: DW_ATE_float)
-!64 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.shape", scope: !11, file: !1, type: !57)
-!65 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Scales.strides", scope: !11, file: !1, type: !57)
+!64 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape", scope: !11, file: !1, type: !57)
+!65 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides", scope: !11, file: !1, type: !57)
 !66 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !62)
-!67 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.shape", scope: !11, file: !1, type: !57)
-!68 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.LUT_Biases.strides", scope: !11, file: !1, type: !57)
+!67 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape", scope: !11, file: !1, type: !57)
+!68 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides", scope: !11, file: !1, type: !57)
 !69 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !62)
-!70 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.shape", scope: !11, file: !1, type: !57)
-!71 = !DILocalVariable(name: "preprocessor_t4_int8_m6400_k3200_n1_b2.QLUT.strides", scope: !11, file: !1, type: !57)
+!70 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.shape", scope: !11, file: !1, type: !57)
+!71 = !DILocalVariable(name: "preprocessor_t4_int8_m8192_k14336_n1_b2.QLUT.strides", scope: !11, file: !1, type: !57)
 !72 = !DILocalVariable(name: "QLUT", scope: !11, file: !1, type: !73)
 !73 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !74)
 !74 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_signed)
 !75 = !{!76, !76, i64 0}
-!76 = !{!"0x600003058960.w8.b0", !77, i64 0}
-!77 = !{!"0x600003058960.w16.b0", !78, i64 0}
-!78 = !{!"0x600003058960.w32.b0", !79, i64 0}
-!79 = !{!"0x600003058960.w64.b0", !80, i64 0}
-!80 = !{!"0x600003058960.w128.b0", !81, i64 0}
-!81 = !{!"0x600003058960.w256.b0", !82, i64 0}
-!82 = !{!"0x600003058960.w512.b0", !83, i64 0}
-!83 = !{!"0x600003058960.w1024.b0", !84, i64 0}
-!84 = !{!"0x600003058960", !28, i64 0}
+!76 = !{!"0x600000c1a7f0.w8.b0", !77, i64 0}
+!77 = !{!"0x600000c1a7f0.w16.b0", !78, i64 0}
+!78 = !{!"0x600000c1a7f0.w32.b0", !79, i64 0}
+!79 = !{!"0x600000c1a7f0.w64.b0", !80, i64 0}
+!80 = !{!"0x600000c1a7f0.w128.b0", !81, i64 0}
+!81 = !{!"0x600000c1a7f0.w256.b0", !82, i64 0}
+!82 = !{!"0x600000c1a7f0.w512.b0", !83, i64 0}
+!83 = !{!"0x600000c1a7f0.w1024.b0", !84, i64 0}
+!84 = !{!"0x600000c1a7f0", !28, i64 0}
 !85 = !{!86, !86, i64 0}
-!86 = !{!"0x600003058960.w8.b8", !77, i64 0}
+!86 = !{!"0x600000c1a7f0.w8.b8", !77, i64 0}
 !87 = !{!88, !88, i64 0}
-!88 = !{!"0x60000305a5e0.w8.b8", !89, i64 0}
-!89 = !{!"0x60000305a5e0.w16.b0", !90, i64 0}
-!90 = !{!"0x60000305a5e0.w32.b0", !91, i64 0}
-!91 = !{!"0x60000305a5e0.w64.b0", !92, i64 0}
-!92 = !{!"0x60000305a5e0.w128.b0", !93, i64 0}
-!93 = !{!"0x60000305a5e0.w256.b0", !94, i64 0}
-!94 = !{!"0x60000305a5e0.w512.b0", !95, i64 0}
-!95 = !{!"0x60000305a5e0.w1024.b0", !96, i64 0}
-!96 = !{!"0x60000305a5e0", !28, i64 0}
+!88 = !{!"0x600000c199b0.w8.b8", !89, i64 0}
+!89 = !{!"0x600000c199b0.w16.b0", !90, i64 0}
+!90 = !{!"0x600000c199b0.w32.b0", !91, i64 0}
+!91 = !{!"0x600000c199b0.w64.b0", !92, i64 0}
+!92 = !{!"0x600000c199b0.w128.b0", !93, i64 0}
+!93 = !{!"0x600000c199b0.w256.b0", !94, i64 0}
+!94 = !{!"0x600000c199b0.w512.b0", !95, i64 0}
+!95 = !{!"0x600000c199b0.w1024.b0", !96, i64 0}
+!96 = !{!"0x600000c199b0", !28, i64 0}
 !97 = !{!98, !98, i64 0}
-!98 = !{!"0x60000305a220.w8.b0", !99, i64 0}
-!99 = !{!"0x60000305a220.w16.b0", !100, i64 0}
-!100 = !{!"0x60000305a220.w32.b0", !101, i64 0}
-!101 = !{!"0x60000305a220.w64.b0", !102, i64 0}
-!102 = !{!"0x60000305a220.w128.b0", !103, i64 0}
-!103 = !{!"0x60000305a220.w256.b0", !104, i64 0}
-!104 = !{!"0x60000305a220.w512.b0", !105, i64 0}
-!105 = !{!"0x60000305a220.w1024.b0", !106, i64 0}
-!106 = !{!"0x60000305a220", !28, i64 0}
+!98 = !{!"0x600000ffebe0.w8.b0", !99, i64 0}
+!99 = !{!"0x600000ffebe0.w16.b0", !100, i64 0}
+!100 = !{!"0x600000ffebe0.w32.b0", !101, i64 0}
+!101 = !{!"0x600000ffebe0.w64.b0", !102, i64 0}
+!102 = !{!"0x600000ffebe0.w128.b0", !103, i64 0}
+!103 = !{!"0x600000ffebe0.w256.b0", !104, i64 0}
+!104 = !{!"0x600000ffebe0.w512.b0", !105, i64 0}
+!105 = !{!"0x600000ffebe0.w1024.b0", !106, i64 0}
+!106 = !{!"0x600000ffebe0", !28, i64 0}
 !107 = !{!108, !108, i64 0}
-!108 = !{!"0x60000305a220.w8.b8", !99, i64 0}
+!108 = !{!"0x600000ffebe0.w8.b8", !99, i64 0}
 !109 = !{!110, !110, i64 0}
-!110 = !{!"0x6000030583c0.w8.b8", !111, i64 0}
-!111 = !{!"0x6000030583c0.w16.b0", !112, i64 0}
-!112 = !{!"0x6000030583c0.w32.b0", !113, i64 0}
-!113 = !{!"0x6000030583c0.w64.b0", !114, i64 0}
-!114 = !{!"0x6000030583c0.w128.b0", !115, i64 0}
-!115 = !{!"0x6000030583c0.w256.b0", !116, i64 0}
-!116 = !{!"0x6000030583c0.w512.b0", !117, i64 0}
-!117 = !{!"0x6000030583c0.w1024.b0", !118, i64 0}
-!118 = !{!"0x6000030583c0", !28, i64 0}
+!110 = !{!"0x600000ffef70.w8.b8", !111, i64 0}
+!111 = !{!"0x600000ffef70.w16.b0", !112, i64 0}
+!112 = !{!"0x600000ffef70.w32.b0", !113, i64 0}
+!113 = !{!"0x600000ffef70.w64.b0", !114, i64 0}
+!114 = !{!"0x600000ffef70.w128.b0", !115, i64 0}
+!115 = !{!"0x600000ffef70.w256.b0", !116, i64 0}
+!116 = !{!"0x600000ffef70.w512.b0", !117, i64 0}
+!117 = !{!"0x600000ffef70.w1024.b0", !118, i64 0}
+!118 = !{!"0x600000ffef70", !28, i64 0}
 !119 = !{!120, !120, i64 0}
-!120 = !{!"0x60000305bf90.w8.b0", !121, i64 0}
-!121 = !{!"0x60000305bf90.w16.b0", !122, i64 0}
-!122 = !{!"0x60000305bf90.w32.b0", !123, i64 0}
-!123 = !{!"0x60000305bf90.w64.b0", !124, i64 0}
-!124 = !{!"0x60000305bf90.w128.b0", !125, i64 0}
-!125 = !{!"0x60000305bf90.w256.b0", !126, i64 0}
-!126 = !{!"0x60000305bf90.w512.b0", !127, i64 0}
-!127 = !{!"0x60000305bf90.w1024.b0", !128, i64 0}
-!128 = !{!"0x60000305bf90", !28, i64 0}
+!120 = !{!"0x600000fff030.w8.b0", !121, i64 0}
+!121 = !{!"0x600000fff030.w16.b0", !122, i64 0}
+!122 = !{!"0x600000fff030.w32.b0", !123, i64 0}
+!123 = !{!"0x600000fff030.w64.b0", !124, i64 0}
+!124 = !{!"0x600000fff030.w128.b0", !125, i64 0}
+!125 = !{!"0x600000fff030.w256.b0", !126, i64 0}
+!126 = !{!"0x600000fff030.w512.b0", !127, i64 0}
+!127 = !{!"0x600000fff030.w1024.b0", !128, i64 0}
+!128 = !{!"0x600000fff030", !28, i64 0}
 !129 = !{!130, !130, i64 0}
-!130 = !{!"0x60000305bf90.w8.b8", !121, i64 0}
+!130 = !{!"0x600000fff030.w8.b8", !121, i64 0}
 !131 = !{!132, !132, i64 0}
-!132 = !{!"0x6000030a4630.w8.b8", !133, i64 0}
-!133 = !{!"0x6000030a4630.w16.b0", !134, i64 0}
-!134 = !{!"0x6000030a4630.w32.b0", !135, i64 0}
-!135 = !{!"0x6000030a4630.w64.b0", !136, i64 0}
-!136 = !{!"0x6000030a4630.w128.b0", !137, i64 0}
-!137 = !{!"0x6000030a4630.w256.b0", !138, i64 0}
-!138 = !{!"0x6000030a4630.w512.b0", !139, i64 0}
-!139 = !{!"0x6000030a4630.w1024.b0", !140, i64 0}
-!140 = !{!"0x6000030a4630", !28, i64 0}
+!132 = !{!"0x600000fff720.w8.b8", !133, i64 0}
+!133 = !{!"0x600000fff720.w16.b0", !134, i64 0}
+!134 = !{!"0x600000fff720.w32.b0", !135, i64 0}
+!135 = !{!"0x600000fff720.w64.b0", !136, i64 0}
+!136 = !{!"0x600000fff720.w128.b0", !137, i64 0}
+!137 = !{!"0x600000fff720.w256.b0", !138, i64 0}
+!138 = !{!"0x600000fff720.w512.b0", !139, i64 0}
+!139 = !{!"0x600000fff720.w1024.b0", !140, i64 0}
+!140 = !{!"0x600000fff720", !28, i64 0}
 !141 = !{!142, !142, i64 0}
-!142 = !{!"0x600003041260.w8.b0", !143, i64 0}
-!143 = !{!"0x600003041260.w16.b0", !144, i64 0}
-!144 = !{!"0x600003041260.w32.b0", !145, i64 0}
-!145 = !{!"0x600003041260.w64.b0", !146, i64 0}
-!146 = !{!"0x600003041260.w128.b0", !147, i64 0}
-!147 = !{!"0x600003041260.w256.b0", !148, i64 0}
-!148 = !{!"0x600003041260.w512.b0", !149, i64 0}
-!149 = !{!"0x600003041260.w1024.b0", !150, i64 0}
-!150 = !{!"0x600003041260", !28, i64 0}
+!142 = !{!"0x600000f756e0.w8.b0", !143, i64 0}
+!143 = !{!"0x600000f756e0.w16.b0", !144, i64 0}
+!144 = !{!"0x600000f756e0.w32.b0", !145, i64 0}
+!145 = !{!"0x600000f756e0.w64.b0", !146, i64 0}
+!146 = !{!"0x600000f756e0.w128.b0", !147, i64 0}
+!147 = !{!"0x600000f756e0.w256.b0", !148, i64 0}
+!148 = !{!"0x600000f756e0.w512.b0", !149, i64 0}
+!149 = !{!"0x600000f756e0.w1024.b0", !150, i64 0}
+!150 = !{!"0x600000f756e0", !28, i64 0}
 !151 = !{!152, !152, i64 0}
-!152 = !{!"0x600003041260.w8.b8", !143, i64 0}
+!152 = !{!"0x600000f756e0.w8.b8", !143, i64 0}
 !153 = !{!154, !154, i64 0}
-!154 = !{!"0x600003041260.w8.b16", !155, i64 0}
-!155 = !{!"0x600003041260.w16.b16", !144, i64 0}
+!154 = !{!"0x600000f756e0.w8.b16", !155, i64 0}
+!155 = !{!"0x600000f756e0.w16.b16", !144, i64 0}
 !156 = !{!157, !157, i64 0}
-!157 = !{!"0x600003040bd0.w8.b16", !158, i64 0}
-!158 = !{!"0x600003040bd0.w16.b16", !159, i64 0}
-!159 = !{!"0x600003040bd0.w32.b0", !160, i64 0}
-!160 = !{!"0x600003040bd0.w64.b0", !161, i64 0}
-!161 = !{!"0x600003040bd0.w128.b0", !162, i64 0}
-!162 = !{!"0x600003040bd0.w256.b0", !163, i64 0}
-!163 = !{!"0x600003040bd0.w512.b0", !164, i64 0}
-!164 = !{!"0x600003040bd0.w1024.b0", !165, i64 0}
-!165 = !{!"0x600003040bd0", !28, i64 0}
+!157 = !{!"0x600000faa940.w8.b16", !158, i64 0}
+!158 = !{!"0x600000faa940.w16.b16", !159, i64 0}
+!159 = !{!"0x600000faa940.w32.b0", !160, i64 0}
+!160 = !{!"0x600000faa940.w64.b0", !161, i64 0}
+!161 = !{!"0x600000faa940.w128.b0", !162, i64 0}
+!162 = !{!"0x600000faa940.w256.b0", !163, i64 0}
+!163 = !{!"0x600000faa940.w512.b0", !164, i64 0}
+!164 = !{!"0x600000faa940.w1024.b0", !165, i64 0}
+!165 = !{!"0x600000faa940", !28, i64 0}
 !166 = !{!167, !167, i64 0}
-!167 = !{!"0x600003040bd0.w8.b8", !168, i64 0}
-!168 = !{!"0x600003040bd0.w16.b0", !159, i64 0}
-!169 = distinct !DISubprogram(name: "preprocessor_t4_int8_m6400_k3200_n1_b2_compute_", scope: !1, file: !1, type: !170, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !172)
+!167 = !{!"0x600000faa940.w8.b8", !168, i64 0}
+!168 = !{!"0x600000faa940.w16.b0", !159, i64 0}
+!169 = distinct !DISubprogram(name: "preprocessor_t4_int8_m8192_k14336_n1_b2_compute_", scope: !1, file: !1, type: !170, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !172)
 !170 = !DISubroutineType(cc: DW_CC_nocall, types: !171)
 !171 = !{!14, !62, !62, !73, !62}
 !172 = !{!173, !174, !175, !176}
