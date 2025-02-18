@@ -19,6 +19,12 @@ if [ -z "$TORCH_PATH" ]; then
 fi
 TORCH_PREFIX=$(dirname $(dirname $TORCH_PATH))
 export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:${TORCH_PREFIX}
+
+#> Add libomp
+if [[ "$(uname)" == "Darwin" ]]; then
+    export CMAKE_PREFIX_PATH=/opt/homebrew/Cellar/libomp/19.1.7/:${CMAKE_PREFIX_PATH}
+fi
+
 echo "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}"
 if [[ $TARGET == "executorch" ]]; then
     TORCHAO_BUILD_EXECUTORCH_OPS=ON

@@ -424,7 +424,11 @@ def build_tvm_with_local_llvm():
 
 check_submodules()      #> Zijie: Check if the submodules are correctly UPDATED.
 
-build_tvm_with_local_llvm()  #> Zijie: Build the TVM package with local LLVM.
+#! If force reinstall just uninstall TVM package.
+try:
+    import tvm          #> Zijie: Check if the TVM package is correctly imported.
+except ImportError: 
+    build_tvm_with_local_llvm()  #> Zijie: Build the TVM package with local LLVM.
 
 setup(
     name="torchao",

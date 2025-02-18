@@ -9,13 +9,14 @@ import tempfile
 import unittest
 
 import torch
-torch.ops.load_library("../cmake-out/lib/libtorchao_ops_aten.dylib")
+import os
+current_path = os.path.dirname(os.path.abspath(__file__))
+torch.ops.load_library(current_path + "/../cmake-out/lib/libtorchao_ops_aten.dylib")
 
 from torchao.experimental.quant_api import (
     Int8DynActIntxWeightLinearQuantizer,
     _Int8DynActIntxWeightQuantizedLinearFallback,
 )
-
 
 class TestInt8DynActIntxWeightQuantizer(unittest.TestCase):
     def test_accuracy(self):

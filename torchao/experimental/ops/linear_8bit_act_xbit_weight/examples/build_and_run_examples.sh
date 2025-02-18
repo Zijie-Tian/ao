@@ -5,12 +5,20 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+export CC=/Users/tianzijie/Baselines/ao/build/clang+llvm-17.0.6-arm64-apple-darwin22.0/bin/clang
+export CXX=/Users/tianzijie/Baselines/ao/build/clang+llvm-17.0.6-arm64-apple-darwin22.0/bin/clang++
+
 export CMAKE_PREFIX_PATH="$(python -c 'import torch.utils; print(torch.utils.cmake_prefix_path)')"
+export CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:$(brew --prefix libomp)
+
 echo "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}"
+
 export CMAKE_OUT=/tmp/cmake-out/torchao/examples
 cmake -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} \
     -S . \
     -B ${CMAKE_OUT} \
+    -DCMAKE_C_COMPILER=${CC} \
+    -DCMAKE_CXX_COMPILER=${CXX} \
     -DOpenMP_ROOT=$(brew --prefix libomp)
 cmake --build  ${CMAKE_OUT}
 

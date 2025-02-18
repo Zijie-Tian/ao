@@ -1,13 +1,8 @@
 import torch
 import os
-import sys  # 将sys导入移到模块顶部
-
 current_path = os.path.dirname(os.path.abspath(__file__))
 
-# 动态加载平台特定的库
-extension = "dylib" if sys.platform == "darwin" else "so"
-lib_path = os.path.join("..", "cmake-out", f"libtorchao_ops_aten.{extension}")
-torch.ops.load_library(os.path.join(current_path, lib_path))
+torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.dylib")
 
 import copy
 import tempfile

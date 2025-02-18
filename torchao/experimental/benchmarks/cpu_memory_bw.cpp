@@ -17,7 +17,7 @@
 
 DEFINE_int32(array_size, 1024 * 1024 * 256, "Size of array num int32 elements.");
 
-DEFINE_int32(num_threads, 1, "Number of threads to use");
+DEFINE_int32(num_threads, 16, "Number of threads to use");
 
 namespace {
 int32_t reduction_add(

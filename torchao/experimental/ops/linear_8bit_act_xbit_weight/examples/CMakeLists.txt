@@ -12,6 +12,12 @@ set(CMAKE_BUILD_TYPE Release)
 
 include(CMakePrintHelpers)
 
+# find_package(OpenMP REQUIRED)
+set(OpenMP_C_FLAGS "-fopenmp")
+set(OpenMP_C_LIB_NAMES "omp")
+set(OpenMP_CXX_FLAGS "-fopenmp")
+set(OpenMP_CXX_LIB_NAMES "omp")
+set(OpenMP_omp_LIBRARY "/opt/homebrew/Cellar/libomp/19.1.7/lib/libomp.dylib")
 set(TORCHAO_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 set(TORCHAO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
 
