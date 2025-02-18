@@ -28,24 +28,6 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
     if (NOT "${COMPILER_SUPPORTS_FP16_FORMAT_I3E}" STREQUAL "")
         list(APPEND ARCH_FLAGS -mfp16-format=ieee)
     endif()
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv6")
-        # Raspberry Pi 1, Zero
-        list(APPEND ARCH_FLAGS -mfpu=neon-fp-armv8 -mno-unaligned-access)
-    endif()
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7")
-        if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-            # Android armeabi-v7a
-            list(APPEND ARCH_FLAGS -mfpu=neon-vfpv4 -mno-unaligned-access -funsafe-math-optimizations)
-        else()
-            # Raspberry Pi 2
-            list(APPEND ARCH_FLAGS -mfpu=neon-fp-armv8 -mno-unaligned-access -funsafe-math-optimizations)
-        endif()
-    endif()
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv8")
-        # Android arm64-v8a
-        # Raspberry Pi 3, 4, Zero 2 (32-bit)
-        list(APPEND ARCH_FLAGS -mno-unaligned-access)
-    endif()
     if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64")
         # We need fullfp16 for T-MAC
         # TODO: we need to simplify this logic through check_cxx_source_compiles or Presets?
@@ -61,22 +43,10 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
             list(APPEND ARCH_FLAGS -march=armv8.2a+fp16)
         endif ()
     endif()
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ARM64")
-        # ARM Windows with LLVM clang GNU interface
-        # We need fullfp16 for T-MAC
-        # TODO: check_cxx_source_compiles
-        message("Enter arm64")
-        list(APPEND ARCH_FLAGS -march=armv8.2a+fp16)
-    endif()
-    
     #> Zijie : Add Apple M4 Max support
     if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
         # Apple M2
         list(APPEND ARCH_FLAGS -mcpu=apple-m2)
-    endif()
-
-    if (GGML_SVE)
-        list(APPEND ARCH_FLAGS -march=armv8.6-a+sve)
     endif()
 
     message(STATUS "Final arch flags: ${ARCH_FLAGS}")
