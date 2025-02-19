@@ -893,6 +893,40 @@ def pack_tmac_weight(
 
     return w, scales
 
+# def preprocess_for_t_mac(
+#     kcfg_file: str,
+#     w: torch.Tensor,
+#     scales: torch.Tensor,
+#     zeros: Optional[torch.Tensor] = None,
+#     bits: int = 2,
+#     g: int = 4,
+# ) -> torch.Tensor:
+
+#     M, K = w.shape
+#     cf = configparser.ConfigParser()
+#     cf.read(kcfg_file)
+#     secs = cf.sections()
+#     found = False
+#     for sec in secs:
+#         sec_splits = str(sec).split('_')
+#         if sec_splits[-4] == "m" + str(M * bits) and sec_splits[-3] == "k" + str(K):
+#             bm = int(cf.get(sec, 'bm'))
+#             kfactor = int(cf.get(sec, 'kfactor'))
+#             simd_n_in = int(cf.get(sec, 'simd_n_in'))
+#             simd_n_out = int(cf.get(sec, 'simd_n_out'))
+#             found = True
+#             break
+
+#     if not found:
+#         raise KeyError("GEMM of shape ({}, {}) is not found in {}. Please compile the kernels using T-MAC first.".format(M, K, kcfg_file))
+
+#     w, scales = pack_tmac_weight(w, scales, zeros, bits=bits, g=g, bm=bm, kfactor=kfactor, simd_n_in=simd_n_in, simd_n_out=simd_n_out)
+
+    # return None
+    # return np.concatenate([w.flatten(), scales.astype(np.float32).copy().view(np.uint8).flatten()])
+
+
+
 def load_op_config_ini(file_path: str) -> List[TMACConfig]:
     """读取INI文件并生成QuantConfig对象列表"""
     config = configparser.ConfigParser()
@@ -928,16 +962,31 @@ def find_tmac_config(
             return config
     return None
 
+#> This function can preserve the PPL on BitNet.
+def pesudo_tmac_weight_quant(weight: torch.Tensor) -> torch.Tensor:
+    dtype = weight.dtype
+    weight = weight.float()
+    scale = weight.abs().mean().clamp(min=1e-5)
+    iscale = 1 / scale
+    # TODO: multiply by the scale directly instead of inverting it twice
+    # (this is also unnecessarily doubly inverted upstream)
+    # ref: https://huggingface.co/1bitLLM/bitnet_b1_58-3B/blob/af89e318d78a70802061246bf037199d2fb97020/utils_quant.py#L10
+    result = (weight * iscale).round().clamp(-1, 1) / iscale
+    return result.type(dtype)
+
+
 class TMACWeightOnlyQuantizedLinear(nn.Module):
     def __init__(
         self,
         pack_weight_op,
-        linear_op,
+        preprocess_weights_fn,
+        qgemm_lut_fn,
         batch_size
     ):
         super().__init__()
         self._pack_weights_op = pack_weight_op
-        self._linear_op = linear_op
+        self._preprocess_weights_fn = preprocess_weights_fn
+        self._qgemm_lut_fn = qgemm_lut_fn
         
         # TMAC kernel config parameters
         self.N = batch_size
@@ -949,79 +998,104 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
         assert len(self.all_config) > 0, "TMAC Config is Empty"
         
         # TMAC Local Variables when FORWARD model.
+        self.orig_weight = None
         self.QLUT = None
         self.LUT_scales = None
         self.LUT_biases = None
+        self.packed_qweight = None
+        self.scales_t = None
 
     def quantize_and_pack_weights(self, weights, nbit, group_size):
         self.nbit = nbit
         self.group_size = group_size
         
         assert weights.dim() == 2, "Currently only support 2D weights"
-        
-        self.M, self.K = weights.shape
 
+        self.orig_weight = weights
+        self.M, self.K = weights.shape
         self.op_config = find_tmac_config(
             self.all_config, self.nbit, self.M, self.K, self.N
         )
         if self.op_config is None:
             raise NotImplementedError("This kernel is not supported.")
         
-        weight_qvals, weight_scales, weight_zeros = _quantize(
-            weights, self.group_size, self.nbit, has_weight_zeros=True, signed=False
-        )
+        #> Only work for BitNet
+        pesudo_qweight = pesudo_tmac_weight_quant(weights)
         
-        # weight_scales = torch.transpose_copy(weight_scales, 1, 0)
-        # weight_zeros = torch.transpose_copy(weight_zeros, 1, 0)
-        weight_zeros = -weight_zeros * weight_scales
-        self.weight_scales = nn.Parameter(weight_scales, requires_grad=False)
-        self.weight_zeros = nn.Parameter(weight_zeros, requires_grad=False)
+        scaling_factor = 1.0 / pesudo_qweight.abs().max()
         
-        print(f"TMAC Config : {self.op_config}")
+        weight_qvals = (pesudo_qweight * scaling_factor).to(torch.int8)
+        weight_scales = torch.tensor([scaling_factor], dtype=torch.float16)
+        weight_zeros = None     #> TMAC does not use zeros.
         
-        import pdb; pdb.set_trace()
-        
-        # TODO : PROBLEM : current cannot use MKN and bit specific config `bm`.
-        packed_weights, scales = self._pack_weights_op(
+        packed_qweight, scales = self._pack_weights_op(
             weight_qvals.cpu(), 
             weight_scales,
             weight_zeros,
             nbit,
-            4,
+            self.op_config.g,               #> Fixed to 4, this is TMAC LUT compute group size.
             self.op_config.bm,
             self.op_config.kfactor,
             self.op_config.simd_n_in,
             self.op_config.simd_n_out
         )
         
-        packed_weights = packed_weights.to(device="cpu")
+        packed_qweight = packed_qweight.to(device="cpu")
         
-        import pdb; pdb.set_trace()
+        self.packed_qweight = nn.Parameter(packed_qweight, requires_grad=False)
+        self.scales_t = nn.Parameter(scales, requires_grad=False)
+
+    def _TMAC_forward(self, x):
+        assert self.op_config != None, "TMAC Config is None"
+        assert self.packed_qweight != None, "TMAC packed_weights is None"
+        assert x.dtype == torch.float16, "Currently input must be float16 type"
         
-        self.packed_weights = nn.Parameter(packed_weights, requires_grad=False)
+        self.LUT_Scales = torch.zeros((self.op_config.N, self.op_config.K // self.op_config.act_group_size), dtype=torch.float16)
+        self.LUT_Biases = torch.zeros((self.op_config.N, self.op_config.K // self.op_config.act_group_size), dtype=torch.float16)
+        self.QLUT = torch.zeros((self.op_config.N, self.op_config.K // self.op_config.g, 1 << self.op_config.g), dtype=torch.uint8)
+        
+        self._preprocess_weights_fn(
+            x, self.LUT_Scales, self.LUT_Biases, self.QLUT,
+            self.op_config.M, self.op_config.K, self.op_config.N,
+        )
+        
+        result = torch.zeros((self.op_config.N, self.op_config.M), dtype=torch.float16)
+        
+        self._qgemm_lut_fn(
+            self.packed_qweight, self.QLUT, self.scales_t, 
+            self.LUT_Scales, self.LUT_Biases, result, 
+            self.op_config.M, self.op_config.K, 
+            self.op_config.N, self.op_config.bits
+        )
+        
+        return result 
 
     def forward(self, x):
         assert x.dim() >= 2
         assert self.op_config != None, "TMAC Config is None"
-        if x.dim() == 2:
-            return self._linear_op(
-                x,
-                self.packed_weights,
-                self.group_size,
-                self.weight_scales,
-                self.weight_zeros,
-            )
+        assert self.N == x.shape[0], "TMAC N is preset."
+        
+        return self._TMAC_forward(x)
+        
+        # if x.dim() == 2:
+        #     return self._linear_op(
+        #         x,
+        #         self.packed_weights,
+        #         self.group_size,
+        #         self.weight_scales,
+        #         self.weight_zeros,
+        #     )
 
-        lead_shape = x.shape[0:-1]
-        k = x.shape[-1]
-        n = self.weight_scales.shape[1]
-        return self._linear_op(
-            x.reshape(-1, k),
-            self.packed_weights,
-            self.group_size,
-            self.weight_scales,
-            self.weight_zeros,
-        ).reshape(*lead_shape, n)
+        # lead_shape = x.shape[0:-1]
+        # k = x.shape[-1]
+        # n = self.weight_scales.shape[1]
+        # return self._linear_op(
+        #     x.reshape(-1, k),
+        #     self.packed_weights,
+        #     self.group_size,
+        #     self.weight_scales,
+        #     self.weight_zeros,
+        # ).reshape(*lead_shape, n)
 
 def _replace_linear_with_quantized_linear_tmac(module: nn.Module, kwargs={}):
     group_size = kwargs["group_size"]
@@ -1038,8 +1112,11 @@ def _replace_linear_with_quantized_linear_tmac(module: nn.Module, kwargs={}):
             assert child.bias is None
             qlinear = TMACWeightOnlyQuantizedLinear(
                 pack_weight_op=pack_tmac_weight,
-                linear_op=getattr(
-                    torch.ops.torchao, f"qgemm_lut"
+                preprocess_weights_fn=getattr(
+                    torch.ops.torchao, f"preprocess"
+                ),
+                qgemm_lut_fn=getattr(
+                    torch.ops.torchao, f"qgemm_lut",
                 ),
                 batch_size=batch_size
             )
@@ -1117,11 +1194,11 @@ class TMACWeightOnlyLinearQuantizer:
 # This is used to test Int8DynActLowbitWeightQuantizedLinear, and as a fallback when
 # Int8DynActLowbitWeightQuantizedLinear is not available
 class _TMACWeightQuantizedLinearFallback(nn.Module):
-    def __init__(self):
+    def __init__(self, nbits):
         super().__init__()
+        self.nbits = nbits
 
-    def quantize_and_pack_weights(self, weights, nbit, group_size, has_weight_zeros):
-        self.nbit = nbit
+    def quantize_and_pack_weights(self, weights, group_size, has_weight_zeros=True):
         self.group_size = group_size
         self.has_weight_zeros = has_weight_zeros
 
@@ -1129,7 +1206,7 @@ class _TMACWeightQuantizedLinearFallback(nn.Module):
         assert self._k % group_size == 0, "group_size must divide k"
 
         self.weight_qvals, self.weight_scales, self.weight_zeros = _quantize(
-            weights, self.group_size, self.nbit, self.has_weight_zeros
+            weights, self.group_size, self.nbits, self.has_weight_zeros, signed=False
         )
 
     def _forward_2d(self, x):
@@ -1151,24 +1228,24 @@ class _TMACWeightQuantizedLinearFallback(nn.Module):
             quant_max=None,  # TODO: why is this an arg for this function
             dtype=None,  # TODO: why is this an arg for this function
             group_size=self.group_size,
-            output_dtype=torch.float32,
+            output_dtype=torch.float16,
         )
+        
+        # activation_qvals, activation_scales, activation_zeros = _quantize(
+        #     x, group_size=k, nbit=8, has_weight_zeros=True
+        # )
+        # activations_dequantized = dequantize_per_channel_group(
+        #     w_int8=activation_qvals,
+        #     scales=activation_scales,
+        #     zero_points=activation_zeros,
+        #     quant_min=None,  # TODO: why is this an arg for this function
+        #     quant_max=None,  # TODO: why is this an arg for this function
+        #     dtype=None,  # TODO: why is this an arg for this function
+        #     group_size=k,
+        #     output_dtype=torch.float32,
+        # )
 
-        activation_qvals, activation_scales, activation_zeros = _quantize(
-            x, group_size=k, nbit=8, has_weight_zeros=True
-        )
-        activations_dequantized = dequantize_per_channel_group(
-            w_int8=activation_qvals,
-            scales=activation_scales,
-            zero_points=activation_zeros,
-            quant_min=None,  # TODO: why is this an arg for this function
-            quant_max=None,  # TODO: why is this an arg for this function
-            dtype=None,  # TODO: why is this an arg for this function
-            group_size=k,
-            output_dtype=torch.float32,
-        )
-
-        res = torch.matmul(activations_dequantized, weights_dequantized.transpose(1, 0))
+        res = torch.matmul(x, weights_dequantized.transpose(1, 0))
         return res
 
     def forward(self, x):

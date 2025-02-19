@@ -46,7 +46,7 @@ __all__ = [
 _lm_eval_available = importlib.util.find_spec("lm_eval") is not None
 
 
-# basic SQNR
+# basic SQNR, larger is better
 def compute_error(x, y):
     Ps = torch.linalg.norm(x)
     Pn = torch.linalg.norm(x - y)
