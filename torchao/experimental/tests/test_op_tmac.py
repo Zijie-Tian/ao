@@ -197,9 +197,9 @@ class TestTMACQuantizer(unittest.TestCase):
                 #     Sref = torch.abs(torch.randn(cfg.m_groups,)).to(dtype=out_dtype)
 
                 # 生成 Bref
-                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16).cuda()
-                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16).cuda()
-                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8).cuda()
+                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
+                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
+                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8)
                 torch.ops.torchao.preprocess(activation, LUT_Scales, LUT_Biases, QLUT, cfg.M, cfg.K, cfg.N, cfg.bits)
 
                 qweight_t, Scales_t = preprocess_weights_torch(
@@ -207,8 +207,8 @@ class TestTMACQuantizer(unittest.TestCase):
                     bits=cfg.bits, g=cfg.g,
                     bm=cfg.bm, kfactor=cfg.kfactor
                 )
-                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8).cuda()
-                Scales_t = torch.tensor(Scales_t, dtype=torch.float16).cuda()
+                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8).cpu()
+                Scales_t = torch.tensor(Scales_t, dtype=torch.float16).cpu()
                 print(f"QWeight: {qweight_t} and Scales: {Scales_t}")
 
                 C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16).cuda()
