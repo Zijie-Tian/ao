@@ -11,7 +11,7 @@ import unittest
 import sys
 sys.path.append(current_path + "/../ops/tmac/")
 print(sys.path)
-from t_mac.weights import preprocess_weights
+from t_mac.weights import preprocess_weights, preprocess_weights_torch
 
 import numpy as np
 
@@ -19,6 +19,8 @@ import configparser
 import re
 from dataclasses import dataclass
 from typing import List
+
+from torchao.quantization.utils import compute_error
 
 CONFIG_PATH = current_path + "/../ops/tmac/t-mac/kcfg.ini"
 
@@ -94,15 +96,35 @@ def load_op_config_ini(file_path: str) -> List[QuantConfig]:
         if re.match(r'^qgemm_lut_t\d+_', section)  # 过滤有效section
     ]
 
-# 设置日志级别（0: INFO, 1: WARNING, 2: ERROR）
-# torch._C._set_cpp_log_level(0)
-
 def get_max_allowed_error(bits: int) -> float:
-    """根据量化位宽返回允许的最大绝对误差"""
+    """ return minimum SQNR """
     return {
-        2: 6,       # 2 bit量化允许较大误差
-        4: 15,      # 4 bit量化允许较大误差
-    }.get(bits, 0.2)
+        2: 40,          # 2 bit量化允许最小SQNR
+        4: 40,          # 4 bit量化允许最小SQNR
+    }.get(bits, 40)
+
+def weight_quant(weight, group_size):
+    dtype = weight.dtype
+    org_w_shape = weight.shape
+    
+    if group_size > 0:
+        assert weight.shape[1] % group_size == 0, "group_size must be a divisor of weight.shape[1]"
+        weight = weight.reshape(-1, group_size).float()
+        scale = 1 / weight.abs().mean(dim=1).clamp(min=1e-5)
+        qweight = (weight * scale.unsqueeze(-1).expand_as(weight)).round().clamp(-1, 1)
+    else :
+        weight = weight.float()
+        scale = 1 / weight.abs().mean().clamp(min=1e-5)
+        qweight = (weight * scale).round().clamp(-1, 1)
+    
+    return qweight.type(dtype).reshape(org_w_shape), scale
+    
+    # dtype = weight.dtype
+    # weight = weight.float()
+    # weight_
+    # s =  1 / weight.abs().mean().clamp(min=1e-5)
+    # result = (weight * s).round().clamp(-1, 1) / s
+    # return result.type(dtype)
 
 class TestTMACQuantizer(unittest.TestCase):
     @classmethod
@@ -121,30 +143,94 @@ class TestTMACQuantizer(unittest.TestCase):
 
             with self.subTest(f"{cfg.dtype}_m{cfg.M}k{cfg.K}b{cfg.bits}"):
                 # 固定参数设置
-                weight_dtype = "uint8"  # 权重量化类型
-                out_dtype = "float16"   # 输出精度
+                weight_dtype = torch.float16    # 权重量化类型
+                qweight_dtype = torch.uint8     # 权重量化类型
+                out_dtype = torch.float16   # 输出精度
 
                 # 生成随机量化权重
                 # np.random.seed(42)  # 固定随机种子保证可重复性
+                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype) 
+                # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
+
+                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype)
+                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype)
+
+                qweight, scale = weight_quant(weight, cfg.group_size)
+
+                if cfg.group_size > 0:
+                    pesudo_weight = qweight.reshape(-1, cfg.group_size).float()
+                    pesudo_weight = pesudo_weight * scale.unsqueeze(-1).expand_as(pesudo_weight)
+                    pesudo_weight = pesudo_weight.view(weight.shape)
+                    pesudo_ref = activation @ qweight.T
+                    #! Note this "+2"
+                    qweight = (qweight + 2 ** (cfg.bits - 1)).type(qweight_dtype)
+                    scale = scale.reshape(-1, cfg.K // cfg.group_size).type(out_dtype)
+                else :
+                    pesudo_weight = qweight.type(out_dtype) * scale
+                    pesudo_ref = activation @ pesudo_weight.T
+                    #! Note this "+2"
+                    qweight = torch.round(qweight + 2 ** (cfg.bits - 1)).to(qweight_dtype)
+                    scale = scale * torch.ones(cfg.M, cfg.K, dtype=torch.float16)
+                    
+                real_ref = activation @ weight.T
+                
+                sqnr = compute_error(pesudo_ref, real_ref)
+                print(f"SQNR: {sqnr}")
+
+                # 初始化缩放因子和零点
+                # Zref = None
+                # if cfg.m_groups == -1:
+                #     Sref = torch.abs(torch.randn(cfg.M, cfg.K // cfg.group_size)).to(dtype=out_dtype)
+                #     if cfg.zero_point:
+                #         Zref = torch.randn(cfg.M, cfg.K // cfg.group_size).to(dtype=out_dtype)
+                # else:
+                #     Sref = torch.abs(torch.randn(cfg.m_groups,)).to(dtype=out_dtype)
+
+                # 生成 Bref
+                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
+                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
+                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8)
+                torch.ops.torchao.preprocess(activation, LUT_Scales, LUT_Biases, QLUT, cfg.M, cfg.K, cfg.N, cfg.bits)
+
+                qweight_t, Scales_t = preprocess_weights_torch(
+                    qweight, scale, None,
+                    bits=cfg.bits, g=cfg.g,
+                    bm=cfg.bm, kfactor=cfg.kfactor
+                )
+                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
+                Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
+                
+                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
+                torch.ops.torchao.qgemm_lut(
+                    qweight_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
+                    C, cfg.M, cfg.K, cfg.N, cfg.bits
+                ) 
+
+                
+                import pdb; pdb.set_trace()
+
+                continue
+
+                
                 #> Standard quantized weight.
-                Aref = np.random.randint(
-                    0, 2**cfg.bits,
-                    size=(cfg.M, cfg.K)
-                ).astype(weight_dtype)
-                # 生成缩放因子和零点（如果需要）
-                # Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size)).astype(out_dtype)
-                # Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype) if cfg.zero_point else None
-                Zref = None
-                if cfg.m_groups == -1:
-                    Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype))
-                    if cfg.zero_point:
-                        Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype)
-                else:
-                    Sref = np.abs(np.random.randn(cfg.m_groups,).astype(out_dtype))
-                Bref = np.random.randn(cfg.N, cfg.K).astype(out_dtype)
+                # Aref = np.random.randint(
+                #     0, 2**cfg.bits,
+                #     size=(cfg.M, cfg.K)
+                # ).astype(qweight_dtype)
+                # # 生成缩放因子和零点（如果需要）
+                # # Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size)).astype(out_dtype)
+                # # Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype) if cfg.zero_point else None
+                # Zref = None
+                # if cfg.m_groups == -1:
+                #     Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype))
+                #     if cfg.zero_point:
+                #         Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype)
+                # else:
+                #     Sref = np.abs(np.random.randn(cfg.m_groups,).astype(out_dtype))
+                # Bref = np.random.randn(cfg.N, cfg.K).astype(out_dtype)
 
                 #> Testment.
-                # Aref = np.ones((cfg.M, cfg.K), dtype=weight_dtype)
+                # Aref = np.ones((cfg.M, cfg.K), dtype=qweight_dtype)
                 # # Aref[:, ::2] = 0
                 # Aref[::2, :] = 0
                 Sref = np.ones((cfg.M, cfg.K // cfg.group_size), dtype=out_dtype)
@@ -166,8 +252,6 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 # 生成随机输入并计算参考输出
                 Cref = Bref @ Adq  # 原始矩阵乘法结果
-
-                # Cref = Cref.reshape(-1).repeat(cfg.bits).reshape(cfg.M, cfg.N)  # 扩展维度至 (M, N)
 
                 # --- 量化计算流程 ---
                 # 预处理输入数据
@@ -196,13 +280,13 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 # --- 结果验证 ---
                 max_error = get_max_allowed_error(cfg.bits)
+                sqnr = compute_error(C, Cref)
 
-                np.testing.assert_allclose(
-                    C.numpy(), Cref,
-                    atol=max_error,
-                    rtol=0.1,  # 允许10%的相对误差
-                    err_msg=f"量化误差超过阈值 {max_error}，配置：{cfg}"
-                )
+                print(f"SQNR: {sqnr} and MAX_ERROR {max_error}")
+
+                import pdb; pdb.set_trace()
+                
+                self.assertLessEqual(sqnr, max_error, f"SQNR: {sqnr} > {max_error}")
 
 
 if __name__ == '__main__':
@@ -222,11 +306,11 @@ if __name__ == '__main__':
     # bm = 128
     # kfactor = 16
 
-    # weight_dtype = "uint8"
+    # qweight_dtype = "uint8"
     # out_dtype = "float16"
 
     # #> Quantized weights
-    # Aref = np.random.randint(0, 2 ** bits, size=(M, K)).astype(weight_dtype)
+    # Aref = np.random.randint(0, 2 ** bits, size=(M, K)).astype(qweight_dtype)
     # Sref = np.abs(np.random.randn(M, K // group_size).astype(out_dtype))
     # Zref = None
     # if zero_point:

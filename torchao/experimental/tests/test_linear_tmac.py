@@ -50,40 +50,35 @@ def test_accuracy():
     m = 4096
     k = 4096
     group_size = 2
-    # model = torch.nn.Sequential(*[torch.nn.Linear(m, k, bias=False, dtype=torch.float16)])
 
-    tokenizer = LlamaTokenizer.from_pretrained("/Volumes/zijiessd/hf_models/LLaMA/Llama-2-7b-EfficientQAT-w4g128-GPTQ/")
-    model = AutoModelForCausalLM.from_pretrained("/Volumes/zijiessd/hf_models/LLaMA/Llama-2-7b-EfficientQAT-w4g128-GPTQ/", torch_dtype=torch.float16).to(
-        "mps"
-    )
+    tokenizer = LlamaTokenizer.from_pretrained("/Users/tianzijie/hf_models/bitnet_b1_58-3B")
+    model = AutoModelForCausalLM.from_pretrained("/Users/tianzijie/hf_models/bitnet_b1_58-3B", torch_dtype=torch.float16).to(
+        "cpu"
+    ).to(torch.float16)
 
-    # input_ids = tokenizer("Hello, my dog is cute", return_tensors="pt")["input_ids"]
-    # embeddings = model.get_input_embeddings()
-    # activations = embeddings(input_ids)
+    model_input = tokenizer("Hello, my dog is cute", return_tensors="pt")
+    # activations = model.get_input_embeddings()(input_ids)
     
     import pdb; pdb.set_trace()
-        
-    # activations = torch.randn(n, k, dtype=torch.float16)
 
-    for name, linear_layer in find_proj_layers(model):
-        if not name.endswith('q_proj'):
-            continue
-                
-        with torch.no_grad():
-            # print("RAW model weights : ", linear_layer.weight)
-            reference_impl = _TMACWeightQuantizedLinearFallback(2)
-            reference_impl.quantize_and_pack_weights(linear_layer.weight, group_size, has_weight_zeros=True)
-            
-            quant_ref = weight_quant(linear_layer.weight)
-            
-            expected_result = reference_impl(activations)
-            raw_result = linear_layer(activations)
-            # ref_result = quant_ref @ activations.T
+    quantized_model = copy.deepcopy(model)
+    quantizer = TMACWeightOnlyLinearQuantizer(
+        device="cpu",
+        precision=torch.float16,
+        bitwidth=2,
+        batch_size=1,
+    )
+    quantized_model = quantizer.quantize(quantized_model)
+    
+    quantized_model.eval()
+    with torch.no_grad():
+        quantized_model.generate(**model_input, max_new_tokens=50, do_sample=True, temperature=0.7)
+    
+    import pdb; pdb.set_trace()
+    
+    # result = quantized_model(activations)       
+    
 
-            sqnr = compute_error(raw_result, expected_result)
-            print(f"SQNR: {sqnr}")
-        
-            import pdb; pdb.set_trace()
 
     # for nbit in [2]:
     #     print(f"Testing nbit={nbit}")
@@ -107,6 +102,29 @@ def test_accuracy():
     #         expected_result = reference_impl(activations)
     #         raw_result = model(activations)
             
+    #         import pdb; pdb.set_trace()
+
+    
+    
+    
+    # for name, linear_layer in find_proj_layers(model):
+    #     if not name.endswith('q_proj'):
+    #         continue
+
+    #     activations = torch.randn(n, linear_layer.in_features, dtype=torch.float16)
+                
+    #     with torch.no_grad():
+    #         # print("RAW model weights : ", linear_layer.weight)
+    #         reference_impl = _TMACWeightQuantizedLinearFallback(2)
+    #         reference_impl.quantize_and_pack_weights(linear_layer.weight, group_size, has_weight_zeros=True)
+            
+    #         expected_result = reference_impl(activations)
+    #         raw_result = linear_layer(activations)
+    #         # ref_result = quant_ref @ activations.T
+
+    #         sqnr = compute_error(raw_result, expected_result)
+    #         print(f"SQNR: {sqnr}")
+        
     #         import pdb; pdb.set_trace()
 
 

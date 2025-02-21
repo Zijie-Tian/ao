@@ -7,86 +7,85 @@ target triple = "arm64-apple-darwin23.1.0"
 %1 = type { ptr, %2, i32, %3, ptr, ptr, i64 }
 %2 = type { i32, i32 }
 %3 = type { i8, i8, i16 }
-%4 = type { ptr, i32 }
-%closure_loop_parallel_m.outer = type { ptr, ptr, ptr, ptr, ptr, ptr }
 
 @__TVMAPISetLastError = linkonce dllexport local_unnamed_addr global ptr null, align 8
-@__TVMBackendParallelLaunch = linkonce dllexport local_unnamed_addr global ptr null, align 8
-@.str = private constant [87 x i8] c"Assert fail: num_args == 6, qgemm_lut_t4_int8_m8192_k14336_n1_b2: num_args should be 6\00", align 1
-@.str.1 = private constant [105 x i8] c"Assert fail: not T.isnullptr(args), qgemm_lut_t4_int8_m8192_k14336_n1_b2: TVMValue* arg pointer was NULL\00", align 1
-@.str.2 = private constant [107 x i8] c"Assert fail: not T.isnullptr(arg_type_ids), qgemm_lut_t4_int8_m8192_k14336_n1_b2: int* type_codes was NULL\00", align 1
-@.str.3 = private constant [138 x i8] c"Assert fail: A_code == 3 or A_code == 13 or A_code == 7 or A_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[0] to be pointer\00", align 1
-@.str.4 = private constant [146 x i8] c"Assert fail: LUT_code == 3 or LUT_code == 13 or LUT_code == 7 or LUT_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[1] to be pointer\00", align 1
-@.str.5 = private constant [158 x i8] c"Assert fail: Scales_code == 3 or Scales_code == 13 or Scales_code == 7 or Scales_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[2] to be pointer\00", align 1
-@.str.6 = private constant [174 x i8] c"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[3] to be pointer\00", align 1
-@.str.7 = private constant [174 x i8] c"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[4] to be pointer\00", align 1
-@.str.8 = private constant [138 x i8] c"Assert fail: C_code == 3 or C_code == 13 or C_code == 7 or C_code == 4, qgemm_lut_t4_int8_m8192_k14336_n1_b2: Expect arg[5] to be pointer\00", align 1
-@.str.9 = private constant [119 x i8] c"Assert fail: not T.isnullptr(A), qgemm_lut_t4_int8_m8192_k14336_n1_b2.A is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.10 = private constant [121 x i8] c"Assert fail: 3 == T.tvm_struct_get(A, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.ndim is expected to equal 3\00", align 1
-@.str.11 = private constant [123 x i8] c"Assert fail: not T.isnullptr(LUT), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.12 = private constant [125 x i8] c"Assert fail: 3 == T.tvm_struct_get(LUT, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.ndim is expected to equal 3\00", align 1
-@.str.13 = private constant [129 x i8] c"Assert fail: not T.isnullptr(Scales), qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.14 = private constant [131 x i8] c"Assert fail: 3 == T.tvm_struct_get(Scales, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.ndim is expected to equal 3\00", align 1
-@.str.15 = private constant [137 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.16 = private constant [139 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.ndim is expected to equal 2\00", align 1
-@.str.17 = private constant [137 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.18 = private constant [139 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.ndim is expected to equal 2\00", align 1
-@.str.19 = private constant [119 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t4_int8_m8192_k14336_n1_b2.C is expected to have non-NULL DLTensor* pointer\00", align 1
-@.str.20 = private constant [121 x i8] c"Assert fail: 2 == T.tvm_struct_get(C, 0, 4, \22int32\22), qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.ndim is expected to equal 2\00", align 1
-@.str.21 = private constant [240 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 5, \22uint8\22) == T.uint8(1) and T.tvm_struct_get(A, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(A, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.dtype is expected to be uint8\00", align 1
-@.str.22 = private constant [244 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[0]) == 32, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape[0] has an unsatisfied constraint: 32 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[0])\00", align 1
-@.str.23 = private constant [248 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[1]) == 3584, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape[1] has an unsatisfied constraint: 3584 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[1])\00", align 1
-@.str.24 = private constant [246 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[2]) == 128, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape[2] has an unsatisfied constraint: 128 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_shape[2])\00", align 1
-@.str.25 = private constant [322 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_strides[2]) and 128 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_strides[1]) and 458752 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_A_strides[0]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides: expected to be compact array\00", align 1
-@.str.26 = private constant [207 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22)\00", align 1
-@.str.27 = private constant [187 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(A, 0, 10, \22int32\22)\00", align 1
-@.str.28 = private constant [114 x i8] c"Assert fail: not T.isnullptr(A), qgemm_lut_t4_int8_m8192_k14336_n1_b2.A is expected to have non-NULL data pointer\00", align 1
-@.str.29 = private constant [247 x i8] c"Assert fail: T.tvm_struct_get(LUT, 0, 5, \22uint8\22) == T.uint8(0) and T.tvm_struct_get(LUT, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(LUT, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.dtype is expected to be int8\00", align 1
-@.str.30 = private constant [248 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[0]) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[0])\00", align 1
-@.str.31 = private constant [254 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[1]) == 3584, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape[1] has an unsatisfied constraint: 3584 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[1])\00", align 1
-@.str.32 = private constant [250 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[2]) == 16, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_shape[2])\00", align 1
-@.str.33 = private constant [246 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_strides[2]) and 16 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_strides[1]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides: expected to be compact array\00", align 1
-@.str.34 = private constant [213 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT, 0, 8, \22uint64\22)\00", align 1
-@.str.35 = private constant [193 x i8] c"Assert fail: T.tvm_struct_get(LUT, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT, 0, 10, \22int32\22)\00", align 1
-@.str.36 = private constant [199 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT, 0, 9, \22int32\22)\00", align 1
-@.str.37 = private constant [118 x i8] c"Assert fail: not T.isnullptr(LUT), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT is expected to have non-NULL data pointer\00", align 1
-@.str.38 = private constant [263 x i8] c"Assert fail: T.tvm_struct_get(Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(Scales, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.dtype is expected to be float16\00", align 1
-@.str.39 = private constant [259 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[0]) == 32, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape[0] has an unsatisfied constraint: 32 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[0])\00", align 1
-@.str.40 = private constant [261 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[1]) == 112, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape[1] has an unsatisfied constraint: 112 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[1])\00", align 1
-@.str.41 = private constant [261 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[2]) == 256, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape[2] has an unsatisfied constraint: 256 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_shape[2])\00", align 1
-@.str.42 = private constant [341 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_strides[2]) and 256 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_strides[1]) and 28672 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_Scales_strides[0]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides: expected to be compact array\00", align 1
-@.str.43 = private constant [222 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(Scales, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(Scales, 0, 8, \22uint64\22)\00", align 1
-@.str.44 = private constant [202 x i8] c"Assert fail: T.tvm_struct_get(Scales, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(Scales, 0, 10, \22int32\22)\00", align 1
-@.str.45 = private constant [208 x i8] c"Assert fail: dev_id == T.tvm_struct_get(Scales, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(Scales, 0, 9, \22int32\22)\00", align 1
-@.str.46 = private constant [124 x i8] c"Assert fail: not T.isnullptr(Scales), qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales is expected to have non-NULL data pointer\00", align 1
-@.str.47 = private constant [279 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.dtype is expected to be float16\00", align 1
-@.str.48 = private constant [269 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0]) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[0])\00", align 1
-@.str.49 = private constant [273 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1]) == 224, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 224 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Scales_shape[1])\00", align 1
-@.str.50 = private constant [181 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Scales_strides[1]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides: expected to be compact array\00", align 1
-@.str.51 = private constant [234 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22)\00", align 1
-@.str.52 = private constant [214 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22)\00", align 1
-@.str.53 = private constant [220 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22)\00", align 1
-@.str.54 = private constant [132 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales is expected to have non-NULL data pointer\00", align 1
-@.str.55 = private constant [279 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.dtype is expected to be float16\00", align 1
-@.str.56 = private constant [269 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0]) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[0])\00", align 1
-@.str.57 = private constant [273 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1]) == 224, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 224 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Biases_shape[1])\00", align 1
-@.str.58 = private constant [181 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_LUT_Biases_strides[1]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides: expected to be compact array\00", align 1
-@.str.59 = private constant [234 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22)\00", align 1
-@.str.60 = private constant [214 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22)\00", align 1
-@.str.61 = private constant [220 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22)\00", align 1
-@.str.62 = private constant [132 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases is expected to have non-NULL data pointer\00", align 1
-@.str.63 = private constant [243 x i8] c"Assert fail: T.tvm_struct_get(C, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(C, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(C, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.dtype is expected to be float16\00", align 1
-@.str.64 = private constant [242 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_C_shape[0]) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_C_shape[0])\00", align 1
-@.str.65 = private constant [248 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_C_shape[1]) == 4096, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape[1] has an unsatisfied constraint: 4096 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_C_shape[1])\00", align 1
-@.str.66 = private constant [163 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t4_int8_m8192_k14336_n1_b2_C_strides[1]), qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides: expected to be compact array\00", align 1
-@.str.67 = private constant [207 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(C, 0, 8, \22uint64\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(C, 0, 8, \22uint64\22)\00", align 1
-@.str.68 = private constant [187 x i8] c"Assert fail: T.tvm_struct_get(C, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(C, 0, 10, \22int32\22)\00", align 1
-@.str.69 = private constant [193 x i8] c"Assert fail: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22), Argument qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22)\00", align 1
-@.str.70 = private constant [114 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t4_int8_m8192_k14336_n1_b2.C is expected to have non-NULL data pointer\00", align 1
-@__tvm_main__ = weak dllexport local_unnamed_addr constant [37 x i8] c"qgemm_lut_t4_int8_m8192_k14336_n1_b2\00", align 1
+@.str = private constant [86 x i8] c"Assert fail: num_args == 6, qgemm_lut_t1_int8_m8192_k4096_n1_b2: num_args should be 6\00", align 1
+@.str.1 = private constant [104 x i8] c"Assert fail: not T.isnullptr(args), qgemm_lut_t1_int8_m8192_k4096_n1_b2: TVMValue* arg pointer was NULL\00", align 1
+@.str.2 = private constant [106 x i8] c"Assert fail: not T.isnullptr(arg_type_ids), qgemm_lut_t1_int8_m8192_k4096_n1_b2: int* type_codes was NULL\00", align 1
+@.str.3 = private constant [137 x i8] c"Assert fail: A_code == 3 or A_code == 13 or A_code == 7 or A_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[0] to be pointer\00", align 1
+@.str.4 = private constant [145 x i8] c"Assert fail: LUT_code == 3 or LUT_code == 13 or LUT_code == 7 or LUT_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[1] to be pointer\00", align 1
+@.str.5 = private constant [157 x i8] c"Assert fail: Scales_code == 3 or Scales_code == 13 or Scales_code == 7 or Scales_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[2] to be pointer\00", align 1
+@.str.6 = private constant [173 x i8] c"Assert fail: LUT_Scales_code == 3 or LUT_Scales_code == 13 or LUT_Scales_code == 7 or LUT_Scales_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[3] to be pointer\00", align 1
+@.str.7 = private constant [173 x i8] c"Assert fail: LUT_Biases_code == 3 or LUT_Biases_code == 13 or LUT_Biases_code == 7 or LUT_Biases_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[4] to be pointer\00", align 1
+@.str.8 = private constant [137 x i8] c"Assert fail: C_code == 3 or C_code == 13 or C_code == 7 or C_code == 4, qgemm_lut_t1_int8_m8192_k4096_n1_b2: Expect arg[5] to be pointer\00", align 1
+@.str.9 = private constant [118 x i8] c"Assert fail: not T.isnullptr(A), qgemm_lut_t1_int8_m8192_k4096_n1_b2.A is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.10 = private constant [120 x i8] c"Assert fail: 3 == T.tvm_struct_get(A, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.ndim is expected to equal 3\00", align 1
+@.str.11 = private constant [122 x i8] c"Assert fail: not T.isnullptr(LUT), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.12 = private constant [124 x i8] c"Assert fail: 3 == T.tvm_struct_get(LUT, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.ndim is expected to equal 3\00", align 1
+@.str.13 = private constant [128 x i8] c"Assert fail: not T.isnullptr(Scales), qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.14 = private constant [130 x i8] c"Assert fail: 3 == T.tvm_struct_get(Scales, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.ndim is expected to equal 3\00", align 1
+@.str.15 = private constant [136 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.16 = private constant [138 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Scales, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.ndim is expected to equal 2\00", align 1
+@.str.17 = private constant [136 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.18 = private constant [138 x i8] c"Assert fail: 2 == T.tvm_struct_get(LUT_Biases, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.ndim is expected to equal 2\00", align 1
+@.str.19 = private constant [118 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t1_int8_m8192_k4096_n1_b2.C is expected to have non-NULL DLTensor* pointer\00", align 1
+@.str.20 = private constant [120 x i8] c"Assert fail: 2 == T.tvm_struct_get(C, 0, 4, \22int32\22), qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.ndim is expected to equal 2\00", align 1
+@.str.21 = private constant [239 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 5, \22uint8\22) == T.uint8(1) and T.tvm_struct_get(A, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(A, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.dtype is expected to be uint8\00", align 1
+@.str.22 = private constant [239 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[0]) == 8, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape[0] has an unsatisfied constraint: 8 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[0])\00", align 1
+@.str.23 = private constant [245 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[1]) == 1024, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape[1] has an unsatisfied constraint: 1024 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[1])\00", align 1
+@.str.24 = private constant [243 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[2]) == 512, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape[2] has an unsatisfied constraint: 512 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_shape[2])\00", align 1
+@.str.25 = private constant [318 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_strides[2]) and 512 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_strides[1]) and 524288 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_A_strides[0]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides: expected to be compact array\00", align 1
+@.str.26 = private constant [206 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(A, 0, 8, \22uint64\22)\00", align 1
+@.str.27 = private constant [186 x i8] c"Assert fail: T.tvm_struct_get(A, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(A, 0, 10, \22int32\22)\00", align 1
+@.str.28 = private constant [113 x i8] c"Assert fail: not T.isnullptr(A), qgemm_lut_t1_int8_m8192_k4096_n1_b2.A is expected to have non-NULL data pointer\00", align 1
+@.str.29 = private constant [246 x i8] c"Assert fail: T.tvm_struct_get(LUT, 0, 5, \22uint8\22) == T.uint8(0) and T.tvm_struct_get(LUT, 0, 6, \22uint8\22) == T.uint8(8) and T.tvm_struct_get(LUT, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.dtype is expected to be int8\00", align 1
+@.str.30 = private constant [245 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[0]) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[0])\00", align 1
+@.str.31 = private constant [251 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[1]) == 1024, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape[1] has an unsatisfied constraint: 1024 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[1])\00", align 1
+@.str.32 = private constant [247 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[2]) == 16, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape[2] has an unsatisfied constraint: 16 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_shape[2])\00", align 1
+@.str.33 = private constant [243 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_strides[2]) and 16 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_strides[1]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides: expected to be compact array\00", align 1
+@.str.34 = private constant [212 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT, 0, 8, \22uint64\22)\00", align 1
+@.str.35 = private constant [192 x i8] c"Assert fail: T.tvm_struct_get(LUT, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT, 0, 10, \22int32\22)\00", align 1
+@.str.36 = private constant [198 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT, 0, 9, \22int32\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT, 0, 9, \22int32\22)\00", align 1
+@.str.37 = private constant [117 x i8] c"Assert fail: not T.isnullptr(LUT), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT is expected to have non-NULL data pointer\00", align 1
+@.str.38 = private constant [262 x i8] c"Assert fail: T.tvm_struct_get(Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(Scales, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.dtype is expected to be float16\00", align 1
+@.str.39 = private constant [254 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[0]) == 8, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape[0] has an unsatisfied constraint: 8 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[0])\00", align 1
+@.str.40 = private constant [256 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[1]) == 32, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape[1] has an unsatisfied constraint: 32 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[1])\00", align 1
+@.str.41 = private constant [258 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[2]) == 512, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape[2] has an unsatisfied constraint: 512 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_shape[2])\00", align 1
+@.str.42 = private constant [337 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_strides[2]) and 512 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_strides[1]) and 16384 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_Scales_strides[0]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides: expected to be compact array\00", align 1
+@.str.43 = private constant [221 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(Scales, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(Scales, 0, 8, \22uint64\22)\00", align 1
+@.str.44 = private constant [201 x i8] c"Assert fail: T.tvm_struct_get(Scales, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(Scales, 0, 10, \22int32\22)\00", align 1
+@.str.45 = private constant [207 x i8] c"Assert fail: dev_id == T.tvm_struct_get(Scales, 0, 9, \22int32\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(Scales, 0, 9, \22int32\22)\00", align 1
+@.str.46 = private constant [123 x i8] c"Assert fail: not T.isnullptr(Scales), qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales is expected to have non-NULL data pointer\00", align 1
+@.str.47 = private constant [278 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Scales, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Scales, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.dtype is expected to be float16\00", align 1
+@.str.48 = private constant [266 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Scales_shape[0]) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Scales_shape[0])\00", align 1
+@.str.49 = private constant [268 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Scales_shape[1]) == 64, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape[1] has an unsatisfied constraint: 64 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Scales_shape[1])\00", align 1
+@.str.50 = private constant [179 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Scales_strides[1]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides: expected to be compact array\00", align 1
+@.str.51 = private constant [233 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Scales, 0, 8, \22uint64\22)\00", align 1
+@.str.52 = private constant [213 x i8] c"Assert fail: T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Scales, 0, 10, \22int32\22)\00", align 1
+@.str.53 = private constant [219 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Scales, 0, 9, \22int32\22)\00", align 1
+@.str.54 = private constant [131 x i8] c"Assert fail: not T.isnullptr(LUT_Scales), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales is expected to have non-NULL data pointer\00", align 1
+@.str.55 = private constant [278 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(LUT_Biases, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(LUT_Biases, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.dtype is expected to be float16\00", align 1
+@.str.56 = private constant [266 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Biases_shape[0]) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Biases_shape[0])\00", align 1
+@.str.57 = private constant [268 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Biases_shape[1]) == 64, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape[1] has an unsatisfied constraint: 64 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Biases_shape[1])\00", align 1
+@.str.58 = private constant [179 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_LUT_Biases_strides[1]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides: expected to be compact array\00", align 1
+@.str.59 = private constant [233 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(LUT_Biases, 0, 8, \22uint64\22)\00", align 1
+@.str.60 = private constant [213 x i8] c"Assert fail: T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(LUT_Biases, 0, 10, \22int32\22)\00", align 1
+@.str.61 = private constant [219 x i8] c"Assert fail: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(LUT_Biases, 0, 9, \22int32\22)\00", align 1
+@.str.62 = private constant [131 x i8] c"Assert fail: not T.isnullptr(LUT_Biases), qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases is expected to have non-NULL data pointer\00", align 1
+@.str.63 = private constant [242 x i8] c"Assert fail: T.tvm_struct_get(C, 0, 5, \22uint8\22) == T.uint8(2) and T.tvm_struct_get(C, 0, 6, \22uint8\22) == T.uint8(16) and T.tvm_struct_get(C, 0, 7, \22uint16\22) == T.uint16(1), qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.dtype is expected to be float16\00", align 1
+@.str.64 = private constant [239 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_C_shape[0]) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape[0] has an unsatisfied constraint: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_C_shape[0])\00", align 1
+@.str.65 = private constant [245 x i8] c"Assert fail: T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_C_shape[1]) == 4096, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape[1] has an unsatisfied constraint: 4096 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_C_shape[1])\00", align 1
+@.str.66 = private constant [161 x i8] c"Assert fail: 1 == T.Cast(\22int32\22, qgemm_lut_t1_int8_m8192_k4096_n1_b2_C_strides[1]), qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides: expected to be compact array\00", align 1
+@.str.67 = private constant [206 x i8] c"Assert fail: T.uint64(0) == T.tvm_struct_get(C, 0, 8, \22uint64\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.byte_offset has an unsatisfied constraint: T.uint64(0) == T.tvm_struct_get(C, 0, 8, \22uint64\22)\00", align 1
+@.str.68 = private constant [186 x i8] c"Assert fail: T.tvm_struct_get(C, 0, 10, \22int32\22) == 1, Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.device_type has an unsatisfied constraint: 1 == T.tvm_struct_get(C, 0, 10, \22int32\22)\00", align 1
+@.str.69 = private constant [192 x i8] c"Assert fail: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22), Argument qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.device_id has an unsatisfied constraint: dev_id == T.tvm_struct_get(C, 0, 9, \22int32\22)\00", align 1
+@.str.70 = private constant [113 x i8] c"Assert fail: not T.isnullptr(C), qgemm_lut_t1_int8_m8192_k4096_n1_b2.C is expected to have non-NULL data pointer\00", align 1
+@__TVMBackendAllocWorkspace = linkonce dllexport local_unnamed_addr global ptr null, align 8
+@__TVMBackendFreeWorkspace = linkonce dllexport local_unnamed_addr global ptr null, align 8
+@__tvm_main__ = weak dllexport local_unnamed_addr constant [36 x i8] c"qgemm_lut_t1_int8_m8192_k4096_n1_b2\00", align 1
 @llvm.global_ctors = appending global [0 x { i32, ptr, ptr }] zeroinitializer
 
-define dllexport i32 @qgemm_lut_t4_int8_m8192_k14336_n1_b2(ptr noalias readonly %args, ptr noalias readonly %arg_type_ids, i32 %num_args, ptr noalias nocapture readnone %out_ret_value, ptr noalias nocapture readnone %out_ret_tcode, ptr noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !11 {
+define dllexport i32 @qgemm_lut_t1_int8_m8192_k4096_n1_b2(ptr noalias readonly %args, ptr noalias readonly %arg_type_ids, i32 %num_args, ptr noalias nocapture readnone %out_ret_value, ptr noalias nocapture readnone %out_ret_tcode, ptr noalias nocapture readnone %resource_handle) local_unnamed_addr #0 !dbg !11 {
 entry:
   call void @llvm.dbg.value(metadata ptr %args, metadata !18, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.value(metadata ptr %arg_type_ids, metadata !19, metadata !DIExpression()), !dbg !24
@@ -270,13 +269,13 @@ assert_fail19:                                    ; preds = %assert_end18
 
 assert_end20:                                     ; preds = %assert_end18
   %25 = getelementptr inbounds %1, ptr %A, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape = load ptr, ptr %25, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape = load ptr, ptr %25, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape, metadata !66, metadata !DIExpression()), !dbg !24
   %26 = getelementptr inbounds %1, ptr %A, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides = load ptr, ptr %26, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides = load ptr, ptr %26, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, metadata !69, metadata !DIExpression()), !dbg !24
   %27 = getelementptr inbounds %1, ptr %A, i64 0, i32 1, i32 1, !dbg !24
   %dev_id = load i32, ptr %27, align 4, !dbg !24
   call void @llvm.dbg.declare(metadata i32 %dev_id, metadata !70, metadata !DIExpression()), !dbg !24
@@ -306,13 +305,13 @@ assert_fail25:                                    ; preds = %assert_end24
 
 assert_end26:                                     ; preds = %assert_end24
   %33 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape = load ptr, ptr %33, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape = load ptr, ptr %33, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape, metadata !74, metadata !DIExpression()), !dbg !24
   %34 = getelementptr inbounds %1, ptr %LUT, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides = load ptr, ptr %34, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides = load ptr, ptr %34, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides, metadata !75, metadata !DIExpression()), !dbg !24
   %LUT163 = load ptr, ptr %LUT, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT163, metadata !76, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT163, metadata !76, metadata !DIExpression()), !dbg !24
@@ -338,13 +337,13 @@ assert_fail31:                                    ; preds = %assert_end30
 
 assert_end32:                                     ; preds = %assert_end30
   %40 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape = load ptr, ptr %40, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape = load ptr, ptr %40, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape, metadata !79, metadata !DIExpression()), !dbg !24
   %41 = getelementptr inbounds %1, ptr %Scales, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides = load ptr, ptr %41, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, metadata !80, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, metadata !80, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides = load ptr, ptr %41, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, metadata !80, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, metadata !80, metadata !DIExpression()), !dbg !24
   %Scales165 = load ptr, ptr %Scales, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %Scales165, metadata !81, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %Scales165, metadata !81, metadata !DIExpression()), !dbg !24
@@ -370,13 +369,13 @@ assert_fail37:                                    ; preds = %assert_end36
 
 assert_end38:                                     ; preds = %assert_end36
   %47 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape = load ptr, ptr %47, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape = load ptr, ptr %47, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape, metadata !84, metadata !DIExpression()), !dbg !24
   %48 = getelementptr inbounds %1, ptr %LUT_Scales, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides = load ptr, ptr %48, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides = load ptr, ptr %48, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides, metadata !85, metadata !DIExpression()), !dbg !24
   %LUT_Scales166 = load ptr, ptr %LUT_Scales, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Scales166, metadata !86, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Scales166, metadata !86, metadata !DIExpression()), !dbg !24
@@ -402,13 +401,13 @@ assert_fail43:                                    ; preds = %assert_end42
 
 assert_end44:                                     ; preds = %assert_end42
   %54 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape = load ptr, ptr %54, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape = load ptr, ptr %54, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape, metadata !87, metadata !DIExpression()), !dbg !24
   %55 = getelementptr inbounds %1, ptr %LUT_Biases, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides = load ptr, ptr %55, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides = load ptr, ptr %55, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides, metadata !88, metadata !DIExpression()), !dbg !24
   %LUT_Biases167 = load ptr, ptr %LUT_Biases, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Biases167, metadata !89, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %LUT_Biases167, metadata !89, metadata !DIExpression()), !dbg !24
@@ -434,13 +433,13 @@ assert_fail49:                                    ; preds = %assert_end48
 
 assert_end50:                                     ; preds = %assert_end48
   %61 = getelementptr inbounds %1, ptr %C, i64 0, i32 4, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape = load ptr, ptr %61, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape = load ptr, ptr %61, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape, metadata !90, metadata !DIExpression()), !dbg !24
   %62 = getelementptr inbounds %1, ptr %C, i64 0, i32 5, !dbg !24
-  %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides = load ptr, ptr %62, align 8, !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
-  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
+  %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides = load ptr, ptr %62, align 8, !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
+  call void @llvm.dbg.declare(metadata ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides, metadata !91, metadata !DIExpression()), !dbg !24
   %C168 = load ptr, ptr %C, align 8, !dbg !24
   call void @llvm.dbg.declare(metadata ptr %C168, metadata !92, metadata !DIExpression()), !dbg !24
   call void @llvm.dbg.declare(metadata ptr %C168, metadata !92, metadata !DIExpression()), !dbg !24
@@ -464,9 +463,9 @@ assert_fail53:                                    ; preds = %assert_end50
   br label %common.ret
 
 assert_end54:                                     ; preds = %assert_end50
-  %75 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape, align 8, !dbg !24, !tbaa !93
+  %75 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape, align 8, !dbg !24, !tbaa !93
   %76 = and i64 %75, 4294967295, !dbg !24
-  %77 = icmp eq i64 %76, 32, !dbg !24
+  %77 = icmp eq i64 %76, 8, !dbg !24
   br i1 %77, label %assert_end56, label %assert_fail55, !dbg !24, !prof !25
 
 assert_fail55:                                    ; preds = %assert_end54
@@ -475,10 +474,10 @@ assert_fail55:                                    ; preds = %assert_end54
   br label %common.ret
 
 assert_end56:                                     ; preds = %assert_end54
-  %79 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape, i64 1, !dbg !24
+  %79 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape, i64 1, !dbg !24
   %80 = load i64, ptr %79, align 8, !dbg !24, !tbaa !103
   %81 = and i64 %80, 4294967295, !dbg !24
-  %82 = icmp eq i64 %81, 3584, !dbg !24
+  %82 = icmp eq i64 %81, 1024, !dbg !24
   br i1 %82, label %assert_end58, label %assert_fail57, !dbg !24, !prof !25
 
 assert_fail57:                                    ; preds = %assert_end56
@@ -487,10 +486,10 @@ assert_fail57:                                    ; preds = %assert_end56
   br label %common.ret
 
 assert_end58:                                     ; preds = %assert_end56
-  %84 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape, i64 2, !dbg !24
+  %84 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape, i64 2, !dbg !24
   %85 = load i64, ptr %84, align 8, !dbg !24, !tbaa !105
   %86 = and i64 %85, 4294967295, !dbg !24
-  %87 = icmp eq i64 %86, 128, !dbg !24
+  %87 = icmp eq i64 %86, 512, !dbg !24
   br i1 %87, label %assert_end60, label %assert_fail59, !dbg !24, !prof !25
 
 assert_fail59:                                    ; preds = %assert_end58
@@ -499,22 +498,22 @@ assert_fail59:                                    ; preds = %assert_end58
   br label %common.ret
 
 assert_end60:                                     ; preds = %assert_end58
-  %.not176 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, null, !dbg !24
+  %.not176 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, null, !dbg !24
   br i1 %.not176, label %if_end, label %if_then, !dbg !24, !prof !29
 
 if_then:                                          ; preds = %assert_end60
-  %89 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, i64 2, !dbg !24
+  %89 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, i64 2, !dbg !24
   %90 = load i64, ptr %89, align 8, !dbg !24, !tbaa !108
   %91 = and i64 %90, 4294967295, !dbg !24
   %92 = icmp eq i64 %91, 1, !dbg !24
-  %93 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, i64 1, !dbg !24
+  %93 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, i64 1, !dbg !24
   %94 = load i64, ptr %93, align 8, !dbg !24, !tbaa !118
   %95 = and i64 %94, 4294967295, !dbg !24
-  %96 = icmp eq i64 %95, 128, !dbg !24
+  %96 = icmp eq i64 %95, 512, !dbg !24
   %97 = and i1 %92, %96, !dbg !24
-  %98 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides, align 8, !dbg !24, !tbaa !121
+  %98 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides, align 8, !dbg !24, !tbaa !121
   %99 = and i64 %98, 4294967295, !dbg !24
-  %100 = icmp eq i64 %99, 458752, !dbg !24
+  %100 = icmp eq i64 %99, 524288, !dbg !24
   %101 = and i1 %97, %100, !dbg !24
   br i1 %101, label %if_end, label %assert_fail61, !dbg !24, !prof !25
 
@@ -574,7 +573,7 @@ assert_fail69:                                    ; preds = %assert_end68
   br label %common.ret
 
 assert_end70:                                     ; preds = %assert_end68
-  %124 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape, align 8, !dbg !24, !tbaa !123
+  %124 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape, align 8, !dbg !24, !tbaa !123
   %125 = and i64 %124, 4294967295, !dbg !24
   %126 = icmp eq i64 %125, 1, !dbg !24
   br i1 %126, label %assert_end72, label %assert_fail71, !dbg !24, !prof !25
@@ -585,10 +584,10 @@ assert_fail71:                                    ; preds = %assert_end70
   br label %common.ret
 
 assert_end72:                                     ; preds = %assert_end70
-  %128 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape, i64 1, !dbg !24
+  %128 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape, i64 1, !dbg !24
   %129 = load i64, ptr %128, align 8, !dbg !24, !tbaa !133
   %130 = and i64 %129, 4294967295, !dbg !24
-  %131 = icmp eq i64 %130, 3584, !dbg !24
+  %131 = icmp eq i64 %130, 1024, !dbg !24
   br i1 %131, label %assert_end74, label %assert_fail73, !dbg !24, !prof !25
 
 assert_fail73:                                    ; preds = %assert_end72
@@ -597,7 +596,7 @@ assert_fail73:                                    ; preds = %assert_end72
   br label %common.ret
 
 assert_end74:                                     ; preds = %assert_end72
-  %133 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape, i64 2, !dbg !24
+  %133 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape, i64 2, !dbg !24
   %134 = load i64, ptr %133, align 8, !dbg !24, !tbaa !135
   %135 = and i64 %134, 4294967295, !dbg !24
   %136 = icmp eq i64 %135, 16, !dbg !24
@@ -609,15 +608,15 @@ assert_fail75:                                    ; preds = %assert_end74
   br label %common.ret
 
 assert_end76:                                     ; preds = %assert_end74
-  %.not178 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides, null, !dbg !24
+  %.not178 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides, null, !dbg !24
   br i1 %.not178, label %if_end78, label %if_then77, !dbg !24, !prof !29
 
 if_then77:                                        ; preds = %assert_end76
-  %138 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides, i64 2, !dbg !24
+  %138 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides, i64 2, !dbg !24
   %139 = load i64, ptr %138, align 8, !dbg !24, !tbaa !138
   %140 = and i64 %139, 4294967295, !dbg !24
   %141 = icmp eq i64 %140, 1, !dbg !24
-  %142 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides, i64 1, !dbg !24
+  %142 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides, i64 1, !dbg !24
   %143 = load i64, ptr %142, align 8, !dbg !24, !tbaa !148
   %144 = and i64 %143, 4294967295, !dbg !24
   %145 = icmp eq i64 %144, 16, !dbg !24
@@ -691,9 +690,9 @@ assert_fail89:                                    ; preds = %assert_end88
   br label %common.ret
 
 assert_end90:                                     ; preds = %assert_end88
-  %173 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape, align 8, !dbg !24, !tbaa !151
+  %173 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape, align 8, !dbg !24, !tbaa !151
   %174 = and i64 %173, 4294967295, !dbg !24
-  %175 = icmp eq i64 %174, 32, !dbg !24
+  %175 = icmp eq i64 %174, 8, !dbg !24
   br i1 %175, label %assert_end92, label %assert_fail91, !dbg !24, !prof !25
 
 assert_fail91:                                    ; preds = %assert_end90
@@ -702,10 +701,10 @@ assert_fail91:                                    ; preds = %assert_end90
   br label %common.ret
 
 assert_end92:                                     ; preds = %assert_end90
-  %177 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape, i64 1, !dbg !24
+  %177 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape, i64 1, !dbg !24
   %178 = load i64, ptr %177, align 8, !dbg !24, !tbaa !161
   %179 = and i64 %178, 4294967295, !dbg !24
-  %180 = icmp eq i64 %179, 112, !dbg !24
+  %180 = icmp eq i64 %179, 32, !dbg !24
   br i1 %180, label %assert_end94, label %assert_fail93, !dbg !24, !prof !25
 
 assert_fail93:                                    ; preds = %assert_end92
@@ -714,10 +713,10 @@ assert_fail93:                                    ; preds = %assert_end92
   br label %common.ret
 
 assert_end94:                                     ; preds = %assert_end92
-  %182 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape, i64 2, !dbg !24
+  %182 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape, i64 2, !dbg !24
   %183 = load i64, ptr %182, align 8, !dbg !24, !tbaa !163
   %184 = and i64 %183, 4294967295, !dbg !24
-  %185 = icmp eq i64 %184, 256, !dbg !24
+  %185 = icmp eq i64 %184, 512, !dbg !24
   br i1 %185, label %assert_end96, label %assert_fail95, !dbg !24, !prof !25
 
 assert_fail95:                                    ; preds = %assert_end94
@@ -726,22 +725,22 @@ assert_fail95:                                    ; preds = %assert_end94
   br label %common.ret
 
 assert_end96:                                     ; preds = %assert_end94
-  %.not180 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, null, !dbg !24
+  %.not180 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, null, !dbg !24
   br i1 %.not180, label %if_end98, label %if_then97, !dbg !24, !prof !29
 
 if_then97:                                        ; preds = %assert_end96
-  %187 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, i64 2, !dbg !24
+  %187 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, i64 2, !dbg !24
   %188 = load i64, ptr %187, align 8, !dbg !24, !tbaa !166
   %189 = and i64 %188, 4294967295, !dbg !24
   %190 = icmp eq i64 %189, 1, !dbg !24
-  %191 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, i64 1, !dbg !24
+  %191 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, i64 1, !dbg !24
   %192 = load i64, ptr %191, align 8, !dbg !24, !tbaa !176
   %193 = and i64 %192, 4294967295, !dbg !24
-  %194 = icmp eq i64 %193, 256, !dbg !24
+  %194 = icmp eq i64 %193, 512, !dbg !24
   %195 = and i1 %190, %194, !dbg !24
-  %196 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides, align 8, !dbg !24, !tbaa !179
+  %196 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides, align 8, !dbg !24, !tbaa !179
   %197 = and i64 %196, 4294967295, !dbg !24
-  %198 = icmp eq i64 %197, 28672, !dbg !24
+  %198 = icmp eq i64 %197, 16384, !dbg !24
   %199 = and i1 %195, %198, !dbg !24
   br i1 %199, label %if_end98, label %assert_fail99, !dbg !24, !prof !25
 
@@ -812,7 +811,7 @@ assert_fail109:                                   ; preds = %assert_end108
   br label %common.ret
 
 assert_end110:                                    ; preds = %assert_end108
-  %226 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, align 8, !dbg !24, !tbaa !181
+  %226 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape, align 8, !dbg !24, !tbaa !181
   %227 = and i64 %226, 4294967295, !dbg !24
   %228 = icmp eq i64 %227, 1, !dbg !24
   br i1 %228, label %assert_end112, label %assert_fail111, !dbg !24, !prof !25
@@ -823,10 +822,10 @@ assert_fail111:                                   ; preds = %assert_end110
   br label %common.ret
 
 assert_end112:                                    ; preds = %assert_end110
-  %230 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape, i64 1, !dbg !24
+  %230 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape, i64 1, !dbg !24
   %231 = load i64, ptr %230, align 8, !dbg !24, !tbaa !191
   %232 = and i64 %231, 4294967295, !dbg !24
-  %233 = icmp eq i64 %232, 224, !dbg !24
+  %233 = icmp eq i64 %232, 64, !dbg !24
   br i1 %233, label %assert_end114, label %assert_fail113, !dbg !24, !prof !25
 
 assert_fail113:                                   ; preds = %assert_end112
@@ -835,11 +834,11 @@ assert_fail113:                                   ; preds = %assert_end112
   br label %common.ret
 
 assert_end114:                                    ; preds = %assert_end112
-  %.not182 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, null, !dbg !24
+  %.not182 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides, null, !dbg !24
   br i1 %.not182, label %if_end116, label %if_then115, !dbg !24, !prof !29
 
 if_then115:                                       ; preds = %assert_end114
-  %235 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides, i64 1, !dbg !24
+  %235 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides, i64 1, !dbg !24
   %236 = load i64, ptr %235, align 8, !dbg !24, !tbaa !193
   %237 = and i64 %236, 4294967295, !dbg !24
   %238 = icmp eq i64 %237, 1, !dbg !24
@@ -912,7 +911,7 @@ assert_fail127:                                   ; preds = %assert_end126
   br label %common.ret
 
 assert_end128:                                    ; preds = %assert_end126
-  %265 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, align 8, !dbg !24, !tbaa !203
+  %265 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape, align 8, !dbg !24, !tbaa !203
   %266 = and i64 %265, 4294967295, !dbg !24
   %267 = icmp eq i64 %266, 1, !dbg !24
   br i1 %267, label %assert_end130, label %assert_fail129, !dbg !24, !prof !25
@@ -923,10 +922,10 @@ assert_fail129:                                   ; preds = %assert_end128
   br label %common.ret
 
 assert_end130:                                    ; preds = %assert_end128
-  %269 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape, i64 1, !dbg !24
+  %269 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape, i64 1, !dbg !24
   %270 = load i64, ptr %269, align 8, !dbg !24, !tbaa !213
   %271 = and i64 %270, 4294967295, !dbg !24
-  %272 = icmp eq i64 %271, 224, !dbg !24
+  %272 = icmp eq i64 %271, 64, !dbg !24
   br i1 %272, label %assert_end132, label %assert_fail131, !dbg !24, !prof !25
 
 assert_fail131:                                   ; preds = %assert_end130
@@ -935,11 +934,11 @@ assert_fail131:                                   ; preds = %assert_end130
   br label %common.ret
 
 assert_end132:                                    ; preds = %assert_end130
-  %.not184 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, null, !dbg !24
+  %.not184 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides, null, !dbg !24
   br i1 %.not184, label %if_end134, label %if_then133, !dbg !24, !prof !29
 
 if_then133:                                       ; preds = %assert_end132
-  %274 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides, i64 1, !dbg !24
+  %274 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides, i64 1, !dbg !24
   %275 = load i64, ptr %274, align 8, !dbg !24, !tbaa !215
   %276 = and i64 %275, 4294967295, !dbg !24
   %277 = icmp eq i64 %276, 1, !dbg !24
@@ -1012,7 +1011,7 @@ assert_fail145:                                   ; preds = %assert_end144
   br label %common.ret
 
 assert_end146:                                    ; preds = %assert_end144
-  %304 = load i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape, align 8, !dbg !24, !tbaa !225
+  %304 = load i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape, align 8, !dbg !24, !tbaa !225
   %305 = and i64 %304, 4294967295, !dbg !24
   %306 = icmp eq i64 %305, 1, !dbg !24
   br i1 %306, label %assert_end148, label %assert_fail147, !dbg !24, !prof !25
@@ -1023,7 +1022,7 @@ assert_fail147:                                   ; preds = %assert_end146
   br label %common.ret
 
 assert_end148:                                    ; preds = %assert_end146
-  %308 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape, i64 1, !dbg !24
+  %308 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape, i64 1, !dbg !24
   %309 = load i64, ptr %308, align 8, !dbg !24, !tbaa !235
   %310 = and i64 %309, 4294967295, !dbg !24
   %311 = icmp eq i64 %310, 4096, !dbg !24
@@ -1035,11 +1034,11 @@ assert_fail149:                                   ; preds = %assert_end148
   br label %common.ret
 
 assert_end150:                                    ; preds = %assert_end148
-  %.not186 = icmp eq ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides, null, !dbg !24
+  %.not186 = icmp eq ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides, null, !dbg !24
   br i1 %.not186, label %if_end152, label %if_then151, !dbg !24, !prof !29
 
 if_then151:                                       ; preds = %assert_end150
-  %313 = getelementptr inbounds i64, ptr %qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides, i64 1, !dbg !24
+  %313 = getelementptr inbounds i64, ptr %qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides, i64 1, !dbg !24
   %314 = load i64, ptr %313, align 8, !dbg !24, !tbaa !237
   %315 = and i64 %314, 4294967295, !dbg !24
   %316 = icmp eq i64 %315, 1, !dbg !24
@@ -1093,7 +1092,7 @@ assert_fail161:                                   ; preds = %assert_end160
   br label %common.ret
 
 assert_end162:                                    ; preds = %assert_end160
-  %331 = tail call fastcc i32 @qgemm_lut_t4_int8_m8192_k14336_n1_b2_compute_(ptr nonnull %LUT163, ptr nonnull %A164, ptr nonnull %Scales165, ptr nonnull %LUT_Scales166, ptr nonnull %LUT_Biases167, ptr nonnull %C168), !dbg !24
+  %331 = tail call fastcc i32 @qgemm_lut_t1_int8_m8192_k4096_n1_b2_compute_(i32 %dev_id, ptr nonnull %LUT163, ptr nonnull %A164, ptr nonnull %Scales165, ptr nonnull %LUT_Scales166, ptr nonnull %LUT_Biases167, ptr nonnull %C168), !dbg !24, !range !247
   br label %common.ret
 }
 
@@ -1104,1293 +1103,552 @@ declare void @llvm.dbg.declare(metadata, metadata, metadata) #1
 declare void @llvm.assume(i1 noundef) #2
 
 ; Function Attrs: noinline
-define internal fastcc i32 @qgemm_lut_t4_int8_m8192_k14336_n1_b2_compute_(ptr noalias align 64 %LUT, ptr noalias align 64 %A, ptr noalias align 64 %Scales, ptr noalias align 64 %LUT_Scales, ptr noalias align 64 %LUT_Biases, ptr noalias align 64 %C) unnamed_addr #3 !dbg !247 {
+define internal fastcc i32 @qgemm_lut_t1_int8_m8192_k4096_n1_b2_compute_(i32 %dev_id, ptr noalias nocapture readonly align 64 %LUT, ptr noalias nocapture readonly align 64 %A, ptr noalias nocapture readonly align 64 %Scales, ptr noalias nocapture readonly align 64 %LUT_Scales, ptr noalias nocapture readonly align 64 %LUT_Biases, ptr noalias nocapture writeonly align 64 %C) unnamed_addr #3 !dbg !248 {
 entry:
-  call void @llvm.dbg.value(metadata ptr %LUT, metadata !251, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.value(metadata ptr %A, metadata !252, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.value(metadata ptr %Scales, metadata !253, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.value(metadata ptr %LUT_Scales, metadata !254, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.value(metadata ptr %LUT_Biases, metadata !255, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.value(metadata ptr %C, metadata !256, metadata !DIExpression()), !dbg !257
-  %0 = alloca %closure_loop_parallel_m.outer, align 8, !dbg !257
-  store ptr %LUT, ptr %0, align 8, !dbg !257
-  %1 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 1, !dbg !257
-  store ptr %A, ptr %1, align 8, !dbg !257
-  %2 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 2, !dbg !257
-  store ptr %Scales, ptr %2, align 8, !dbg !257
-  %3 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 3, !dbg !257
-  store ptr %LUT_Scales, ptr %3, align 8, !dbg !257
-  %4 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 4, !dbg !257
-  store ptr %LUT_Biases, ptr %4, align 8, !dbg !257
-  %5 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %0, i64 0, i32 5, !dbg !257
-  store ptr %C, ptr %5, align 8, !dbg !257
-  %6 = load ptr, ptr @__TVMBackendParallelLaunch, align 8, !dbg !257, !tbaa !26
-  %7 = call i32 %6(ptr nonnull @__tvm_parallel_lambda, ptr nonnull %0, i32 0), !dbg !257
-  ret i32 %7, !dbg !257
-}
+  call void @llvm.dbg.value(metadata i32 %dev_id, metadata !252, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %LUT, metadata !253, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %A, metadata !254, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %Scales, metadata !255, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %LUT_Scales, metadata !256, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %LUT_Biases, metadata !257, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.value(metadata ptr %C, metadata !258, metadata !DIExpression()), !dbg !259
+  %0 = load ptr, ptr @__TVMBackendAllocWorkspace, align 8, !dbg !259, !tbaa !26
+  %CBits = tail call ptr %0(i32 1, i32 %dev_id, i64 2048, i32 2, i32 16), !dbg !259
+  call void @llvm.dbg.declare(metadata ptr %CBits, metadata !260, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata ptr %CBits, metadata !260, metadata !DIExpression()), !dbg !259
+  call void @llvm.assume(i1 true) [ "align"(ptr %CBits, i64 64) ], !dbg !259
+  %1 = icmp eq ptr %CBits, null, !dbg !259
+  br i1 %1, label %common.ret, label %if_end, !dbg !259, !prof !25
 
-; Function Attrs: nofree nosync nounwind memory(readwrite, inaccessiblemem: none)
-define private i32 @__tvm_parallel_lambda(i32 %task_id, ptr nocapture readonly %0, ptr nocapture readonly %1) #4 {
-parallel_closure_entry:
-  %CBits2 = alloca [256 x half], align 16, !dbg !257
-  %LUT = load ptr, ptr %1, align 8, !dbg !257
-  %2 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 1, !dbg !257
-  %A = load ptr, ptr %2, align 8, !dbg !257
-  %3 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 2, !dbg !257
-  %Scales = load ptr, ptr %3, align 8, !dbg !257
-  %4 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 3, !dbg !257
-  %LUT_Scales = load ptr, ptr %4, align 8, !dbg !257
-  %5 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 4, !dbg !257
-  %LUT_Biases = load ptr, ptr %5, align 8, !dbg !257
-  %6 = getelementptr inbounds %closure_loop_parallel_m.outer, ptr %1, i64 0, i32 5, !dbg !257
-  %C = load ptr, ptr %6, align 8, !dbg !257
-  %7 = getelementptr inbounds %4, ptr %0, i64 0, i32 1, !dbg !257
-  %num_task = load i32, ptr %7, align 4, !dbg !257
-  %8 = add nsw i32 %num_task, 31, !dbg !257
-  %9 = sdiv i32 %8, %num_task, !dbg !257
-  %10 = mul i32 %9, %task_id, !dbg !257
-  %11 = tail call i32 @llvm.smin.i32(i32 %10, i32 32), !dbg !257
-  %12 = add nsw i32 %task_id, 1, !dbg !257
-  %13 = mul nsw i32 %9, %12, !dbg !257
-  %14 = tail call i32 @llvm.smin.i32(i32 %13, i32 32), !dbg !257
-  call void @llvm.dbg.declare(metadata i32 %11, metadata !258, metadata !DIExpression()), !dbg !257
-  %15 = icmp slt i32 %11, %14, !dbg !257
-  br i1 %15, label %for_body_m.outer.preheader, label %for_end_m.outer, !dbg !257, !prof !25
+common.ret:                                       ; preds = %if_end5, %for_end_m.outer, %if_end, %entry
+  %common.ret.op = phi i32 [ -1, %entry ], [ -1, %if_end ], [ -1, %for_end_m.outer ], [ %., %if_end5 ]
+  ret i32 %common.ret.op, !dbg !259
 
-for_body_m.outer.preheader:                       ; preds = %parallel_closure_entry
-  %16 = tail call i32 @llvm.smin.i32(i32 %10, i32 32), !dbg !257
-  %smin = sext i32 %16 to i64, !dbg !257
-  %17 = add i32 %14, %16, !dbg !257
-  %18 = sub i32 %17, %11, !dbg !257
-  %19 = getelementptr inbounds half, ptr %CBits2, i64 8, !dbg !257
-  %20 = getelementptr inbounds half, ptr %CBits2, i64 16
-  %21 = getelementptr inbounds half, ptr %CBits2, i64 24
-  %22 = getelementptr inbounds half, ptr %CBits2, i64 32
-  %23 = getelementptr inbounds half, ptr %CBits2, i64 40
-  %24 = getelementptr inbounds half, ptr %CBits2, i64 48
-  %25 = getelementptr inbounds half, ptr %CBits2, i64 56
-  %26 = getelementptr inbounds half, ptr %CBits2, i64 64
-  %27 = getelementptr inbounds half, ptr %CBits2, i64 72
-  %28 = getelementptr inbounds half, ptr %CBits2, i64 80
-  %29 = getelementptr inbounds half, ptr %CBits2, i64 88
-  %30 = getelementptr inbounds half, ptr %CBits2, i64 96
-  %31 = getelementptr inbounds half, ptr %CBits2, i64 104
-  %32 = getelementptr inbounds half, ptr %CBits2, i64 112
-  %33 = getelementptr inbounds half, ptr %CBits2, i64 120
-  %34 = getelementptr inbounds half, ptr %CBits2, i64 128
-  %35 = getelementptr inbounds half, ptr %CBits2, i64 136
-  %36 = getelementptr inbounds half, ptr %CBits2, i64 144
-  %37 = getelementptr inbounds half, ptr %CBits2, i64 152
-  %38 = getelementptr inbounds half, ptr %CBits2, i64 160
-  %39 = getelementptr inbounds half, ptr %CBits2, i64 168
-  %40 = getelementptr inbounds half, ptr %CBits2, i64 176
-  %41 = getelementptr inbounds half, ptr %CBits2, i64 184
-  %42 = getelementptr inbounds half, ptr %CBits2, i64 192
-  %43 = getelementptr inbounds half, ptr %CBits2, i64 200
-  %44 = getelementptr inbounds half, ptr %CBits2, i64 208
-  %45 = getelementptr inbounds half, ptr %CBits2, i64 216
-  %46 = getelementptr inbounds half, ptr %CBits2, i64 224
-  %47 = getelementptr inbounds half, ptr %CBits2, i64 232
-  %48 = getelementptr inbounds half, ptr %CBits2, i64 240
-  %49 = getelementptr inbounds half, ptr %CBits2, i64 248
-  br label %for_body_m.outer, !dbg !257
+if_end:                                           ; preds = %entry
+  %2 = load ptr, ptr @__TVMBackendAllocWorkspace, align 8, !dbg !259, !tbaa !26
+  %C.global = tail call ptr %2(i32 1, i32 %dev_id, i64 1024, i32 2, i32 16), !dbg !259
+  call void @llvm.dbg.declare(metadata ptr %C.global, metadata !261, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata ptr %C.global, metadata !261, metadata !DIExpression()), !dbg !259
+  call void @llvm.assume(i1 true) [ "align"(ptr %C.global, i64 64) ], !dbg !259
+  %3 = icmp eq ptr %C.global, null, !dbg !259
+  br i1 %3, label %common.ret, label %for_body_m.outer, !dbg !259, !prof !25
 
-for_body_m.outer:                                 ; preds = %for_body_m.outer.preheader, %for_body_m.c.outer
-  %indvars.iv20 = phi i64 [ %smin, %for_body_m.outer.preheader ], [ %indvars.iv.next21, %for_body_m.c.outer ]
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv20, metadata !258, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata ptr %CBits2, metadata !259, metadata !DIExpression()), !dbg !257
-  call void @llvm.memset.p0.i64(ptr noundef nonnull align 16 dereferenceable(512) %CBits2, i8 0, i64 512, i1 false), !dbg !257
-  %50 = mul nsw i64 %indvars.iv20, 458752
-  %51 = mul nsw i64 %indvars.iv20, 28672
-  call void @llvm.dbg.declare(metadata i32 0, metadata !260, metadata !DIExpression()), !dbg !257
-  br label %for_body_k.outer, !dbg !257
+for_body_m.outer:                                 ; preds = %if_end, %for_end_m.inner.outer
+  %indvars.iv28 = phi i64 [ %indvars.iv.next29, %for_end_m.inner.outer ], [ 0, %if_end ]
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv28, metadata !262, metadata !DIExpression()), !dbg !259
+  tail call void @llvm.memset.p0.i64(ptr noundef nonnull align 64 dereferenceable(2048) %CBits, i8 0, i64 2048, i1 false), !dbg !259
+  %4 = shl nsw i64 %indvars.iv28, 19
+  call void @llvm.dbg.declare(metadata i32 0, metadata !263, metadata !DIExpression()), !dbg !259
+  %5 = shl i64 %indvars.iv28, 14
+  br label %for_body_k.outer, !dbg !259
 
-for_end_m.outer:                                  ; preds = %for_body_m.c.outer, %parallel_closure_entry
-  ret i32 0, !dbg !257
+for_end_m.outer:                                  ; preds = %for_end_m.inner.outer
+  %6 = load ptr, ptr @__TVMBackendFreeWorkspace, align 8, !dbg !259, !tbaa !26
+  %7 = tail call i32 %6(i32 1, i32 %dev_id, ptr nonnull %C.global), !dbg !259
+  %.not = icmp eq i32 %7, 0, !dbg !259
+  br i1 %.not, label %if_end5, label %common.ret, !dbg !259, !prof !29
 
-for_body_k.outer:                                 ; preds = %for_body_m.outer, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_ztrue_osfalse.exit
-  %indvars.iv = phi i64 [ 0, %for_body_m.outer ], [ %indvars.iv.next, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_ztrue_osfalse.exit ]
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv, metadata !260, metadata !DIExpression()), !dbg !257
-  %52 = shl nuw nsw i64 %indvars.iv, 8, !dbg !257
-  %53 = getelementptr inbounds i8, ptr %LUT, i64 %52, !dbg !257
-  %54 = shl nuw nsw i64 %indvars.iv, 11, !dbg !257
-  %55 = add nsw i64 %54, %50, !dbg !257
-  %56 = getelementptr inbounds i8, ptr %A, i64 %55, !dbg !257
-  %57 = shl i64 %indvars.iv, 7, !dbg !257
-  %58 = and i64 %57, 2147483392, !dbg !257
-  %59 = add nsw i64 %58, %51, !dbg !257
-  %60 = getelementptr inbounds half, ptr %Scales, i64 %59, !dbg !257
-  %61 = getelementptr inbounds half, ptr %LUT_Scales, i64 %indvars.iv, !dbg !257
-  %62 = getelementptr inbounds half, ptr %LUT_Biases, i64 %indvars.iv, !dbg !257
-  %63 = load <16 x i8>, ptr %53, align 1, !dbg !257
-  %64 = getelementptr inbounds i8, ptr %53, i64 16, !dbg !257
-  %65 = load <16 x i8>, ptr %64, align 1, !dbg !257
-  %66 = getelementptr inbounds i8, ptr %53, i64 32, !dbg !257
-  %67 = load <16 x i8>, ptr %66, align 1, !dbg !257
-  %68 = getelementptr inbounds i8, ptr %53, i64 48, !dbg !257
-  %69 = load <16 x i8>, ptr %68, align 1, !dbg !257
-  %70 = getelementptr inbounds i8, ptr %53, i64 64, !dbg !257
-  %71 = load <16 x i8>, ptr %70, align 1, !dbg !257
-  %72 = getelementptr inbounds i8, ptr %53, i64 80, !dbg !257
-  %73 = load <16 x i8>, ptr %72, align 1, !dbg !257
-  %74 = getelementptr inbounds i8, ptr %53, i64 96, !dbg !257
-  %75 = load <16 x i8>, ptr %74, align 1, !dbg !257
-  %76 = getelementptr inbounds i8, ptr %53, i64 112, !dbg !257
-  %77 = load <16 x i8>, ptr %76, align 1, !dbg !257
-  %78 = getelementptr inbounds i8, ptr %53, i64 128, !dbg !257
-  %79 = load <16 x i8>, ptr %78, align 1, !dbg !257
-  %80 = getelementptr inbounds i8, ptr %53, i64 144, !dbg !257
-  %81 = load <16 x i8>, ptr %80, align 1, !dbg !257
-  %82 = getelementptr inbounds i8, ptr %53, i64 160, !dbg !257
-  %83 = load <16 x i8>, ptr %82, align 1, !dbg !257
-  %84 = getelementptr inbounds i8, ptr %53, i64 176, !dbg !257
-  %85 = load <16 x i8>, ptr %84, align 1, !dbg !257
-  %86 = getelementptr inbounds i8, ptr %53, i64 192, !dbg !257
-  %87 = load <16 x i8>, ptr %86, align 1, !dbg !257
-  %88 = getelementptr inbounds i8, ptr %53, i64 208, !dbg !257
-  %89 = load <16 x i8>, ptr %88, align 1, !dbg !257
-  %90 = getelementptr inbounds i8, ptr %53, i64 224, !dbg !257
-  %91 = load <16 x i8>, ptr %90, align 1, !dbg !257
-  %92 = getelementptr inbounds i8, ptr %53, i64 240, !dbg !257
-  %93 = load <16 x i8>, ptr %92, align 1, !dbg !257
-  %94 = load half, ptr %61, align 2, !tbaa !261
-  %95 = load half, ptr %62, align 2, !tbaa !261
-  %96 = insertelement <8 x half> poison, half %94, i64 0
-  %97 = insertelement <8 x half> poison, half %95, i64 0
-  %98 = shufflevector <8 x half> %96, <8 x half> poison, <8 x i32> zeroinitializer
-  %99 = shufflevector <8 x half> %97, <8 x half> poison, <8 x i32> zeroinitializer
-  %100 = fmul half %95, 0xH4000
-  %101 = insertelement <8 x half> poison, half %100, i64 0
-  %102 = shufflevector <8 x half> %101, <8 x half> poison, <8 x i32> zeroinitializer
-  br label %103, !dbg !257
+for_body_k.outer:                                 ; preds = %for_body_m.outer, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit
+  %indvars.iv = phi i64 [ 0, %for_body_m.outer ], [ %indvars.iv.next, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit ]
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv, metadata !263, metadata !DIExpression()), !dbg !259
+  %8 = shl nuw nsw i64 %indvars.iv, 8, !dbg !259
+  %9 = getelementptr inbounds i8, ptr %LUT, i64 %8, !dbg !259
+  %10 = shl nuw nsw i64 %indvars.iv, 13, !dbg !259
+  %11 = add nuw nsw i64 %10, %4, !dbg !259
+  %12 = getelementptr inbounds i8, ptr %A, i64 %11, !dbg !259
+  %13 = and i64 %8, 2147483136, !dbg !259
+  %14 = add i64 %13, %5, !dbg !259
+  %15 = and i64 %14, 4294966784, !dbg !259
+  %16 = getelementptr inbounds half, ptr %Scales, i64 %15, !dbg !259
+  %17 = getelementptr inbounds half, ptr %LUT_Scales, i64 %indvars.iv, !dbg !259
+  %18 = getelementptr inbounds half, ptr %LUT_Biases, i64 %indvars.iv, !dbg !259
+  %19 = load <16 x i8>, ptr %9, align 64, !dbg !259
+  %20 = getelementptr inbounds i8, ptr %9, i64 16, !dbg !259
+  %21 = load <16 x i8>, ptr %20, align 16, !dbg !259
+  %22 = getelementptr inbounds i8, ptr %9, i64 32, !dbg !259
+  %23 = load <16 x i8>, ptr %22, align 32, !dbg !259
+  %24 = getelementptr inbounds i8, ptr %9, i64 48, !dbg !259
+  %25 = load <16 x i8>, ptr %24, align 16, !dbg !259
+  %26 = getelementptr inbounds i8, ptr %9, i64 64, !dbg !259
+  %27 = load <16 x i8>, ptr %26, align 64, !dbg !259
+  %28 = getelementptr inbounds i8, ptr %9, i64 80, !dbg !259
+  %29 = load <16 x i8>, ptr %28, align 16, !dbg !259
+  %30 = getelementptr inbounds i8, ptr %9, i64 96, !dbg !259
+  %31 = load <16 x i8>, ptr %30, align 32, !dbg !259
+  %32 = getelementptr inbounds i8, ptr %9, i64 112, !dbg !259
+  %33 = load <16 x i8>, ptr %32, align 16, !dbg !259
+  %34 = getelementptr inbounds i8, ptr %9, i64 128, !dbg !259
+  %35 = load <16 x i8>, ptr %34, align 64, !dbg !259
+  %36 = getelementptr inbounds i8, ptr %9, i64 144, !dbg !259
+  %37 = load <16 x i8>, ptr %36, align 16, !dbg !259
+  %38 = getelementptr inbounds i8, ptr %9, i64 160, !dbg !259
+  %39 = load <16 x i8>, ptr %38, align 32, !dbg !259
+  %40 = getelementptr inbounds i8, ptr %9, i64 176, !dbg !259
+  %41 = load <16 x i8>, ptr %40, align 16, !dbg !259
+  %42 = getelementptr inbounds i8, ptr %9, i64 192, !dbg !259
+  %43 = load <16 x i8>, ptr %42, align 64, !dbg !259
+  %44 = getelementptr inbounds i8, ptr %9, i64 208, !dbg !259
+  %45 = load <16 x i8>, ptr %44, align 16, !dbg !259
+  %46 = getelementptr inbounds i8, ptr %9, i64 224, !dbg !259
+  %47 = load <16 x i8>, ptr %46, align 32, !dbg !259
+  %48 = getelementptr inbounds i8, ptr %9, i64 240, !dbg !259
+  %49 = load <16 x i8>, ptr %48, align 16, !dbg !259
+  %50 = load half, ptr %17, align 2, !tbaa !264
+  %51 = load half, ptr %18, align 2, !tbaa !264
+  %52 = insertelement <8 x half> poison, half %50, i64 0
+  %53 = insertelement <8 x half> poison, half %51, i64 0
+  %54 = shufflevector <8 x half> %52, <8 x half> poison, <8 x i32> zeroinitializer
+  %55 = shufflevector <8 x half> %53, <8 x half> poison, <8 x i32> zeroinitializer
+  br label %56, !dbg !259
 
-103:                                              ; preds = %103, %for_body_k.outer
-  %104 = phi i64 [ 0, %for_body_k.outer ], [ %422, %103 ], !dbg !257
-  %105 = shl nuw nsw i64 %104, 4, !dbg !257
-  %106 = getelementptr inbounds i8, ptr %56, i64 %105, !dbg !257
-  %107 = load <16 x i8>, ptr %106, align 1, !dbg !257
-  %108 = lshr <16 x i8> %107, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %109 = and <16 x i8> %107, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %110 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %63, <16 x i8> %109), !dbg !257
-  %111 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %63, <16 x i8> %108), !dbg !257
-  %112 = getelementptr inbounds i8, ptr %106, i64 16, !dbg !257
-  %113 = load <16 x i8>, ptr %112, align 1, !dbg !257
-  %114 = lshr <16 x i8> %113, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %115 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %65, <16 x i8> %114), !dbg !257
-  %116 = and <16 x i8> %113, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %117 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %65, <16 x i8> %116), !dbg !257
-  %118 = shufflevector <16 x i8> %110, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %119 = shufflevector <16 x i8> %117, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %120 = sext <8 x i8> %118 to <8 x i16>, !dbg !257
-  %121 = sext <8 x i8> %119 to <8 x i16>, !dbg !257
-  %122 = shufflevector <16 x i8> %110, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %123 = sext <8 x i8> %122 to <8 x i16>, !dbg !257
-  %124 = shufflevector <16 x i8> %117, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %125 = sext <8 x i8> %124 to <8 x i16>, !dbg !257
-  %126 = add nsw <8 x i16> %121, %120, !dbg !257
-  %127 = add nsw <8 x i16> %125, %123, !dbg !257
-  %128 = shufflevector <16 x i8> %111, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %129 = shufflevector <16 x i8> %115, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %130 = sext <8 x i8> %128 to <8 x i16>, !dbg !257
-  %131 = sext <8 x i8> %129 to <8 x i16>, !dbg !257
-  %132 = shufflevector <16 x i8> %111, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %133 = sext <8 x i8> %132 to <8 x i16>, !dbg !257
-  %134 = shufflevector <16 x i8> %115, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %135 = sext <8 x i8> %134 to <8 x i16>, !dbg !257
-  %136 = getelementptr inbounds i8, ptr %106, i64 32, !dbg !257
-  %137 = load <16 x i8>, ptr %136, align 1, !dbg !257
-  %138 = lshr <16 x i8> %137, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %139 = and <16 x i8> %137, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %140 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %67, <16 x i8> %139), !dbg !257
-  %141 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %67, <16 x i8> %138), !dbg !257
-  %142 = getelementptr inbounds i8, ptr %106, i64 48, !dbg !257
-  %143 = load <16 x i8>, ptr %142, align 1, !dbg !257
-  %144 = and <16 x i8> %143, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %145 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %69, <16 x i8> %144), !dbg !257
-  %146 = shufflevector <16 x i8> %140, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %147 = shufflevector <16 x i8> %145, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %148 = sext <8 x i8> %146 to <8 x i16>, !dbg !257
-  %149 = sext <8 x i8> %147 to <8 x i16>, !dbg !257
-  %150 = shufflevector <16 x i8> %140, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %151 = sext <8 x i8> %150 to <8 x i16>, !dbg !257
-  %152 = shufflevector <16 x i8> %145, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %153 = sext <8 x i8> %152 to <8 x i16>, !dbg !257
-  %154 = add nsw <8 x i16> %126, %148, !dbg !257
-  %155 = add nsw <8 x i16> %154, %149, !dbg !257
-  %156 = add nsw <8 x i16> %127, %151, !dbg !257
-  %157 = add nsw <8 x i16> %156, %153, !dbg !257
-  %158 = lshr <16 x i8> %143, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %159 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %69, <16 x i8> %158), !dbg !257
-  %160 = shufflevector <16 x i8> %159, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %161 = sext <8 x i8> %160 to <8 x i16>, !dbg !257
-  %162 = shufflevector <16 x i8> %141, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %163 = sext <8 x i8> %162 to <8 x i16>, !dbg !257
-  %164 = shufflevector <16 x i8> %159, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %165 = sext <8 x i8> %164 to <8 x i16>, !dbg !257
-  %166 = shufflevector <16 x i8> %141, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %167 = sext <8 x i8> %166 to <8 x i16>, !dbg !257
-  %168 = getelementptr inbounds i8, ptr %106, i64 64, !dbg !257
-  %169 = load <16 x i8>, ptr %168, align 1, !dbg !257
-  %170 = lshr <16 x i8> %169, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %171 = and <16 x i8> %169, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %172 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %71, <16 x i8> %171), !dbg !257
-  %173 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %71, <16 x i8> %170), !dbg !257
-  %174 = getelementptr inbounds i8, ptr %106, i64 80, !dbg !257
-  %175 = load <16 x i8>, ptr %174, align 1, !dbg !257
-  %176 = and <16 x i8> %175, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %177 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %73, <16 x i8> %176), !dbg !257
-  %178 = shufflevector <16 x i8> %172, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %179 = shufflevector <16 x i8> %177, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %180 = sext <8 x i8> %178 to <8 x i16>, !dbg !257
-  %181 = sext <8 x i8> %179 to <8 x i16>, !dbg !257
-  %182 = shufflevector <16 x i8> %172, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %183 = sext <8 x i8> %182 to <8 x i16>, !dbg !257
-  %184 = shufflevector <16 x i8> %177, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %185 = sext <8 x i8> %184 to <8 x i16>, !dbg !257
-  %186 = add nsw <8 x i16> %155, %180, !dbg !257
-  %187 = add nsw <8 x i16> %186, %181, !dbg !257
-  %188 = add nsw <8 x i16> %157, %183, !dbg !257
-  %189 = add nsw <8 x i16> %188, %185, !dbg !257
-  %190 = lshr <16 x i8> %175, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %191 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %73, <16 x i8> %190), !dbg !257
-  %192 = shufflevector <16 x i8> %191, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %193 = sext <8 x i8> %192 to <8 x i16>, !dbg !257
-  %194 = shufflevector <16 x i8> %173, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %195 = sext <8 x i8> %194 to <8 x i16>, !dbg !257
-  %196 = shufflevector <16 x i8> %191, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %197 = sext <8 x i8> %196 to <8 x i16>, !dbg !257
-  %198 = shufflevector <16 x i8> %173, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %199 = sext <8 x i8> %198 to <8 x i16>, !dbg !257
-  %200 = getelementptr inbounds i8, ptr %106, i64 96, !dbg !257
-  %201 = load <16 x i8>, ptr %200, align 1, !dbg !257
-  %202 = lshr <16 x i8> %201, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %203 = and <16 x i8> %201, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %204 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %75, <16 x i8> %203), !dbg !257
-  %205 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %75, <16 x i8> %202), !dbg !257
-  %206 = getelementptr inbounds i8, ptr %106, i64 112, !dbg !257
-  %207 = load <16 x i8>, ptr %206, align 1, !dbg !257
-  %208 = and <16 x i8> %207, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %209 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %77, <16 x i8> %208), !dbg !257
-  %210 = shufflevector <16 x i8> %204, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %211 = shufflevector <16 x i8> %209, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %212 = sext <8 x i8> %210 to <8 x i16>, !dbg !257
-  %213 = sext <8 x i8> %211 to <8 x i16>, !dbg !257
-  %214 = shufflevector <16 x i8> %204, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %215 = sext <8 x i8> %214 to <8 x i16>, !dbg !257
-  %216 = shufflevector <16 x i8> %209, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %217 = sext <8 x i8> %216 to <8 x i16>, !dbg !257
-  %218 = add nsw <8 x i16> %187, %212, !dbg !257
-  %219 = add <8 x i16> %218, %213, !dbg !257
-  %220 = add nsw <8 x i16> %189, %215, !dbg !257
-  %221 = add <8 x i16> %220, %217, !dbg !257
-  %222 = lshr <16 x i8> %207, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %223 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %77, <16 x i8> %222), !dbg !257
-  %224 = shufflevector <16 x i8> %223, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %225 = sext <8 x i8> %224 to <8 x i16>, !dbg !257
-  %226 = shufflevector <16 x i8> %205, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %227 = sext <8 x i8> %226 to <8 x i16>, !dbg !257
-  %228 = shufflevector <16 x i8> %223, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %229 = sext <8 x i8> %228 to <8 x i16>, !dbg !257
-  %230 = shufflevector <16 x i8> %205, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %231 = sext <8 x i8> %230 to <8 x i16>, !dbg !257
-  %232 = getelementptr inbounds i8, ptr %106, i64 128, !dbg !257
-  %233 = load <16 x i8>, ptr %232, align 1, !dbg !257
-  %234 = lshr <16 x i8> %233, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %235 = and <16 x i8> %233, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %236 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %79, <16 x i8> %235), !dbg !257
-  %237 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %79, <16 x i8> %234), !dbg !257
-  %238 = getelementptr inbounds i8, ptr %106, i64 144, !dbg !257
-  %239 = load <16 x i8>, ptr %238, align 1, !dbg !257
-  %240 = and <16 x i8> %239, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %241 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %81, <16 x i8> %240), !dbg !257
-  %242 = shufflevector <16 x i8> %236, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %243 = shufflevector <16 x i8> %241, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %244 = sext <8 x i8> %242 to <8 x i16>, !dbg !257
-  %245 = sext <8 x i8> %243 to <8 x i16>, !dbg !257
-  %246 = shufflevector <16 x i8> %236, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %247 = sext <8 x i8> %246 to <8 x i16>, !dbg !257
-  %248 = shufflevector <16 x i8> %241, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %249 = sext <8 x i8> %248 to <8 x i16>, !dbg !257
-  %250 = add <8 x i16> %219, %244, !dbg !257
-  %251 = add <8 x i16> %250, %245, !dbg !257
-  %252 = add <8 x i16> %221, %247, !dbg !257
-  %253 = add <8 x i16> %252, %249, !dbg !257
-  %254 = lshr <16 x i8> %239, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %255 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %81, <16 x i8> %254), !dbg !257
-  %256 = shufflevector <16 x i8> %255, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %257 = sext <8 x i8> %256 to <8 x i16>, !dbg !257
-  %258 = shufflevector <16 x i8> %237, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %259 = sext <8 x i8> %258 to <8 x i16>, !dbg !257
-  %260 = shufflevector <16 x i8> %255, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %261 = sext <8 x i8> %260 to <8 x i16>, !dbg !257
-  %262 = shufflevector <16 x i8> %237, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %263 = sext <8 x i8> %262 to <8 x i16>, !dbg !257
-  %264 = getelementptr inbounds i8, ptr %106, i64 160, !dbg !257
-  %265 = load <16 x i8>, ptr %264, align 1, !dbg !257
-  %266 = lshr <16 x i8> %265, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %267 = and <16 x i8> %265, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %268 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %83, <16 x i8> %267), !dbg !257
-  %269 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %83, <16 x i8> %266), !dbg !257
-  %270 = getelementptr inbounds i8, ptr %106, i64 176, !dbg !257
-  %271 = load <16 x i8>, ptr %270, align 1, !dbg !257
-  %272 = and <16 x i8> %271, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %273 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %85, <16 x i8> %272), !dbg !257
-  %274 = shufflevector <16 x i8> %268, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %275 = shufflevector <16 x i8> %273, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %276 = sext <8 x i8> %274 to <8 x i16>, !dbg !257
-  %277 = sext <8 x i8> %275 to <8 x i16>, !dbg !257
-  %278 = shufflevector <16 x i8> %268, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %279 = sext <8 x i8> %278 to <8 x i16>, !dbg !257
-  %280 = shufflevector <16 x i8> %273, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %281 = sext <8 x i8> %280 to <8 x i16>, !dbg !257
-  %282 = add <8 x i16> %251, %276, !dbg !257
-  %283 = add <8 x i16> %282, %277, !dbg !257
-  %284 = add <8 x i16> %253, %279, !dbg !257
-  %285 = add <8 x i16> %284, %281, !dbg !257
-  %286 = lshr <16 x i8> %271, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %287 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %85, <16 x i8> %286), !dbg !257
-  %288 = shufflevector <16 x i8> %287, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %289 = sext <8 x i8> %288 to <8 x i16>, !dbg !257
-  %290 = shufflevector <16 x i8> %269, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %291 = sext <8 x i8> %290 to <8 x i16>, !dbg !257
-  %292 = shufflevector <16 x i8> %287, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %293 = sext <8 x i8> %292 to <8 x i16>, !dbg !257
-  %294 = shufflevector <16 x i8> %269, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %295 = sext <8 x i8> %294 to <8 x i16>, !dbg !257
-  %296 = getelementptr inbounds i8, ptr %106, i64 192, !dbg !257
-  %297 = load <16 x i8>, ptr %296, align 1, !dbg !257
-  %298 = lshr <16 x i8> %297, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %299 = and <16 x i8> %297, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %300 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %87, <16 x i8> %299), !dbg !257
-  %301 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %87, <16 x i8> %298), !dbg !257
-  %302 = getelementptr inbounds i8, ptr %106, i64 208, !dbg !257
-  %303 = load <16 x i8>, ptr %302, align 1, !dbg !257
-  %304 = and <16 x i8> %303, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %305 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %89, <16 x i8> %304), !dbg !257
-  %306 = shufflevector <16 x i8> %300, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %307 = shufflevector <16 x i8> %305, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %308 = sext <8 x i8> %306 to <8 x i16>, !dbg !257
-  %309 = sext <8 x i8> %307 to <8 x i16>, !dbg !257
-  %310 = shufflevector <16 x i8> %300, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %311 = sext <8 x i8> %310 to <8 x i16>, !dbg !257
-  %312 = shufflevector <16 x i8> %305, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %313 = sext <8 x i8> %312 to <8 x i16>, !dbg !257
-  %314 = add <8 x i16> %283, %308, !dbg !257
-  %315 = add <8 x i16> %314, %309, !dbg !257
-  %316 = add <8 x i16> %285, %311, !dbg !257
-  %317 = add <8 x i16> %316, %313, !dbg !257
-  %318 = lshr <16 x i8> %303, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %319 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %89, <16 x i8> %318), !dbg !257
-  %320 = shufflevector <16 x i8> %319, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %321 = sext <8 x i8> %320 to <8 x i16>, !dbg !257
-  %322 = shufflevector <16 x i8> %301, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %323 = sext <8 x i8> %322 to <8 x i16>, !dbg !257
-  %324 = shufflevector <16 x i8> %319, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %325 = sext <8 x i8> %324 to <8 x i16>, !dbg !257
-  %326 = shufflevector <16 x i8> %301, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %327 = sext <8 x i8> %326 to <8 x i16>, !dbg !257
-  %328 = getelementptr inbounds i8, ptr %106, i64 224, !dbg !257
-  %329 = load <16 x i8>, ptr %328, align 1, !dbg !257
-  %330 = lshr <16 x i8> %329, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %331 = and <16 x i8> %329, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %332 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %91, <16 x i8> %331), !dbg !257
-  %333 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %91, <16 x i8> %330), !dbg !257
-  %334 = getelementptr inbounds i8, ptr %106, i64 240, !dbg !257
-  %335 = load <16 x i8>, ptr %334, align 1, !dbg !257
-  %336 = and <16 x i8> %335, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !257
-  %337 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %93, <16 x i8> %336), !dbg !257
-  %338 = shufflevector <16 x i8> %332, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %339 = shufflevector <16 x i8> %337, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %340 = sext <8 x i8> %338 to <8 x i16>, !dbg !257
-  %341 = sext <8 x i8> %339 to <8 x i16>, !dbg !257
-  %342 = shufflevector <16 x i8> %332, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %343 = sext <8 x i8> %342 to <8 x i16>, !dbg !257
-  %344 = shufflevector <16 x i8> %337, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %345 = sext <8 x i8> %344 to <8 x i16>, !dbg !257
-  %346 = add <8 x i16> %315, %340, !dbg !257
-  %347 = add <8 x i16> %346, %341, !dbg !257
-  %348 = add <8 x i16> %317, %343, !dbg !257
-  %349 = add <8 x i16> %348, %345, !dbg !257
-  %350 = lshr <16 x i8> %335, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !257
-  %351 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %93, <16 x i8> %350), !dbg !257
-  %352 = shufflevector <16 x i8> %351, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %353 = sext <8 x i8> %352 to <8 x i16>, !dbg !257
-  %354 = shufflevector <16 x i8> %333, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !257
-  %355 = sext <8 x i8> %354 to <8 x i16>, !dbg !257
-  %356 = add nsw <8 x i16> %135, %133, !dbg !257
-  %357 = add nsw <8 x i16> %356, %163, !dbg !257
-  %358 = add nsw <8 x i16> %357, %161, !dbg !257
-  %359 = add nsw <8 x i16> %358, %195, !dbg !257
-  %360 = add nsw <8 x i16> %359, %193, !dbg !257
-  %361 = add nsw <8 x i16> %360, %227, !dbg !257
-  %362 = add <8 x i16> %361, %225, !dbg !257
-  %363 = add <8 x i16> %362, %259, !dbg !257
-  %364 = add <8 x i16> %363, %257, !dbg !257
-  %365 = add <8 x i16> %364, %291, !dbg !257
-  %366 = add <8 x i16> %365, %289, !dbg !257
-  %367 = add <8 x i16> %366, %323, !dbg !257
-  %368 = add <8 x i16> %367, %321, !dbg !257
-  %369 = add <8 x i16> %368, %355, !dbg !257
-  %370 = add <8 x i16> %369, %353, !dbg !257
-  %371 = shufflevector <16 x i8> %351, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %372 = sext <8 x i8> %371 to <8 x i16>, !dbg !257
-  %373 = shufflevector <16 x i8> %333, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !257
-  %374 = sext <8 x i8> %373 to <8 x i16>, !dbg !257
-  %375 = add nsw <8 x i16> %131, %130, !dbg !257
-  %376 = add nsw <8 x i16> %375, %167, !dbg !257
-  %377 = add nsw <8 x i16> %376, %165, !dbg !257
-  %378 = add nsw <8 x i16> %377, %199, !dbg !257
-  %379 = add nsw <8 x i16> %378, %197, !dbg !257
-  %380 = add nsw <8 x i16> %379, %231, !dbg !257
-  %381 = add <8 x i16> %380, %229, !dbg !257
-  %382 = add <8 x i16> %381, %263, !dbg !257
-  %383 = add <8 x i16> %382, %261, !dbg !257
-  %384 = add <8 x i16> %383, %295, !dbg !257
-  %385 = add <8 x i16> %384, %293, !dbg !257
-  %386 = add <8 x i16> %385, %327, !dbg !257
-  %387 = add <8 x i16> %386, %325, !dbg !257
-  %388 = add <8 x i16> %387, %374, !dbg !257
-  %389 = add <8 x i16> %388, %372, !dbg !257
-  %390 = sitofp <8 x i16> %347 to <8 x half>, !dbg !257
-  %391 = sitofp <8 x i16> %349 to <8 x half>, !dbg !257
-  %392 = sitofp <8 x i16> %389 to <8 x half>, !dbg !257
-  %393 = sitofp <8 x i16> %370 to <8 x half>, !dbg !257
-  %394 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %390, <8 x half> %98, <8 x half> %99), !dbg !257
-  %395 = fmul <8 x half> %98, %391, !dbg !257
-  %396 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %392, <8 x half> %98, <8 x half> %99), !dbg !257
-  %397 = fmul <8 x half> %98, %393, !dbg !257
-  %398 = shl nuw nsw i64 %104, 1, !dbg !257
-  %399 = getelementptr inbounds half, ptr %60, i64 %398, !dbg !257
-  %400 = load <8 x half>, ptr %399, align 2, !dbg !257
-  %401 = or i64 %398, 16, !dbg !257
-  %402 = getelementptr inbounds half, ptr %60, i64 %401, !dbg !257
-  %403 = load <8 x half>, ptr %402, align 2, !dbg !257
-  %404 = getelementptr inbounds half, ptr %CBits2, i64 %398, !dbg !257
-  %405 = load <8 x half>, ptr %404, align 16, !dbg !257
-  %406 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %394, <8 x half> %400, <8 x half> %405), !dbg !257
-  %407 = getelementptr inbounds half, ptr %404, i64 8, !dbg !257
-  %408 = load <8 x half>, ptr %407, align 16, !dbg !257
-  %409 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %395, <8 x half> %400, <8 x half> %408), !dbg !257
-  %410 = getelementptr inbounds half, ptr %404, i64 16, !dbg !257
-  %411 = load <8 x half>, ptr %410, align 16, !dbg !257
-  %412 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %396, <8 x half> %403, <8 x half> %411), !dbg !257
-  %413 = getelementptr inbounds half, ptr %404, i64 24, !dbg !257
-  %414 = load <8 x half>, ptr %413, align 16, !dbg !257
-  %415 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %397, <8 x half> %403, <8 x half> %414), !dbg !257
-  %416 = getelementptr inbounds half, ptr %402, i64 8, !dbg !257
-  %417 = load <8 x half>, ptr %416, align 2, !dbg !257
-  %418 = getelementptr inbounds half, ptr %399, i64 8, !dbg !257
-  %419 = load <8 x half>, ptr %418, align 2, !dbg !257
-  %420 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %419, <8 x half> %102, <8 x half> %406), !dbg !257
-  store <8 x half> %420, ptr %404, align 16, !dbg !257
-  store <8 x half> %409, ptr %407, align 16, !dbg !257
-  %421 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %417, <8 x half> %102, <8 x half> %412), !dbg !257
-  store <8 x half> %421, ptr %410, align 16, !dbg !257
-  store <8 x half> %415, ptr %413, align 16, !dbg !257
-  %422 = add nuw nsw i64 %104, 16, !dbg !257
-  %423 = icmp ult i64 %104, 112, !dbg !257
-  br i1 %423, label %103, label %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_ztrue_osfalse.exit, !dbg !257, !llvm.loop !265
+56:                                               ; preds = %56, %for_body_k.outer
+  %57 = phi i64 [ 0, %for_body_k.outer ], [ %369, %56 ], !dbg !259
+  %58 = shl nuw nsw i64 %57, 4, !dbg !259
+  %59 = getelementptr inbounds i8, ptr %12, i64 %58, !dbg !259
+  %60 = load <16 x i8>, ptr %59, align 64, !dbg !259
+  %61 = lshr <16 x i8> %60, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %62 = and <16 x i8> %60, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %63 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %19, <16 x i8> %62), !dbg !259
+  %64 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %19, <16 x i8> %61), !dbg !259
+  %65 = getelementptr inbounds i8, ptr %59, i64 16, !dbg !259
+  %66 = load <16 x i8>, ptr %65, align 16, !dbg !259
+  %67 = lshr <16 x i8> %66, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %68 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %21, <16 x i8> %67), !dbg !259
+  %69 = and <16 x i8> %66, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %70 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %21, <16 x i8> %69), !dbg !259
+  %71 = shufflevector <16 x i8> %63, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %72 = shufflevector <16 x i8> %70, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %73 = sext <8 x i8> %71 to <8 x i16>, !dbg !259
+  %74 = sext <8 x i8> %72 to <8 x i16>, !dbg !259
+  %75 = shufflevector <16 x i8> %63, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %76 = sext <8 x i8> %75 to <8 x i16>, !dbg !259
+  %77 = shufflevector <16 x i8> %70, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %78 = sext <8 x i8> %77 to <8 x i16>, !dbg !259
+  %79 = add nsw <8 x i16> %74, %73, !dbg !259
+  %80 = add nsw <8 x i16> %78, %76, !dbg !259
+  %81 = shufflevector <16 x i8> %64, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %82 = shufflevector <16 x i8> %68, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %83 = sext <8 x i8> %81 to <8 x i16>, !dbg !259
+  %84 = sext <8 x i8> %82 to <8 x i16>, !dbg !259
+  %85 = shufflevector <16 x i8> %64, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %86 = sext <8 x i8> %85 to <8 x i16>, !dbg !259
+  %87 = shufflevector <16 x i8> %68, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %88 = sext <8 x i8> %87 to <8 x i16>, !dbg !259
+  %89 = getelementptr inbounds i8, ptr %59, i64 32, !dbg !259
+  %90 = load <16 x i8>, ptr %89, align 32, !dbg !259
+  %91 = lshr <16 x i8> %90, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %92 = and <16 x i8> %90, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %93 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %23, <16 x i8> %92), !dbg !259
+  %94 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %23, <16 x i8> %91), !dbg !259
+  %95 = getelementptr inbounds i8, ptr %59, i64 48, !dbg !259
+  %96 = load <16 x i8>, ptr %95, align 16, !dbg !259
+  %97 = and <16 x i8> %96, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %98 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %25, <16 x i8> %97), !dbg !259
+  %99 = shufflevector <16 x i8> %93, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %100 = shufflevector <16 x i8> %98, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %101 = sext <8 x i8> %99 to <8 x i16>, !dbg !259
+  %102 = sext <8 x i8> %100 to <8 x i16>, !dbg !259
+  %103 = shufflevector <16 x i8> %93, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %104 = sext <8 x i8> %103 to <8 x i16>, !dbg !259
+  %105 = shufflevector <16 x i8> %98, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %106 = sext <8 x i8> %105 to <8 x i16>, !dbg !259
+  %107 = add nsw <8 x i16> %79, %101, !dbg !259
+  %108 = add nsw <8 x i16> %107, %102, !dbg !259
+  %109 = add nsw <8 x i16> %80, %104, !dbg !259
+  %110 = add nsw <8 x i16> %109, %106, !dbg !259
+  %111 = lshr <16 x i8> %96, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %112 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %25, <16 x i8> %111), !dbg !259
+  %113 = shufflevector <16 x i8> %112, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %114 = sext <8 x i8> %113 to <8 x i16>, !dbg !259
+  %115 = shufflevector <16 x i8> %94, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %116 = sext <8 x i8> %115 to <8 x i16>, !dbg !259
+  %117 = shufflevector <16 x i8> %112, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %118 = sext <8 x i8> %117 to <8 x i16>, !dbg !259
+  %119 = shufflevector <16 x i8> %94, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %120 = sext <8 x i8> %119 to <8 x i16>, !dbg !259
+  %121 = getelementptr inbounds i8, ptr %59, i64 64, !dbg !259
+  %122 = load <16 x i8>, ptr %121, align 64, !dbg !259
+  %123 = lshr <16 x i8> %122, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %124 = and <16 x i8> %122, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %125 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %27, <16 x i8> %124), !dbg !259
+  %126 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %27, <16 x i8> %123), !dbg !259
+  %127 = getelementptr inbounds i8, ptr %59, i64 80, !dbg !259
+  %128 = load <16 x i8>, ptr %127, align 16, !dbg !259
+  %129 = and <16 x i8> %128, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %130 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %29, <16 x i8> %129), !dbg !259
+  %131 = shufflevector <16 x i8> %125, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %132 = shufflevector <16 x i8> %130, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %133 = sext <8 x i8> %131 to <8 x i16>, !dbg !259
+  %134 = sext <8 x i8> %132 to <8 x i16>, !dbg !259
+  %135 = shufflevector <16 x i8> %125, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %136 = sext <8 x i8> %135 to <8 x i16>, !dbg !259
+  %137 = shufflevector <16 x i8> %130, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %138 = sext <8 x i8> %137 to <8 x i16>, !dbg !259
+  %139 = add nsw <8 x i16> %108, %133, !dbg !259
+  %140 = add nsw <8 x i16> %139, %134, !dbg !259
+  %141 = add nsw <8 x i16> %110, %136, !dbg !259
+  %142 = add nsw <8 x i16> %141, %138, !dbg !259
+  %143 = lshr <16 x i8> %128, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %144 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %29, <16 x i8> %143), !dbg !259
+  %145 = shufflevector <16 x i8> %144, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %146 = sext <8 x i8> %145 to <8 x i16>, !dbg !259
+  %147 = shufflevector <16 x i8> %126, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %148 = sext <8 x i8> %147 to <8 x i16>, !dbg !259
+  %149 = shufflevector <16 x i8> %144, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %150 = sext <8 x i8> %149 to <8 x i16>, !dbg !259
+  %151 = shufflevector <16 x i8> %126, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %152 = sext <8 x i8> %151 to <8 x i16>, !dbg !259
+  %153 = getelementptr inbounds i8, ptr %59, i64 96, !dbg !259
+  %154 = load <16 x i8>, ptr %153, align 32, !dbg !259
+  %155 = lshr <16 x i8> %154, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %156 = and <16 x i8> %154, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %157 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %31, <16 x i8> %156), !dbg !259
+  %158 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %31, <16 x i8> %155), !dbg !259
+  %159 = getelementptr inbounds i8, ptr %59, i64 112, !dbg !259
+  %160 = load <16 x i8>, ptr %159, align 16, !dbg !259
+  %161 = and <16 x i8> %160, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %162 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %33, <16 x i8> %161), !dbg !259
+  %163 = shufflevector <16 x i8> %157, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %164 = shufflevector <16 x i8> %162, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %165 = sext <8 x i8> %163 to <8 x i16>, !dbg !259
+  %166 = sext <8 x i8> %164 to <8 x i16>, !dbg !259
+  %167 = shufflevector <16 x i8> %157, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %168 = sext <8 x i8> %167 to <8 x i16>, !dbg !259
+  %169 = shufflevector <16 x i8> %162, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %170 = sext <8 x i8> %169 to <8 x i16>, !dbg !259
+  %171 = add nsw <8 x i16> %140, %165, !dbg !259
+  %172 = add <8 x i16> %171, %166, !dbg !259
+  %173 = add nsw <8 x i16> %142, %168, !dbg !259
+  %174 = add <8 x i16> %173, %170, !dbg !259
+  %175 = lshr <16 x i8> %160, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %176 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %33, <16 x i8> %175), !dbg !259
+  %177 = shufflevector <16 x i8> %176, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %178 = sext <8 x i8> %177 to <8 x i16>, !dbg !259
+  %179 = shufflevector <16 x i8> %158, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %180 = sext <8 x i8> %179 to <8 x i16>, !dbg !259
+  %181 = shufflevector <16 x i8> %176, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %182 = sext <8 x i8> %181 to <8 x i16>, !dbg !259
+  %183 = shufflevector <16 x i8> %158, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %184 = sext <8 x i8> %183 to <8 x i16>, !dbg !259
+  %185 = getelementptr inbounds i8, ptr %59, i64 128, !dbg !259
+  %186 = load <16 x i8>, ptr %185, align 64, !dbg !259
+  %187 = lshr <16 x i8> %186, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %188 = and <16 x i8> %186, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %189 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %35, <16 x i8> %188), !dbg !259
+  %190 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %35, <16 x i8> %187), !dbg !259
+  %191 = getelementptr inbounds i8, ptr %59, i64 144, !dbg !259
+  %192 = load <16 x i8>, ptr %191, align 16, !dbg !259
+  %193 = and <16 x i8> %192, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %194 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %37, <16 x i8> %193), !dbg !259
+  %195 = shufflevector <16 x i8> %189, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %196 = shufflevector <16 x i8> %194, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %197 = sext <8 x i8> %195 to <8 x i16>, !dbg !259
+  %198 = sext <8 x i8> %196 to <8 x i16>, !dbg !259
+  %199 = shufflevector <16 x i8> %189, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %200 = sext <8 x i8> %199 to <8 x i16>, !dbg !259
+  %201 = shufflevector <16 x i8> %194, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %202 = sext <8 x i8> %201 to <8 x i16>, !dbg !259
+  %203 = add <8 x i16> %172, %197, !dbg !259
+  %204 = add <8 x i16> %203, %198, !dbg !259
+  %205 = add <8 x i16> %174, %200, !dbg !259
+  %206 = add <8 x i16> %205, %202, !dbg !259
+  %207 = lshr <16 x i8> %192, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %208 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %37, <16 x i8> %207), !dbg !259
+  %209 = shufflevector <16 x i8> %208, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %210 = sext <8 x i8> %209 to <8 x i16>, !dbg !259
+  %211 = shufflevector <16 x i8> %190, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %212 = sext <8 x i8> %211 to <8 x i16>, !dbg !259
+  %213 = shufflevector <16 x i8> %208, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %214 = sext <8 x i8> %213 to <8 x i16>, !dbg !259
+  %215 = shufflevector <16 x i8> %190, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %216 = sext <8 x i8> %215 to <8 x i16>, !dbg !259
+  %217 = getelementptr inbounds i8, ptr %59, i64 160, !dbg !259
+  %218 = load <16 x i8>, ptr %217, align 32, !dbg !259
+  %219 = lshr <16 x i8> %218, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %220 = and <16 x i8> %218, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %221 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %39, <16 x i8> %220), !dbg !259
+  %222 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %39, <16 x i8> %219), !dbg !259
+  %223 = getelementptr inbounds i8, ptr %59, i64 176, !dbg !259
+  %224 = load <16 x i8>, ptr %223, align 16, !dbg !259
+  %225 = and <16 x i8> %224, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %226 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %41, <16 x i8> %225), !dbg !259
+  %227 = shufflevector <16 x i8> %221, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %228 = shufflevector <16 x i8> %226, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %229 = sext <8 x i8> %227 to <8 x i16>, !dbg !259
+  %230 = sext <8 x i8> %228 to <8 x i16>, !dbg !259
+  %231 = shufflevector <16 x i8> %221, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %232 = sext <8 x i8> %231 to <8 x i16>, !dbg !259
+  %233 = shufflevector <16 x i8> %226, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %234 = sext <8 x i8> %233 to <8 x i16>, !dbg !259
+  %235 = add <8 x i16> %204, %229, !dbg !259
+  %236 = add <8 x i16> %235, %230, !dbg !259
+  %237 = add <8 x i16> %206, %232, !dbg !259
+  %238 = add <8 x i16> %237, %234, !dbg !259
+  %239 = lshr <16 x i8> %224, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %240 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %41, <16 x i8> %239), !dbg !259
+  %241 = shufflevector <16 x i8> %240, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %242 = sext <8 x i8> %241 to <8 x i16>, !dbg !259
+  %243 = shufflevector <16 x i8> %222, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %244 = sext <8 x i8> %243 to <8 x i16>, !dbg !259
+  %245 = shufflevector <16 x i8> %240, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %246 = sext <8 x i8> %245 to <8 x i16>, !dbg !259
+  %247 = shufflevector <16 x i8> %222, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %248 = sext <8 x i8> %247 to <8 x i16>, !dbg !259
+  %249 = getelementptr inbounds i8, ptr %59, i64 192, !dbg !259
+  %250 = load <16 x i8>, ptr %249, align 64, !dbg !259
+  %251 = lshr <16 x i8> %250, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %252 = and <16 x i8> %250, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %253 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %43, <16 x i8> %252), !dbg !259
+  %254 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %43, <16 x i8> %251), !dbg !259
+  %255 = getelementptr inbounds i8, ptr %59, i64 208, !dbg !259
+  %256 = load <16 x i8>, ptr %255, align 16, !dbg !259
+  %257 = and <16 x i8> %256, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %258 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %45, <16 x i8> %257), !dbg !259
+  %259 = shufflevector <16 x i8> %253, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %260 = shufflevector <16 x i8> %258, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %261 = sext <8 x i8> %259 to <8 x i16>, !dbg !259
+  %262 = sext <8 x i8> %260 to <8 x i16>, !dbg !259
+  %263 = shufflevector <16 x i8> %253, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %264 = sext <8 x i8> %263 to <8 x i16>, !dbg !259
+  %265 = shufflevector <16 x i8> %258, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %266 = sext <8 x i8> %265 to <8 x i16>, !dbg !259
+  %267 = add <8 x i16> %236, %261, !dbg !259
+  %268 = add <8 x i16> %267, %262, !dbg !259
+  %269 = add <8 x i16> %238, %264, !dbg !259
+  %270 = add <8 x i16> %269, %266, !dbg !259
+  %271 = lshr <16 x i8> %256, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %272 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %45, <16 x i8> %271), !dbg !259
+  %273 = shufflevector <16 x i8> %272, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %274 = sext <8 x i8> %273 to <8 x i16>, !dbg !259
+  %275 = shufflevector <16 x i8> %254, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %276 = sext <8 x i8> %275 to <8 x i16>, !dbg !259
+  %277 = shufflevector <16 x i8> %272, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %278 = sext <8 x i8> %277 to <8 x i16>, !dbg !259
+  %279 = shufflevector <16 x i8> %254, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %280 = sext <8 x i8> %279 to <8 x i16>, !dbg !259
+  %281 = getelementptr inbounds i8, ptr %59, i64 224, !dbg !259
+  %282 = load <16 x i8>, ptr %281, align 32, !dbg !259
+  %283 = lshr <16 x i8> %282, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %284 = and <16 x i8> %282, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %285 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %47, <16 x i8> %284), !dbg !259
+  %286 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %47, <16 x i8> %283), !dbg !259
+  %287 = getelementptr inbounds i8, ptr %59, i64 240, !dbg !259
+  %288 = load <16 x i8>, ptr %287, align 16, !dbg !259
+  %289 = and <16 x i8> %288, <i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15, i8 15>, !dbg !259
+  %290 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %49, <16 x i8> %289), !dbg !259
+  %291 = shufflevector <16 x i8> %285, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %292 = shufflevector <16 x i8> %290, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %293 = sext <8 x i8> %291 to <8 x i16>, !dbg !259
+  %294 = sext <8 x i8> %292 to <8 x i16>, !dbg !259
+  %295 = shufflevector <16 x i8> %285, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %296 = sext <8 x i8> %295 to <8 x i16>, !dbg !259
+  %297 = shufflevector <16 x i8> %290, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %298 = sext <8 x i8> %297 to <8 x i16>, !dbg !259
+  %299 = add <8 x i16> %268, %293, !dbg !259
+  %300 = add <8 x i16> %299, %294, !dbg !259
+  %301 = add <8 x i16> %270, %296, !dbg !259
+  %302 = add <8 x i16> %301, %298, !dbg !259
+  %303 = lshr <16 x i8> %288, <i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4, i8 4>, !dbg !259
+  %304 = tail call <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8> %49, <16 x i8> %303), !dbg !259
+  %305 = shufflevector <16 x i8> %304, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %306 = sext <8 x i8> %305 to <8 x i16>, !dbg !259
+  %307 = shufflevector <16 x i8> %286, <16 x i8> poison, <8 x i32> <i32 8, i32 9, i32 10, i32 11, i32 12, i32 13, i32 14, i32 15>, !dbg !259
+  %308 = sext <8 x i8> %307 to <8 x i16>, !dbg !259
+  %309 = add nsw <8 x i16> %88, %86, !dbg !259
+  %310 = add nsw <8 x i16> %309, %116, !dbg !259
+  %311 = add nsw <8 x i16> %310, %114, !dbg !259
+  %312 = add nsw <8 x i16> %311, %148, !dbg !259
+  %313 = add nsw <8 x i16> %312, %146, !dbg !259
+  %314 = add nsw <8 x i16> %313, %180, !dbg !259
+  %315 = add <8 x i16> %314, %178, !dbg !259
+  %316 = add <8 x i16> %315, %212, !dbg !259
+  %317 = add <8 x i16> %316, %210, !dbg !259
+  %318 = add <8 x i16> %317, %244, !dbg !259
+  %319 = add <8 x i16> %318, %242, !dbg !259
+  %320 = add <8 x i16> %319, %276, !dbg !259
+  %321 = add <8 x i16> %320, %274, !dbg !259
+  %322 = add <8 x i16> %321, %308, !dbg !259
+  %323 = add <8 x i16> %322, %306, !dbg !259
+  %324 = shufflevector <16 x i8> %304, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %325 = sext <8 x i8> %324 to <8 x i16>, !dbg !259
+  %326 = shufflevector <16 x i8> %286, <16 x i8> poison, <8 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7>, !dbg !259
+  %327 = sext <8 x i8> %326 to <8 x i16>, !dbg !259
+  %328 = add nsw <8 x i16> %84, %83, !dbg !259
+  %329 = add nsw <8 x i16> %328, %120, !dbg !259
+  %330 = add nsw <8 x i16> %329, %118, !dbg !259
+  %331 = add nsw <8 x i16> %330, %152, !dbg !259
+  %332 = add nsw <8 x i16> %331, %150, !dbg !259
+  %333 = add nsw <8 x i16> %332, %184, !dbg !259
+  %334 = add <8 x i16> %333, %182, !dbg !259
+  %335 = add <8 x i16> %334, %216, !dbg !259
+  %336 = add <8 x i16> %335, %214, !dbg !259
+  %337 = add <8 x i16> %336, %248, !dbg !259
+  %338 = add <8 x i16> %337, %246, !dbg !259
+  %339 = add <8 x i16> %338, %280, !dbg !259
+  %340 = add <8 x i16> %339, %278, !dbg !259
+  %341 = add <8 x i16> %340, %327, !dbg !259
+  %342 = add <8 x i16> %341, %325, !dbg !259
+  %343 = sitofp <8 x i16> %300 to <8 x half>, !dbg !259
+  %344 = sitofp <8 x i16> %302 to <8 x half>, !dbg !259
+  %345 = sitofp <8 x i16> %342 to <8 x half>, !dbg !259
+  %346 = sitofp <8 x i16> %323 to <8 x half>, !dbg !259
+  %347 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %343, <8 x half> %54, <8 x half> %55), !dbg !259
+  %348 = fmul <8 x half> %54, %344, !dbg !259
+  %349 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %345, <8 x half> %54, <8 x half> %55), !dbg !259
+  %350 = fmul <8 x half> %54, %346, !dbg !259
+  %351 = getelementptr inbounds half, ptr %16, i64 %57, !dbg !259
+  %352 = load <8 x half>, ptr %351, align 32, !dbg !259
+  %353 = or i64 %57, 8, !dbg !259
+  %354 = getelementptr inbounds half, ptr %16, i64 %353, !dbg !259
+  %355 = load <8 x half>, ptr %354, align 16, !dbg !259
+  %356 = shl nuw nsw i64 %57, 1, !dbg !259
+  %357 = getelementptr inbounds half, ptr %CBits, i64 %356, !dbg !259
+  %358 = load <8 x half>, ptr %357, align 64, !dbg !259
+  %359 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %347, <8 x half> %352, <8 x half> %358), !dbg !259
+  store <8 x half> %359, ptr %357, align 64, !dbg !259
+  %360 = getelementptr inbounds half, ptr %357, i64 8, !dbg !259
+  %361 = load <8 x half>, ptr %360, align 16, !dbg !259
+  %362 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %348, <8 x half> %352, <8 x half> %361), !dbg !259
+  store <8 x half> %362, ptr %360, align 16, !dbg !259
+  %363 = getelementptr inbounds half, ptr %357, i64 16, !dbg !259
+  %364 = load <8 x half>, ptr %363, align 32, !dbg !259
+  %365 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %349, <8 x half> %355, <8 x half> %364), !dbg !259
+  store <8 x half> %365, ptr %363, align 32, !dbg !259
+  %366 = getelementptr inbounds half, ptr %357, i64 24, !dbg !259
+  %367 = load <8 x half>, ptr %366, align 16, !dbg !259
+  %368 = tail call <8 x half> @llvm.fmuladd.v8f16(<8 x half> %350, <8 x half> %355, <8 x half> %367), !dbg !259
+  store <8 x half> %368, ptr %366, align 16, !dbg !259
+  %369 = add nuw nsw i64 %57, 16, !dbg !259
+  %370 = icmp ult i64 %57, 496, !dbg !259
+  br i1 %370, label %56, label %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit, !dbg !259, !llvm.loop !268
 
-tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_ztrue_osfalse.exit: ; preds = %103
-  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next, metadata !260, metadata !DIExpression()), !dbg !257
-  %exitcond.not = icmp eq i64 %indvars.iv.next, 224, !dbg !257
-  br i1 %exitcond.not, label %for_body_m.c.outer, label %for_body_k.outer, !dbg !257, !prof !29
+tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit: ; preds = %56
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next, metadata !263, metadata !DIExpression()), !dbg !259
+  %exitcond.not = icmp eq i64 %indvars.iv.next, 64, !dbg !259
+  br i1 %exitcond.not, label %for_body_m.c.outer, label %for_body_k.outer, !dbg !259, !prof !29
 
-for_body_m.c.outer:                               ; preds = %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_ztrue_osfalse.exit
-  call void @llvm.dbg.declare(metadata i64 0, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !269, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !269, metadata !DIExpression()), !dbg !257
-  %424 = load <8 x half>, ptr %CBits2, align 16, !dbg !257, !tbaa !270
-  %425 = fpext <8 x half> %424 to <8 x float>, !dbg !257
-  %426 = load <8 x half>, ptr %19, align 16, !dbg !257, !tbaa !270
-  %427 = fpext <8 x half> %426 to <8 x float>, !dbg !257
-  %428 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %425, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %427), !dbg !257
-  %429 = fptrunc <8 x float> %428 to <8 x half>, !dbg !257
-  call void @llvm.dbg.value(metadata <8 x half> %429, metadata !272, metadata !DIExpression()), !dbg !257
-  %430 = load <8 x half>, ptr %20, align 16, !dbg !257, !tbaa !270
-  %431 = fpext <8 x half> %430 to <8 x float>, !dbg !257
-  %432 = load <8 x half>, ptr %21, align 16, !dbg !257, !tbaa !270
-  %433 = fpext <8 x half> %432 to <8 x float>, !dbg !257
-  %434 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %431, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %433), !dbg !257
-  %435 = fptrunc <8 x float> %434 to <8 x half>, !dbg !257
-  %436 = load <8 x half>, ptr %22, align 16, !dbg !257, !tbaa !270
-  %437 = fpext <8 x half> %436 to <8 x float>, !dbg !257
-  %438 = load <8 x half>, ptr %23, align 16, !dbg !257, !tbaa !270
-  %439 = fpext <8 x half> %438 to <8 x float>, !dbg !257
-  %440 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %437, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %439), !dbg !257
-  %441 = fptrunc <8 x float> %440 to <8 x half>, !dbg !257
-  %442 = load <8 x half>, ptr %24, align 16, !dbg !257, !tbaa !270
-  %443 = fpext <8 x half> %442 to <8 x float>, !dbg !257
-  %444 = load <8 x half>, ptr %25, align 16, !dbg !257, !tbaa !270
-  %445 = fpext <8 x half> %444 to <8 x float>, !dbg !257
-  %446 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %443, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %445), !dbg !257
-  %447 = fptrunc <8 x float> %446 to <8 x half>, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 1, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 1, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 32, metadata !269, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 32, metadata !269, metadata !DIExpression()), !dbg !257
-  %448 = load <8 x half>, ptr %26, align 16, !dbg !257, !tbaa !270
-  %449 = fpext <8 x half> %448 to <8 x float>, !dbg !257
-  %450 = load <8 x half>, ptr %27, align 16, !dbg !257, !tbaa !270
-  %451 = fpext <8 x half> %450 to <8 x float>, !dbg !257
-  %452 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %449, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %451), !dbg !257
-  %453 = fptrunc <8 x float> %452 to <8 x half>, !dbg !257
-  %454 = load <8 x half>, ptr %28, align 16, !dbg !257, !tbaa !270
-  %455 = fpext <8 x half> %454 to <8 x float>, !dbg !257
-  %456 = load <8 x half>, ptr %29, align 16, !dbg !257, !tbaa !270
-  %457 = fpext <8 x half> %456 to <8 x float>, !dbg !257
-  %458 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %455, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %457), !dbg !257
-  %459 = fptrunc <8 x float> %458 to <8 x half>, !dbg !257
-  %460 = load <8 x half>, ptr %30, align 16, !dbg !257, !tbaa !270
-  %461 = fpext <8 x half> %460 to <8 x float>, !dbg !257
-  %462 = load <8 x half>, ptr %31, align 16, !dbg !257, !tbaa !270
-  %463 = fpext <8 x half> %462 to <8 x float>, !dbg !257
-  %464 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %461, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %463), !dbg !257
-  %465 = fptrunc <8 x float> %464 to <8 x half>, !dbg !257
-  %466 = load <8 x half>, ptr %32, align 16, !dbg !257, !tbaa !270
-  %467 = fpext <8 x half> %466 to <8 x float>, !dbg !257
-  %468 = load <8 x half>, ptr %33, align 16, !dbg !257, !tbaa !270
-  %469 = fpext <8 x half> %468 to <8 x float>, !dbg !257
-  %470 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %467, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %469), !dbg !257
-  %471 = fptrunc <8 x float> %470 to <8 x half>, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 2, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 2, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 128, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 128, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !269, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !269, metadata !DIExpression()), !dbg !257
-  %472 = load <8 x half>, ptr %34, align 16, !dbg !257, !tbaa !270
-  %473 = fpext <8 x half> %472 to <8 x float>, !dbg !257
-  %474 = load <8 x half>, ptr %35, align 16, !dbg !257, !tbaa !270
-  %475 = fpext <8 x half> %474 to <8 x float>, !dbg !257
-  %476 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %473, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %475), !dbg !257
-  %477 = fptrunc <8 x float> %476 to <8 x half>, !dbg !257
-  %478 = load <8 x half>, ptr %36, align 16, !dbg !257, !tbaa !270
-  %479 = fpext <8 x half> %478 to <8 x float>, !dbg !257
-  %480 = load <8 x half>, ptr %37, align 16, !dbg !257, !tbaa !270
-  %481 = fpext <8 x half> %480 to <8 x float>, !dbg !257
-  %482 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %479, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %481), !dbg !257
-  %483 = fptrunc <8 x float> %482 to <8 x half>, !dbg !257
-  %484 = load <8 x half>, ptr %38, align 16, !dbg !257, !tbaa !270
-  %485 = fpext <8 x half> %484 to <8 x float>, !dbg !257
-  %486 = load <8 x half>, ptr %39, align 16, !dbg !257, !tbaa !270
-  %487 = fpext <8 x half> %486 to <8 x float>, !dbg !257
-  %488 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %485, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %487), !dbg !257
-  %489 = fptrunc <8 x float> %488 to <8 x half>, !dbg !257
-  %490 = load <8 x half>, ptr %40, align 16, !dbg !257, !tbaa !270
-  %491 = fpext <8 x half> %490 to <8 x float>, !dbg !257
-  %492 = load <8 x half>, ptr %41, align 16, !dbg !257, !tbaa !270
-  %493 = fpext <8 x half> %492 to <8 x float>, !dbg !257
-  %494 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %491, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %493), !dbg !257
-  %495 = fptrunc <8 x float> %494 to <8 x half>, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 3, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 3, metadata !267, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 192, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 192, metadata !268, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 96, metadata !269, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 96, metadata !269, metadata !DIExpression()), !dbg !257
-  %496 = load <8 x half>, ptr %42, align 16, !dbg !257, !tbaa !270
-  %497 = fpext <8 x half> %496 to <8 x float>, !dbg !257
-  %498 = load <8 x half>, ptr %43, align 16, !dbg !257, !tbaa !270
-  %499 = fpext <8 x half> %498 to <8 x float>, !dbg !257
-  %500 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %497, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %499), !dbg !257
-  %501 = fptrunc <8 x float> %500 to <8 x half>, !dbg !257
-  %502 = load <8 x half>, ptr %44, align 16, !dbg !257, !tbaa !270
-  %503 = fpext <8 x half> %502 to <8 x float>, !dbg !257
-  %504 = load <8 x half>, ptr %45, align 16, !dbg !257, !tbaa !270
-  %505 = fpext <8 x half> %504 to <8 x float>, !dbg !257
-  %506 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %503, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %505), !dbg !257
-  %507 = fptrunc <8 x float> %506 to <8 x half>, !dbg !257
-  %508 = load <8 x half>, ptr %46, align 16, !dbg !257, !tbaa !270
-  %509 = fpext <8 x half> %508 to <8 x float>, !dbg !257
-  %510 = load <8 x half>, ptr %47, align 16, !dbg !257, !tbaa !270
-  %511 = fpext <8 x half> %510 to <8 x float>, !dbg !257
-  %512 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %509, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %511), !dbg !257
-  %513 = fptrunc <8 x float> %512 to <8 x half>, !dbg !257
-  %514 = load <8 x half>, ptr %48, align 16, !dbg !257, !tbaa !270
-  %515 = fpext <8 x half> %514 to <8 x float>, !dbg !257
-  %516 = load <8 x half>, ptr %49, align 16, !dbg !257, !tbaa !270
-  %517 = fpext <8 x half> %516 to <8 x float>, !dbg !257
-  %518 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %515, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %517), !dbg !257
-  %519 = fptrunc <8 x float> %518 to <8 x half>, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 4, metadata !267, metadata !DIExpression()), !dbg !257
-  %520 = trunc i64 %indvars.iv20 to i32
-  %521 = shl nsw i32 %520, 7
-  call void @llvm.dbg.declare(metadata i32 0, metadata !273, metadata !DIExpression()), !dbg !257
-  %522 = sext i32 %521 to i64, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !274, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 0, metadata !274, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %522, metadata !275, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %522, metadata !275, metadata !DIExpression()), !dbg !257
-  %C.global1.sroa.0.0.vec.extract = extractelement <8 x half> %429, i64 0, !dbg !257
-  %523 = getelementptr inbounds half, ptr %C, i64 %522, !dbg !257
-  store half %C.global1.sroa.0.0.vec.extract, ptr %523, align 64, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.2.vec.extract = extractelement <8 x half> %429, i64 1, !dbg !257
-  %524 = or i32 %521, 1, !dbg !257
-  %525 = sext i32 %524 to i64, !dbg !257
-  %526 = getelementptr inbounds half, ptr %C, i64 %525, !dbg !257
-  store half %C.global1.sroa.0.2.vec.extract, ptr %526, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.4.vec.extract = extractelement <8 x half> %429, i64 2, !dbg !257
-  %527 = or i32 %521, 2, !dbg !257
-  %528 = sext i32 %527 to i64, !dbg !257
-  %529 = getelementptr inbounds half, ptr %C, i64 %528, !dbg !257
-  store half %C.global1.sroa.0.4.vec.extract, ptr %529, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.6.vec.extract = extractelement <8 x half> %429, i64 3, !dbg !257
-  %530 = or i32 %521, 3, !dbg !257
-  %531 = sext i32 %530 to i64, !dbg !257
-  %532 = getelementptr inbounds half, ptr %C, i64 %531, !dbg !257
-  store half %C.global1.sroa.0.6.vec.extract, ptr %532, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.8.vec.extract = extractelement <8 x half> %429, i64 4, !dbg !257
-  %533 = or i32 %521, 4, !dbg !257
-  %534 = sext i32 %533 to i64, !dbg !257
-  %535 = getelementptr inbounds half, ptr %C, i64 %534, !dbg !257
-  store half %C.global1.sroa.0.8.vec.extract, ptr %535, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.10.vec.extract = extractelement <8 x half> %429, i64 5, !dbg !257
-  %536 = or i32 %521, 5, !dbg !257
-  %537 = sext i32 %536 to i64, !dbg !257
-  %538 = getelementptr inbounds half, ptr %C, i64 %537, !dbg !257
-  store half %C.global1.sroa.0.10.vec.extract, ptr %538, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.12.vec.extract = extractelement <8 x half> %429, i64 6, !dbg !257
-  %539 = or i32 %521, 6, !dbg !257
-  %540 = sext i32 %539 to i64, !dbg !257
-  %541 = getelementptr inbounds half, ptr %C, i64 %540, !dbg !257
-  store half %C.global1.sroa.0.12.vec.extract, ptr %541, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.0.14.vec.extract = extractelement <8 x half> %429, i64 7, !dbg !257
-  %542 = or i32 %521, 7, !dbg !257
-  %543 = sext i32 %542 to i64, !dbg !257
-  %544 = getelementptr inbounds half, ptr %C, i64 %543, !dbg !257
-  store half %C.global1.sroa.0.14.vec.extract, ptr %544, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.16.vec.extract = extractelement <8 x half> %435, i64 0, !dbg !257
-  %545 = or i32 %521, 8, !dbg !257
-  %546 = sext i32 %545 to i64, !dbg !257
-  %547 = getelementptr inbounds half, ptr %C, i64 %546, !dbg !257
-  store half %C.global1.sroa.9.16.vec.extract, ptr %547, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.18.vec.extract = extractelement <8 x half> %435, i64 1, !dbg !257
-  %548 = or i32 %521, 9, !dbg !257
-  %549 = sext i32 %548 to i64, !dbg !257
-  %550 = getelementptr inbounds half, ptr %C, i64 %549, !dbg !257
-  store half %C.global1.sroa.9.18.vec.extract, ptr %550, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.20.vec.extract = extractelement <8 x half> %435, i64 2, !dbg !257
-  %551 = or i32 %521, 10, !dbg !257
-  %552 = sext i32 %551 to i64, !dbg !257
-  %553 = getelementptr inbounds half, ptr %C, i64 %552, !dbg !257
-  store half %C.global1.sroa.9.20.vec.extract, ptr %553, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.22.vec.extract = extractelement <8 x half> %435, i64 3, !dbg !257
-  %554 = or i32 %521, 11, !dbg !257
-  %555 = sext i32 %554 to i64, !dbg !257
-  %556 = getelementptr inbounds half, ptr %C, i64 %555, !dbg !257
-  store half %C.global1.sroa.9.22.vec.extract, ptr %556, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.24.vec.extract = extractelement <8 x half> %435, i64 4, !dbg !257
-  %557 = or i32 %521, 12, !dbg !257
-  %558 = sext i32 %557 to i64, !dbg !257
-  %559 = getelementptr inbounds half, ptr %C, i64 %558, !dbg !257
-  store half %C.global1.sroa.9.24.vec.extract, ptr %559, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.26.vec.extract = extractelement <8 x half> %435, i64 5, !dbg !257
-  %560 = or i32 %521, 13, !dbg !257
-  %561 = sext i32 %560 to i64, !dbg !257
-  %562 = getelementptr inbounds half, ptr %C, i64 %561, !dbg !257
-  store half %C.global1.sroa.9.26.vec.extract, ptr %562, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.28.vec.extract = extractelement <8 x half> %435, i64 6, !dbg !257
-  %563 = or i32 %521, 14, !dbg !257
-  %564 = sext i32 %563 to i64, !dbg !257
-  %565 = getelementptr inbounds half, ptr %C, i64 %564, !dbg !257
-  store half %C.global1.sroa.9.28.vec.extract, ptr %565, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.9.30.vec.extract = extractelement <8 x half> %435, i64 7, !dbg !257
-  %566 = or i32 %521, 15, !dbg !257
-  %567 = sext i32 %566 to i64, !dbg !257
-  %568 = getelementptr inbounds half, ptr %C, i64 %567, !dbg !257
-  store half %C.global1.sroa.9.30.vec.extract, ptr %568, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.32.vec.extract = extractelement <8 x half> %441, i64 0, !dbg !257
-  %569 = or i32 %521, 16, !dbg !257
-  %570 = sext i32 %569 to i64, !dbg !257
-  %571 = getelementptr inbounds half, ptr %C, i64 %570, !dbg !257
-  store half %C.global1.sroa.18.32.vec.extract, ptr %571, align 32, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.34.vec.extract = extractelement <8 x half> %441, i64 1, !dbg !257
-  %572 = or i32 %521, 17, !dbg !257
-  %573 = sext i32 %572 to i64, !dbg !257
-  %574 = getelementptr inbounds half, ptr %C, i64 %573, !dbg !257
-  store half %C.global1.sroa.18.34.vec.extract, ptr %574, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.36.vec.extract = extractelement <8 x half> %441, i64 2, !dbg !257
-  %575 = or i32 %521, 18, !dbg !257
-  %576 = sext i32 %575 to i64, !dbg !257
-  %577 = getelementptr inbounds half, ptr %C, i64 %576, !dbg !257
-  store half %C.global1.sroa.18.36.vec.extract, ptr %577, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.38.vec.extract = extractelement <8 x half> %441, i64 3, !dbg !257
-  %578 = or i32 %521, 19, !dbg !257
-  %579 = sext i32 %578 to i64, !dbg !257
-  %580 = getelementptr inbounds half, ptr %C, i64 %579, !dbg !257
-  store half %C.global1.sroa.18.38.vec.extract, ptr %580, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.40.vec.extract = extractelement <8 x half> %441, i64 4, !dbg !257
-  %581 = or i32 %521, 20, !dbg !257
-  %582 = sext i32 %581 to i64, !dbg !257
-  %583 = getelementptr inbounds half, ptr %C, i64 %582, !dbg !257
-  store half %C.global1.sroa.18.40.vec.extract, ptr %583, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.42.vec.extract = extractelement <8 x half> %441, i64 5, !dbg !257
-  %584 = or i32 %521, 21, !dbg !257
-  %585 = sext i32 %584 to i64, !dbg !257
-  %586 = getelementptr inbounds half, ptr %C, i64 %585, !dbg !257
-  store half %C.global1.sroa.18.42.vec.extract, ptr %586, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.44.vec.extract = extractelement <8 x half> %441, i64 6, !dbg !257
-  %587 = or i32 %521, 22, !dbg !257
-  %588 = sext i32 %587 to i64, !dbg !257
-  %589 = getelementptr inbounds half, ptr %C, i64 %588, !dbg !257
-  store half %C.global1.sroa.18.44.vec.extract, ptr %589, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.18.46.vec.extract = extractelement <8 x half> %441, i64 7, !dbg !257
-  %590 = or i32 %521, 23, !dbg !257
-  %591 = sext i32 %590 to i64, !dbg !257
-  %592 = getelementptr inbounds half, ptr %C, i64 %591, !dbg !257
-  store half %C.global1.sroa.18.46.vec.extract, ptr %592, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.48.vec.extract = extractelement <8 x half> %447, i64 0, !dbg !257
-  %593 = or i32 %521, 24, !dbg !257
-  %594 = sext i32 %593 to i64, !dbg !257
-  %595 = getelementptr inbounds half, ptr %C, i64 %594, !dbg !257
-  store half %C.global1.sroa.27.48.vec.extract, ptr %595, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.50.vec.extract = extractelement <8 x half> %447, i64 1, !dbg !257
-  %596 = or i32 %521, 25, !dbg !257
-  %597 = sext i32 %596 to i64, !dbg !257
-  %598 = getelementptr inbounds half, ptr %C, i64 %597, !dbg !257
-  store half %C.global1.sroa.27.50.vec.extract, ptr %598, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.52.vec.extract = extractelement <8 x half> %447, i64 2, !dbg !257
-  %599 = or i32 %521, 26, !dbg !257
-  %600 = sext i32 %599 to i64, !dbg !257
-  %601 = getelementptr inbounds half, ptr %C, i64 %600, !dbg !257
-  store half %C.global1.sroa.27.52.vec.extract, ptr %601, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.54.vec.extract = extractelement <8 x half> %447, i64 3, !dbg !257
-  %602 = or i32 %521, 27, !dbg !257
-  %603 = sext i32 %602 to i64, !dbg !257
-  %604 = getelementptr inbounds half, ptr %C, i64 %603, !dbg !257
-  store half %C.global1.sroa.27.54.vec.extract, ptr %604, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.56.vec.extract = extractelement <8 x half> %447, i64 4, !dbg !257
-  %605 = or i32 %521, 28, !dbg !257
-  %606 = sext i32 %605 to i64, !dbg !257
-  %607 = getelementptr inbounds half, ptr %C, i64 %606, !dbg !257
-  store half %C.global1.sroa.27.56.vec.extract, ptr %607, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.58.vec.extract = extractelement <8 x half> %447, i64 5, !dbg !257
-  %608 = or i32 %521, 29, !dbg !257
-  %609 = sext i32 %608 to i64, !dbg !257
-  %610 = getelementptr inbounds half, ptr %C, i64 %609, !dbg !257
-  store half %C.global1.sroa.27.58.vec.extract, ptr %610, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.60.vec.extract = extractelement <8 x half> %447, i64 6, !dbg !257
-  %611 = or i32 %521, 30, !dbg !257
-  %612 = sext i32 %611 to i64, !dbg !257
-  %613 = getelementptr inbounds half, ptr %C, i64 %612, !dbg !257
-  store half %C.global1.sroa.27.60.vec.extract, ptr %613, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.27.62.vec.extract = extractelement <8 x half> %447, i64 7, !dbg !257
-  %614 = or i32 %521, 31, !dbg !257
-  %615 = sext i32 %614 to i64, !dbg !257
-  %616 = getelementptr inbounds half, ptr %C, i64 %615, !dbg !257
-  store half %C.global1.sroa.27.62.vec.extract, ptr %616, align 2, !dbg !257, !tbaa !276
-  call void @llvm.dbg.declare(metadata i64 1, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 1, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 32, metadata !274, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 32, metadata !274, metadata !DIExpression()), !dbg !257
-  %617 = or i64 %522, 32, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %617, metadata !275, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %617, metadata !275, metadata !DIExpression()), !dbg !257
-  %C.global1.sroa.36.64.vec.extract = extractelement <8 x half> %453, i64 0, !dbg !257
-  %618 = getelementptr inbounds half, ptr %C, i64 %617, !dbg !257
-  store half %C.global1.sroa.36.64.vec.extract, ptr %618, align 64, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.66.vec.extract = extractelement <8 x half> %453, i64 1, !dbg !257
-  %619 = or i32 %521, 33, !dbg !257
-  %620 = sext i32 %619 to i64, !dbg !257
-  %621 = getelementptr inbounds half, ptr %C, i64 %620, !dbg !257
-  store half %C.global1.sroa.36.66.vec.extract, ptr %621, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.68.vec.extract = extractelement <8 x half> %453, i64 2, !dbg !257
-  %622 = or i32 %521, 34, !dbg !257
-  %623 = sext i32 %622 to i64, !dbg !257
-  %624 = getelementptr inbounds half, ptr %C, i64 %623, !dbg !257
-  store half %C.global1.sroa.36.68.vec.extract, ptr %624, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.70.vec.extract = extractelement <8 x half> %453, i64 3, !dbg !257
-  %625 = or i32 %521, 35, !dbg !257
-  %626 = sext i32 %625 to i64, !dbg !257
-  %627 = getelementptr inbounds half, ptr %C, i64 %626, !dbg !257
-  store half %C.global1.sroa.36.70.vec.extract, ptr %627, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.72.vec.extract = extractelement <8 x half> %453, i64 4, !dbg !257
-  %628 = or i32 %521, 36, !dbg !257
-  %629 = sext i32 %628 to i64, !dbg !257
-  %630 = getelementptr inbounds half, ptr %C, i64 %629, !dbg !257
-  store half %C.global1.sroa.36.72.vec.extract, ptr %630, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.74.vec.extract = extractelement <8 x half> %453, i64 5, !dbg !257
-  %631 = or i32 %521, 37, !dbg !257
-  %632 = sext i32 %631 to i64, !dbg !257
-  %633 = getelementptr inbounds half, ptr %C, i64 %632, !dbg !257
-  store half %C.global1.sroa.36.74.vec.extract, ptr %633, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.76.vec.extract = extractelement <8 x half> %453, i64 6, !dbg !257
-  %634 = or i32 %521, 38, !dbg !257
-  %635 = sext i32 %634 to i64, !dbg !257
-  %636 = getelementptr inbounds half, ptr %C, i64 %635, !dbg !257
-  store half %C.global1.sroa.36.76.vec.extract, ptr %636, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.36.78.vec.extract = extractelement <8 x half> %453, i64 7, !dbg !257
-  %637 = or i32 %521, 39, !dbg !257
-  %638 = sext i32 %637 to i64, !dbg !257
-  %639 = getelementptr inbounds half, ptr %C, i64 %638, !dbg !257
-  store half %C.global1.sroa.36.78.vec.extract, ptr %639, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.80.vec.extract = extractelement <8 x half> %459, i64 0, !dbg !257
-  %640 = or i32 %521, 40, !dbg !257
-  %641 = sext i32 %640 to i64, !dbg !257
-  %642 = getelementptr inbounds half, ptr %C, i64 %641, !dbg !257
-  store half %C.global1.sroa.45.80.vec.extract, ptr %642, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.82.vec.extract = extractelement <8 x half> %459, i64 1, !dbg !257
-  %643 = or i32 %521, 41, !dbg !257
-  %644 = sext i32 %643 to i64, !dbg !257
-  %645 = getelementptr inbounds half, ptr %C, i64 %644, !dbg !257
-  store half %C.global1.sroa.45.82.vec.extract, ptr %645, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.84.vec.extract = extractelement <8 x half> %459, i64 2, !dbg !257
-  %646 = or i32 %521, 42, !dbg !257
-  %647 = sext i32 %646 to i64, !dbg !257
-  %648 = getelementptr inbounds half, ptr %C, i64 %647, !dbg !257
-  store half %C.global1.sroa.45.84.vec.extract, ptr %648, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.86.vec.extract = extractelement <8 x half> %459, i64 3, !dbg !257
-  %649 = or i32 %521, 43, !dbg !257
-  %650 = sext i32 %649 to i64, !dbg !257
-  %651 = getelementptr inbounds half, ptr %C, i64 %650, !dbg !257
-  store half %C.global1.sroa.45.86.vec.extract, ptr %651, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.88.vec.extract = extractelement <8 x half> %459, i64 4, !dbg !257
-  %652 = or i32 %521, 44, !dbg !257
-  %653 = sext i32 %652 to i64, !dbg !257
-  %654 = getelementptr inbounds half, ptr %C, i64 %653, !dbg !257
-  store half %C.global1.sroa.45.88.vec.extract, ptr %654, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.90.vec.extract = extractelement <8 x half> %459, i64 5, !dbg !257
-  %655 = or i32 %521, 45, !dbg !257
-  %656 = sext i32 %655 to i64, !dbg !257
-  %657 = getelementptr inbounds half, ptr %C, i64 %656, !dbg !257
-  store half %C.global1.sroa.45.90.vec.extract, ptr %657, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.92.vec.extract = extractelement <8 x half> %459, i64 6, !dbg !257
-  %658 = or i32 %521, 46, !dbg !257
-  %659 = sext i32 %658 to i64, !dbg !257
-  %660 = getelementptr inbounds half, ptr %C, i64 %659, !dbg !257
-  store half %C.global1.sroa.45.92.vec.extract, ptr %660, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.45.94.vec.extract = extractelement <8 x half> %459, i64 7, !dbg !257
-  %661 = or i32 %521, 47, !dbg !257
-  %662 = sext i32 %661 to i64, !dbg !257
-  %663 = getelementptr inbounds half, ptr %C, i64 %662, !dbg !257
-  store half %C.global1.sroa.45.94.vec.extract, ptr %663, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.96.vec.extract = extractelement <8 x half> %465, i64 0, !dbg !257
-  %664 = or i32 %521, 48, !dbg !257
-  %665 = sext i32 %664 to i64, !dbg !257
-  %666 = getelementptr inbounds half, ptr %C, i64 %665, !dbg !257
-  store half %C.global1.sroa.54.96.vec.extract, ptr %666, align 32, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.98.vec.extract = extractelement <8 x half> %465, i64 1, !dbg !257
-  %667 = or i32 %521, 49, !dbg !257
-  %668 = sext i32 %667 to i64, !dbg !257
-  %669 = getelementptr inbounds half, ptr %C, i64 %668, !dbg !257
-  store half %C.global1.sroa.54.98.vec.extract, ptr %669, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.100.vec.extract = extractelement <8 x half> %465, i64 2, !dbg !257
-  %670 = or i32 %521, 50, !dbg !257
-  %671 = sext i32 %670 to i64, !dbg !257
-  %672 = getelementptr inbounds half, ptr %C, i64 %671, !dbg !257
-  store half %C.global1.sroa.54.100.vec.extract, ptr %672, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.102.vec.extract = extractelement <8 x half> %465, i64 3, !dbg !257
-  %673 = or i32 %521, 51, !dbg !257
-  %674 = sext i32 %673 to i64, !dbg !257
-  %675 = getelementptr inbounds half, ptr %C, i64 %674, !dbg !257
-  store half %C.global1.sroa.54.102.vec.extract, ptr %675, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.104.vec.extract = extractelement <8 x half> %465, i64 4, !dbg !257
-  %676 = or i32 %521, 52, !dbg !257
-  %677 = sext i32 %676 to i64, !dbg !257
-  %678 = getelementptr inbounds half, ptr %C, i64 %677, !dbg !257
-  store half %C.global1.sroa.54.104.vec.extract, ptr %678, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.106.vec.extract = extractelement <8 x half> %465, i64 5, !dbg !257
-  %679 = or i32 %521, 53, !dbg !257
-  %680 = sext i32 %679 to i64, !dbg !257
-  %681 = getelementptr inbounds half, ptr %C, i64 %680, !dbg !257
-  store half %C.global1.sroa.54.106.vec.extract, ptr %681, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.108.vec.extract = extractelement <8 x half> %465, i64 6, !dbg !257
-  %682 = or i32 %521, 54, !dbg !257
-  %683 = sext i32 %682 to i64, !dbg !257
-  %684 = getelementptr inbounds half, ptr %C, i64 %683, !dbg !257
-  store half %C.global1.sroa.54.108.vec.extract, ptr %684, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.54.110.vec.extract = extractelement <8 x half> %465, i64 7, !dbg !257
-  %685 = or i32 %521, 55, !dbg !257
-  %686 = sext i32 %685 to i64, !dbg !257
-  %687 = getelementptr inbounds half, ptr %C, i64 %686, !dbg !257
-  store half %C.global1.sroa.54.110.vec.extract, ptr %687, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.112.vec.extract = extractelement <8 x half> %471, i64 0, !dbg !257
-  %688 = or i32 %521, 56, !dbg !257
-  %689 = sext i32 %688 to i64, !dbg !257
-  %690 = getelementptr inbounds half, ptr %C, i64 %689, !dbg !257
-  store half %C.global1.sroa.63.112.vec.extract, ptr %690, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.114.vec.extract = extractelement <8 x half> %471, i64 1, !dbg !257
-  %691 = or i32 %521, 57, !dbg !257
-  %692 = sext i32 %691 to i64, !dbg !257
-  %693 = getelementptr inbounds half, ptr %C, i64 %692, !dbg !257
-  store half %C.global1.sroa.63.114.vec.extract, ptr %693, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.116.vec.extract = extractelement <8 x half> %471, i64 2, !dbg !257
-  %694 = or i32 %521, 58, !dbg !257
-  %695 = sext i32 %694 to i64, !dbg !257
-  %696 = getelementptr inbounds half, ptr %C, i64 %695, !dbg !257
-  store half %C.global1.sroa.63.116.vec.extract, ptr %696, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.118.vec.extract = extractelement <8 x half> %471, i64 3, !dbg !257
-  %697 = or i32 %521, 59, !dbg !257
-  %698 = sext i32 %697 to i64, !dbg !257
-  %699 = getelementptr inbounds half, ptr %C, i64 %698, !dbg !257
-  store half %C.global1.sroa.63.118.vec.extract, ptr %699, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.120.vec.extract = extractelement <8 x half> %471, i64 4, !dbg !257
-  %700 = or i32 %521, 60, !dbg !257
-  %701 = sext i32 %700 to i64, !dbg !257
-  %702 = getelementptr inbounds half, ptr %C, i64 %701, !dbg !257
-  store half %C.global1.sroa.63.120.vec.extract, ptr %702, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.122.vec.extract = extractelement <8 x half> %471, i64 5, !dbg !257
-  %703 = or i32 %521, 61, !dbg !257
-  %704 = sext i32 %703 to i64, !dbg !257
-  %705 = getelementptr inbounds half, ptr %C, i64 %704, !dbg !257
-  store half %C.global1.sroa.63.122.vec.extract, ptr %705, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.124.vec.extract = extractelement <8 x half> %471, i64 6, !dbg !257
-  %706 = or i32 %521, 62, !dbg !257
-  %707 = sext i32 %706 to i64, !dbg !257
-  %708 = getelementptr inbounds half, ptr %C, i64 %707, !dbg !257
-  store half %C.global1.sroa.63.124.vec.extract, ptr %708, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.63.126.vec.extract = extractelement <8 x half> %471, i64 7, !dbg !257
-  %709 = or i32 %521, 63, !dbg !257
-  %710 = sext i32 %709 to i64, !dbg !257
-  %711 = getelementptr inbounds half, ptr %C, i64 %710, !dbg !257
-  store half %C.global1.sroa.63.126.vec.extract, ptr %711, align 2, !dbg !257, !tbaa !276
-  call void @llvm.dbg.declare(metadata i64 2, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 2, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !274, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 64, metadata !274, metadata !DIExpression()), !dbg !257
-  %712 = or i64 %522, 64, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %712, metadata !275, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %712, metadata !275, metadata !DIExpression()), !dbg !257
-  %C.global1.sroa.72.128.vec.extract = extractelement <8 x half> %477, i64 0, !dbg !257
-  %713 = getelementptr inbounds half, ptr %C, i64 %712, !dbg !257
-  store half %C.global1.sroa.72.128.vec.extract, ptr %713, align 64, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.130.vec.extract = extractelement <8 x half> %477, i64 1, !dbg !257
-  %714 = or i32 %521, 65, !dbg !257
-  %715 = sext i32 %714 to i64, !dbg !257
-  %716 = getelementptr inbounds half, ptr %C, i64 %715, !dbg !257
-  store half %C.global1.sroa.72.130.vec.extract, ptr %716, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.132.vec.extract = extractelement <8 x half> %477, i64 2, !dbg !257
-  %717 = or i32 %521, 66, !dbg !257
-  %718 = sext i32 %717 to i64, !dbg !257
-  %719 = getelementptr inbounds half, ptr %C, i64 %718, !dbg !257
-  store half %C.global1.sroa.72.132.vec.extract, ptr %719, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.134.vec.extract = extractelement <8 x half> %477, i64 3, !dbg !257
-  %720 = or i32 %521, 67, !dbg !257
-  %721 = sext i32 %720 to i64, !dbg !257
-  %722 = getelementptr inbounds half, ptr %C, i64 %721, !dbg !257
-  store half %C.global1.sroa.72.134.vec.extract, ptr %722, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.136.vec.extract = extractelement <8 x half> %477, i64 4, !dbg !257
-  %723 = or i32 %521, 68, !dbg !257
-  %724 = sext i32 %723 to i64, !dbg !257
-  %725 = getelementptr inbounds half, ptr %C, i64 %724, !dbg !257
-  store half %C.global1.sroa.72.136.vec.extract, ptr %725, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.138.vec.extract = extractelement <8 x half> %477, i64 5, !dbg !257
-  %726 = or i32 %521, 69, !dbg !257
-  %727 = sext i32 %726 to i64, !dbg !257
-  %728 = getelementptr inbounds half, ptr %C, i64 %727, !dbg !257
-  store half %C.global1.sroa.72.138.vec.extract, ptr %728, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.140.vec.extract = extractelement <8 x half> %477, i64 6, !dbg !257
-  %729 = or i32 %521, 70, !dbg !257
-  %730 = sext i32 %729 to i64, !dbg !257
-  %731 = getelementptr inbounds half, ptr %C, i64 %730, !dbg !257
-  store half %C.global1.sroa.72.140.vec.extract, ptr %731, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.72.142.vec.extract = extractelement <8 x half> %477, i64 7, !dbg !257
-  %732 = or i32 %521, 71, !dbg !257
-  %733 = sext i32 %732 to i64, !dbg !257
-  %734 = getelementptr inbounds half, ptr %C, i64 %733, !dbg !257
-  store half %C.global1.sroa.72.142.vec.extract, ptr %734, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.144.vec.extract = extractelement <8 x half> %483, i64 0, !dbg !257
-  %735 = or i32 %521, 72, !dbg !257
-  %736 = sext i32 %735 to i64, !dbg !257
-  %737 = getelementptr inbounds half, ptr %C, i64 %736, !dbg !257
-  store half %C.global1.sroa.81.144.vec.extract, ptr %737, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.146.vec.extract = extractelement <8 x half> %483, i64 1, !dbg !257
-  %738 = or i32 %521, 73, !dbg !257
-  %739 = sext i32 %738 to i64, !dbg !257
-  %740 = getelementptr inbounds half, ptr %C, i64 %739, !dbg !257
-  store half %C.global1.sroa.81.146.vec.extract, ptr %740, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.148.vec.extract = extractelement <8 x half> %483, i64 2, !dbg !257
-  %741 = or i32 %521, 74, !dbg !257
-  %742 = sext i32 %741 to i64, !dbg !257
-  %743 = getelementptr inbounds half, ptr %C, i64 %742, !dbg !257
-  store half %C.global1.sroa.81.148.vec.extract, ptr %743, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.150.vec.extract = extractelement <8 x half> %483, i64 3, !dbg !257
-  %744 = or i32 %521, 75, !dbg !257
-  %745 = sext i32 %744 to i64, !dbg !257
-  %746 = getelementptr inbounds half, ptr %C, i64 %745, !dbg !257
-  store half %C.global1.sroa.81.150.vec.extract, ptr %746, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.152.vec.extract = extractelement <8 x half> %483, i64 4, !dbg !257
-  %747 = or i32 %521, 76, !dbg !257
-  %748 = sext i32 %747 to i64, !dbg !257
-  %749 = getelementptr inbounds half, ptr %C, i64 %748, !dbg !257
-  store half %C.global1.sroa.81.152.vec.extract, ptr %749, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.154.vec.extract = extractelement <8 x half> %483, i64 5, !dbg !257
-  %750 = or i32 %521, 77, !dbg !257
-  %751 = sext i32 %750 to i64, !dbg !257
-  %752 = getelementptr inbounds half, ptr %C, i64 %751, !dbg !257
-  store half %C.global1.sroa.81.154.vec.extract, ptr %752, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.156.vec.extract = extractelement <8 x half> %483, i64 6, !dbg !257
-  %753 = or i32 %521, 78, !dbg !257
-  %754 = sext i32 %753 to i64, !dbg !257
-  %755 = getelementptr inbounds half, ptr %C, i64 %754, !dbg !257
-  store half %C.global1.sroa.81.156.vec.extract, ptr %755, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.81.158.vec.extract = extractelement <8 x half> %483, i64 7, !dbg !257
-  %756 = or i32 %521, 79, !dbg !257
-  %757 = sext i32 %756 to i64, !dbg !257
-  %758 = getelementptr inbounds half, ptr %C, i64 %757, !dbg !257
-  store half %C.global1.sroa.81.158.vec.extract, ptr %758, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.160.vec.extract = extractelement <8 x half> %489, i64 0, !dbg !257
-  %759 = or i32 %521, 80, !dbg !257
-  %760 = sext i32 %759 to i64, !dbg !257
-  %761 = getelementptr inbounds half, ptr %C, i64 %760, !dbg !257
-  store half %C.global1.sroa.90.160.vec.extract, ptr %761, align 32, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.162.vec.extract = extractelement <8 x half> %489, i64 1, !dbg !257
-  %762 = or i32 %521, 81, !dbg !257
-  %763 = sext i32 %762 to i64, !dbg !257
-  %764 = getelementptr inbounds half, ptr %C, i64 %763, !dbg !257
-  store half %C.global1.sroa.90.162.vec.extract, ptr %764, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.164.vec.extract = extractelement <8 x half> %489, i64 2, !dbg !257
-  %765 = or i32 %521, 82, !dbg !257
-  %766 = sext i32 %765 to i64, !dbg !257
-  %767 = getelementptr inbounds half, ptr %C, i64 %766, !dbg !257
-  store half %C.global1.sroa.90.164.vec.extract, ptr %767, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.166.vec.extract = extractelement <8 x half> %489, i64 3, !dbg !257
-  %768 = or i32 %521, 83, !dbg !257
-  %769 = sext i32 %768 to i64, !dbg !257
-  %770 = getelementptr inbounds half, ptr %C, i64 %769, !dbg !257
-  store half %C.global1.sroa.90.166.vec.extract, ptr %770, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.168.vec.extract = extractelement <8 x half> %489, i64 4, !dbg !257
-  %771 = or i32 %521, 84, !dbg !257
-  %772 = sext i32 %771 to i64, !dbg !257
-  %773 = getelementptr inbounds half, ptr %C, i64 %772, !dbg !257
-  store half %C.global1.sroa.90.168.vec.extract, ptr %773, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.170.vec.extract = extractelement <8 x half> %489, i64 5, !dbg !257
-  %774 = or i32 %521, 85, !dbg !257
-  %775 = sext i32 %774 to i64, !dbg !257
-  %776 = getelementptr inbounds half, ptr %C, i64 %775, !dbg !257
-  store half %C.global1.sroa.90.170.vec.extract, ptr %776, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.172.vec.extract = extractelement <8 x half> %489, i64 6, !dbg !257
-  %777 = or i32 %521, 86, !dbg !257
-  %778 = sext i32 %777 to i64, !dbg !257
-  %779 = getelementptr inbounds half, ptr %C, i64 %778, !dbg !257
-  store half %C.global1.sroa.90.172.vec.extract, ptr %779, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.90.174.vec.extract = extractelement <8 x half> %489, i64 7, !dbg !257
-  %780 = or i32 %521, 87, !dbg !257
-  %781 = sext i32 %780 to i64, !dbg !257
-  %782 = getelementptr inbounds half, ptr %C, i64 %781, !dbg !257
-  store half %C.global1.sroa.90.174.vec.extract, ptr %782, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.176.vec.extract = extractelement <8 x half> %495, i64 0, !dbg !257
-  %783 = or i32 %521, 88, !dbg !257
-  %784 = sext i32 %783 to i64, !dbg !257
-  %785 = getelementptr inbounds half, ptr %C, i64 %784, !dbg !257
-  store half %C.global1.sroa.99.176.vec.extract, ptr %785, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.178.vec.extract = extractelement <8 x half> %495, i64 1, !dbg !257
-  %786 = or i32 %521, 89, !dbg !257
-  %787 = sext i32 %786 to i64, !dbg !257
-  %788 = getelementptr inbounds half, ptr %C, i64 %787, !dbg !257
-  store half %C.global1.sroa.99.178.vec.extract, ptr %788, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.180.vec.extract = extractelement <8 x half> %495, i64 2, !dbg !257
-  %789 = or i32 %521, 90, !dbg !257
-  %790 = sext i32 %789 to i64, !dbg !257
-  %791 = getelementptr inbounds half, ptr %C, i64 %790, !dbg !257
-  store half %C.global1.sroa.99.180.vec.extract, ptr %791, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.182.vec.extract = extractelement <8 x half> %495, i64 3, !dbg !257
-  %792 = or i32 %521, 91, !dbg !257
-  %793 = sext i32 %792 to i64, !dbg !257
-  %794 = getelementptr inbounds half, ptr %C, i64 %793, !dbg !257
-  store half %C.global1.sroa.99.182.vec.extract, ptr %794, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.184.vec.extract = extractelement <8 x half> %495, i64 4, !dbg !257
-  %795 = or i32 %521, 92, !dbg !257
-  %796 = sext i32 %795 to i64, !dbg !257
-  %797 = getelementptr inbounds half, ptr %C, i64 %796, !dbg !257
-  store half %C.global1.sroa.99.184.vec.extract, ptr %797, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.186.vec.extract = extractelement <8 x half> %495, i64 5, !dbg !257
-  %798 = or i32 %521, 93, !dbg !257
-  %799 = sext i32 %798 to i64, !dbg !257
-  %800 = getelementptr inbounds half, ptr %C, i64 %799, !dbg !257
-  store half %C.global1.sroa.99.186.vec.extract, ptr %800, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.188.vec.extract = extractelement <8 x half> %495, i64 6, !dbg !257
-  %801 = or i32 %521, 94, !dbg !257
-  %802 = sext i32 %801 to i64, !dbg !257
-  %803 = getelementptr inbounds half, ptr %C, i64 %802, !dbg !257
-  store half %C.global1.sroa.99.188.vec.extract, ptr %803, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.99.190.vec.extract = extractelement <8 x half> %495, i64 7, !dbg !257
-  %804 = or i32 %521, 95, !dbg !257
-  %805 = sext i32 %804 to i64, !dbg !257
-  %806 = getelementptr inbounds half, ptr %C, i64 %805, !dbg !257
-  store half %C.global1.sroa.99.190.vec.extract, ptr %806, align 2, !dbg !257, !tbaa !276
-  call void @llvm.dbg.declare(metadata i64 3, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 3, metadata !273, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 96, metadata !274, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 96, metadata !274, metadata !DIExpression()), !dbg !257
-  %807 = or i64 %522, 96, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %807, metadata !275, metadata !DIExpression()), !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %807, metadata !275, metadata !DIExpression()), !dbg !257
-  %C.global1.sroa.108.192.vec.extract = extractelement <8 x half> %501, i64 0, !dbg !257
-  %808 = getelementptr inbounds half, ptr %C, i64 %807, !dbg !257
-  store half %C.global1.sroa.108.192.vec.extract, ptr %808, align 64, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.194.vec.extract = extractelement <8 x half> %501, i64 1, !dbg !257
-  %809 = or i32 %521, 97, !dbg !257
-  %810 = sext i32 %809 to i64, !dbg !257
-  %811 = getelementptr inbounds half, ptr %C, i64 %810, !dbg !257
-  store half %C.global1.sroa.108.194.vec.extract, ptr %811, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.196.vec.extract = extractelement <8 x half> %501, i64 2, !dbg !257
-  %812 = or i32 %521, 98, !dbg !257
-  %813 = sext i32 %812 to i64, !dbg !257
-  %814 = getelementptr inbounds half, ptr %C, i64 %813, !dbg !257
-  store half %C.global1.sroa.108.196.vec.extract, ptr %814, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.198.vec.extract = extractelement <8 x half> %501, i64 3, !dbg !257
-  %815 = or i32 %521, 99, !dbg !257
-  %816 = sext i32 %815 to i64, !dbg !257
-  %817 = getelementptr inbounds half, ptr %C, i64 %816, !dbg !257
-  store half %C.global1.sroa.108.198.vec.extract, ptr %817, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.200.vec.extract = extractelement <8 x half> %501, i64 4, !dbg !257
-  %818 = or i32 %521, 100, !dbg !257
-  %819 = sext i32 %818 to i64, !dbg !257
-  %820 = getelementptr inbounds half, ptr %C, i64 %819, !dbg !257
-  store half %C.global1.sroa.108.200.vec.extract, ptr %820, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.202.vec.extract = extractelement <8 x half> %501, i64 5, !dbg !257
-  %821 = or i32 %521, 101, !dbg !257
-  %822 = sext i32 %821 to i64, !dbg !257
-  %823 = getelementptr inbounds half, ptr %C, i64 %822, !dbg !257
-  store half %C.global1.sroa.108.202.vec.extract, ptr %823, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.204.vec.extract = extractelement <8 x half> %501, i64 6, !dbg !257
-  %824 = or i32 %521, 102, !dbg !257
-  %825 = sext i32 %824 to i64, !dbg !257
-  %826 = getelementptr inbounds half, ptr %C, i64 %825, !dbg !257
-  store half %C.global1.sroa.108.204.vec.extract, ptr %826, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.108.206.vec.extract = extractelement <8 x half> %501, i64 7, !dbg !257
-  %827 = or i32 %521, 103, !dbg !257
-  %828 = sext i32 %827 to i64, !dbg !257
-  %829 = getelementptr inbounds half, ptr %C, i64 %828, !dbg !257
-  store half %C.global1.sroa.108.206.vec.extract, ptr %829, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.208.vec.extract = extractelement <8 x half> %507, i64 0, !dbg !257
-  %830 = or i32 %521, 104, !dbg !257
-  %831 = sext i32 %830 to i64, !dbg !257
-  %832 = getelementptr inbounds half, ptr %C, i64 %831, !dbg !257
-  store half %C.global1.sroa.117.208.vec.extract, ptr %832, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.210.vec.extract = extractelement <8 x half> %507, i64 1, !dbg !257
-  %833 = or i32 %521, 105, !dbg !257
-  %834 = sext i32 %833 to i64, !dbg !257
-  %835 = getelementptr inbounds half, ptr %C, i64 %834, !dbg !257
-  store half %C.global1.sroa.117.210.vec.extract, ptr %835, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.212.vec.extract = extractelement <8 x half> %507, i64 2, !dbg !257
-  %836 = or i32 %521, 106, !dbg !257
-  %837 = sext i32 %836 to i64, !dbg !257
-  %838 = getelementptr inbounds half, ptr %C, i64 %837, !dbg !257
-  store half %C.global1.sroa.117.212.vec.extract, ptr %838, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.214.vec.extract = extractelement <8 x half> %507, i64 3, !dbg !257
-  %839 = or i32 %521, 107, !dbg !257
-  %840 = sext i32 %839 to i64, !dbg !257
-  %841 = getelementptr inbounds half, ptr %C, i64 %840, !dbg !257
-  store half %C.global1.sroa.117.214.vec.extract, ptr %841, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.216.vec.extract = extractelement <8 x half> %507, i64 4, !dbg !257
-  %842 = or i32 %521, 108, !dbg !257
-  %843 = sext i32 %842 to i64, !dbg !257
-  %844 = getelementptr inbounds half, ptr %C, i64 %843, !dbg !257
-  store half %C.global1.sroa.117.216.vec.extract, ptr %844, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.218.vec.extract = extractelement <8 x half> %507, i64 5, !dbg !257
-  %845 = or i32 %521, 109, !dbg !257
-  %846 = sext i32 %845 to i64, !dbg !257
-  %847 = getelementptr inbounds half, ptr %C, i64 %846, !dbg !257
-  store half %C.global1.sroa.117.218.vec.extract, ptr %847, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.220.vec.extract = extractelement <8 x half> %507, i64 6, !dbg !257
-  %848 = or i32 %521, 110, !dbg !257
-  %849 = sext i32 %848 to i64, !dbg !257
-  %850 = getelementptr inbounds half, ptr %C, i64 %849, !dbg !257
-  store half %C.global1.sroa.117.220.vec.extract, ptr %850, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.117.222.vec.extract = extractelement <8 x half> %507, i64 7, !dbg !257
-  %851 = or i32 %521, 111, !dbg !257
-  %852 = sext i32 %851 to i64, !dbg !257
-  %853 = getelementptr inbounds half, ptr %C, i64 %852, !dbg !257
-  store half %C.global1.sroa.117.222.vec.extract, ptr %853, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.224.vec.extract = extractelement <8 x half> %513, i64 0, !dbg !257
-  %854 = or i32 %521, 112, !dbg !257
-  %855 = sext i32 %854 to i64, !dbg !257
-  %856 = getelementptr inbounds half, ptr %C, i64 %855, !dbg !257
-  store half %C.global1.sroa.126.224.vec.extract, ptr %856, align 32, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.226.vec.extract = extractelement <8 x half> %513, i64 1, !dbg !257
-  %857 = or i32 %521, 113, !dbg !257
-  %858 = sext i32 %857 to i64, !dbg !257
-  %859 = getelementptr inbounds half, ptr %C, i64 %858, !dbg !257
-  store half %C.global1.sroa.126.226.vec.extract, ptr %859, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.228.vec.extract = extractelement <8 x half> %513, i64 2, !dbg !257
-  %860 = or i32 %521, 114, !dbg !257
-  %861 = sext i32 %860 to i64, !dbg !257
-  %862 = getelementptr inbounds half, ptr %C, i64 %861, !dbg !257
-  store half %C.global1.sroa.126.228.vec.extract, ptr %862, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.230.vec.extract = extractelement <8 x half> %513, i64 3, !dbg !257
-  %863 = or i32 %521, 115, !dbg !257
-  %864 = sext i32 %863 to i64, !dbg !257
-  %865 = getelementptr inbounds half, ptr %C, i64 %864, !dbg !257
-  store half %C.global1.sroa.126.230.vec.extract, ptr %865, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.232.vec.extract = extractelement <8 x half> %513, i64 4, !dbg !257
-  %866 = or i32 %521, 116, !dbg !257
-  %867 = sext i32 %866 to i64, !dbg !257
-  %868 = getelementptr inbounds half, ptr %C, i64 %867, !dbg !257
-  store half %C.global1.sroa.126.232.vec.extract, ptr %868, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.234.vec.extract = extractelement <8 x half> %513, i64 5, !dbg !257
-  %869 = or i32 %521, 117, !dbg !257
-  %870 = sext i32 %869 to i64, !dbg !257
-  %871 = getelementptr inbounds half, ptr %C, i64 %870, !dbg !257
-  store half %C.global1.sroa.126.234.vec.extract, ptr %871, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.236.vec.extract = extractelement <8 x half> %513, i64 6, !dbg !257
-  %872 = or i32 %521, 118, !dbg !257
-  %873 = sext i32 %872 to i64, !dbg !257
-  %874 = getelementptr inbounds half, ptr %C, i64 %873, !dbg !257
-  store half %C.global1.sroa.126.236.vec.extract, ptr %874, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.126.238.vec.extract = extractelement <8 x half> %513, i64 7, !dbg !257
-  %875 = or i32 %521, 119, !dbg !257
-  %876 = sext i32 %875 to i64, !dbg !257
-  %877 = getelementptr inbounds half, ptr %C, i64 %876, !dbg !257
-  store half %C.global1.sroa.126.238.vec.extract, ptr %877, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.240.vec.extract = extractelement <8 x half> %519, i64 0, !dbg !257
-  %878 = or i32 %521, 120, !dbg !257
-  %879 = sext i32 %878 to i64, !dbg !257
-  %880 = getelementptr inbounds half, ptr %C, i64 %879, !dbg !257
-  store half %C.global1.sroa.135.240.vec.extract, ptr %880, align 16, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.242.vec.extract = extractelement <8 x half> %519, i64 1, !dbg !257
-  %881 = or i32 %521, 121, !dbg !257
-  %882 = sext i32 %881 to i64, !dbg !257
-  %883 = getelementptr inbounds half, ptr %C, i64 %882, !dbg !257
-  store half %C.global1.sroa.135.242.vec.extract, ptr %883, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.244.vec.extract = extractelement <8 x half> %519, i64 2, !dbg !257
-  %884 = or i32 %521, 122, !dbg !257
-  %885 = sext i32 %884 to i64, !dbg !257
-  %886 = getelementptr inbounds half, ptr %C, i64 %885, !dbg !257
-  store half %C.global1.sroa.135.244.vec.extract, ptr %886, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.246.vec.extract = extractelement <8 x half> %519, i64 3, !dbg !257
-  %887 = or i32 %521, 123, !dbg !257
-  %888 = sext i32 %887 to i64, !dbg !257
-  %889 = getelementptr inbounds half, ptr %C, i64 %888, !dbg !257
-  store half %C.global1.sroa.135.246.vec.extract, ptr %889, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.248.vec.extract = extractelement <8 x half> %519, i64 4, !dbg !257
-  %890 = or i32 %521, 124, !dbg !257
-  %891 = sext i32 %890 to i64, !dbg !257
-  %892 = getelementptr inbounds half, ptr %C, i64 %891, !dbg !257
-  store half %C.global1.sroa.135.248.vec.extract, ptr %892, align 8, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.250.vec.extract = extractelement <8 x half> %519, i64 5, !dbg !257
-  %893 = or i32 %521, 125, !dbg !257
-  %894 = sext i32 %893 to i64, !dbg !257
-  %895 = getelementptr inbounds half, ptr %C, i64 %894, !dbg !257
-  store half %C.global1.sroa.135.250.vec.extract, ptr %895, align 2, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.252.vec.extract = extractelement <8 x half> %519, i64 6, !dbg !257
-  %896 = or i32 %521, 126, !dbg !257
-  %897 = sext i32 %896 to i64, !dbg !257
-  %898 = getelementptr inbounds half, ptr %C, i64 %897, !dbg !257
-  store half %C.global1.sroa.135.252.vec.extract, ptr %898, align 4, !dbg !257, !tbaa !276
-  %C.global1.sroa.135.254.vec.extract = extractelement <8 x half> %519, i64 7, !dbg !257
-  %899 = or i32 %521, 127, !dbg !257
-  %900 = sext i32 %899 to i64, !dbg !257
-  %901 = getelementptr inbounds half, ptr %C, i64 %900, !dbg !257
-  store half %C.global1.sroa.135.254.vec.extract, ptr %901, align 2, !dbg !257, !tbaa !276
-  call void @llvm.dbg.declare(metadata i64 4, metadata !273, metadata !DIExpression()), !dbg !257
-  %indvars.iv.next21 = add nsw i64 %indvars.iv20, 1, !dbg !257
-  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next21, metadata !258, metadata !DIExpression()), !dbg !257
-  %lftr.wideiv = trunc i64 %indvars.iv.next21 to i32, !dbg !257
-  %exitcond22.not = icmp eq i32 %18, %lftr.wideiv, !dbg !257
-  br i1 %exitcond22.not, label %for_end_m.outer, label %for_body_m.outer, !dbg !257, !prof !29
+for_begin_m.inner.outer.preheader:                ; preds = %for_body_m.c.outer
+  %371 = shl nsw i64 %indvars.iv28, 9
+  call void @llvm.dbg.declare(metadata i32 0, metadata !270, metadata !DIExpression()), !dbg !259
+  br label %for_body_m.inner.outer, !dbg !259
+
+for_body_m.c.outer:                               ; preds = %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit, %for_body_m.c.outer
+  %indvars.iv16 = phi i64 [ %indvars.iv.next17, %for_body_m.c.outer ], [ 0, %tbl_g4_int8_float_update_strue_k16_b2_ak16_fafalse_zfalse_osfalse.exit ]
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv16, metadata !271, metadata !DIExpression()), !dbg !259
+  %372 = shl nuw nsw i64 %indvars.iv16, 6, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %372, metadata !272, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %372, metadata !272, metadata !DIExpression()), !dbg !259
+  %373 = shl nuw nsw i64 %indvars.iv16, 5, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %373, metadata !273, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %373, metadata !273, metadata !DIExpression()), !dbg !259
+  %374 = getelementptr inbounds half, ptr %CBits, i64 %372, !dbg !259
+  %375 = or i64 %372, 8, !dbg !259
+  %376 = getelementptr inbounds half, ptr %CBits, i64 %375, !dbg !259
+  %377 = getelementptr inbounds half, ptr %C.global, i64 %373, !dbg !259
+  %378 = load <8 x half>, ptr %374, align 64, !dbg !259, !tbaa !274
+  %379 = fpext <8 x half> %378 to <8 x float>, !dbg !259
+  %380 = load <8 x half>, ptr %376, align 16, !dbg !259, !tbaa !274
+  %381 = fpext <8 x half> %380 to <8 x float>, !dbg !259
+  %382 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %379, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %381), !dbg !259
+  %383 = fptrunc <8 x float> %382 to <8 x half>, !dbg !259
+  store <8 x half> %383, ptr %377, align 64, !dbg !259, !tbaa !276
+  %384 = or i64 %372, 16, !dbg !259
+  %385 = getelementptr inbounds half, ptr %CBits, i64 %384, !dbg !259
+  %386 = or i64 %372, 24, !dbg !259
+  %387 = getelementptr inbounds half, ptr %CBits, i64 %386, !dbg !259
+  %388 = or i64 %373, 8, !dbg !259
+  %389 = getelementptr inbounds half, ptr %C.global, i64 %388, !dbg !259
+  %390 = load <8 x half>, ptr %385, align 32, !dbg !259, !tbaa !274
+  %391 = fpext <8 x half> %390 to <8 x float>, !dbg !259
+  %392 = load <8 x half>, ptr %387, align 16, !dbg !259, !tbaa !274
+  %393 = fpext <8 x half> %392 to <8 x float>, !dbg !259
+  %394 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %391, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %393), !dbg !259
+  %395 = fptrunc <8 x float> %394 to <8 x half>, !dbg !259
+  store <8 x half> %395, ptr %389, align 16, !dbg !259, !tbaa !276
+  %396 = or i64 %372, 32, !dbg !259
+  %397 = getelementptr inbounds half, ptr %CBits, i64 %396, !dbg !259
+  %398 = or i64 %372, 40, !dbg !259
+  %399 = getelementptr inbounds half, ptr %CBits, i64 %398, !dbg !259
+  %400 = or i64 %373, 16, !dbg !259
+  %401 = getelementptr inbounds half, ptr %C.global, i64 %400, !dbg !259
+  %402 = load <8 x half>, ptr %397, align 64, !dbg !259, !tbaa !274
+  %403 = fpext <8 x half> %402 to <8 x float>, !dbg !259
+  %404 = load <8 x half>, ptr %399, align 16, !dbg !259, !tbaa !274
+  %405 = fpext <8 x half> %404 to <8 x float>, !dbg !259
+  %406 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %403, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %405), !dbg !259
+  %407 = fptrunc <8 x float> %406 to <8 x half>, !dbg !259
+  store <8 x half> %407, ptr %401, align 32, !dbg !259, !tbaa !276
+  %408 = or i64 %372, 48, !dbg !259
+  %409 = getelementptr inbounds half, ptr %CBits, i64 %408, !dbg !259
+  %410 = or i64 %372, 56, !dbg !259
+  %411 = getelementptr inbounds half, ptr %CBits, i64 %410, !dbg !259
+  %412 = or i64 %373, 24, !dbg !259
+  %413 = getelementptr inbounds half, ptr %C.global, i64 %412, !dbg !259
+  %414 = load <8 x half>, ptr %409, align 32, !dbg !259, !tbaa !274
+  %415 = fpext <8 x half> %414 to <8 x float>, !dbg !259
+  %416 = load <8 x half>, ptr %411, align 16, !dbg !259, !tbaa !274
+  %417 = fpext <8 x half> %416 to <8 x float>, !dbg !259
+  %418 = tail call <8 x float> @llvm.fmuladd.v8f32(<8 x float> %415, <8 x float> <float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01, float 5.000000e-01>, <8 x float> %417), !dbg !259
+  %419 = fptrunc <8 x float> %418 to <8 x half>, !dbg !259
+  store <8 x half> %419, ptr %413, align 16, !dbg !259, !tbaa !276
+  %indvars.iv.next17 = add nuw nsw i64 %indvars.iv16, 1, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next17, metadata !271, metadata !DIExpression()), !dbg !259
+  %exitcond21.not = icmp eq i64 %indvars.iv.next17, 16, !dbg !259
+  br i1 %exitcond21.not, label %for_begin_m.inner.outer.preheader, label %for_body_m.c.outer, !dbg !259, !prof !29
+
+for_body_m.inner.outer:                           ; preds = %for_begin_m.inner.outer.preheader, %for_body_m.inner.outer
+  %indvars.iv22 = phi i64 [ 0, %for_begin_m.inner.outer.preheader ], [ %indvars.iv.next23, %for_body_m.inner.outer ]
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv22, metadata !270, metadata !DIExpression()), !dbg !259
+  %420 = shl nuw nsw i64 %indvars.iv22, 5, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %420, metadata !278, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %420, metadata !278, metadata !DIExpression()), !dbg !259
+  %421 = add nuw nsw i64 %420, %371, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %421, metadata !279, metadata !DIExpression()), !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %421, metadata !279, metadata !DIExpression()), !dbg !259
+  %422 = getelementptr inbounds half, ptr %C.global, i64 %420, !dbg !259
+  %423 = getelementptr inbounds half, ptr %C, i64 %421, !dbg !259
+  %424 = load <8 x half>, ptr %422, align 64, !dbg !259, !tbaa !276
+  store <8 x half> %424, ptr %423, align 64, !dbg !259, !tbaa !280
+  %425 = or i64 %420, 8, !dbg !259
+  %426 = getelementptr inbounds half, ptr %C.global, i64 %425, !dbg !259
+  %427 = or i64 %421, 8, !dbg !259
+  %428 = getelementptr inbounds half, ptr %C, i64 %427, !dbg !259
+  %429 = load <8 x half>, ptr %426, align 16, !dbg !259, !tbaa !276
+  store <8 x half> %429, ptr %428, align 16, !dbg !259, !tbaa !280
+  %430 = or i64 %420, 16, !dbg !259
+  %431 = getelementptr inbounds half, ptr %C.global, i64 %430, !dbg !259
+  %432 = or i64 %421, 16, !dbg !259
+  %433 = getelementptr inbounds half, ptr %C, i64 %432, !dbg !259
+  %434 = load <8 x half>, ptr %431, align 32, !dbg !259, !tbaa !276
+  store <8 x half> %434, ptr %433, align 32, !dbg !259, !tbaa !280
+  %435 = or i64 %420, 24, !dbg !259
+  %436 = getelementptr inbounds half, ptr %C.global, i64 %435, !dbg !259
+  %437 = or i64 %421, 24, !dbg !259
+  %438 = getelementptr inbounds half, ptr %C, i64 %437, !dbg !259
+  %439 = load <8 x half>, ptr %436, align 16, !dbg !259, !tbaa !276
+  store <8 x half> %439, ptr %438, align 16, !dbg !259, !tbaa !280
+  %indvars.iv.next23 = add nuw nsw i64 %indvars.iv22, 1, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next23, metadata !270, metadata !DIExpression()), !dbg !259
+  %exitcond27.not = icmp eq i64 %indvars.iv.next23, 16, !dbg !259
+  br i1 %exitcond27.not, label %for_end_m.inner.outer, label %for_body_m.inner.outer, !dbg !259, !prof !29
+
+for_end_m.inner.outer:                            ; preds = %for_body_m.inner.outer
+  %indvars.iv.next29 = add nuw nsw i64 %indvars.iv28, 1, !dbg !259
+  call void @llvm.dbg.declare(metadata i64 %indvars.iv.next29, metadata !262, metadata !DIExpression()), !dbg !259
+  %exitcond31.not = icmp eq i64 %indvars.iv.next29, 8, !dbg !259
+  br i1 %exitcond31.not, label %for_end_m.outer, label %for_body_m.outer, !dbg !259, !prof !29
+
+if_end5:                                          ; preds = %for_end_m.outer
+  %440 = load ptr, ptr @__TVMBackendFreeWorkspace, align 8, !dbg !259, !tbaa !26
+  %441 = tail call i32 %440(i32 1, i32 %dev_id, ptr nonnull %CBits), !dbg !259
+  %.not10 = icmp ne i32 %441, 0, !dbg !259
+  %. = sext i1 %.not10 to i32
+  br label %common.ret
 }
 
 ; Function Attrs: nofree nosync nounwind memory(none)
-define weak dso_local i16 @__truncsfhf2(float %a0) local_unnamed_addr #5 {
+define weak dso_local i16 @__truncsfhf2(float %a0) local_unnamed_addr #4 {
 b0:
   %v0 = bitcast float %a0 to i32
   %v1 = and i32 %v0, 2147483647
@@ -2478,7 +1736,7 @@ b13:                                              ; preds = %b12, %b11, %b10, %b
 }
 
 ; Function Attrs: nofree nosync nounwind memory(none)
-define weak dso_local float @__extendhfsf2(i16 %a0) local_unnamed_addr #5 {
+define weak dso_local float @__extendhfsf2(i16 %a0) local_unnamed_addr #4 {
 b0:
   %v1 = and i16 %a0, 32767
   %v2 = zext i16 %v1 to i32
@@ -2542,33 +1800,29 @@ b6:                                               ; preds = %b5, %b4, %b3, %b1
 }
 
 ; Function Attrs: alwaysinline mustprogress nocallback nofree nounwind willreturn memory(argmem: write)
-declare void @llvm.memset.p0.i64(ptr nocapture writeonly, i8, i64, i1 immarg) #6
+declare void @llvm.memset.p0.i64(ptr nocapture writeonly, i8, i64, i1 immarg) #5
 
 ; Function Attrs: alwaysinline mustprogress nocallback nofree nosync nounwind willreturn memory(none)
-declare <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8>, <16 x i8>) #7
+declare <16 x i8> @llvm.aarch64.neon.tbl1.v16i8(<16 x i8>, <16 x i8>) #6
 
 ; Function Attrs: alwaysinline mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
-declare <8 x half> @llvm.fmuladd.v8f16(<8 x half>, <8 x half>, <8 x half>) #8
+declare <8 x half> @llvm.fmuladd.v8f16(<8 x half>, <8 x half>, <8 x half>) #7
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
-declare void @llvm.dbg.value(metadata, metadata, metadata) #9
+declare void @llvm.dbg.value(metadata, metadata, metadata) #8
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
-declare i32 @llvm.smin.i32(i32, i32) #9
-
-; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
-declare <8 x float> @llvm.fmuladd.v8f32(<8 x float>, <8 x float>, <8 x float>) #9
+declare <8 x float> @llvm.fmuladd.v8f32(<8 x float>, <8 x float>, <8 x float>) #8
 
 attributes #0 = { "target-cpu"="apple-m2" }
 attributes #1 = { mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
 attributes #2 = { mustprogress nocallback nofree nosync nounwind willreturn memory(inaccessiblemem: readwrite) }
-attributes #3 = { noinline "target-cpu"="apple-m2" }
-attributes #4 = { nofree nosync nounwind memory(readwrite, inaccessiblemem: none) "probe-stack"="__chkstk_darwin" "target-cpu"="apple-m2" }
-attributes #5 = { nofree nosync nounwind memory(none) "target-cpu"="apple-m2" "target-features" }
-attributes #6 = { alwaysinline mustprogress nocallback nofree nounwind willreturn memory(argmem: write) }
-attributes #7 = { alwaysinline mustprogress nocallback nofree nosync nounwind willreturn memory(none) }
-attributes #8 = { alwaysinline mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
-attributes #9 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #3 = { noinline "probe-stack"="__chkstk_darwin" "target-cpu"="apple-m2" }
+attributes #4 = { nofree nosync nounwind memory(none) "target-cpu"="apple-m2" "target-features" }
+attributes #5 = { alwaysinline mustprogress nocallback nofree nounwind willreturn memory(argmem: write) }
+attributes #6 = { alwaysinline mustprogress nocallback nofree nosync nounwind willreturn memory(none) }
+attributes #7 = { alwaysinline mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #8 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
 
 !llvm.dbg.cu = !{!0}
 !llvm.ident = !{!2}
@@ -2585,7 +1839,7 @@ attributes #9 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !8 = !{i32 2, !"tvm_target", !"llvm -mtriple=arm64-apple-darwin23.1.0 -mcpu=apple-m2"}
 !9 = !{i32 4, !"Debug Info Version", i32 3}
 !10 = !{i32 4, !"Dwarf Version", i32 2}
-!11 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2", scope: !1, file: !1, type: !12, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !17)
+!11 = distinct !DISubprogram(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2", scope: !1, file: !1, type: !12, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !17)
 !12 = !DISubroutineType(types: !13)
 !13 = !{!14, !15, !16, !14, !15, !16, !15}
 !14 = !DIBasicType(name: "int32", size: 32, encoding: DW_ATE_signed)
@@ -2605,34 +1859,34 @@ attributes #9 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !28 = !{!"tvm-tbaa"}
 !29 = !{!"branch_weights", i32 1, i32 1048576}
 !30 = !{!31, !31, i64 0}
-!31 = !{!"0x600000c14d50.w4.b0", !32, i64 0}
-!32 = !{!"0x600000c14d50.w8.b0", !33, i64 0}
-!33 = !{!"0x600000c14d50.w16.b0", !34, i64 0}
-!34 = !{!"0x600000c14d50.w32.b0", !35, i64 0}
-!35 = !{!"0x600000c14d50.w64.b0", !36, i64 0}
-!36 = !{!"0x600000c14d50.w128.b0", !37, i64 0}
-!37 = !{!"0x600000c14d50.w256.b0", !38, i64 0}
-!38 = !{!"0x600000c14d50.w512.b0", !39, i64 0}
-!39 = !{!"0x600000c14d50.w1024.b0", !40, i64 0}
-!40 = !{!"0x600000c14d50", !28, i64 0}
+!31 = !{!"0x600002f2dc80.w4.b0", !32, i64 0}
+!32 = !{!"0x600002f2dc80.w8.b0", !33, i64 0}
+!33 = !{!"0x600002f2dc80.w16.b0", !34, i64 0}
+!34 = !{!"0x600002f2dc80.w32.b0", !35, i64 0}
+!35 = !{!"0x600002f2dc80.w64.b0", !36, i64 0}
+!36 = !{!"0x600002f2dc80.w128.b0", !37, i64 0}
+!37 = !{!"0x600002f2dc80.w256.b0", !38, i64 0}
+!38 = !{!"0x600002f2dc80.w512.b0", !39, i64 0}
+!39 = !{!"0x600002f2dc80.w1024.b0", !40, i64 0}
+!40 = !{!"0x600002f2dc80", !28, i64 0}
 !41 = !DILocalVariable(name: "A.code", scope: !11, file: !1, type: !14)
 !42 = !{!43, !43, i64 0}
-!43 = !{!"0x600000c14d50.w4.b4", !32, i64 0}
+!43 = !{!"0x600002f2dc80.w4.b4", !32, i64 0}
 !44 = !DILocalVariable(name: "LUT.code", scope: !11, file: !1, type: !14)
 !45 = !{!46, !46, i64 0}
-!46 = !{!"0x600000c14d50.w4.b8", !47, i64 0}
-!47 = !{!"0x600000c14d50.w8.b8", !33, i64 0}
+!46 = !{!"0x600002f2dc80.w4.b8", !47, i64 0}
+!47 = !{!"0x600002f2dc80.w8.b8", !33, i64 0}
 !48 = !DILocalVariable(name: "Scales.code", scope: !11, file: !1, type: !14)
 !49 = !{!50, !50, i64 0}
-!50 = !{!"0x600000c14d50.w4.b12", !47, i64 0}
+!50 = !{!"0x600002f2dc80.w4.b12", !47, i64 0}
 !51 = !DILocalVariable(name: "LUT_Scales.code", scope: !11, file: !1, type: !14)
 !52 = !{!53, !53, i64 0}
-!53 = !{!"0x600000c14d50.w4.b16", !54, i64 0}
-!54 = !{!"0x600000c14d50.w8.b16", !55, i64 0}
-!55 = !{!"0x600000c14d50.w16.b16", !34, i64 0}
+!53 = !{!"0x600002f2dc80.w4.b16", !54, i64 0}
+!54 = !{!"0x600002f2dc80.w8.b16", !55, i64 0}
+!55 = !{!"0x600002f2dc80.w16.b16", !34, i64 0}
 !56 = !DILocalVariable(name: "LUT_Biases.code", scope: !11, file: !1, type: !14)
 !57 = !{!58, !58, i64 0}
-!58 = !{!"0x600000c14d50.w4.b20", !54, i64 0}
+!58 = !{!"0x600002f2dc80.w4.b20", !54, i64 0}
 !59 = !DILocalVariable(name: "C.code", scope: !11, file: !1, type: !14)
 !60 = !DILocalVariable(name: "A", scope: !11, file: !1, type: !15)
 !61 = !DILocalVariable(name: "LUT", scope: !11, file: !1, type: !15)
@@ -2640,215 +1894,219 @@ attributes #9 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !63 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !15)
 !64 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !15)
 !65 = !DILocalVariable(name: "C", scope: !11, file: !1, type: !15)
-!66 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.shape", scope: !11, file: !1, type: !67)
+!66 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.shape", scope: !11, file: !1, type: !67)
 !67 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !68)
 !68 = !DIBasicType(name: "int64", size: 64, encoding: DW_ATE_signed)
-!69 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.A.strides", scope: !11, file: !1, type: !67)
+!69 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.A.strides", scope: !11, file: !1, type: !67)
 !70 = !DILocalVariable(name: "dev_id", scope: !11, file: !1, type: !14)
 !71 = !DILocalVariable(name: "A", scope: !11, file: !1, type: !72)
 !72 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !73)
 !73 = !DIBasicType(name: "uint8", size: 8, encoding: DW_ATE_unsigned)
-!74 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.shape", scope: !11, file: !1, type: !67)
-!75 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT.strides", scope: !11, file: !1, type: !67)
+!74 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.shape", scope: !11, file: !1, type: !67)
+!75 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT.strides", scope: !11, file: !1, type: !67)
 !76 = !DILocalVariable(name: "LUT", scope: !11, file: !1, type: !77)
 !77 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !78)
 !78 = !DIBasicType(name: "int8", size: 8, encoding: DW_ATE_signed)
-!79 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.shape", scope: !11, file: !1, type: !67)
-!80 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.Scales.strides", scope: !11, file: !1, type: !67)
+!79 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.shape", scope: !11, file: !1, type: !67)
+!80 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.Scales.strides", scope: !11, file: !1, type: !67)
 !81 = !DILocalVariable(name: "Scales", scope: !11, file: !1, type: !82)
 !82 = !DIDerivedType(tag: DW_TAG_pointer_type, baseType: !83)
 !83 = !DIBasicType(name: "float16", size: 16, encoding: DW_ATE_float)
-!84 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.shape", scope: !11, file: !1, type: !67)
-!85 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Scales.strides", scope: !11, file: !1, type: !67)
+!84 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.shape", scope: !11, file: !1, type: !67)
+!85 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Scales.strides", scope: !11, file: !1, type: !67)
 !86 = !DILocalVariable(name: "LUT_Scales", scope: !11, file: !1, type: !82)
-!87 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.shape", scope: !11, file: !1, type: !67)
-!88 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.LUT_Biases.strides", scope: !11, file: !1, type: !67)
+!87 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.shape", scope: !11, file: !1, type: !67)
+!88 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.LUT_Biases.strides", scope: !11, file: !1, type: !67)
 !89 = !DILocalVariable(name: "LUT_Biases", scope: !11, file: !1, type: !82)
-!90 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.shape", scope: !11, file: !1, type: !67)
-!91 = !DILocalVariable(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2.C.strides", scope: !11, file: !1, type: !67)
+!90 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.shape", scope: !11, file: !1, type: !67)
+!91 = !DILocalVariable(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2.C.strides", scope: !11, file: !1, type: !67)
 !92 = !DILocalVariable(name: "C", scope: !11, file: !1, type: !82)
 !93 = !{!94, !94, i64 0}
-!94 = !{!"0x600000fada70.w8.b0", !95, i64 0}
-!95 = !{!"0x600000fada70.w16.b0", !96, i64 0}
-!96 = !{!"0x600000fada70.w32.b0", !97, i64 0}
-!97 = !{!"0x600000fada70.w64.b0", !98, i64 0}
-!98 = !{!"0x600000fada70.w128.b0", !99, i64 0}
-!99 = !{!"0x600000fada70.w256.b0", !100, i64 0}
-!100 = !{!"0x600000fada70.w512.b0", !101, i64 0}
-!101 = !{!"0x600000fada70.w1024.b0", !102, i64 0}
-!102 = !{!"0x600000fada70", !28, i64 0}
+!94 = !{!"0x600002f2c960.w8.b0", !95, i64 0}
+!95 = !{!"0x600002f2c960.w16.b0", !96, i64 0}
+!96 = !{!"0x600002f2c960.w32.b0", !97, i64 0}
+!97 = !{!"0x600002f2c960.w64.b0", !98, i64 0}
+!98 = !{!"0x600002f2c960.w128.b0", !99, i64 0}
+!99 = !{!"0x600002f2c960.w256.b0", !100, i64 0}
+!100 = !{!"0x600002f2c960.w512.b0", !101, i64 0}
+!101 = !{!"0x600002f2c960.w1024.b0", !102, i64 0}
+!102 = !{!"0x600002f2c960", !28, i64 0}
 !103 = !{!104, !104, i64 0}
-!104 = !{!"0x600000fada70.w8.b8", !95, i64 0}
+!104 = !{!"0x600002f2c960.w8.b8", !95, i64 0}
 !105 = !{!106, !106, i64 0}
-!106 = !{!"0x600000fada70.w8.b16", !107, i64 0}
-!107 = !{!"0x600000fada70.w16.b16", !96, i64 0}
+!106 = !{!"0x600002f2c960.w8.b16", !107, i64 0}
+!107 = !{!"0x600002f2c960.w16.b16", !96, i64 0}
 !108 = !{!109, !109, i64 0}
-!109 = !{!"0x600000cec360.w8.b16", !110, i64 0}
-!110 = !{!"0x600000cec360.w16.b16", !111, i64 0}
-!111 = !{!"0x600000cec360.w32.b0", !112, i64 0}
-!112 = !{!"0x600000cec360.w64.b0", !113, i64 0}
-!113 = !{!"0x600000cec360.w128.b0", !114, i64 0}
-!114 = !{!"0x600000cec360.w256.b0", !115, i64 0}
-!115 = !{!"0x600000cec360.w512.b0", !116, i64 0}
-!116 = !{!"0x600000cec360.w1024.b0", !117, i64 0}
-!117 = !{!"0x600000cec360", !28, i64 0}
+!109 = !{!"0x600002f28cc0.w8.b16", !110, i64 0}
+!110 = !{!"0x600002f28cc0.w16.b16", !111, i64 0}
+!111 = !{!"0x600002f28cc0.w32.b0", !112, i64 0}
+!112 = !{!"0x600002f28cc0.w64.b0", !113, i64 0}
+!113 = !{!"0x600002f28cc0.w128.b0", !114, i64 0}
+!114 = !{!"0x600002f28cc0.w256.b0", !115, i64 0}
+!115 = !{!"0x600002f28cc0.w512.b0", !116, i64 0}
+!116 = !{!"0x600002f28cc0.w1024.b0", !117, i64 0}
+!117 = !{!"0x600002f28cc0", !28, i64 0}
 !118 = !{!119, !119, i64 0}
-!119 = !{!"0x600000cec360.w8.b8", !120, i64 0}
-!120 = !{!"0x600000cec360.w16.b0", !111, i64 0}
+!119 = !{!"0x600002f28cc0.w8.b8", !120, i64 0}
+!120 = !{!"0x600002f28cc0.w16.b0", !111, i64 0}
 !121 = !{!122, !122, i64 0}
-!122 = !{!"0x600000cec360.w8.b0", !120, i64 0}
+!122 = !{!"0x600002f28cc0.w8.b0", !120, i64 0}
 !123 = !{!124, !124, i64 0}
-!124 = !{!"0x600000ceeeb0.w8.b0", !125, i64 0}
-!125 = !{!"0x600000ceeeb0.w16.b0", !126, i64 0}
-!126 = !{!"0x600000ceeeb0.w32.b0", !127, i64 0}
-!127 = !{!"0x600000ceeeb0.w64.b0", !128, i64 0}
-!128 = !{!"0x600000ceeeb0.w128.b0", !129, i64 0}
-!129 = !{!"0x600000ceeeb0.w256.b0", !130, i64 0}
-!130 = !{!"0x600000ceeeb0.w512.b0", !131, i64 0}
-!131 = !{!"0x600000ceeeb0.w1024.b0", !132, i64 0}
-!132 = !{!"0x600000ceeeb0", !28, i64 0}
+!124 = !{!"0x600002f2bfc0.w8.b0", !125, i64 0}
+!125 = !{!"0x600002f2bfc0.w16.b0", !126, i64 0}
+!126 = !{!"0x600002f2bfc0.w32.b0", !127, i64 0}
+!127 = !{!"0x600002f2bfc0.w64.b0", !128, i64 0}
+!128 = !{!"0x600002f2bfc0.w128.b0", !129, i64 0}
+!129 = !{!"0x600002f2bfc0.w256.b0", !130, i64 0}
+!130 = !{!"0x600002f2bfc0.w512.b0", !131, i64 0}
+!131 = !{!"0x600002f2bfc0.w1024.b0", !132, i64 0}
+!132 = !{!"0x600002f2bfc0", !28, i64 0}
 !133 = !{!134, !134, i64 0}
-!134 = !{!"0x600000ceeeb0.w8.b8", !125, i64 0}
+!134 = !{!"0x600002f2bfc0.w8.b8", !125, i64 0}
 !135 = !{!136, !136, i64 0}
-!136 = !{!"0x600000ceeeb0.w8.b16", !137, i64 0}
-!137 = !{!"0x600000ceeeb0.w16.b16", !126, i64 0}
+!136 = !{!"0x600002f2bfc0.w8.b16", !137, i64 0}
+!137 = !{!"0x600002f2bfc0.w16.b16", !126, i64 0}
 !138 = !{!139, !139, i64 0}
-!139 = !{!"0x600000cee430.w8.b16", !140, i64 0}
-!140 = !{!"0x600000cee430.w16.b16", !141, i64 0}
-!141 = !{!"0x600000cee430.w32.b0", !142, i64 0}
-!142 = !{!"0x600000cee430.w64.b0", !143, i64 0}
-!143 = !{!"0x600000cee430.w128.b0", !144, i64 0}
-!144 = !{!"0x600000cee430.w256.b0", !145, i64 0}
-!145 = !{!"0x600000cee430.w512.b0", !146, i64 0}
-!146 = !{!"0x600000cee430.w1024.b0", !147, i64 0}
-!147 = !{!"0x600000cee430", !28, i64 0}
+!139 = !{!"0x600002f2aca0.w8.b16", !140, i64 0}
+!140 = !{!"0x600002f2aca0.w16.b16", !141, i64 0}
+!141 = !{!"0x600002f2aca0.w32.b0", !142, i64 0}
+!142 = !{!"0x600002f2aca0.w64.b0", !143, i64 0}
+!143 = !{!"0x600002f2aca0.w128.b0", !144, i64 0}
+!144 = !{!"0x600002f2aca0.w256.b0", !145, i64 0}
+!145 = !{!"0x600002f2aca0.w512.b0", !146, i64 0}
+!146 = !{!"0x600002f2aca0.w1024.b0", !147, i64 0}
+!147 = !{!"0x600002f2aca0", !28, i64 0}
 !148 = !{!149, !149, i64 0}
-!149 = !{!"0x600000cee430.w8.b8", !150, i64 0}
-!150 = !{!"0x600000cee430.w16.b0", !141, i64 0}
+!149 = !{!"0x600002f2aca0.w8.b8", !150, i64 0}
+!150 = !{!"0x600002f2aca0.w16.b0", !141, i64 0}
 !151 = !{!152, !152, i64 0}
-!152 = !{!"0x600000ceda10.w8.b0", !153, i64 0}
-!153 = !{!"0x600000ceda10.w16.b0", !154, i64 0}
-!154 = !{!"0x600000ceda10.w32.b0", !155, i64 0}
-!155 = !{!"0x600000ceda10.w64.b0", !156, i64 0}
-!156 = !{!"0x600000ceda10.w128.b0", !157, i64 0}
-!157 = !{!"0x600000ceda10.w256.b0", !158, i64 0}
-!158 = !{!"0x600000ceda10.w512.b0", !159, i64 0}
-!159 = !{!"0x600000ceda10.w1024.b0", !160, i64 0}
-!160 = !{!"0x600000ceda10", !28, i64 0}
+!152 = !{!"0x600002f29d40.w8.b0", !153, i64 0}
+!153 = !{!"0x600002f29d40.w16.b0", !154, i64 0}
+!154 = !{!"0x600002f29d40.w32.b0", !155, i64 0}
+!155 = !{!"0x600002f29d40.w64.b0", !156, i64 0}
+!156 = !{!"0x600002f29d40.w128.b0", !157, i64 0}
+!157 = !{!"0x600002f29d40.w256.b0", !158, i64 0}
+!158 = !{!"0x600002f29d40.w512.b0", !159, i64 0}
+!159 = !{!"0x600002f29d40.w1024.b0", !160, i64 0}
+!160 = !{!"0x600002f29d40", !28, i64 0}
 !161 = !{!162, !162, i64 0}
-!162 = !{!"0x600000ceda10.w8.b8", !153, i64 0}
+!162 = !{!"0x600002f29d40.w8.b8", !153, i64 0}
 !163 = !{!164, !164, i64 0}
-!164 = !{!"0x600000ceda10.w8.b16", !165, i64 0}
-!165 = !{!"0x600000ceda10.w16.b16", !154, i64 0}
+!164 = !{!"0x600002f29d40.w8.b16", !165, i64 0}
+!165 = !{!"0x600002f29d40.w16.b16", !154, i64 0}
 !166 = !{!167, !167, i64 0}
-!167 = !{!"0x600000cecff0.w8.b16", !168, i64 0}
-!168 = !{!"0x600000cecff0.w16.b16", !169, i64 0}
-!169 = !{!"0x600000cecff0.w32.b0", !170, i64 0}
-!170 = !{!"0x600000cecff0.w64.b0", !171, i64 0}
-!171 = !{!"0x600000cecff0.w128.b0", !172, i64 0}
-!172 = !{!"0x600000cecff0.w256.b0", !173, i64 0}
-!173 = !{!"0x600000cecff0.w512.b0", !174, i64 0}
-!174 = !{!"0x600000cecff0.w1024.b0", !175, i64 0}
-!175 = !{!"0x600000cecff0", !28, i64 0}
+!167 = !{!"0x600002f131b0.w8.b16", !168, i64 0}
+!168 = !{!"0x600002f131b0.w16.b16", !169, i64 0}
+!169 = !{!"0x600002f131b0.w32.b0", !170, i64 0}
+!170 = !{!"0x600002f131b0.w64.b0", !171, i64 0}
+!171 = !{!"0x600002f131b0.w128.b0", !172, i64 0}
+!172 = !{!"0x600002f131b0.w256.b0", !173, i64 0}
+!173 = !{!"0x600002f131b0.w512.b0", !174, i64 0}
+!174 = !{!"0x600002f131b0.w1024.b0", !175, i64 0}
+!175 = !{!"0x600002f131b0", !28, i64 0}
 !176 = !{!177, !177, i64 0}
-!177 = !{!"0x600000cecff0.w8.b8", !178, i64 0}
-!178 = !{!"0x600000cecff0.w16.b0", !169, i64 0}
+!177 = !{!"0x600002f131b0.w8.b8", !178, i64 0}
+!178 = !{!"0x600002f131b0.w16.b0", !169, i64 0}
 !179 = !{!180, !180, i64 0}
-!180 = !{!"0x600000cecff0.w8.b0", !178, i64 0}
+!180 = !{!"0x600002f131b0.w8.b0", !178, i64 0}
 !181 = !{!182, !182, i64 0}
-!182 = !{!"0x600000ceb3c0.w8.b0", !183, i64 0}
-!183 = !{!"0x600000ceb3c0.w16.b0", !184, i64 0}
-!184 = !{!"0x600000ceb3c0.w32.b0", !185, i64 0}
-!185 = !{!"0x600000ceb3c0.w64.b0", !186, i64 0}
-!186 = !{!"0x600000ceb3c0.w128.b0", !187, i64 0}
-!187 = !{!"0x600000ceb3c0.w256.b0", !188, i64 0}
-!188 = !{!"0x600000ceb3c0.w512.b0", !189, i64 0}
-!189 = !{!"0x600000ceb3c0.w1024.b0", !190, i64 0}
-!190 = !{!"0x600000ceb3c0", !28, i64 0}
+!182 = !{!"0x600002f2d3e0.w8.b0", !183, i64 0}
+!183 = !{!"0x600002f2d3e0.w16.b0", !184, i64 0}
+!184 = !{!"0x600002f2d3e0.w32.b0", !185, i64 0}
+!185 = !{!"0x600002f2d3e0.w64.b0", !186, i64 0}
+!186 = !{!"0x600002f2d3e0.w128.b0", !187, i64 0}
+!187 = !{!"0x600002f2d3e0.w256.b0", !188, i64 0}
+!188 = !{!"0x600002f2d3e0.w512.b0", !189, i64 0}
+!189 = !{!"0x600002f2d3e0.w1024.b0", !190, i64 0}
+!190 = !{!"0x600002f2d3e0", !28, i64 0}
 !191 = !{!192, !192, i64 0}
-!192 = !{!"0x600000ceb3c0.w8.b8", !183, i64 0}
+!192 = !{!"0x600002f2d3e0.w8.b8", !183, i64 0}
 !193 = !{!194, !194, i64 0}
-!194 = !{!"0x600000cd0210.w8.b8", !195, i64 0}
-!195 = !{!"0x600000cd0210.w16.b0", !196, i64 0}
-!196 = !{!"0x600000cd0210.w32.b0", !197, i64 0}
-!197 = !{!"0x600000cd0210.w64.b0", !198, i64 0}
-!198 = !{!"0x600000cd0210.w128.b0", !199, i64 0}
-!199 = !{!"0x600000cd0210.w256.b0", !200, i64 0}
-!200 = !{!"0x600000cd0210.w512.b0", !201, i64 0}
-!201 = !{!"0x600000cd0210.w1024.b0", !202, i64 0}
-!202 = !{!"0x600000cd0210", !28, i64 0}
+!194 = !{!"0x600002f23660.w8.b8", !195, i64 0}
+!195 = !{!"0x600002f23660.w16.b0", !196, i64 0}
+!196 = !{!"0x600002f23660.w32.b0", !197, i64 0}
+!197 = !{!"0x600002f23660.w64.b0", !198, i64 0}
+!198 = !{!"0x600002f23660.w128.b0", !199, i64 0}
+!199 = !{!"0x600002f23660.w256.b0", !200, i64 0}
+!200 = !{!"0x600002f23660.w512.b0", !201, i64 0}
+!201 = !{!"0x600002f23660.w1024.b0", !202, i64 0}
+!202 = !{!"0x600002f23660", !28, i64 0}
 !203 = !{!204, !204, i64 0}
-!204 = !{!"0x600000cd1320.w8.b0", !205, i64 0}
-!205 = !{!"0x600000cd1320.w16.b0", !206, i64 0}
-!206 = !{!"0x600000cd1320.w32.b0", !207, i64 0}
-!207 = !{!"0x600000cd1320.w64.b0", !208, i64 0}
-!208 = !{!"0x600000cd1320.w128.b0", !209, i64 0}
-!209 = !{!"0x600000cd1320.w256.b0", !210, i64 0}
-!210 = !{!"0x600000cd1320.w512.b0", !211, i64 0}
-!211 = !{!"0x600000cd1320.w1024.b0", !212, i64 0}
-!212 = !{!"0x600000cd1320", !28, i64 0}
+!204 = !{!"0x600002f39b00.w8.b0", !205, i64 0}
+!205 = !{!"0x600002f39b00.w16.b0", !206, i64 0}
+!206 = !{!"0x600002f39b00.w32.b0", !207, i64 0}
+!207 = !{!"0x600002f39b00.w64.b0", !208, i64 0}
+!208 = !{!"0x600002f39b00.w128.b0", !209, i64 0}
+!209 = !{!"0x600002f39b00.w256.b0", !210, i64 0}
+!210 = !{!"0x600002f39b00.w512.b0", !211, i64 0}
+!211 = !{!"0x600002f39b00.w1024.b0", !212, i64 0}
+!212 = !{!"0x600002f39b00", !28, i64 0}
 !213 = !{!214, !214, i64 0}
-!214 = !{!"0x600000cd1320.w8.b8", !205, i64 0}
+!214 = !{!"0x600002f39b00.w8.b8", !205, i64 0}
 !215 = !{!216, !216, i64 0}
-!216 = !{!"0x600000cd1c20.w8.b8", !217, i64 0}
-!217 = !{!"0x600000cd1c20.w16.b0", !218, i64 0}
-!218 = !{!"0x600000cd1c20.w32.b0", !219, i64 0}
-!219 = !{!"0x600000cd1c20.w64.b0", !220, i64 0}
-!220 = !{!"0x600000cd1c20.w128.b0", !221, i64 0}
-!221 = !{!"0x600000cd1c20.w256.b0", !222, i64 0}
-!222 = !{!"0x600000cd1c20.w512.b0", !223, i64 0}
-!223 = !{!"0x600000cd1c20.w1024.b0", !224, i64 0}
-!224 = !{!"0x600000cd1c20", !28, i64 0}
+!216 = !{!"0x600002fc0150.w8.b8", !217, i64 0}
+!217 = !{!"0x600002fc0150.w16.b0", !218, i64 0}
+!218 = !{!"0x600002fc0150.w32.b0", !219, i64 0}
+!219 = !{!"0x600002fc0150.w64.b0", !220, i64 0}
+!220 = !{!"0x600002fc0150.w128.b0", !221, i64 0}
+!221 = !{!"0x600002fc0150.w256.b0", !222, i64 0}
+!222 = !{!"0x600002fc0150.w512.b0", !223, i64 0}
+!223 = !{!"0x600002fc0150.w1024.b0", !224, i64 0}
+!224 = !{!"0x600002fc0150", !28, i64 0}
 !225 = !{!226, !226, i64 0}
-!226 = !{!"0x600000cd27c0.w8.b0", !227, i64 0}
-!227 = !{!"0x600000cd27c0.w16.b0", !228, i64 0}
-!228 = !{!"0x600000cd27c0.w32.b0", !229, i64 0}
-!229 = !{!"0x600000cd27c0.w64.b0", !230, i64 0}
-!230 = !{!"0x600000cd27c0.w128.b0", !231, i64 0}
-!231 = !{!"0x600000cd27c0.w256.b0", !232, i64 0}
-!232 = !{!"0x600000cd27c0.w512.b0", !233, i64 0}
-!233 = !{!"0x600000cd27c0.w1024.b0", !234, i64 0}
-!234 = !{!"0x600000cd27c0", !28, i64 0}
+!226 = !{!"0x600002fc12f0.w8.b0", !227, i64 0}
+!227 = !{!"0x600002fc12f0.w16.b0", !228, i64 0}
+!228 = !{!"0x600002fc12f0.w32.b0", !229, i64 0}
+!229 = !{!"0x600002fc12f0.w64.b0", !230, i64 0}
+!230 = !{!"0x600002fc12f0.w128.b0", !231, i64 0}
+!231 = !{!"0x600002fc12f0.w256.b0", !232, i64 0}
+!232 = !{!"0x600002fc12f0.w512.b0", !233, i64 0}
+!233 = !{!"0x600002fc12f0.w1024.b0", !234, i64 0}
+!234 = !{!"0x600002fc12f0", !28, i64 0}
 !235 = !{!236, !236, i64 0}
-!236 = !{!"0x600000cd27c0.w8.b8", !227, i64 0}
+!236 = !{!"0x600002fc12f0.w8.b8", !227, i64 0}
 !237 = !{!238, !238, i64 0}
-!238 = !{!"0x600000cd3180.w8.b8", !239, i64 0}
-!239 = !{!"0x600000cd3180.w16.b0", !240, i64 0}
-!240 = !{!"0x600000cd3180.w32.b0", !241, i64 0}
-!241 = !{!"0x600000cd3180.w64.b0", !242, i64 0}
-!242 = !{!"0x600000cd3180.w128.b0", !243, i64 0}
-!243 = !{!"0x600000cd3180.w256.b0", !244, i64 0}
-!244 = !{!"0x600000cd3180.w512.b0", !245, i64 0}
-!245 = !{!"0x600000cd3180.w1024.b0", !246, i64 0}
-!246 = !{!"0x600000cd3180", !28, i64 0}
-!247 = distinct !DISubprogram(name: "qgemm_lut_t4_int8_m8192_k14336_n1_b2_compute_", scope: !1, file: !1, type: !248, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !250)
-!248 = !DISubroutineType(types: !249)
-!249 = !{!14, !77, !72, !82, !82, !82, !82}
-!250 = !{!251, !252, !253, !254, !255, !256}
-!251 = !DILocalVariable(name: "LUT", arg: 1, scope: !247, file: !1, type: !77)
-!252 = !DILocalVariable(name: "A", arg: 2, scope: !247, file: !1, type: !72)
-!253 = !DILocalVariable(name: "Scales", arg: 3, scope: !247, file: !1, type: !82)
-!254 = !DILocalVariable(name: "LUT_Scales", arg: 4, scope: !247, file: !1, type: !82)
-!255 = !DILocalVariable(name: "LUT_Biases", arg: 5, scope: !247, file: !1, type: !82)
-!256 = !DILocalVariable(name: "C", arg: 6, scope: !247, file: !1, type: !82)
-!257 = !DILocation(line: 0, scope: !247)
-!258 = !DILocalVariable(name: "m.outer", scope: !247, file: !1, type: !14)
-!259 = !DILocalVariable(name: "CBits", scope: !247, file: !1, type: !82)
-!260 = !DILocalVariable(name: "k.outer", scope: !247, file: !1, type: !14)
-!261 = !{!262, !262, i64 0}
-!262 = !{!"__fp16", !263, i64 0}
-!263 = !{!"omnipotent char", !264, i64 0}
-!264 = !{!"Simple C++ TBAA"}
-!265 = distinct !{!265, !266}
-!266 = !{!"llvm.loop.mustprogress"}
-!267 = !DILocalVariable(name: "m.c.outer", scope: !247, file: !1, type: !14)
-!268 = !DILocalVariable(name: "cse_var_2", scope: !247, file: !1, type: !14)
-!269 = !DILocalVariable(name: "cse_var_1", scope: !247, file: !1, type: !14)
-!270 = !{!271, !271, i64 0}
-!271 = !{!"0x600000c196e0", !28, i64 0}
-!272 = !DILocalVariable(name: "C.global", scope: !247, file: !1, type: !82)
-!273 = !DILocalVariable(name: "m.inner.outer", scope: !247, file: !1, type: !14)
-!274 = !DILocalVariable(name: "cse_var_4", scope: !247, file: !1, type: !14)
-!275 = !DILocalVariable(name: "cse_var_3", scope: !247, file: !1, type: !14)
+!238 = !{!"0x600002fc1cb0.w8.b8", !239, i64 0}
+!239 = !{!"0x600002fc1cb0.w16.b0", !240, i64 0}
+!240 = !{!"0x600002fc1cb0.w32.b0", !241, i64 0}
+!241 = !{!"0x600002fc1cb0.w64.b0", !242, i64 0}
+!242 = !{!"0x600002fc1cb0.w128.b0", !243, i64 0}
+!243 = !{!"0x600002fc1cb0.w256.b0", !244, i64 0}
+!244 = !{!"0x600002fc1cb0.w512.b0", !245, i64 0}
+!245 = !{!"0x600002fc1cb0.w1024.b0", !246, i64 0}
+!246 = !{!"0x600002fc1cb0", !28, i64 0}
+!247 = !{i32 -1, i32 1}
+!248 = distinct !DISubprogram(name: "qgemm_lut_t1_int8_m8192_k4096_n1_b2_compute_", scope: !1, file: !1, type: !249, flags: DIFlagPrototyped, spFlags: DISPFlagLocalToUnit | DISPFlagDefinition | DISPFlagOptimized, unit: !0, retainedNodes: !251)
+!249 = !DISubroutineType(types: !250)
+!250 = !{!14, !14, !77, !72, !82, !82, !82, !82}
+!251 = !{!252, !253, !254, !255, !256, !257, !258}
+!252 = !DILocalVariable(name: "dev_id", arg: 1, scope: !248, file: !1, type: !14)
+!253 = !DILocalVariable(name: "LUT", arg: 2, scope: !248, file: !1, type: !77)
+!254 = !DILocalVariable(name: "A", arg: 3, scope: !248, file: !1, type: !72)
+!255 = !DILocalVariable(name: "Scales", arg: 4, scope: !248, file: !1, type: !82)
+!256 = !DILocalVariable(name: "LUT_Scales", arg: 5, scope: !248, file: !1, type: !82)
+!257 = !DILocalVariable(name: "LUT_Biases", arg: 6, scope: !248, file: !1, type: !82)
+!258 = !DILocalVariable(name: "C", arg: 7, scope: !248, file: !1, type: !82)
+!259 = !DILocation(line: 0, scope: !248)
+!260 = !DILocalVariable(name: "CBits", scope: !248, file: !1, type: !82)
+!261 = !DILocalVariable(name: "C.global", scope: !248, file: !1, type: !82)
+!262 = !DILocalVariable(name: "m.outer", scope: !248, file: !1, type: !14)
+!263 = !DILocalVariable(name: "k.outer", scope: !248, file: !1, type: !14)
+!264 = !{!265, !265, i64 0}
+!265 = !{!"__fp16", !266, i64 0}
+!266 = !{!"omnipotent char", !267, i64 0}
+!267 = !{!"Simple C++ TBAA"}
+!268 = distinct !{!268, !269}
+!269 = !{!"llvm.loop.mustprogress"}
+!270 = !DILocalVariable(name: "m.inner.outer", scope: !248, file: !1, type: !14)
+!271 = !DILocalVariable(name: "m.c.outer", scope: !248, file: !1, type: !14)
+!272 = !DILocalVariable(name: "cse_var_2", scope: !248, file: !1, type: !14)
+!273 = !DILocalVariable(name: "cse_var_1", scope: !248, file: !1, type: !14)
+!274 = !{!275, !275, i64 0}
+!275 = !{!"0x600002f29350", !28, i64 0}
 !276 = !{!277, !277, i64 0}
-!277 = !{!"0x600000eaa490", !28, i64 0}
+!277 = !{!"0x600002f2e880", !28, i64 0}
+!278 = !DILocalVariable(name: "cse_var_4", scope: !248, file: !1, type: !14)
+!279 = !DILocalVariable(name: "cse_var_3", scope: !248, file: !1, type: !14)
+!280 = !{!281, !281, i64 0}
+!281 = !{!"0x600002f2fae0", !28, i64 0}

@@ -974,7 +974,6 @@ def pesudo_tmac_weight_quant(weight: torch.Tensor) -> torch.Tensor:
     result = (weight * iscale).round().clamp(-1, 1) / iscale
     return result.type(dtype)
 
-
 class TMACWeightOnlyQuantizedLinear(nn.Module):
     def __init__(
         self,
@@ -1017,6 +1016,7 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
             self.all_config, self.nbit, self.M, self.K, self.N
         )
         if self.op_config is None:
+            import pdb; pdb.set_trace()
             raise NotImplementedError("This kernel is not supported.")
         
         #> Only work for BitNet
@@ -1024,7 +1024,7 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
         
         scaling_factor = 1.0 / pesudo_qweight.abs().max()
         
-        weight_qvals = (pesudo_qweight * scaling_factor).to(torch.int8)
+        weight_qvals = (pesudo_qweight * scaling_factor).to(torch.uint8)
         weight_scales = torch.tensor([scaling_factor], dtype=torch.float16)
         weight_zeros = None     #> TMAC does not use zeros.
         
@@ -1048,7 +1048,10 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
     def _TMAC_forward(self, x):
         assert self.op_config != None, "TMAC Config is None"
         assert self.packed_qweight != None, "TMAC packed_weights is None"
-        assert x.dtype == torch.float16, "Currently input must be float16 type"
+        
+        
+        if x.dtype != torch.float16:
+            x.to(torch.float16)
         
         self.LUT_Scales = torch.zeros((self.op_config.N, self.op_config.K // self.op_config.act_group_size), dtype=torch.float16)
         self.LUT_Biases = torch.zeros((self.op_config.N, self.op_config.K // self.op_config.act_group_size), dtype=torch.float16)
@@ -1068,7 +1071,7 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
             self.op_config.N, self.op_config.bits
         )
         
-        return result 
+        return result.to(torch.float16)
 
     def forward(self, x):
         assert x.dim() >= 2
@@ -1109,6 +1112,9 @@ def _replace_linear_with_quantized_linear_tmac(module: nn.Module, kwargs={}):
         if not isinstance(child, nn.Linear):
             _replace_linear_with_quantized_linear_tmac(child, kwargs)
         else:
+            if not name.endswith('proj'):
+                continue
+            
             assert child.bias is None
             qlinear = TMACWeightOnlyQuantizedLinear(
                 pack_weight_op=pack_tmac_weight,
@@ -1205,47 +1211,12 @@ class _TMACWeightQuantizedLinearFallback(nn.Module):
         self._n, self._k = weights.shape
         assert self._k % group_size == 0, "group_size must divide k"
 
-        self.weight_qvals, self.weight_scales, self.weight_zeros = _quantize(
-            weights, self.group_size, self.nbits, self.has_weight_zeros, signed=False
-        )
+        self.pesudo_qweight = pesudo_tmac_weight_quant(weights)
 
     def _forward_2d(self, x):
         assert x.dim() == 2
 
-        _, k = self._n, self._k
-        m, k_ = x.shape
-        assert k_ == k
-
-        weights_dequantized = dequantize_per_channel_group(
-            w_int8=self.weight_qvals,
-            scales=self.weight_scales,
-            zero_points=(
-                self.weight_zeros
-                if self.has_weight_zeros
-                else torch.zeros_like(self.weight_scales)
-            ),
-            quant_min=None,  # TODO: why is this an arg for this function
-            quant_max=None,  # TODO: why is this an arg for this function
-            dtype=None,  # TODO: why is this an arg for this function
-            group_size=self.group_size,
-            output_dtype=torch.float16,
-        )
-        
-        # activation_qvals, activation_scales, activation_zeros = _quantize(
-        #     x, group_size=k, nbit=8, has_weight_zeros=True
-        # )
-        # activations_dequantized = dequantize_per_channel_group(
-        #     w_int8=activation_qvals,
-        #     scales=activation_scales,
-        #     zero_points=activation_zeros,
-        #     quant_min=None,  # TODO: why is this an arg for this function
-        #     quant_max=None,  # TODO: why is this an arg for this function
-        #     dtype=None,  # TODO: why is this an arg for this function
-        #     group_size=k,
-        #     output_dtype=torch.float32,
-        # )
-
-        res = torch.matmul(x, weights_dequantized.transpose(1, 0))
+        res = torch.matmul(x, self.pesudo_qweight.transpose(1, 0))
         return res
 
     def forward(self, x):

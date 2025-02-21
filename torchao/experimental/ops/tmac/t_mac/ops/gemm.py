@@ -22,11 +22,21 @@ class GeMMCodegen(OpCodegen):
         A = te.placeholder((M // bm, K, bm), dtype=self.dtype, name="A")
         B = te.placeholder((N, K), dtype=self.dtype, name="B")
 
+        # Define the compute, and do BM split along the K axis.
         C = te.compute((N, M), lambda n, m: te.sum(A[m // bm, k, tvm.tir.indexmod(m, bm)] * B[n, k], axis=k), name="C")
 
+        # Return the tensors which are PARAMETERS of `tvm.build` function.
         return [A, B, C]
 
     def _schedule(self, tensors: List[te.Tensor]):
+        """Schedule the computation of the GEMM operation.
+
+        Args:
+            tensors (tensors): These should be the output of the `_compute` function.
+
+        Returns:
+            _type_: TVM schedule for the input of `tvm.lower` function.
+        """
         C = tensors[-1]
         sch = te.create_schedule(C.op)
 

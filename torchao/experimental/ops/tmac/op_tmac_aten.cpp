@@ -7,7 +7,7 @@
 #include <torchao/experimental/ops/tmac/op_tmac-impl.hpp>
 
 TORCH_LIBRARY_FRAGMENT(torchao, m) {
-    m.def("preprocess(Tensor weights, Tensor lut_scales, Tensor qlut, Tensor lut_bias, int M, int K, int N) -> Tensor");
+    m.def("preprocess(Tensor activation, Tensor lut_scales, Tensor qlut, Tensor lut_bias, int M, int K, int N, int bits) -> Tensor");
     m.def("qgemm_lut(Tensor activations, Tensor qlut, Tensor scales, Tensor lut_scales, Tensor lut_bias, Tensor result, int M, int K, int N, int bits) -> Tensor");
 }
 

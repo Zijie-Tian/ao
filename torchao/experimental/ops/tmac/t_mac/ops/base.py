@@ -93,6 +93,7 @@ class OpCodegen:
 
         if not (self.reuse_tuned and os.path.exists(log_path)):
             task = autotvm.task.create(template_name, args=args, target=self.target)
+            #> Grid search target for tuning.
             tuner = autotvm.tuner.GridSearchTuner(task)
 
             def _preload_function(remote: rpc.RPCSession, build_result: tvm.runtime.Module):
@@ -242,6 +243,17 @@ typedef _Float16 half;
         preserve_cfg: bool = False,
         **eval_kwargs,
     ):
+        """Return the compiled func and reference results.
+
+        Args:
+            n_trial (int, optional): _description_. Defaults to 1000.
+            thread_affinity (int, optional): _description_. Defaults to 1.
+            return_type (Literal[&quot;mod&quot;, &quot;lower&quot;, &quot;c&quot;], optional): _description_. Defaults to "mod".
+            preserve_cfg (bool, optional): _description_. Defaults to False.
+
+        Returns:
+            _type_: _description_
+        """
         template_name = self.get_template_name(*args)
 
         log_path = self.log_path
@@ -261,7 +273,7 @@ typedef _Float16 half;
                     template(*args)
 
             tensors = self._compute(*args)
-            s = self._schedule(tensors)
+            s = self._schedule(tensors)     #> Get the schedule for the input of `tvm.lower` function.
 
             logger.info(tvm.lower(s, tensors, simple_mode=True))
 
@@ -272,6 +284,7 @@ typedef _Float16 half;
             elif self.target.kind.name == "c":
                 func.save(os.path.join(self.save_path, "src.c"), "c")
 
+            #! Return here if you only generate the CPP code.
             if return_type == "c":
                 func_c = tvm.build(s, tensors, target="c", name=template_name)
                 return self._postprocess_tvm_c_code(func_c.get_source(), template_name)
