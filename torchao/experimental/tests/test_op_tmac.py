@@ -2,7 +2,7 @@ import torch
 import os
 current_path = os.path.dirname(os.path.abspath(__file__))
 
-torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.dylib")
+torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.so")
 
 import copy
 import tempfile
@@ -106,7 +106,7 @@ def get_max_allowed_error(bits: int) -> float:
 def weight_quant(weight, group_size):
     dtype = weight.dtype
     org_w_shape = weight.shape
-    
+
     if group_size > 0:
         assert weight.shape[1] % group_size == 0, "group_size must be a divisor of weight.shape[1]"
         weight = weight.reshape(-1, group_size).float()
@@ -116,9 +116,9 @@ def weight_quant(weight, group_size):
         weight = weight.float()
         scale = 1 / weight.abs().mean().clamp(min=1e-5)
         qweight = (weight * scale).round().clamp(-1, 1)
-    
+
     return qweight.type(dtype).reshape(org_w_shape), scale
-    
+
     # dtype = weight.dtype
     # weight = weight.float()
     # weight_
@@ -149,7 +149,7 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 # 生成随机量化权重
                 # np.random.seed(42)  # 固定随机种子保证可重复性
-                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype) 
+                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
                 # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
                 activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype)
@@ -171,9 +171,9 @@ class TestTMACQuantizer(unittest.TestCase):
                     #! Note this "+2"
                     qweight = torch.round(qweight + 2 ** (cfg.bits - 1)).to(qweight_dtype)
                     scale = scale * torch.ones(cfg.M, cfg.K, dtype=torch.float16)
-                    
+
                 real_ref = activation @ weight.T
-                
+
                 sqnr = compute_error(pesudo_ref, real_ref)
                 print(f"SQNR: {sqnr}")
 
@@ -199,19 +199,19 @@ class TestTMACQuantizer(unittest.TestCase):
                 )
                 qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
                 Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
-                
+
                 C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
                 torch.ops.torchao.qgemm_lut(
                     qweight_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
                     C, cfg.M, cfg.K, cfg.N, cfg.bits
-                ) 
+                )
 
-                
+
                 import pdb; pdb.set_trace()
 
                 continue
 
-                
+
                 #> Standard quantized weight.
                 # Aref = np.random.randint(
                 #     0, 2**cfg.bits,
@@ -285,7 +285,7 @@ class TestTMACQuantizer(unittest.TestCase):
                 print(f"SQNR: {sqnr} and MAX_ERROR {max_error}")
 
                 import pdb; pdb.set_trace()
-                
+
                 self.assertLessEqual(sqnr, max_error, f"SQNR: {sqnr} > {max_error}")
 
 
