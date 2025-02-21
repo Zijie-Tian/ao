@@ -1,8 +1,16 @@
 import torch
 import os
-current_path = os.path.dirname(os.path.abspath(__file__))
 
+current_path = os.path.dirname(os.path.abspath(__file__))
 torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.so")
+
+import torch
+import mem_aware_vector_add
+
+# Load the allocator
+new_alloc = torch.cuda.memory.CUDAPluggableAllocator(
+    "/home/edgellm/Code/ao/torchao/experimental/cmake-out/libmanaged_allocator.so", 'my_malloc', 'my_free')
+torch.cuda.memory.change_current_allocator(new_alloc)
 
 import copy
 import tempfile
@@ -152,8 +160,10 @@ class TestTMACQuantizer(unittest.TestCase):
                 # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
                 # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
-                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype)
-                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype)
+                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).cuda()
+                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).cuda()
+
+                print(f"Activation: {activation} and Weight: {weight}")
 
                 qweight, scale = weight_quant(weight, cfg.group_size)
 
@@ -187,9 +197,9 @@ class TestTMACQuantizer(unittest.TestCase):
                 #     Sref = torch.abs(torch.randn(cfg.m_groups,)).to(dtype=out_dtype)
 
                 # 生成 Bref
-                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8)
+                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16).cuda()
+                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16).cuda()
+                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8).cuda()
                 torch.ops.torchao.preprocess(activation, LUT_Scales, LUT_Biases, QLUT, cfg.M, cfg.K, cfg.N, cfg.bits)
 
                 qweight_t, Scales_t = preprocess_weights_torch(
@@ -197,10 +207,13 @@ class TestTMACQuantizer(unittest.TestCase):
                     bits=cfg.bits, g=cfg.g,
                     bm=cfg.bm, kfactor=cfg.kfactor
                 )
-                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
-                Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
+                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8).cuda()
+                Scales_t = torch.tensor(Scales_t, dtype=torch.float16).cuda()
+                print(f"QWeight: {qweight_t} and Scales: {Scales_t}")
 
-                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
+                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16).cuda()
+                print(C)
+                print(f"{QLUT} and Weight: {LUT_Scales} and {LUT_Biases}")
                 torch.ops.torchao.qgemm_lut(
                     qweight_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
                     C, cfg.M, cfg.K, cfg.N, cfg.bits

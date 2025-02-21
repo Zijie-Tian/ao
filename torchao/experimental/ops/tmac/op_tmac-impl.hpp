@@ -10,6 +10,7 @@
 #include <torchao/experimental/ops/library.h>
 #include <torch/extension.h>
 #include <c10/util/Logging.h>
+#include <cuda_runtime.h>
 
 #include <sstream>
 #include <optional>
@@ -98,6 +99,32 @@ namespace {
         }
         LOG(INFO) << "\n";
     }
+
+    // 打印内存类型信息
+    void print_memory_type(void* ptr) {
+        cudaPointerAttributes attributes;
+        cudaError_t err = cudaPointerGetAttributes(&attributes, ptr);
+        
+        if (err != cudaSuccess) {
+            LOG(INFO) << "CUDA error: " << cudaGetErrorString(err) << std::endl;
+            return;
+        }
+
+        LOG(INFO) << "Memory type: ";
+        switch(attributes.type) {
+            case cudaMemoryTypeHost:
+                LOG(INFO) << "Pinned Host Memory";
+                break;
+            case cudaMemoryTypeDevice:
+                LOG(INFO) << "Device Memory";
+                break;
+            case cudaMemoryTypeManaged:
+                LOG(INFO) << "Managed Memory";
+                break;
+            default:
+                LOG(INFO) << "Unknown Memory Type";
+        }
+    }
         
 
     // 核心预处理函数（支持多输出和灵活输入）
@@ -125,14 +152,14 @@ namespace {
         // LOG(INFO) << "LUT biases shape : " << lut_biases.sizes();
         // LOG(INFO) << "QLUT shape : " << qlut.sizes();
         
-        LOG(INFO) << "Activation : " << "\n";
-        print_tensor(activation, 10);
-        LOG(INFO) << "LUT scales : " << "\n";
-        print_tensor(lut_scales, 10);
-        LOG(INFO) << "LUT biases : " << "\n";
-        print_tensor(lut_biases, 10);
-        LOG(INFO) << "QLUT : " << "\n";
-        print_tensor(qlut, 10);
+        // LOG(INFO) << "Activation : " << "\n";
+        // print_tensor(activation, 10);
+        // LOG(INFO) << "LUT scales : " << "\n";
+        // print_tensor(lut_scales, 10);
+        // LOG(INFO) << "LUT biases : " << "\n";
+        // print_tensor(lut_biases, 10);
+        // LOG(INFO) << "QLUT : " << "\n";
+        // print_tensor(qlut, 10);
 
 
     
@@ -142,6 +169,12 @@ namespace {
         void* scales_ptr = lut_scales.contiguous().data_ptr();
         void* biases_ptr = lut_biases.contiguous().data_ptr();
         void* qlut_ptr = qlut.contiguous().data_ptr();
+
+        print_memory_type(activation_ptr);
+        print_memory_type(scales_ptr);
+        print_memory_type(biases_ptr);
+        print_memory_type(qlut_ptr);
+        
    
         // 调底层预处理函数
         int ret = preprocessor_int8(
@@ -155,14 +188,14 @@ namespace {
             qlut_ptr    // 量化查找表输出
         );
 
-        LOG(INFO) << "AFTER Activation : " << "\n";
-        print_tensor(activation, 10);
-        LOG(INFO) << "AFTER LUT scales : " << "\n";
-        print_tensor(lut_scales, 10);
-        LOG(INFO) << "AFTER LUT biases : " << "\n";
-        print_tensor(lut_biases, 10);
-        LOG(INFO) << "AFTER QLUT : " << "\n";
-        print_tensor(qlut, 10);
+        // LOG(INFO) << "AFTER Activation : " << "\n";
+        // print_tensor(activation, 10);
+        // LOG(INFO) << "AFTER LUT scales : " << "\n";
+        // print_tensor(lut_scales, 10);
+        // LOG(INFO) << "AFTER LUT biases : " << "\n";
+        // print_tensor(lut_biases, 10);
+        // LOG(INFO) << "AFTER QLUT : " << "\n";
+        // print_tensor(qlut, 10);
     
         // 错误处理
         TORCH_CHECK(ret == 0, 
@@ -199,6 +232,13 @@ namespace {
         void* lut_scales_ptr = lut_scales.contiguous().data_ptr();
         void* lut_biases_ptr = lut_biases.contiguous().data_ptr();
         void* C_ptr = C.contiguous().data_ptr();
+
+        print_memory_type(A_ptr);
+        print_memory_type(qlut_ptr);
+        print_memory_type(scales_ptr);
+        print_memory_type(lut_scales_ptr);
+        print_memory_type(lut_biases_ptr);
+        print_memory_type(C_ptr);
     
         // 创建输出张量
         // torch::Tensor C = torch::empty({M, N}, activation.options());

@@ -12,12 +12,12 @@ TORCH_LIBRARY_FRAGMENT(torchao, m) {
 }
 
 TORCH_LIBRARY_IMPL(torchao, CPU, m) {
-    // m.impl("tmac_gemv", torchao::ops::tmac::tmac);
     m.impl("preprocess", &preprocess);
     m.impl("qgemm_lut", &qgemm_lut);
 }
 
-// TORCH_LIBRARY_IMPL(torchao, Meta, m) {
-//     m.impl("tmac", torchao::ops::tmac::tmac);
-// }
+TORCH_LIBRARY_IMPL(torchao, CUDA, m) {
+    m.impl("preprocess", &preprocess);
+    m.impl("qgemm_lut", &qgemm_lut);
+}
 

@@ -39,6 +39,9 @@ include_directories(${TORCHAO_INCLUDE_DIRS})
 find_package(Python REQUIRED COMPONENTS Development)
 include_directories(${Python_INCLUDE_DIRS})
 
+find_package(Torch REQUIRED)
+include_directories(${TORCH_INCLUDE_DIRS})
+
 message("Python_INCLUDE_DIRS: ${Python_INCLUDE_DIRS}")
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
@@ -53,6 +56,7 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
     add_subdirectory(ops/tmac)
 
     add_library(torchao_ops_aten SHARED)
+    set_target_properties(torchao_ops_aten PROPERTIES SUFFIX ".so")
     target_link_libraries(
         torchao_ops_aten PRIVATE
         torchao_ops_linear_8bit_act_xbit_weight_aten
@@ -78,6 +82,18 @@ elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
         EXPORT _targets
         DESTINATION lib
     )
+
+    # Add managed_allocator.so for aarch64
+    add_library(managed_allocator SHARED)
+    set_target_properties(managed_allocator PROPERTIES SUFFIX ".so")
+    target_sources(managed_allocator PRIVATE allocator/managed_allocator.cpp)
+    target_link_libraries(managed_allocator PRIVATE ${TORCH_LIBRARIES})
+    install(
+        TARGETS managed_allocator
+        EXPORT _targets
+        DESTINATION lib
+    )
+    
 
 else()
     message(FATAL_ERROR "Torchao experimental ops can only be built on arm64 CPUs.")
