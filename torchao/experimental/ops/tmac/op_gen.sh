@@ -6,15 +6,21 @@
 # LICENSE file in the root directory of this source tree.
 
 #> Generate the TMAC operator with TVM.
-
-set +x
-
 tmac_dir=t-mac
 
 rm -rf $tmac_dir
 mkdir -p $tmac_dir
-# python compile.py -o $tmac_dir -da -nt 1 -d m2 -gc -ags 64 -gs 128 --tune -m benchmark
-python compile.py -o $tmac_dir -da -nt 1 -d jetson -gc -ags 64 -gs 128 --tune -zp -m benchmark
-# python compile.py -o $tmac_dir -da -nt 4 -d m2 -gc -ags 64 -gs 128 --tune  -zp -m hf-bitnet-3b
 
-set -x
+# 获取系统架构
+arch=$(uname -m)
+
+if [ "$arch" == "aarch64" ]; then
+    echo "Detected architecture: aarch64 (Jetson)"
+    python compile.py -o $tmac_dir -da -nt 4 -d jetson -gc -ags 64 -gs 128 --tune -m benchmark
+elif [ "$arch" == "arm64" ]; then
+    echo "Detected architecture: arm64 (M2 Mac)"
+    python compile.py -o $tmac_dir -da -nt 4 -d m2 -gc -ags 64 -gs 128 --tune -m benchmark 
+else
+    echo "Unsupported architecture: $arch"
+    exit 1
+fi

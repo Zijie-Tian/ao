@@ -56,7 +56,25 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
 endif()
 
 find_package(Torch REQUIRED)
-find_package(CUDA REQUIRED)
+ 
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    find_package(CUDA REQUIRED)
+endif()
+
+if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/t-mac/kernels.cc")
+    # 如果文件不存在，执行自定义脚本
+    message(STATUS "kernels.cc not found, running custom script...")
+    execute_process(
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/op_gen.sh  # 脚本路径
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}         # 工作目录
+        RESULT_VARIABLE result                                # 脚本执行结果
+    )
+    if (NOT result EQUAL 0)
+        message(FATAL_ERROR "Custom script failed with exit code ${result}")
+    endif()
+else()
+    message(STATUS "kernels.cc found, skipping custom script.")
+endif()
 
 add_library(torchao_ops_tmac_aten OBJECT
     op_tmac_aten.cpp
@@ -65,19 +83,18 @@ add_library(torchao_ops_tmac_aten OBJECT
 set_target_properties(torchao_ops_tmac_aten PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_torchao_parallel_backend(torchao_ops_tmac_aten openmp)
 # target_link_libraries(torchao_ops_tmac_aten PRIVATE torchao_kernels_aarch64)
-target_include_directories(torchao_ops_tmac_aten PRIVATE "${TORCH_INCLUDE_DIRS}" "${CUDA_INCLUDE_DIRS}")
-target_include_directories(torchao_ops_tmac_aten PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(torchao_ops_tmac_aten PRIVATE "${TORCH_LIBRARIES}" "${CUDA_LIBRARIES}")
 
-# if(TORCHAO_BUILD_EXECUTORCH_OPS)
-#     file(GLOB _SRCS "${CMAKE_CURRENT_SOURCE_DIR}/op_tmac_executorch/*.cpp")
-#     add_library(torchao_ops_tmac_executorch OBJECT
-#         tmac.cpp
-#         ${_SRCS}
-#     )
-#     target_link_torchao_parallel_backend(torchao_ops_tmac_executorch executorch)
-#     target_include_directories(torchao_ops_tmac_executorch PRIVATE "${EXECUTORCH_INCLUDE_DIRS}")
-#     target_compile_definitions(torchao_ops_tmac_executorch PRIVATE USE_EXECUTORCH=1)
-#     target_link_libraries(torchao_ops_tmac_executorch PRIVATE "${EXECUTORCH_LIBRARIES}")
-#     target_link_libraries(torchao_ops_tmac_executorch PRIVATE torchao_kernels_aarch64)
-# endif()
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    add_definitions(-DUSE_CUDA_TMAC)
+    target_include_directories(torchao_ops_tmac_aten PRIVATE "${TORCH_INCLUDE_DIRS}" "${CUDA_INCLUDE_DIRS}")
+    target_include_directories(torchao_ops_tmac_aten PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(torchao_ops_tmac_aten PRIVATE "${TORCH_LIBRARIES}" "${CUDA_LIBRARIES}")
+else()
+    target_include_directories(torchao_ops_tmac_aten PRIVATE "${TORCH_INCLUDE_DIRS}")
+    target_include_directories(torchao_ops_tmac_aten PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(torchao_ops_tmac_aten PRIVATE "${TORCH_LIBRARIES}")
+endif()
+
+
+
+

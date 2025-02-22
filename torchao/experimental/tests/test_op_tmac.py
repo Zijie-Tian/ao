@@ -5,12 +5,18 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 torch.ops.load_library(current_path + "/../cmake-out/libtorchao_ops_aten.so")
 
 import torch
-import mem_aware_vector_add
+import platform
 
-# Load the allocator
-new_alloc = torch.cuda.memory.CUDAPluggableAllocator(
-    "/home/edgellm/Code/ao/torchao/experimental/cmake-out/libmanaged_allocator.so", 'my_malloc', 'my_free')
-torch.cuda.memory.change_current_allocator(new_alloc)
+system_arch = platform.machine()
+
+if system_arch == "aarch64":
+    # Load the allocator
+    new_alloc = torch.cuda.memory.CUDAPluggableAllocator(
+        "/home/edgellm/Code/ao/torchao/experimental/cmake-out/libmanaged_allocator.so", 'my_malloc', 'my_free')
+    torch.cuda.memory.change_current_allocator(new_alloc)
+    print("CUDA allocator changed successfully on aarch64 platform.")
+else:
+    print(f"Current platform is {system_arch}, skipping allocator change.")
 
 import copy
 import tempfile
@@ -160,10 +166,10 @@ class TestTMACQuantizer(unittest.TestCase):
                 # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
                 # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
-                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).cuda()
-                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).cuda()
+                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("mps")
+                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("mps")
 
-                print(f"Activation: {activation} and Weight: {weight}")
+                # print(f"Activation: {activation} and Weight: {weight}")
 
                 qweight, scale = weight_quant(weight, cfg.group_size)
 
@@ -207,13 +213,13 @@ class TestTMACQuantizer(unittest.TestCase):
                     bits=cfg.bits, g=cfg.g,
                     bm=cfg.bm, kfactor=cfg.kfactor
                 )
-                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8).cpu()
-                Scales_t = torch.tensor(Scales_t, dtype=torch.float16).cpu()
-                print(f"QWeight: {qweight_t} and Scales: {Scales_t}")
+                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
+                Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
+                # print(f"QWeight: {qweight_t} and Scales: {Scales_t}")
 
-                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16).cuda()
-                print(C)
-                print(f"{QLUT} and Weight: {LUT_Scales} and {LUT_Biases}")
+                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
+                # print(C)
+                # print(f"{QLUT} and Weight: {LUT_Scales} and {LUT_Biases}")
                 torch.ops.torchao.qgemm_lut(
                     qweight_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
                     C, cfg.M, cfg.K, cfg.N, cfg.bits
@@ -224,144 +230,6 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 continue
 
-
-                #> Standard quantized weight.
-                # Aref = np.random.randint(
-                #     0, 2**cfg.bits,
-                #     size=(cfg.M, cfg.K)
-                # ).astype(qweight_dtype)
-                # # 生成缩放因子和零点（如果需要）
-                # # Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size)).astype(out_dtype)
-                # # Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype) if cfg.zero_point else None
-                # Zref = None
-                # if cfg.m_groups == -1:
-                #     Sref = np.abs(np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype))
-                #     if cfg.zero_point:
-                #         Zref = np.random.randn(cfg.M, cfg.K // cfg.group_size).astype(out_dtype)
-                # else:
-                #     Sref = np.abs(np.random.randn(cfg.m_groups,).astype(out_dtype))
-                # Bref = np.random.randn(cfg.N, cfg.K).astype(out_dtype)
-
-                #> Testment.
-                # Aref = np.ones((cfg.M, cfg.K), dtype=qweight_dtype)
-                # # Aref[:, ::2] = 0
-                # Aref[::2, :] = 0
-                Sref = np.ones((cfg.M, cfg.K // cfg.group_size), dtype=out_dtype)
-                Zref = np.zeros((cfg.M, cfg.K // cfg.group_size), dtype=out_dtype) if cfg.zero_point else  None
-                # # Bref = np.ones((cfg.N, cfg.K), dtype=out_dtype)
-
-                # --- 计算参考输出 ---
-                # 反量化权重矩阵
-                if cfg.m_groups == -1:
-                    # 分组反量化
-                    Adq = Aref.T.reshape(cfg.K // cfg.group_size, cfg.group_size, cfg.M).astype(out_dtype) - (2 ** (cfg.bits - 1))
-                    Adq = Adq.transpose(1, 0, 2) * Sref.T  # 应用缩放因子
-                    if cfg.zero_point:
-                        Adq -= Zref.T
-                    Adq = Adq.transpose(1, 0, 2).reshape(cfg.K, cfg.M)
-                else:
-                    # 全局反量化
-                    Adq = (Aref.T.astype(out_dtype) - 2**(cfg.bits-1)) * Sref[0]
-
-                # 生成随机输入并计算参考输出
-                Cref = Bref @ Adq  # 原始矩阵乘法结果
-
-                # --- 量化计算流程 ---
-                # 预处理输入数据
-                B_torch = torch.tensor(Bref, dtype=torch.float16)
-                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8)
-                torch.ops.torchao.preprocess(B_torch, LUT_Scales, LUT_Biases, QLUT, cfg.M, cfg.K, cfg.N)
-
-                # 预处理权重量化参数
-                A_t, Scales_t = preprocess_weights(
-                    Aref, Sref, Zref,
-                    bits=cfg.bits, g=cfg.g,
-                    bm=cfg.bm, kfactor=cfg.kfactor
-                )
-
-                A_t = torch.tensor(A_t, dtype=torch.uint8)
-                Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
-
-                # 执行量化计算
-                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
-                torch.ops.torchao.qgemm_lut(
-                    A_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
-                    C, cfg.M, cfg.K, cfg.N, cfg.bits
-                )
-
-                # --- 结果验证 ---
-                max_error = get_max_allowed_error(cfg.bits)
-                sqnr = compute_error(C, Cref)
-
-                print(f"SQNR: {sqnr} and MAX_ERROR {max_error}")
-
-                import pdb; pdb.set_trace()
-
-                self.assertLessEqual(sqnr, max_error, f"SQNR: {sqnr} > {max_error}")
-
-
 if __name__ == '__main__':
     unittest.main()
 
-    # bits = 2
-    # M = 3200
-    # N = 1
-    # K = 3200
-    # zero_point = True
-    # dtype = "int8"
-    # g = 4
-    # group_size = 128
-    # act_group_size = 64
-    # m_groups = -1  # should be -1 or 1 in test_e2e.py
-
-    # bm = 128
-    # kfactor = 16
-
-    # qweight_dtype = "uint8"
-    # out_dtype = "float16"
-
-    # #> Quantized weights
-    # Aref = np.random.randint(0, 2 ** bits, size=(M, K)).astype(qweight_dtype)
-    # Sref = np.abs(np.random.randn(M, K // group_size).astype(out_dtype))
-    # Zref = None
-    # if zero_point:
-    #     Zref = np.random.randn(M, K // group_size).astype(out_dtype)
-
-    # if m_groups == -1:
-    #     Adq = Aref.T.reshape(K // group_size, group_size, M).astype(out_dtype) - (2 ** (bits - 1))
-    #     Adq = Adq.transpose(1, 0, 2) * Sref.T
-    #     if zero_point:
-    #         Adq = Adq - Zref.T
-    #     Adq = Adq.transpose(1, 0, 2).reshape(K, M)
-    # else:
-    #     Adq = (Aref.T.astype(out_dtype) - (2 ** (bits - 1))) * Sref[0]
-
-    # Bref = np.random.randn(N, K).astype(out_dtype)
-    # Cref = Bref.dot(Adq)
-    # print(Cref)
-
-    # # 生成随机张量 (正态分布)
-    # # Bref = torch.randn((N, K), dtype=torch.float16)  # 等效 np.random.randn(...).astype(...)
-    # Bref = torch.tensor(Bref, dtype=torch.float16)
-
-    # # 初始化 LUT 缩放因子和偏置张量
-    # LUT_Scales = torch.zeros((N, K // act_group_size), dtype=torch.float16)
-    # LUT_Biases = torch.zeros((N, K // act_group_size), dtype=torch.float16)
-
-    # # 初始化量化查找表 QLUT
-    # QLUT = torch.zeros((N, K // g, 1 << g), dtype=torch.uint8)  # 1<<g = 2^g
-
-    # torch.ops.torchao.preprocess(Bref, LUT_Scales, LUT_Biases, QLUT, M, K, N)
-
-    # A_t, Scales_t = preprocess_weights(Aref, Sref, Zref, bits=bits, g=g, bm=bm, kfactor=kfactor)
-
-    # A_t = torch.tensor(A_t, dtype=torch.uint8)
-    # Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
-
-    # C = torch.zeros((M, N), dtype=torch.float16)
-
-    # torch.ops.torchao.qgemm_lut(A_t, QLUT, Scales_t, LUT_Scales, LUT_Biases, C, M, K, N, bits)
-
-    # import pdb; pdb.set_trace()

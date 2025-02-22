@@ -10,7 +10,10 @@
 #include <torchao/experimental/ops/library.h>
 #include <torch/extension.h>
 #include <c10/util/Logging.h>
+
+#ifdef USE_CUDA_TMAC
 #include <cuda_runtime.h>
+#endif // USE_CUDA_TMAC
 
 #include <sstream>
 #include <optional>
@@ -42,23 +45,13 @@ namespace {
         }
     }
 
+
     void print_tensor(const torch::Tensor& tensor, int64_t max_count = 10) {
         // 检查 Tensor 是否有效
         if (!tensor.defined()) {
             LOG(INFO) << "Tensor is not defined!";
             return;
         }
-
-        // 获取 Tensor 的维度信息
-        // auto sizes = tensor.sizes();
-        // LOG(INFO) << "Tensor shape: [";
-        // for (size_t i = 0; i < sizes.size(); ++i) {
-        //     LOG(INFO) << sizes[i];
-        //     if (i < sizes.size() - 1) {
-        //         LOG(INFO) << ", ";
-        //     }
-        // }
-        // LOG(INFO) << "]";
 
         // 打印 Tensor 的数据
         LOG(INFO) << "Tensor data (first " << max_count << " elements):";
@@ -100,6 +93,7 @@ namespace {
         LOG(INFO) << "\n";
     }
 
+#ifdef USE_CUDA_TMAC
     // 打印内存类型信息
     void print_memory_type(void* ptr) {
         cudaPointerAttributes attributes;
@@ -125,7 +119,7 @@ namespace {
                 LOG(INFO) << "Unknown Memory Type";
         }
     }
-        
+#endif // USE_CUDA_TMAC
 
     // 核心预处理函数（支持多输出和灵活输入）
     torch::Tensor preprocess(
@@ -138,7 +132,7 @@ namespace {
         int64_t N,
         int64_t bits
     ) {
-        // int64_t bits = 2;                // 量化比特数（默认int8）
+        // int64_t bits = 2;             // 量化比特数（默认int8）
         bool inplace = false;            // 是否原地修改activation
     
         // 确保输入内存连续
@@ -146,22 +140,6 @@ namespace {
             activation = activation.contiguous();
             LOG(WARNING) << "输入张量非连续，已自动转换为连续内存";
         }
-
-        // LOG(INFO) << "Activation shape : " << activation.sizes();
-        // LOG(INFO) << "LUT scales shape : " << lut_scales.sizes();
-        // LOG(INFO) << "LUT biases shape : " << lut_biases.sizes();
-        // LOG(INFO) << "QLUT shape : " << qlut.sizes();
-        
-        // LOG(INFO) << "Activation : " << "\n";
-        // print_tensor(activation, 10);
-        // LOG(INFO) << "LUT scales : " << "\n";
-        // print_tensor(lut_scales, 10);
-        // LOG(INFO) << "LUT biases : " << "\n";
-        // print_tensor(lut_biases, 10);
-        // LOG(INFO) << "QLUT : " << "\n";
-        // print_tensor(qlut, 10);
-
-
     
         // 处理原地操作或创建副本ace ? activation : activation.clone();
         // 获取底层指针（确保张量内存布局正确）
@@ -170,11 +148,12 @@ namespace {
         void* biases_ptr = lut_biases.contiguous().data_ptr();
         void* qlut_ptr = qlut.contiguous().data_ptr();
 
+#ifdef USE_CUDA_TMAC
         print_memory_type(activation_ptr);
         print_memory_type(scales_ptr);
         print_memory_type(biases_ptr);
         print_memory_type(qlut_ptr);
-        
+#endif // USE_CUDA_TMAC
    
         // 调底层预处理函数
         int ret = preprocessor_int8(
@@ -188,22 +167,12 @@ namespace {
             qlut_ptr    // 量化查找表输出
         );
 
-        // LOG(INFO) << "AFTER Activation : " << "\n";
-        // print_tensor(activation, 10);
-        // LOG(INFO) << "AFTER LUT scales : " << "\n";
-        // print_tensor(lut_scales, 10);
-        // LOG(INFO) << "AFTER LUT biases : " << "\n";
-        // print_tensor(lut_biases, 10);
-        // LOG(INFO) << "AFTER QLUT : " << "\n";
-        // print_tensor(qlut, 10);
-    
         // 错误处理
         TORCH_CHECK(ret == 0, 
             "预处理失败 (错误码 ", ret, ")\n",
             "参数: M=", M, " K=", K, " N=", N, " bits=", bits);
     
         // 返回所有相关张量
-        // return {B, lut_scales, lut_biases, qlut};
         return activation;
     }
 
@@ -233,15 +202,14 @@ namespace {
         void* lut_biases_ptr = lut_biases.contiguous().data_ptr();
         void* C_ptr = C.contiguous().data_ptr();
 
+#ifdef USE_CUDA_TMAC
         print_memory_type(A_ptr);
         print_memory_type(qlut_ptr);
         print_memory_type(scales_ptr);
         print_memory_type(lut_scales_ptr);
         print_memory_type(lut_biases_ptr);
         print_memory_type(C_ptr);
-    
-        // 创建输出张量
-        // torch::Tensor C = torch::empty({M, N}, activation.options());
+#endif
     
         // 调用底层GEMM函数
         int ret = qgemm_lut_int8(

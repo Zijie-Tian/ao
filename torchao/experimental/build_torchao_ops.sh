@@ -36,9 +36,8 @@ export CMAKE_OUT=cmake-out
 # 使用 Debug 模式编译
 cmake -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} \
     -DCMAKE_INSTALL_PREFIX=${CMAKE_OUT} \
-    -DCMAKE_BUILD_TYPE=Debug \  # 指定 Debug 模式
     -DTORCHAO_BUILD_EXECUTORCH_OPS="${TORCHAO_BUILD_EXECUTORCH_OPS}" \
     -S . \
     -B ${CMAKE_OUT}
 
-cmake --build ${CMAKE_OUT} -j 16 --target install --config Debug  # 指定 Debug 配置
+cmake --build ${CMAKE_OUT} -j 16 --target install --config Release 
