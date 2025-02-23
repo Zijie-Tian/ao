@@ -1,38 +1,62 @@
 #include <torch/extension.h>
 
 
-bool is_tensor_empty(const torch::Tensor& tensor) {
-    return tensor.numel() == 0;
-}
+namespace {
+    bool is_tensor_empty(const torch::Tensor& tensor) {
+        return tensor.numel() == 0;
+    }
 
-// 定义 MPS 计算函数
-torch::Tensor mps_forward(const torch::Tensor& weight, const torch::Tensor& input) {
-    // 检查输入是否有效
-    TORCH_CHECK(input.dim() == 2, "Input must be a 2D tensor (vector)");
-    TORCH_CHECK(!is_tensor_empty(weight), "Weight must not be empty");
-    TORCH_CHECK(input.size(0) == weight.size(1), "Input and weight dimensions do not match");
+    // 定义 MPS 计算函数
+    torch::Tensor mps_forward(const torch::Tensor& weight, const torch::Tensor& input) {
+        // 检查输入是否有效
+        TORCH_CHECK(input.dim() == 2, "Input must be a 2D tensor (vector)");
+        TORCH_CHECK(!is_tensor_empty(weight), "Weight must not be empty");
+        TORCH_CHECK(input.size(0) == weight.size(1), "Input and weight dimensions do not match");
 
-    // 初始化结果为输入向量
-    torch::Tensor result = torch::empty({weight.size(0), input.size(1)}, input.options());
+        // 初始化结果为输入向量
+        torch::Tensor result = torch::empty({input.size(0), weight.size(0)}, input.options());
 
-    TORCH_CHECK(weight.dim() == 2, "Each weight must be a 2D tensor");
-    TORCH_CHECK(weight.size(1) == input.size(0), "weight and vector dimensions do not match");
+        TORCH_CHECK(weight.dim() == 2, "Each weight must be a 2D tensor");
+        TORCH_CHECK(weight.size(1) == input.size(0), "weight and vector dimensions do not match");
 
-    result = torch::matmul(weight, input);
+        result = torch::matmul(weight, input);
 
-    return result;
+        return result;
+    }
+
+    torch::Tensor hermes_gemv(const torch::Tensor& weight, const torch::Tensor& input) {
+        // 检查输入是否有效
+        TORCH_CHECK(input.dim() == 2, "Input must be a 2D tensor (vector)");
+        TORCH_CHECK(!is_tensor_empty(weight), "Weight must not be empty");
+        TORCH_CHECK(input.size(1) == weight.size(1), "Input and weight dimensions do not match");
+
+        //> weight is (M, K), input is (N, K)
+
+        // 初始化结果为输入向量
+        torch::Tensor result = torch::empty({input.size(0), weight.size(0)}, input.options());
+
+        TORCH_CHECK(weight.dim() == 2, "Each weight must be a 2D tensor");
+        TORCH_CHECK(weight.size(1) == input.size(0), "weight and vector dimensions do not match");
+
+        result = torch::matmul(input, weight.t());
+
+        return result;
+    }
 }
 
 TORCH_LIBRARY_FRAGMENT(torchao, m) {
     m.def("mps_forward(Tensor weight, Tensor input) -> Tensor");
+    m.def("hermes_gemv(Tensor weight, Tensor input) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(torchao, CPU, m) {
     m.impl("mps_forward", &mps_forward);
+    m.impl("hermes_gemv", &hermes_gemv);
 }
 
 TORCH_LIBRARY_IMPL(torchao, MPS, m) {
     m.impl("mps_forward", &mps_forward);
+    m.impl("hermes_gemv", &hermes_gemv);
 }
 
 // // 绑定到 Python

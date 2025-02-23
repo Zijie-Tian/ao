@@ -375,3 +375,6 @@ checkpoints/
 
 # Experimental
 torchao/experimental/cmake-out
+
+# Benchmarks
+benchmarks/*.csv

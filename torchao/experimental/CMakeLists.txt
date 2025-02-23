@@ -95,8 +95,6 @@ elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
         EXPORT _targets
         DESTINATION lib
     )
-    
-
 else()
     message(FATAL_ERROR "Torchao experimental ops can only be built on arm64 CPUs.")
 endif()

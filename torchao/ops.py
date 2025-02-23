@@ -1,6 +1,7 @@
 import torch
 from torch import Tensor
 
+import torchao
 from torchao.utils import TORCH_VERSION_AT_LEAST_2_4
 
 lib = torch.library.Library("torchao", "FRAGMENT")
@@ -718,3 +719,160 @@ def _(
         device=input.device,
     )
 
+#> >>>>>>>>>>>>>>>>>>> Added by Zijie Tian <<<<<<<<<<<<<<<<<<<<
+
+def hermes_gemv(
+    x : Tensor,
+    qweight : Tensor,
+    m : int,
+    n : int,
+    k : int
+):
+    """
+    Hermes GEMV operator.
+    Args:
+        qweight: quantized weight matrix of shape `(m, n)`.
+        x: input vector of shape `(n,)`.
+    Returns:
+        output: output vector of shape `(m,)`.
+    """
+    return torch.ops.torchao.hermes_gemv.mps(
+        qweight, x
+    )
+
+@register_custom_op("torchao::hermes_gemv")
+def _(
+    input: Tensor,
+    qweight: Tensor,
+    m: int,
+    n: int,
+    k: int,
+    group_size: int,
+) -> Tensor:
+    # Validate dtypes
+    torch._check(
+        input.dtype == torch.float16,
+        lambda: f"input must be float16, got {input.dtype}",
+    )
+    torch._check(
+        qweight.dtype == torch.int32,
+        lambda: f"qweight must be int32, got {qweight.dtype}", 
+    )
+
+    # Validate dimensions
+    torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
+    torch._check(qweight.dim() == 2, lambda: f"qweight must be 2D, got {qweight.dim()}D")
+
+    torch._check(
+        qweight.size(1) * 8 % group_size == 0,
+        lambda: f"qweight dim 1 * 8 must be divisible by group_size",
+    )
+
+    return torch.empty(
+        (input.size(0), qweight.size(0)),
+        dtype=torch.float16,
+        device=input.device,
+    )
+
+
+def linear_8bit_act_1bit0zp_weight(
+    input : Tensor,
+    packed_qweight : Tensor,
+    m : int,
+    n : int,
+    k : int,
+    group_size : int
+):
+    """
+    Linear operator with 8-bit input, 1-bit zero point weight.
+    Args:
+        input: input tensor of shape `(n, k)`.
+        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+    Returns: 
+        output: output tensor of shape `(m, k)`.
+    """
+    
+    group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+    n_tensor = torch.empty(0, m, dtype=torch.int8)  #> Just call it `n_tensor`.
+    k_tensor = torch.empty(0, k, dtype=torch.int8) 
+    
+    return torch.ops.torchao._linear_8bit_act_1bit0zp_weight.default(
+        input, packed_qweight, group_tensor, n_tensor, k_tensor
+    )
+
+#! Due to these functions already inside the libs
+# @register_custom_op("torchao::_linear_8bit_act_1bit0zp_weight")
+# def _(
+#     input: Tensor,
+#     packed_qweight: Tensor,
+#     m: int,
+#     n: int,
+#     k: int,
+#     group_size: int,
+# ) -> Tensor:
+#     # Validate dtypes
+#     torch._check(
+#         input.dtype == torch.int8,
+#         lambda: f"input must be int8, got {input.dtype}",
+#     )
+#     torch._check(
+#         packed_qweight.dtype == torch.int8,
+#         lambda: f"packed_qweight must be int8, got {packed_qweight.dtype}", 
+#     )
+
+#     # Validate dimensions
+#     torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
+#     torch._check(packed_qweight.dim() == 2, lambda: f"packed_qweight must be 2D, got {packed_qweight.dim()}D")
+
+#     return torch.empty(
+#         (m, k),
+#         dtype=torch.int8,
+#         device=input.device,
+#     )
+
+def pack_8bit_act_1bit0zp_weight(
+    pesudo_qweight : Tensor,
+    scales : Tensor,
+    group_size : int
+):
+    """
+    Pack 8-bit activation and 1-bit zero point weight.
+    Args:
+        pesudo_qweight: quantized weight tensor of shape `(m, n)`.
+        scales: scale tensor of shape `(m,)`.
+    Returns:
+        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+    """
+    
+    group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+    
+    return torch.ops.torchao._pack_8bit_act_1bit0zp_weight.default(
+        pesudo_qweight, scales, group_tensor
+    )
+    
+    
+# @register_custom_op("torchao::_pack_8bit_act_1bit0zp_weight")
+# def _(
+#     pesudo_qweight: Tensor,
+#     scales: Tensor,
+#     group_size: int,
+# ) -> Tensor:
+#     # Validate dtypes
+#     torch._check(
+#         pesudo_qweight.dtype == torch.float32,
+#         lambda: f"pesudo_qweight must be int8, got {pesudo_qweight.dtype}", 
+#     )
+#     torch._check(
+#         scales.dtype == torch.float16,
+#         lambda: f"scales must be float16, got {scales.dtype}",
+#     )
+
+#     # Validate dimensions
+#     torch._check(pesudo_qweight.dim() == 2, lambda: f"pesudo_qweight must be 2D, got {pesudo_qweight.dim()}D")
+#     torch._check(scales.dim() == 1, lambda: f"scales must be 1D, got {scales.dim()}D")
+
+#     return torch.empty(
+#         (pesudo_qweight.size(0), pesudo_qweight.size(1)),
+#         dtype=torch.int8,
+#         device=pesudo_qweight.device,
+#     )    

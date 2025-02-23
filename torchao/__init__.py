@@ -41,11 +41,13 @@ if not _IS_FBCODE:
         # They can also be built outside of the torchao install process by
         # running the script `torchao/experimental/build_torchao_ops.sh <aten|executorch>`
         # For more information, see https://github.com/pytorch/ao/blob/main/torchao/experimental/docs/readme.md
-        experimental_lib = list(Path(__file__).parent.glob("libtorchao_ops_aten.*"))
+        experimental_lib = list(Path(__file__).parent.rglob("libtorchao_ops_aten.*"))
+        # print("experimental_lib : ", experimental_lib, "in Path : ", Path(__file__).parent)
         if len(experimental_lib) > 0:
-            assert (
-                len(experimental_lib) == 1
-            ), f"Expected at most one libtorchao_ops_aten.* file, found {len(experimental_lib)}"
+            #! Disable this assert due to cmake generate multi libs
+            # assert (
+            #     len(experimental_lib) == 1
+            # ), f"Expected at most one libtorchao_ops_aten.* file, found {len(experimental_lib)}"
             torch.ops.load_library(experimental_lib[0])
     except:
         logging.debug("Skipping import of cpp extensions")

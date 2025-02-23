@@ -9,14 +9,17 @@ import tempfile
 import unittest
 
 import torch
+import torchao
 import os
 current_path = os.path.dirname(os.path.abspath(__file__))
-torch.ops.load_library(current_path + "/../cmake-out/lib/libtorchao_ops_aten.dylib")
+# torch.ops.load_library(current_path + "/../cmake-out/lib/libtorchao_ops_aten.dylib")
 
 from torchao.experimental.quant_api import (
     Int8DynActIntxWeightLinearQuantizer,
     _Int8DynActIntxWeightQuantizedLinearFallback,
 )
+
+from torchao.quantization.utils import compute_error
 
 class TestInt8DynActIntxWeightQuantizer(unittest.TestCase):
     def test_accuracy(self):
@@ -56,10 +59,16 @@ class TestInt8DynActIntxWeightQuantizer(unittest.TestCase):
                     self.assertTrue(torch.allclose(actual_val, expected_val, atol=1e-6))
                     if not torch.allclose(actual_val, expected_val):
                         num_mismatch_at_low_tol += 1
+                
+                # import pdb; pdb.set_trace()
+                
+                sqnr = compute_error(result, expected_result)
+                print(f"SQNR: {sqnr}")
+                self.assertTrue(sqnr > 40, "SQNR should be greater than 40")
 
                 # Assert at most 5% of entries are not close at a low tolerance
                 print("mismatch rate : ", num_mismatch_at_low_tol / num_total)
-                self.assertTrue(num_mismatch_at_low_tol / num_total <= 0.05)
+                self.assertTrue(num_mismatch_at_low_tol / num_total <= 0.05, "Mismatch rate should be less than 5%")
 
     # def test_export_compile_aoti(self):
     #     group_size = 32

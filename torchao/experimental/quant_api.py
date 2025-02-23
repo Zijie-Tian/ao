@@ -788,7 +788,7 @@ class TMACConfig:
     simd_n_out: int = 8
 
     @classmethod
-    def from_section(cls, section_name: str, config_parser: configparser.ConfigParser) -> 'QuantConfig':
+    def from_section(cls, section_name: str, config_parser: configparser.ConfigParser) -> 'TMACConfig':
         """从INI文件section解析出配置对象"""
         # 从section名称提取基础参数
         match = re.match(
@@ -892,40 +892,6 @@ def pack_tmac_weight(
             scales = torch.cat([scales, zeros], dim=0)
 
     return w, scales
-
-# def preprocess_for_t_mac(
-#     kcfg_file: str,
-#     w: torch.Tensor,
-#     scales: torch.Tensor,
-#     zeros: Optional[torch.Tensor] = None,
-#     bits: int = 2,
-#     g: int = 4,
-# ) -> torch.Tensor:
-
-#     M, K = w.shape
-#     cf = configparser.ConfigParser()
-#     cf.read(kcfg_file)
-#     secs = cf.sections()
-#     found = False
-#     for sec in secs:
-#         sec_splits = str(sec).split('_')
-#         if sec_splits[-4] == "m" + str(M * bits) and sec_splits[-3] == "k" + str(K):
-#             bm = int(cf.get(sec, 'bm'))
-#             kfactor = int(cf.get(sec, 'kfactor'))
-#             simd_n_in = int(cf.get(sec, 'simd_n_in'))
-#             simd_n_out = int(cf.get(sec, 'simd_n_out'))
-#             found = True
-#             break
-
-#     if not found:
-#         raise KeyError("GEMM of shape ({}, {}) is not found in {}. Please compile the kernels using T-MAC first.".format(M, K, kcfg_file))
-
-#     w, scales = pack_tmac_weight(w, scales, zeros, bits=bits, g=g, bm=bm, kfactor=kfactor, simd_n_in=simd_n_in, simd_n_out=simd_n_out)
-
-    # return None
-    # return np.concatenate([w.flatten(), scales.astype(np.float32).copy().view(np.uint8).flatten()])
-
-
 
 def load_op_config_ini(file_path: str) -> List[TMACConfig]:
     """读取INI文件并生成QuantConfig对象列表"""
