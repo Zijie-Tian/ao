@@ -163,11 +163,11 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 # 生成随机量化权重
                 # np.random.seed(42)  # 固定随机种子保证可重复性
-                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
-                # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
+                activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
+                weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
-                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("mps")
-                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("mps")
+                # activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("cpu")
+                # weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("cpu")
 
                 # print(f"Activation: {activation} and Weight: {weight}")
 
@@ -191,7 +191,7 @@ class TestTMACQuantizer(unittest.TestCase):
                 real_ref = activation @ weight.T
 
                 sqnr = compute_error(pesudo_ref, real_ref)
-                print(f"SQNR: {sqnr}")
+                print(f"algo SQNR: {sqnr}")
 
                 # 初始化缩放因子和零点
                 # Zref = None
@@ -225,6 +225,8 @@ class TestTMACQuantizer(unittest.TestCase):
                     C, cfg.M, cfg.K, cfg.N, cfg.bits
                 )
 
+                compute_sqnr = compute_error(C, pesudo_ref)
+                print(f"compute SQNR: {compute_sqnr}")
 
                 import pdb; pdb.set_trace()
 

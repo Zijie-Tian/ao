@@ -774,6 +774,72 @@ def _(
         device=input.device,
     )
 
+def tmac_gemv(
+    x : Tensor,
+    packed_qweight : Tensor,
+    Scales_t : Tensor,
+    C : Tensor,
+    M : int,
+    N : int,
+    K : int,
+    nbits : int,
+    group_size : int = 128,
+    g : int = 4
+):
+    """
+    Hermes GEMV operator.
+    Args:
+        qweight: quantized weight matrix of shape `(m, n)`.
+        x: input vector of shape `(n,)`.
+    Returns:
+        output: output vector of shape `(m,)`.
+    """
+
+    LUT_Scales = torch.zeros((N, K // group_size), dtype=torch.float16)
+    LUT_Biases = torch.zeros((N, K // group_size), dtype=torch.float16)
+    QLUT = torch.zeros((N, K // g, 1 << g), dtype=torch.uint8)
+    torch.ops.torchao.preprocess(x, LUT_Scales, LUT_Biases, QLUT, M, K, N, nbits)
+    
+    # C = torch.zeros((N, M), dtype=torch.float16)
+    torch.ops.torchao.qgemm_lut(
+        packed_qweight, QLUT, Scales_t, LUT_Scales, LUT_Biases,
+        C, M, K, N, nbits
+    )
+
+#! TMAC already inside the libs
+# @register_custom_op("torchao::hermes_gemv")
+# def _(
+#     input: Tensor,
+#     qweight: Tensor,
+#     m: int,
+#     n: int,
+#     k: int,
+#     group_size: int,
+# ) -> Tensor:
+#     # Validate dtypes
+#     torch._check(
+#         input.dtype == torch.float16,
+#         lambda: f"input must be float16, got {input.dtype}",
+#     )
+#     torch._check(
+#         qweight.dtype == torch.int32,
+#         lambda: f"qweight must be int32, got {qweight.dtype}", 
+#     )
+
+#     # Validate dimensions
+#     torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
+#     torch._check(qweight.dim() == 2, lambda: f"qweight must be 2D, got {qweight.dim()}D")
+
+#     torch._check(
+#         qweight.size(1) * 8 % group_size == 0,
+#         lambda: f"qweight dim 1 * 8 must be divisible by group_size",
+#     )
+
+#     return torch.empty(
+#         (input.size(0), qweight.size(0)),
+#         dtype=torch.float16,
+#         device=input.device,
+#     )
 
 def linear_8bit_act_1bit0zp_weight(
     input : Tensor,

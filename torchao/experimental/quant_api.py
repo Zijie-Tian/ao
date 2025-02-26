@@ -1015,7 +1015,6 @@ class TMACWeightOnlyQuantizedLinear(nn.Module):
         assert self.op_config != None, "TMAC Config is None"
         assert self.packed_qweight != None, "TMAC packed_weights is None"
         
-        
         if x.dtype != torch.float16:
             x.to(torch.float16)
         

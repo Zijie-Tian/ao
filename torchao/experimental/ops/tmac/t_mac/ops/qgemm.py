@@ -85,6 +85,7 @@ class QGeMMLUTBitsCodegen(OpCodegen):
         self.aggregation_dtype = aggregation_dtype
         self.fast_aggregation = fast_aggregation
         self.zero_point = zero_point
+        #! Zijie : If we have zero point, we need to set m_group to `-1`.
         if self.m_groups != -1:
             if self.zero_point:
                 logger.warning("Currently zero point is not supported for BitNet-like scales")
