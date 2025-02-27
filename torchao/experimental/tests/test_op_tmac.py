@@ -163,11 +163,11 @@ class TestTMACQuantizer(unittest.TestCase):
 
                 # 生成随机量化权重
                 # np.random.seed(42)  # 固定随机种子保证可重复性
-                activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
-                weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
+                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
+                # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
-                # activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("cpu")
-                # weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("cpu")
+                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("cpu")
+                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("cpu")
 
                 # print(f"Activation: {activation} and Weight: {weight}")
 
@@ -213,6 +213,9 @@ class TestTMACQuantizer(unittest.TestCase):
                     bits=cfg.bits, g=cfg.g,
                     bm=cfg.bm, kfactor=cfg.kfactor
                 )
+                
+                import pdb; pdb.set_trace()
+                
                 qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
                 Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
                 # print(f"QWeight: {qweight_t} and Scales: {Scales_t}")

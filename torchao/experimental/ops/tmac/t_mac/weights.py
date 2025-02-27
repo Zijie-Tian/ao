@@ -2,6 +2,10 @@ import torch
 import numpy as np
 from typing import Tuple, Optional
 
+def print_binary(array):
+    # np.set_printoptions(threshold=np.inf)  # 不省略任何元素
+    binary_array = np.vectorize(lambda x: format(x if x >= 0 else (1 << 8) + x, '08b'))(array)
+    print(binary_array)
 
 def preprocess_weights(
     w: np.ndarray,
@@ -59,13 +63,21 @@ def preprocess_weights(
     # (M // bits, K, bits) -> (M // bits, bits, K) -> (M // bits, bits, K // g, g)
     w = w.transpose(0, 2, 1).reshape(M // bits, bits, K // g, g)
     w = sum([(w[:, :, :, ig] << ig) for ig in range(g)])    #! After this, each element will containes one group. 
+
+    # #> Test code
+    # num_elem_w = len(w.flatten())
+    # w = np.arange(num_elem_w).reshape(w.shape)
+
     # 0, 16, 1, 17, 2, 18, 3, 19, 4, 20, 5, 21, 6, 22, 7, 23, 8, 24, 9, 25, 10, 26, 11, 27, 12, 28, 13, 29, 14, 30, 15, 31
     # for bits=3
     # bit0: [0, 8), bit1: [8, 16), bit2: [16, 24), bit0: [24, 32)
     # (M // bits // simd_n_float16, bits, simd_n_float16, K // g)
     w = w.reshape(M // bits // simd_n_out, simd_n_out, bits, K // g).transpose(0, 2, 1, 3)
     mgroup = ngroups_per_elem * simd_n_in
+    #! After this, w[:, b, :, :] will contains specific bit slice.
     w = w.reshape(M // mgroup, ngroups_per_elem, simd_n_in, K // g).transpose(0, 2, 1, 3)
+
+    # import pdb; pdb.set_trace()
     #             0        1             2          3                 4                  5
     w = w.reshape(M // bm, bm // mgroup, simd_n_in, ngroups_per_elem, K // g // kfactor, kfactor).transpose(0, 4, 1, 5, 2, 3)
     # w shape = (M // bm, K // g // kfactor, bm // mgroup, kfactor, simd_n_in, ngroups_per_elem)

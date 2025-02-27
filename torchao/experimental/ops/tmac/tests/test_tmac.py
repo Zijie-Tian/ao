@@ -9,6 +9,7 @@ sys.path.append("../")
 from t_mac.ops import QGeMMLUTBitsCodegen, QGeMMLUTBitsPreprocessorCodegen
 from t_mac.utils import get_default_device_kwargs, get_devices
 from t_mac.model_utils import get_preset_models, extract_kernel_shapes, get_quantization_config
+from t_mac.utils import get_default_device_kwargs, nmse
 from t_mac.weights import preprocess_weights
 
 def compute_error(x, y):
@@ -25,32 +26,35 @@ def print_binary(array):
 bits = 2
 M = 4096 * bits
 N = 1
-K = 64
+K = 4096               #> K >= g * kfactor && K >= act_group_size && K >= group_size
 g = 4
 bm = 256
+simd_n_in = 16
+simd_n_out = 8
 kfactor = 16
-act_group_size = 64
-group_size = 64 
+act_group_size = 64  #> act_group_size >= g
+group_size = 128
 out_dtype = 'float16'
 dtype = 'int8'
 zero_point = False
 m_groups = -1
 
-def weight_quant(weight, group_size):
-    dtype = weight.dtype
-    org_w_shape = weight.shape
-
-    if group_size > 0:
-        assert weight.shape[1] % group_size == 0, "group_size must be a divisor of weight.shape[1]"
-        weight = weight.reshape(-1, group_size).float()
-        scale = 1 / weight.abs().mean(dim=1).clamp(min=1e-5)
-        qweight = (weight * scale.unsqueeze(-1).expand_as(weight)).round().clamp(-1, 1)
-    else :
-        weight = weight.float()
-        scale = 1 / weight.abs().mean().clamp(min=1e-5)
-        qweight = (weight * scale).round().clamp(-1, 1)
-
-    return qweight.type(dtype).reshape(org_w_shape), scale
+# np.random.seed(21)
+# bits = 2
+# M = 4 * bits
+# N = 1
+# K = 8               #> K >= g * kfactor && K >= act_group_size && K >= group_size
+# g = 4
+# bm = 4
+# simd_n_in = 2
+# simd_n_out = 1
+# kfactor = 2
+# act_group_size = 4  #> act_group_size >= g
+# group_size = 2 
+# out_dtype = 'float16'
+# dtype = 'int8'
+# zero_point = False
+# m_groups = -1
 
 def weight_quant_numpy(weight, group_size):
     """NumPy实现的权重量化函数
@@ -68,15 +72,9 @@ def weight_quant_numpy(weight, group_size):
         # 分组量化逻辑
         assert weight.shape[1] % group_size == 0, "group_size必须能整除输入维度"
         
-        # 重塑为 (num_groups, group_size)
         weight = weight.reshape(-1, group_size).astype(np.float32)
-        
-        # 计算缩放因子：每个组的绝对均值倒数 (添加最小截断值防止除零)
         scale = 1 / np.clip(np.mean(np.abs(weight), axis=1), 1e-5, None)
-        
-        # 应用缩放并量化 (-1, 0, +1)
         qweight = np.round(weight * scale[:, np.newaxis]).clip(-1, 1)
-        
     else:
         # 全局量化逻辑
         weight = weight.astype(np.float32)
@@ -84,28 +82,49 @@ def weight_quant_numpy(weight, group_size):
         qweight = np.round(weight * scale).clip(-1, 1) 
 
     # 恢复原始形状和数据类型
-    return qweight.reshape(org_shape).astype(dtype), scale
+    return qweight.reshape(org_shape).astype(dtype), scale.astype(dtype)
 
-# weight = np.random.randn(M, K).astype(out_dtype)      # FP16
-weight = np.ones((M, K), dtype=out_dtype)               # FP16
-weight[::2, :] = 0
+weight = np.random.randn(M // bits, K).astype(out_dtype)      # FP16
+# weight[::2, :] = 0
 # weight[:, ::2] = 0
 # weight = np.random.randint(2, size=(M // bits, K)).astype(out_dtype)
-activation = np.random.randn(N, K).astype(out_dtype)    # FP16
+activation = np.random.randn(N, K).astype(out_dtype)  # FP16
+# activation = np.ones((N, K)).astype(out_dtype)            # FP16
+
+# weight = np.load("weight.npy").astype(out_dtype)
+# activation = np.load("activation.npy").astype(out_dtype) # FP16
+
+# TODO : Implement real group quantization.
 qweight, scale = weight_quant_numpy(weight, -1)
 
-pesudo_qweight = qweight * scale
+# scale = scale * np.ones((M // bits, K // group_size), dtype=out_dtype)
 
-qweight = np.round(qweight + 2 ** (bits - 1)).astype("uint8")
-# qweight = qweight.astype("uint8")
-
-Aref, Sref = preprocess_weights(qweight, scale.reshape(1), None, bits=bits, g=g, bm=bm, kfactor=kfactor)
-
-print_binary(Aref)
-# import pdb; pdb.set_trace() 
-
+Aref = np.round(qweight + 2 ** (bits - 1)).astype("uint8")
+Sref = (scale * np.ones((M // bits, K // group_size))).astype(out_dtype)
 Bref = activation
 Zref = None
+
+if m_groups == -1:
+    Adq = Aref.T.reshape(K // group_size, group_size, M // bits).astype(out_dtype) - (2 ** (bits - 1))
+    #> [group_size, K // group_size, M // bits] * [K // group_size, M // bits]
+    Adq = Adq.transpose(1, 0, 2) * Sref.T
+    if zero_point:
+        Adq = Adq - Zref.T
+    Adq = Adq.transpose(1, 0, 2).reshape(K, M // bits)
+else:
+    Adq = (Aref.T.astype(out_dtype) - (2 ** (bits - 1))) * Sref[0]
+
+# pesudo_qweight = qweight.reshape(M // bits, K // group_size, group_size).astype(out_dtype)
+# pesudo_qweight = (pesudo_qweight.transpose(2, 1, 0) * scale.T).transpose(2, 1, 0).reshape(M // bits, K).astype(out_dtype)
+# qweight = np.round(qweight + 2 ** (bits - 1)).astype("uint8")
+
+Cref = Bref.dot(Adq) 
+
+A_t, Scales_t = preprocess_weights(Aref, Sref, None, bits=bits, g=g, bm=bm, kfactor=kfactor, simd_n_in=simd_n_in, simd_n_out=simd_n_out)
+
+
+
+#! ========================================================================================================================
 
 # 输入数据初始化
 # Aref = 3 * np.ones((M // bits, K), dtype=np.uint8)  # 全3，二进制11
@@ -113,59 +132,104 @@ Zref = None
 # Sref = np.ones((M // bits, K // group_size), dtype=np.float16)  # 全1
 # Zref = np.zeros((M // bits, K // group_size), dtype=np.float16) if zero_point else None
 
+# # 预处理部分
+# def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
+#     N, K = B.shape
+#     num_act_groups = K // act_group_size
+#     #> 这里就是沿着K的轴进行量化。
+#     LUT_Scales = np.zeros((N, num_act_groups), dtype=out_dtype)
+#     LUT_Biases = np.zeros((N, num_act_groups), dtype=out_dtype)
+    
+#     # 计算LUT_Scales和LUT_Biases
+#     for n in range(N):
+#         for kk in range(num_act_groups):
+#             start = kk * act_group_size
+#             end = start + act_group_size
+#             group = B[n, start:end].reshape(-1, g)
+#             max_sum = np.max(np.abs(np.sum(group, axis=1)))
+#             LUT_Scales[n, kk] = max_sum / 127.0  # int8的maxv是127
+            
+#             # 计算LUT_Biases（假设gamma=1）
+#             code0_sum = np.sum([np.sum(g) for g in group * -1])  # code=0的映射和为-4每个子组
+#             #! 这LUT_Bias是为了回到0点。
+#             LUT_Biases[n, kk] = code0_sum  # 这里简化处理
+    
+#     # 生成QLUT
+#     QLUT = np.zeros((N, K//g, 2**g), dtype=dtype)
+#     codes = np.arange(2**g, dtype=np.uint8)
+#     for n in range(N):
+#         for k in range(K//g):
+#             group = B[n, k*g : (k+1)*g]
+#             #> 此处实现了LUT表的量化，使用之前计算好的Scales。
+#             #! 这个地方同时实现了对于activation的动态量化。
+#             ils = 1.0 / LUT_Scales[n, k*g // act_group_size]
+#             for code in range(2**g):
+#                 m = np.array([(code >> i) & 1 for i in range(g)], dtype=np.float16)     #> 拆分每一个bit位。
+#                 m = m * 2 - 1           # [0 -> -1, 1 -> 1]
+#                 val = np.dot(group, m)  # PreCompute all possible LUT results.
+#                 qval = np.round(val * ils).astype(dtype)
+#                 QLUT[n, k, code] = qval
+                
+#     return LUT_Scales, LUT_Biases, QLUT
+
 # 预处理部分
 def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
-    N, K = B.shape
-    num_act_groups = K // act_group_size
-    LUT_Scales = np.zeros((N, num_act_groups), dtype=out_dtype)
-    LUT_Biases = np.zeros((N, num_act_groups), dtype=out_dtype)
+    _states = [-1, 1]
+    _gamma = 1
+    maxv = (1 << 7) - 1
     
-    # 计算LUT_Scales和LUT_Biases
-    for n in range(N):
-        for kk in range(num_act_groups):
-            start = kk * act_group_size
-            end = start + act_group_size
-            group = B[n, start:end].reshape(-1, g)
-            max_sum = np.max(np.abs(np.sum(group, axis=1)))
-            LUT_Scales[n, kk] = max_sum / 127.0  # int8的maxv是127
-            
-            # 计算LUT_Biases（假设gamma=1）
-            code0_sum = np.sum([np.sum(g) for g in group * -1])  # code=0的映射和为-4每个子组
-            LUT_Biases[n, kk] = code0_sum  # 这里简化处理
-    
-    # 生成QLUT
-    QLUT = np.zeros((N, K//g, 2**g), dtype=dtype)
-    codes = np.arange(2**g, dtype=np.uint8)
-    for n in range(N):
-        for k in range(K//g):
-            group = B[n, k*g : (k+1)*g]
-            ils = 1.0 / LUT_Scales[n, k*g // act_group_size]
-            for code in range(2**g):
-                m = np.array([(code >> i) & 1 for i in range(g)], dtype=np.float16)
-                m = m * 2 - 1  # 映射到-1和1
-                val = np.dot(group, m)
-                qval = np.round(val * ils).astype(dtype)
-                QLUT[n, k, code] = qval
-                
-    return LUT_Scales, LUT_Biases, QLUT
+    b = B.reshape(N, K // g, g)
+
+    codes = np.array([[i] for i in range(1 << g)], dtype=np.uint8)
+    codes = np.unpackbits(codes, axis=1, bitorder="little", count=g).T
+
+    def map_states(c):
+        return _states[c]
+
+    m = np.vectorize(map_states)(codes).astype(out_dtype)
+
+    # (N, K // g, 1 << g)
+    lut = b.dot(m)
+    lut_biases = lut.reshape(N, K // act_group_size, act_group_size // g, 1 << g)[:, :, :, 0]
+    lut_biases = np.sum(lut_biases, axis=-1) * _gamma
+
+    # quantization
+    qlut = lut.reshape(N, K // act_group_size, act_group_size // g * (1 << g))
+    absmax = np.max(np.abs(qlut), axis=-1)
+    lut_scales = absmax / maxv
+
+    def recp(s):
+        return 1.0 / s if s != 0 else 0
+
+    ils = np.vectorize(recp)(lut_scales).astype(out_dtype)
+    qlut = np.rint(
+        (qlut.transpose(2, 0, 1).reshape(-1, qlut.shape[0] * qlut.shape[1]) * ils.reshape(1, qlut.shape[0] * qlut.shape[1]))
+        .reshape(qlut.shape[2], qlut.shape[0], qlut.shape[1]).transpose(1, 2, 0).reshape(N, K // g, 1 << g)
+    ).astype(dtype)
+
+    return B, lut_scales, lut_biases, qlut
+
 
 # 运行预处理
-LUT_Scales, LUT_Biases, QLUT = preprocessor_reference(Bref, act_group_size, g, dtype, out_dtype)
+Bref, LUT_Scales, LUT_Biases, QLUT = preprocessor_reference(Bref, act_group_size, g, dtype, out_dtype)
 
-import pdb; pdb.set_trace()
+import pdb; pdb.set_trace() 
+
+#! ========================================================================================================================
 
 def get_bits_alphas(bits: int):
     alphas = [1 / 2, 1, 2, 4]
     return alphas[:bits]
 
 # 矩阵乘法部分
-def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size, m_groups, bm=512, kfactor=16):
+#! qgemm_reference 经过验证完全没有错误
+def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size, m_groups, simd_n_in, simd_n_out, bm=512, kfactor=16):
     """修改后的正确实现"""
     # 从预处理后的A获取维度信息
     M_bm, K_g, A_cols = A.shape  # 预处理后的A形状 (M//bm, K//g, bm//ngroups_per_elem)
     _ngroups_per_elem = 8 // g    # 每个uint8元素包含的组数
-    simd_n_in = 16               # 根据preprocess_weights中的参数
-    simd_n_out = 8               # 根据preprocess_weights中的参数
+    # simd_n_in = 16               # 根据preprocess_weights中的参数
+    # simd_n_out = 8               # 根据preprocess_weights中的参数
     
     # 计算实际维度
     M = M_bm * bm                # 原始权重行数
@@ -184,11 +248,10 @@ def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size
     A = A.reshape(M // bm, K // g // kfactor, bm // _ngroups_per_elem // simd_n_in, kfactor, simd_n_in)
     A = np.concatenate([(A >> (g * ng)) & ((1 << g) - 1) for ng in range(_ngroups_per_elem)], axis=-1)
     
-    scales = scales * np.ones((M // bm, K // group_size, bm // bits // simd_n_out, simd_n_out), dtype=out_dtype)
+    #! 注意这地方其实没啥问题，因为TMAC应该没有对weight进行group的量化。
+    scales = scales.reshape(M // bm, K // group_size, bm // bits // simd_n_out, simd_n_out)
 
-    import pdb; pdb.set_trace()
-
-    
+    # import pdb; pdb.set_trace()
     for n in range(N):
         for k in range(K // g):
             for m in range(M):
@@ -230,15 +293,22 @@ def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size
     return c
 
 # 运行矩阵乘法
-C = qgemm_reference(Aref, QLUT, LUT_Scales, LUT_Biases, Sref, bits, g, group_size, m_groups, bm=bm, kfactor=kfactor)
+
+# A_t = np.load("A_t.npy")
+# QLUT = np.load("QLUT.npy")
+# Scales_t = np.load("Scales_t.npy")
+# LUT_Scales = np.load("LUT_Scales.npy")
+# LUT_Biases = np.load("LUT_Biases.npy")
+
+C = qgemm_reference(A_t, QLUT, LUT_Scales, LUT_Biases, Scales_t, bits, g, group_size, m_groups, simd_n_in=simd_n_in, simd_n_out=simd_n_out, bm=bm, kfactor=kfactor)
 
 
-C_ref = activation @ pesudo_qweight.T
-print("Reference C:", C_ref)
+print("Reference C:", Cref)
 print("Simulated C:", C)
 
-SQNR = compute_error(C_ref, C)
+# SQNR = compute_error(Cref, C)
+NMSE = nmse(Cref, C)
 
-print("SQNR:", SQNR)
+print("NMSE :", NMSE)
 
 import pdb; pdb.set_trace()

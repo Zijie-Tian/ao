@@ -15,7 +15,7 @@ from torch.ao.quantization.fx._decomposed import (
     quantize_per_channel_group,
 )
 
-def get_problem(m, n, k, group_size=128, nbits=1):
+def get_problem(m, n, k, group_size=128, nbits=2):
     activations = torch.randn(n, k, dtype=torch.float32)    #> 
     weight = torch.randn(m, k, dtype=torch.float32)
     

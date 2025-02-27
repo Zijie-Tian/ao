@@ -65,6 +65,7 @@ inline int32_t lut_ctor_g4_int8_impl(int32_t act_k, int8_t* qlut, float_type* b,
                 vec_lut[g] = vec_lut[g] - vec_bs.val[3];
             }
         }
+        //> Mirror the LUT.
 #pragma unroll
         for (int g = 0; g < 16; g += 2) {
             vec_lut[g] = -vec_lut[15 - g];

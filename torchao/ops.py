@@ -942,3 +942,49 @@ def pack_8bit_act_1bit0zp_weight(
 #         dtype=torch.int8,
 #         device=pesudo_qweight.device,
 #     )    
+
+
+def pack_8bit_act_2bit0zp_weight(
+    pesudo_qweight : Tensor,
+    scales : Tensor,
+    group_size : int
+):
+    """
+    Pack 8-bit activation and 1-bit zero point weight.
+    Args:
+        pesudo_qweight: quantized weight tensor of shape `(m, n)`.
+        scales: scale tensor of shape `(m,)`.
+    Returns:
+        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+    """
+    
+    group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+    
+    return torch.ops.torchao._pack_8bit_act_2bit0zp_weight.default(
+        pesudo_qweight, scales, group_tensor
+    )
+
+def linear_8bit_act_2bit0zp_weight(
+    input : Tensor,
+    packed_qweight : Tensor,
+    m : int,
+    n : int,
+    k : int,
+    group_size : int
+):
+    """
+    Linear operator with 8-bit input, 1-bit zero point weight.
+    Args:
+        input: input tensor of shape `(n, k)`.
+        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+    Returns: 
+        output: output tensor of shape `(m, k)`.
+    """
+    
+    group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+    n_tensor = torch.empty(0, m, dtype=torch.int8)  #> Just call it `n_tensor`.
+    k_tensor = torch.empty(0, k, dtype=torch.int8) 
+    
+    return torch.ops.torchao._linear_8bit_act_2bit0zp_weight.default(
+        input, packed_qweight, group_tensor, n_tensor, k_tensor
+    )
