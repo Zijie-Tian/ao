@@ -7,9 +7,11 @@
 #pragma once
 
 //> Include header of Torch.
+#include <torch/torch.h> 
 #include <torchao/experimental/ops/library.h>
 #include <torch/extension.h>
 #include <c10/util/Logging.h>
+#include <c10/util/Half.h>
 
 #ifdef USE_CUDA_TMAC
 #include <cuda_runtime.h>
@@ -23,7 +25,6 @@
 
 namespace {
 
-    // 辅助函数：递归打印 Tensor 的数据
     void print_tensor_data(const torch::Tensor& tensor, int64_t offset, int64_t& count, int64_t max_count) {
         if (count >= max_count) {
             return; // 达到最大打印数量，直接返回
@@ -44,7 +45,6 @@ namespace {
             }
         }
     }
-
 
     void print_tensor(const torch::Tensor& tensor, int64_t max_count = 10) {
         // 检查 Tensor 是否有效
@@ -121,32 +121,31 @@ namespace {
     }
 #endif // USE_CUDA_TMAC
 
-    // 核心预处理函数（支持多输出和灵活输入）
-    torch::Tensor preprocess(
-        torch::Tensor& activation,       // 输入激活张量
-        torch::Tensor& lut_scales,       // 可选预计算LUT缩放因子
-        torch::Tensor& lut_biases,       // 可选预计算LUT偏置
-        torch::Tensor& qlut,             // 可选预计算量化查找表
+    std::vector<torch::Tensor> preprocess(
+        torch::Tensor& activation,
         int64_t M,
         int64_t K,
         int64_t N,
+        int64_t act_group_size,
+        int64_t g,
         int64_t bits
     ) {
-        // int64_t bits = 2;             // 量化比特数（默认int8）
-        bool inplace = false;            // 是否原地修改activation
+        bool inplace = false;
     
-        // 确保输入内存连续
         if (!activation.is_contiguous()) {
             activation = activation.contiguous();
-            LOG(WARNING) << "输入张量非连续，已自动转换为连续内存";
+            LOG(WARNING) << "Not contiguous memory, converted to contiguous memory";
         }
     
-        // 处理原地操作或创建副本ace ? activation : activation.clone();
-        // 获取底层指针（确保张量内存布局正确）
         void* activation_ptr = activation.data_ptr();
-        void* scales_ptr = lut_scales.contiguous().data_ptr();
-        void* biases_ptr = lut_biases.contiguous().data_ptr();
-        void* qlut_ptr = qlut.contiguous().data_ptr();
+
+        torch::Tensor LUT_Scales = torch::zeros({N, K / act_group_size}, torch::kFloat16);
+        torch::Tensor LUT_Biases = torch::zeros({N, K / act_group_size}, torch::kFloat16);
+        torch::Tensor QLUT = torch::zeros({K, 32}, torch::kInt8);
+
+        void* lut_scales_ptr = LUT_Scales.contiguous().data_ptr();
+        void* lut_biases_ptr = LUT_Biases.contiguous().data_ptr();
+        void* qlut_ptr = QLUT.contiguous().data_ptr();
 
 #ifdef USE_CUDA_TMAC
         print_memory_type(activation_ptr);
@@ -154,53 +153,61 @@ namespace {
         print_memory_type(biases_ptr);
         print_memory_type(qlut_ptr);
 #endif // USE_CUDA_TMAC
-   
-        // 调底层预处理函数
         int ret = preprocessor_int8(
-            M * bits,   // 压缩后的维度m
-            K,          // 原始特征维度k
+            M * bits,
+            K,
             N,
-            bits,       // 量化比特数b
-            activation_ptr,      // Activation.
-            scales_ptr, // 量化查找表缩放因子
-            biases_ptr, // 量化查找表偏置
-            qlut_ptr    // 量化查找表输出
+            bits,
+            activation_ptr, 
+            lut_scales_ptr, 
+            lut_biases_ptr, 
+            qlut_ptr 
         );
 
-        // 错误处理
         TORCH_CHECK(ret == 0, 
             "预处理失败 (错误码 ", ret, ")\n",
             "参数: M=", M, " K=", K, " N=", N, " bits=", bits);
     
-        // 返回所有相关张量
-        return activation;
+        return {LUT_Scales, LUT_Biases, QLUT};
     }
 
+    //! =====================================================================
+
     torch::Tensor qgemm_lut(
-        torch::Tensor& activation,       // 输入激活张量
-        torch::Tensor& qlut,             // 可选预计算量化查找表
-        torch::Tensor& scales,           // 可选预计算LUT缩放因子
-        torch::Tensor& lut_scales,       // 可选预计算LUT缩放因子
-        torch::Tensor& lut_biases,       // 可选预计算LUT偏置
-        torch::Tensor& C,                // Results
+        torch::Tensor& packed_qweight,  
+        torch::Tensor& qlut, 
+        torch::Tensor& scales, 
+        torch::Tensor& lut_scales,
+        torch::Tensor& lut_biases, 
         int64_t M,
         int64_t K,
         int64_t N,
+        int64_t bm,
+        int64_t g,
         int64_t bits 
     ) {
         // 确保输入内存连续
-        if (!activation.is_contiguous()) {
-            activation = activation.contiguous();
-            LOG(WARNING) << "输入张量非连续，已自动转换为连续内存";
+        if (!packed_qweight.is_contiguous()) {
+            packed_qweight = packed_qweight.contiguous();
+            LOG(WARNING) << "Not contiguous memory, converted to contiguous memory";
         }
 
-        // 获取底层指针（确保张量内存布局正确）
-        void* A_ptr = activation.data_ptr();
+        TORCH_CHECK(packed_qweight.dtype() == torch::kUInt8, "packed_qweight must be of type uint8");
+        TORCH_CHECK(qlut.dtype() == torch::kInt8, "qlut must be of type int8");
+        TORCH_CHECK(scales.dtype() == torch::kFloat16, "scales must be of type float16");
+        TORCH_CHECK(lut_scales.dtype() == torch::kFloat16, "lut_scales must be of type float16");
+        TORCH_CHECK(lut_biases.dtype() == torch::kFloat16, "lut_biases must be of type float16");
+
+        uint8_t* A_ptr_uint8 = packed_qweight.data_ptr<uint8_t>();
+
         void* qlut_ptr = qlut.contiguous().data_ptr();
         void* scales_ptr = scales.contiguous().data_ptr();
         void* lut_scales_ptr = lut_scales.contiguous().data_ptr();
         void* lut_biases_ptr = lut_biases.contiguous().data_ptr();
-        void* C_ptr = C.contiguous().data_ptr();
+
+        // Allocate C Tensor.
+        torch::Tensor C = torch::zeros({N, M}, torch::kFloat16);
+        torch::Half* C_ptr_f16 = static_cast<torch::Half*>(C.contiguous().data_ptr());
 
 #ifdef USE_CUDA_TMAC
         print_memory_type(A_ptr);
@@ -210,26 +217,28 @@ namespace {
         print_memory_type(lut_biases_ptr);
         print_memory_type(C_ptr);
 #endif
+        int64_t ngroups_per_elem = 8 / g;
+
+        for(int m_tile_idx = 0; m_tile_idx < M / (bm / ngroups_per_elem); m_tile_idx++) {
+            int ret = qgemm_lut_int8(
+                bm,
+                K,
+                N,
+                bits,
+                (void *)(A_ptr_uint8 + (K / g) * m_tile_idx * bm / ngroups_per_elem), 
+                qlut_ptr,
+                scales_ptr,
+                lut_scales_ptr,
+                lut_biases_ptr, 
+                (void *)(C_ptr_f16 + m_tile_idx * bm / ngroups_per_elem)
+            );
     
-        // 调用底层GEMM函数
-        int ret = qgemm_lut_int8(
-            M * bits,       // 压缩后的维度m
-            K,              // 原始特征维度k
-            N,              // 输出通道维度n
-            bits,           // 量化比特数b
-            A_ptr,          // 输入数据
-            qlut_ptr,       // 量化查找表
-            scales_ptr,     // LUT缩放因子
-            lut_scales_ptr, // LUT缩放因子
-            lut_biases_ptr, // LUT偏置
-            C_ptr           // 输出数据
-        );
-    
-        // 错误处理
-        TORCH_CHECK(ret == 0, 
-            "GEMM计算失败 (错误码 ", ret, ")\n",
-            "参数: M=", M, " K=", K, " N=", N, " bits=", bits);
-    
+            TORCH_CHECK(ret == 0, 
+                "GEMM计算失败 (错误码 ", ret, ")\n",
+                "参数: bm=", bm, " K=", K, " N=", N, " bits=", bits);
+            
+        }
+
         return C;
     }
 

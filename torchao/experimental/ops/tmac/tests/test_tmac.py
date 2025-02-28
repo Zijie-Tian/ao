@@ -91,8 +91,8 @@ weight = np.random.randn(M // bits, K).astype(out_dtype)      # FP16
 activation = np.random.randn(N, K).astype(out_dtype)  # FP16
 # activation = np.ones((N, K)).astype(out_dtype)            # FP16
 
-# weight = np.load("weight.npy").astype(out_dtype)
-# activation = np.load("activation.npy").astype(out_dtype) # FP16
+weight = np.load("weight.npy").astype(out_dtype)
+activation = np.load("activation.npy").astype(out_dtype) # FP16
 
 # TODO : Implement real group quantization.
 qweight, scale = weight_quant_numpy(weight, -1)
@@ -188,6 +188,8 @@ def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
 
     m = np.vectorize(map_states)(codes).astype(out_dtype)
 
+    import pdb; pdb.set_trace()
+
     # (N, K // g, 1 << g)
     lut = b.dot(m)
     lut_biases = lut.reshape(N, K // act_group_size, act_group_size // g, 1 << g)[:, :, :, 0]
@@ -195,7 +197,7 @@ def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
 
     # quantization
     qlut = lut.reshape(N, K // act_group_size, act_group_size // g * (1 << g))
-    absmax = np.max(np.abs(qlut), axis=-1)
+    absmax = np.max(np.abs(qlut), axis=-1)      #! This abs + max will calculate the SUM of each group.
     lut_scales = absmax / maxv
 
     def recp(s):
@@ -302,13 +304,13 @@ def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size
 
 C = qgemm_reference(A_t, QLUT, LUT_Scales, LUT_Biases, Scales_t, bits, g, group_size, m_groups, simd_n_in=simd_n_in, simd_n_out=simd_n_out, bm=bm, kfactor=kfactor)
 
-
 print("Reference C:", Cref)
 print("Simulated C:", C)
 
-# SQNR = compute_error(Cref, C)
+SQNR = compute_error(Cref, C)
 NMSE = nmse(Cref, C)
 
 print("NMSE :", NMSE)
+print("SQNR :", SQNR)
 
 import pdb; pdb.set_trace()

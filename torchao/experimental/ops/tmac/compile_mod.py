@@ -72,6 +72,7 @@ def compile(
         wrapper_func_calls[name] += wrapper_func_call
         return False
 
+
     def insert(all: Union[tvm.IRModule, Tuple[str]], new: Union[tvm.IRModule, Tuple[str]]):
         if isinstance(new, tuple):
             if make_call(new[0]):
@@ -83,6 +84,7 @@ def compile(
             return all
         elif isinstance(all, tuple):
             return (all[0] + "\n" + new[0], all[1] + "\n" + new[1])
+
 
     return_type = "lower" if not FLAGS.gen_c_code else "c"
     mod = None
@@ -129,10 +131,6 @@ def compile(
             bits=bits,
             **codegen_kwargs,
         )
-        
-        
-        
-        
         M = M * bits
         qgemm_lut.m_groups = m_groups
         preprocessor.M = M
@@ -142,7 +140,7 @@ def compile(
 
         qgemm_lut.num_threads = FLAGS.num_threads
         qgemm_mod = qgemm_lut.compile(
-            M, N, K,        # args of compile function.
+            M, N, K,
             thread_affinity=FLAGS.thread_affinity,
             return_type=return_type,
             **eval_kwargs,

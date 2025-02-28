@@ -69,7 +69,7 @@ out_dtype = device_kwargs["out_dtype"]
 
 remote_kwargs = None
 codegen_kwargs = {
-    "save_dir": os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "out"),
+    "save_dir": os.path.join(os.path.dirname(os.path.abspath(__file__)), "out"),
     "dtype": dtype,
     "target": device_kwargs["target"],
     "verify": True,
@@ -82,7 +82,16 @@ codegen_kwargs = {
 }
 
 preprocessor = QGeMMLUTBitsPreprocessorCodegen(name="preprocessor", fast_aggregation_k=0, **codegen_kwargs)
-qgemm = QGeMMLUTBitsCodegen(name="qgemm_lut", group_size=group_size, m_groups=m_groups, aggregation_dtype=device_kwargs["aggregation_dtype"], zero_point=zero_point, **codegen_kwargs)
+qgemm = QGeMMLUTBitsCodegen(
+    name="qgemm_lut", 
+    group_size=group_size, 
+    m_groups=m_groups, 
+    aggregation_dtype=device_kwargs["aggregation_dtype"], 
+    zero_point=zero_point, 
+    **codegen_kwargs
+)
+
+preprocessor.M = M
 
 pf, _ = preprocessor.compile(N, K)
 qf, _ = qgemm.compile(M, N, K)
@@ -92,6 +101,8 @@ kfactor = qgemm.kfactor
 weight_dtype = qgemm.weight_dtype
 
 # Inputs
+
+#! We just test one tile compute.
 
 # M = 4 * bits
 # K = 8 
@@ -103,7 +114,7 @@ weight = np.random.randn(M // bits, K).astype(out_dtype)      # FP16
 # weight[::2, :] = 0
 # weight[:, ::2] = 0
 # weight = np.random.randint(2, size=(M // bits, K)).astype(out_dtype)
-activation = np.random.randn(N, K).astype(out_dtype) # FP16
+activation = np.random.randn(N, K).astype(out_dtype)        # FP16
 # activation = np.ones((N, K)).astype(out_dtype)            # FP16
 qweight, scale = weight_quant_numpy(weight, -1)
 
@@ -121,7 +132,8 @@ Zref = None
 #         Zref = np.random.randn(M // bits, K // group_size).astype(out_dtype)
 # else:
 #     Sref = np.abs(np.random.randn(m_groups,).astype(out_dtype))
-Bref = np.random.randn(N, K).astype(out_dtype)
+Bref = activation
+# Bref = np.random.randn(N, K).astype(out_dtype)
 # Bref = np.ones((N, K)).astype(out_dtype)
 
 # Outputs
@@ -165,10 +177,13 @@ print("Reference C :", Cref)
 print("TVM compute :", C_t.numpy())
 print("NMSE : ", nmse(Cref, C_t.numpy()))
 
-# np.save("A_t.npy", A_t.numpy())
-# np.save("QLUT.npy", QLUT.numpy())
-# np.save("Scales_t.npy", Scales_t.numpy())
-# np.save("LUT_Scales.npy", LUT_Scales.numpy())
-# np.save("LUT_Biases.npy", LUT_Biases.numpy())
+np.save("weight.npy", weight)
+np.save("activation.npy", activation)
+
+np.save("A_t.npy", A_t.numpy())
+np.save("QLUT.npy", QLUT.numpy())
+np.save("Scales_t.npy", Scales_t.numpy())
+np.save("LUT_Scales.npy", LUT_Scales.numpy())
+np.save("LUT_Biases.npy", LUT_Biases.numpy())
 
 import pdb; pdb.set_trace()

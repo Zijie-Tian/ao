@@ -46,7 +46,7 @@ class QuantConfig:
     M: int = 3200
     N: int = 1
     K: int = 3200
-    zero_point: bool = True
+    zero_point: bool = False
     dtype: str = "int8"
 
     # 分组参数
@@ -117,28 +117,25 @@ def get_max_allowed_error(bits: int) -> float:
         4: 40,          # 4 bit量化允许最小SQNR
     }.get(bits, 40)
 
-def weight_quant(weight, group_size):
+def weight_quant(weight, group_size, force_per_tensor=False):
     dtype = weight.dtype
-    org_w_shape = weight.shape
+    org_w_shape = list(weight.shape)
+    M, K = weight.shape
 
-    if group_size > 0:
+    if not force_per_tensor:
         assert weight.shape[1] % group_size == 0, "group_size must be a divisor of weight.shape[1]"
-        weight = weight.reshape(-1, group_size).float()
-        scale = 1 / weight.abs().mean(dim=1).clamp(min=1e-5)
+        weight = weight.reshape(M, K// group_size, group_size).float()
+        scale = 1 / weight.abs().mean(dim=-1).clamp(min=1e-5)
         qweight = (weight * scale.unsqueeze(-1).expand_as(weight)).round().clamp(-1, 1)
+        qweight = qweight.type(dtype).reshape(org_w_shape)
     else :
         weight = weight.float()
         scale = 1 / weight.abs().mean().clamp(min=1e-5)
         qweight = (weight * scale).round().clamp(-1, 1)
+        scale = scale * torch.ones(M, K // group_size).to(dtype)
 
-    return qweight.type(dtype).reshape(org_w_shape), scale
+    return qweight, scale
 
-    # dtype = weight.dtype
-    # weight = weight.float()
-    # weight_
-    # s =  1 / weight.abs().mean().clamp(min=1e-5)
-    # result = (weight * s).round().clamp(-1, 1) / s
-    # return result.type(dtype)
 
 class TestTMACQuantizer(unittest.TestCase):
     @classmethod
@@ -162,78 +159,54 @@ class TestTMACQuantizer(unittest.TestCase):
                 out_dtype = torch.float16   # 输出精度
 
                 # 生成随机量化权重
-                # np.random.seed(42)  # 固定随机种子保证可重复性
-                # activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
-                # weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
+                np.random.seed(42)  # 固定随机种子保证可重复性
+                activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
+                weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
 
-                activation = torch.ones(cfg.N, cfg.K, dtype=out_dtype).to("cpu")
-                weight = torch.ones(cfg.M, cfg.K, dtype=weight_dtype).to("cpu")
+                # NOTE : Current SQNR_group < SQNR_tensor
+                qweight, scale = weight_quant(weight, cfg.group_size, force_per_tensor=True) 
 
-                # print(f"Activation: {activation} and Weight: {weight}")
+                Aref = np.round(qweight + 2 ** (cfg.bits - 1)).to(torch.uint8)
+                Sref = (scale * torch.ones((cfg.M, cfg.K // cfg.group_size)))
+                Bref = activation
+                Zref = None
+                
+                if cfg.m_groups == -1:
+                    Adq = Aref.T.reshape(cfg.K // cfg.group_size, cfg.group_size, cfg.M).to(out_dtype) - (2 ** (cfg.bits - 1))
+                    Adq = Adq.permute(1, 0, 2) * Sref.T
+                    if cfg.zero_point:
+                        Adq = Adq - Zref.T
+                    Adq = Adq.permute(1, 0, 2).reshape(cfg.K, cfg.M).to(out_dtype)
+                else:
+                    Adq = (Aref.T.to(out_dtype) - (2 ** (cfg.bits - 1))) * Sref[0]
 
-                qweight, scale = weight_quant(weight, cfg.group_size)
+                real_ref = torch.matmul(activation, weight.T)
+                Cref = torch.matmul(activation, Adq)      #> No need Transpose.
 
-                if cfg.group_size > 0:
-                    pesudo_weight = qweight.reshape(-1, cfg.group_size).float()
-                    pesudo_weight = pesudo_weight * scale.unsqueeze(-1).expand_as(pesudo_weight)
-                    pesudo_weight = pesudo_weight.view(weight.shape)
-                    pesudo_ref = activation @ qweight.T
-                    #! Note this "+2"
-                    qweight = (qweight + 2 ** (cfg.bits - 1)).type(qweight_dtype)
-                    scale = scale.reshape(-1, cfg.K // cfg.group_size).type(out_dtype)
-                else :
-                    pesudo_weight = qweight.type(out_dtype) * scale
-                    pesudo_ref = activation @ pesudo_weight.T
-                    #! Note this "+2"
-                    qweight = torch.round(qweight + 2 ** (cfg.bits - 1)).to(qweight_dtype)
-                    scale = scale * torch.ones(cfg.M, cfg.K, dtype=torch.float16)
 
-                real_ref = activation @ weight.T
+                #! Call Torch Native Preprocess Function.
+                LUT_Scales, LUT_Biases, QLUT = torch.ops.torchao.preprocess(Bref, cfg.M, cfg.K, cfg.N, cfg.act_group_size, cfg.g, cfg.bits)
 
-                sqnr = compute_error(pesudo_ref, real_ref)
-                print(f"algo SQNR: {sqnr}")
-
-                # 初始化缩放因子和零点
-                # Zref = None
-                # if cfg.m_groups == -1:
-                #     Sref = torch.abs(torch.randn(cfg.M, cfg.K // cfg.group_size)).to(dtype=out_dtype)
-                #     if cfg.zero_point:
-                #         Zref = torch.randn(cfg.M, cfg.K // cfg.group_size).to(dtype=out_dtype)
-                # else:
-                #     Sref = torch.abs(torch.randn(cfg.m_groups,)).to(dtype=out_dtype)
-
-                # 生成 Bref
-                LUT_Scales = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                LUT_Biases = torch.zeros((cfg.N, cfg.K // cfg.act_group_size), dtype=torch.float16)
-                QLUT = torch.zeros((cfg.N, cfg.K // cfg.g, 1 << cfg.g), dtype=torch.uint8)
-                torch.ops.torchao.preprocess(activation, LUT_Scales, LUT_Biases, QLUT, cfg.M, cfg.K, cfg.N, cfg.bits)
-
-                qweight_t, Scales_t = preprocess_weights_torch(
-                    qweight, scale, None,
+                A_t, Scales_t = preprocess_weights_torch(
+                    Aref, Sref, None,
                     bits=cfg.bits, g=cfg.g,
                     bm=cfg.bm, kfactor=cfg.kfactor
                 )
-                
-                import pdb; pdb.set_trace()
-                
-                qweight_t = torch.tensor(qweight_t, dtype=torch.uint8)
-                Scales_t = torch.tensor(Scales_t, dtype=torch.float16)
-                # print(f"QWeight: {qweight_t} and Scales: {Scales_t}")
+                Scales_t = Scales_t.to(torch.float16)
+                A_t = A_t.to(torch.uint8)
 
-                C = torch.zeros((cfg.N, cfg.M), dtype=torch.float16)
-                # print(C)
-                # print(f"{QLUT} and Weight: {LUT_Scales} and {LUT_Biases}")
-                torch.ops.torchao.qgemm_lut(
-                    qweight_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
-                    C, cfg.M, cfg.K, cfg.N, cfg.bits
+                #! Call ONE Thread block. (Just compute one tile)
+                C = torch.ops.torchao.qgemm_lut(
+                    A_t, QLUT, Scales_t, LUT_Scales, LUT_Biases,
+                    cfg.M, cfg.K, cfg.N, cfg.bm, cfg.g, cfg.bits
                 )
+                algo_sqnr = compute_error(Cref, real_ref)
+                print(f"algo SQNR: {algo_sqnr}")
+                print("Pesudo Ref :", Cref)
+                print("Real output :", C)
 
-                compute_sqnr = compute_error(C, pesudo_ref)
+                compute_sqnr = compute_error(C, Cref)
                 print(f"compute SQNR: {compute_sqnr}")
-
-                import pdb; pdb.set_trace()
-
-                continue
 
 if __name__ == '__main__':
     unittest.main()

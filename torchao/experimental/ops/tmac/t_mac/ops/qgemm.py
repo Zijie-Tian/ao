@@ -199,7 +199,7 @@ class QGeMMLUTBitsCodegen(OpCodegen):
                         te.indexdiv(m, self.simd_n_out) * self.simd_n_out * self.bits
                             + te.indexmod(m, self.simd_n_out)
                             + b * self.simd_n_out
-                    ].astype("float32") * alphas[b]
+                    ].astype("float16") * alphas[b]
                     for b in range(self.bits)
                 ]),
             ).astype(self.out_dtype),
@@ -259,6 +259,8 @@ class QGeMMLUTBitsCodegen(OpCodegen):
         # 32 for vectorization should be enough
         moC, miC = sch[CC].split(mC, factor=32)
         mio, mii = sch[C].split(mi, factor=32)
+
+        #! If you generate C Code, _vectorization should be False.
         if self._vectorization:
             sch[CC].vectorize(miC)
             sch[C].vectorize(mii)
