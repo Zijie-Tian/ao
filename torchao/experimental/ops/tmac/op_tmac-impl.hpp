@@ -165,8 +165,8 @@ namespace {
         );
 
         TORCH_CHECK(ret == 0, 
-            "预处理失败 (错误码 ", ret, ")\n",
-            "参数: M=", M, " K=", K, " N=", N, " bits=", bits);
+            "Preprocessing failed (error code ", ret, ")\n",
+            "Parameters: M=", M, " K=", K, " N=", N, " bits=", bits);
     
         return {LUT_Scales, LUT_Biases, QLUT};
     }
@@ -234,8 +234,8 @@ namespace {
             );
     
             TORCH_CHECK(ret == 0, 
-                "GEMM计算失败 (错误码 ", ret, ")\n",
-                "参数: bm=", bm, " K=", K, " N=", N, " bits=", bits);
+                "LUT_GEMM failed (error code ", ret, ")\n",
+                "Parameters: M=", M, " K=", K, " N=", N, " bits=", bits);
             
         }
 

@@ -775,7 +775,7 @@ def _(
     )
 
 def tmac_gemv(
-    x : Tensor,
+    activation : Tensor,
     packed_qweight : Tensor,
     Scales_t : Tensor,
     C : Tensor,
@@ -784,10 +784,12 @@ def tmac_gemv(
     K : int,
     nbits : int,
     group_size : int = 128,
+    bm : int = 256,
+    act_group_size : int = 64,
     g : int = 4
 ):
     """
-    Hermes GEMV operator.
+    TMAC GEMV operator.
     Args:
         qweight: quantized weight matrix of shape `(m, n)`.
         x: input vector of shape `(n,)`.
@@ -795,16 +797,15 @@ def tmac_gemv(
         output: output vector of shape `(m,)`.
     """
 
-    LUT_Scales = torch.zeros((N, K // group_size), dtype=torch.float16)
-    LUT_Biases = torch.zeros((N, K // group_size), dtype=torch.float16)
-    QLUT = torch.zeros((N, K // g, 1 << g), dtype=torch.uint8)
-    torch.ops.torchao.preprocess(x, LUT_Scales, LUT_Biases, QLUT, M, K, N, nbits)
+    LUT_Scales, LUT_Biases, QLUT = torch.ops.torchao.preprocess(
+        activation, M, K, N, act_group_size, g, nbits)
     
     # C = torch.zeros((N, M), dtype=torch.float16)
-    torch.ops.torchao.qgemm_lut(
+    return torch.ops.torchao.qgemm_lut(
         packed_qweight, QLUT, Scales_t, LUT_Scales, LUT_Biases,
-        C, M, K, N, nbits
+        M, K, N, bm, g, nbits
     )
+
 
 #! TMAC already inside the libs
 # @register_custom_op("torchao::hermes_gemv")

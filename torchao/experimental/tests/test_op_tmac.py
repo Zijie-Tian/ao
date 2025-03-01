@@ -161,7 +161,7 @@ class TestTMACQuantizer(unittest.TestCase):
                 # 生成随机量化权重
                 np.random.seed(42)  # 固定随机种子保证可重复性
                 activation = torch.randn(cfg.N, cfg.K, dtype=out_dtype)
-                weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype)
+                weight = torch.randn(cfg.M, cfg.K, dtype=weight_dtype) 
 
                 # NOTE : Current SQNR_group < SQNR_tensor
                 qweight, scale = weight_quant(weight, cfg.group_size, force_per_tensor=True) 
@@ -202,6 +202,7 @@ class TestTMACQuantizer(unittest.TestCase):
                 )
                 algo_sqnr = compute_error(Cref, real_ref)
                 print(f"algo SQNR: {algo_sqnr}")
+                print("Realref output :", real_ref)
                 print("Pesudo Ref :", Cref)
                 print("Real output :", C)
 

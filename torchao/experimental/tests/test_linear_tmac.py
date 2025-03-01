@@ -12,11 +12,11 @@ import copy
 import tempfile
 import unittest
 
-import torch
+import torchao
 import torch.nn as nn
 import os
-current_path = os.path.dirname(os.path.abspath(__file__))
-torch.ops.load_library(current_path + "/../cmake-out/lib/libtorchao_ops_aten.dylib")
+# current_path = os.path.dirname(os.path.abspath(__file__))
+# torch.ops.load_library(current_path + "/../cmake-out/lib/libtorchao_ops_aten.dylib")
 
 from torchao.experimental.quant_api import (
     TMACWeightOnlyLinearQuantizer,
@@ -49,7 +49,7 @@ def test_accuracy():
     n = 1
     m = 4096
     k = 4096
-    group_size = 2
+    group_size = 128
 
     tokenizer = LlamaTokenizer.from_pretrained("/Users/tianzijie/hf_models/bitnet_b1_58-3B")
     model = AutoModelForCausalLM.from_pretrained("/Users/tianzijie/hf_models/bitnet_b1_58-3B", torch_dtype=torch.float16).to(
@@ -57,22 +57,38 @@ def test_accuracy():
     ).to(torch.float16)
 
     model_input = tokenizer("Hello, my dog is cute", return_tensors="pt")
+    activations = model.get_input_embeddings()(model_input['input_ids']).to(torch.float32)
+
+    for name, linear_layer in find_proj_layers(model):
+        linear_layer = linear_layer.to(torch.float32)
+        reference_impl = _TMACWeightQuantizedLinearFallback(2, group_size)
+        reference_impl.quantize_and_pack_weights(
+            linear_layer.weight, group_size,
+        )
+        
+        real_ref = activations @ linear_layer.weight.T
+        pesudo_ref = reference_impl(activations)
+        
+        algo_sqnr = compute_error(real_ref, pesudo_ref)
+        print(f"Algorithm SQNR: {algo_sqnr}")
+
+        import pdb; pdb.set_trace()
+    
     # activations = model.get_input_embeddings()(input_ids)
     
-    import pdb; pdb.set_trace()
 
-    quantized_model = copy.deepcopy(model)
-    quantizer = TMACWeightOnlyLinearQuantizer(
-        device="cpu",
-        precision=torch.float16,
-        bitwidth=2,
-        batch_size=1,
-    )
-    quantized_model = quantizer.quantize(quantized_model)
+    # quantized_model = copy.deepcopy(model)
+    # quantizer = TMACWeightOnlyLinearQuantizer(
+    #     device="cpu",
+    #     precision=torch.float16,
+    #     bitwidth=2,
+    #     batch_size=1,
+    # )
+    # quantized_model = quantizer.quantize(quantized_model)
     
-    quantized_model.eval()
-    with torch.no_grad():
-        quantized_model.generate(**model_input, max_new_tokens=50, do_sample=True, temperature=0.7)
+    # quantized_model.eval()
+    # with torch.no_grad():
+    #     quantized_model.generate(**model_input, max_new_tokens=50, do_sample=True, temperature=0.7)
     
     import pdb; pdb.set_trace()
     

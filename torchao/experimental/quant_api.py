@@ -929,16 +929,24 @@ def find_tmac_config(
     return None
 
 #> This function can preserve the PPL on BitNet.
-def pesudo_tmac_weight_quant(weight: torch.Tensor) -> torch.Tensor:
+def pesudo_tmac_weight_quant(weight: torch.Tensor, group_size: int, force_per_tensor: bool = True) -> torch.Tensor:
     dtype = weight.dtype
-    weight = weight.float()
-    scale = weight.abs().mean().clamp(min=1e-5)
-    iscale = 1 / scale
-    # TODO: multiply by the scale directly instead of inverting it twice
-    # (this is also unnecessarily doubly inverted upstream)
-    # ref: https://huggingface.co/1bitLLM/bitnet_b1_58-3B/blob/af89e318d78a70802061246bf037199d2fb97020/utils_quant.py#L10
-    result = (weight * iscale).round().clamp(-1, 1) / iscale
-    return result.type(dtype)
+    org_w_shape = list(weight.shape)
+    M, K = weight.shape
+
+    if not force_per_tensor:
+        assert weight.shape[1] % group_size == 0, "group_size must be a divisor of weight.shape[1]"
+        weight = weight.reshape(M, K// group_size, group_size).float()
+        scale = 1 / weight.abs().mean(dim=-1).clamp(min=1e-5)
+        qweight = (weight * scale.unsqueeze(-1).expand_as(weight)).round().clamp(-1, 1)
+        qweight = qweight.type(dtype).reshape(org_w_shape)
+    else :
+        weight = weight.float()
+        scale = 1 / weight.abs().mean().clamp(min=1e-5)
+        qweight = (weight * scale).round().clamp(-1, 1)
+        scale = scale * torch.ones(M, K // group_size).to(dtype)
+
+    return qweight, scale
 
 class TMACWeightOnlyQuantizedLinear(nn.Module):
     def __init__(
@@ -1165,23 +1173,33 @@ class TMACWeightOnlyLinearQuantizer:
 # This is used to test Int8DynActLowbitWeightQuantizedLinear, and as a fallback when
 # Int8DynActLowbitWeightQuantizedLinear is not available
 class _TMACWeightQuantizedLinearFallback(nn.Module):
-    def __init__(self, nbits):
+    def __init__(self, nbits, group_size):
         super().__init__()
         self.nbits = nbits
-
-    def quantize_and_pack_weights(self, weights, group_size, has_weight_zeros=True):
         self.group_size = group_size
-        self.has_weight_zeros = has_weight_zeros
 
+    def quantize_and_pack_weights(self, weights, group_size):
+        self.group_size = group_size
+        
         self._n, self._k = weights.shape
         assert self._k % group_size == 0, "group_size must divide k"
 
-        self.pesudo_qweight = pesudo_tmac_weight_quant(weights)
+        self.qweight_qval, self.scale = pesudo_tmac_weight_quant(weights, self.group_size, force_per_tensor=True)
+        
+        Aref = torch.round(self.qweight_qval + 2 ** (self.nbits - 1)).to(torch.uint8)
+        
+        Adq = Aref.T.reshape(self._k // group_size, group_size, self._n).to(torch.float32) - (2 ** (self.nbits - 1))
+        #> [group_size, K // group_size, M // bits] * [K // group_size, M // bits]
+        Adq = Adq.permute(1, 0, 2) * self.scale.T
+        self.pesudo_qweight = Adq.permute(1, 0, 2).reshape(self._k, self._n).T
+        self.pesudo_qweight.to(torch.float32)
+        
+        import pdb; pdb.set_trace()
 
     def _forward_2d(self, x):
         assert x.dim() == 2
 
-        res = torch.matmul(x, self.pesudo_qweight.transpose(1, 0))
+        res = torch.matmul(x, self.pesudo_qweight.T)
         return res
 
     def forward(self, x):
