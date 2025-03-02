@@ -114,8 +114,8 @@ def benchmark(m: int, k: int, n: int, bit_width: int = 1):
         "fp32_latency (ms)": fp32_time,
         "latency (ms)": int_time,
         "speedup (d/s)": fp32_time / int_time,
-        "Algorithm SQNR (dB)": compute_error(pesudo_ref, real_ref),
-        "Compute SQNR (dB)": compute_error(results, pesudo_ref)
+        "Algorithm SQNR (dB)": compute_error(pesudo_ref, real_ref).item(),
+        "Compute SQNR (dB)": compute_error(results, pesudo_ref).item()
     }
 
 if __name__ == '__main__':

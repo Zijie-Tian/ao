@@ -1,3 +1,5 @@
+TORCHAO_ROOT = /Users/tianzijie/Baselines/ao/
+
 all: test_lowbit
 
 test_lowbit: test_lowbit.mm ../src/OperationUtils.mm

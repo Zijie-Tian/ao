@@ -139,8 +139,8 @@ def benchmark(
         "fp32_latency (ms)": fp32_time,
         "tmac latency (ms)": int8_time,
         "speedup (d/s)": fp32_time / int8_time,
-        "Algorithm SQNR (dB)" : algo_sqnr,
-        "Compute SQNR (dB)" : compute_sqnr
+        "Algorithm SQNR (dB)" : algo_sqnr.item(),
+        "Compute SQNR (dB)" : compute_sqnr.item()
     }
     
 

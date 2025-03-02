@@ -7,8 +7,8 @@
 #include <iostream>
 #include <random>
 
-#include <torchao/experimental/kernels/mps/src/lowbit.h>
-#include <torchao/experimental/kernels/mps/test/bfloat16.h>
+#include "torchao/experimental/kernels/mps/src/lowbit.h"
+#include "torchao/experimental/kernels/mps/test/bfloat16.h"
 
 using Float16 = _Float16;
 
