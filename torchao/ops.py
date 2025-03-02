@@ -778,7 +778,6 @@ def tmac_gemv(
     activation : Tensor,
     packed_qweight : Tensor,
     Scales_t : Tensor,
-    C : Tensor,
     M : int,
     N : int,
     K : int,
@@ -797,14 +796,20 @@ def tmac_gemv(
         output: output vector of shape `(m,)`.
     """
 
+    # import pdb; pdb.set_trace()
+
     LUT_Scales, LUT_Biases, QLUT = torch.ops.torchao.preprocess(
         activation, M, K, N, act_group_size, g, nbits)
     
     # C = torch.zeros((N, M), dtype=torch.float16)
-    return torch.ops.torchao.qgemm_lut(
+    C = torch.ops.torchao.qgemm_lut(
         packed_qweight, QLUT, Scales_t, LUT_Scales, LUT_Biases,
         M, K, N, bm, g, nbits
     )
+
+    # import pdb; pdb.set_trace()
+
+    return C
 
 
 #! TMAC already inside the libs

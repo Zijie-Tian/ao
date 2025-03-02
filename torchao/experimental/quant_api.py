@@ -757,7 +757,7 @@ from typing import List
 
 import os
 current_path = os.path.dirname(os.path.abspath(__file__))
-CONFIG_PATH = current_path + "/ops/tmac/t-mac/kcfg.ini"
+TMAC_CONFIG_PATH = current_path + "/ops/tmac/t-mac/kcfg.ini"
 
 import numpy as np
 from typing import Tuple, Optional
@@ -770,7 +770,7 @@ class TMACConfig:
     M: int = 3200
     N: int = 1
     K: int = 3200
-    zero_point: bool = True
+    zero_point: bool = False
     dtype: str = "int8"
 
     # 分组参数
@@ -782,10 +782,9 @@ class TMACConfig:
     # 新增架构参数
     bm: int = 128     # 块大小（block_m）
     kfactor: int = 16 # K轴缩放因子
-    
-    # SIMD参数
-    simd_n_in: int = 16
-    simd_n_out: int = 8
+
+    simd_n_in = 16
+    simd_n_out = 8
 
     @classmethod
     def from_section(cls, section_name: str, config_parser: configparser.ConfigParser) -> 'TMACConfig':
@@ -814,7 +813,7 @@ class TMACConfig:
         param_dict = base_params.copy()
 
         # 处理所有可能覆盖的参数
-        int_keys = ['g', 'group_size', 'act_group_size', 'm_groups', 'bm', 'kfactor', 'simd_n_in', 'simd_n_out']
+        int_keys = ['g', 'group_size', 'act_group_size', 'm_groups', 'bm', 'kfactor']
         bool_keys = ['zero_point']
 
         for key in int_keys:
@@ -826,6 +825,42 @@ class TMACConfig:
                 param_dict[key] = section.getboolean(key)
 
         return cls(**param_dict)
+
+def load_tmac_config_ini(file_path: str) -> List[TMACConfig]:
+    """读取INI文件并生成QuantConfig对象列表"""
+    config = configparser.ConfigParser()
+    config.read(file_path)
+
+    return [
+        TMACConfig.from_section(section, config)
+        for section in config.sections()
+        if re.match(r'^qgemm_lut_t\d+_', section)  # 过滤有效section
+    ]
+
+def find_tmac_config(
+    configs: List[TMACConfig],
+    target_bits: int,
+    target_M: int,
+    target_K: int,
+    target_N: int
+) -> Optional[TMACConfig]:
+    """
+    根据量化参数查找匹配的TMAC配置
+    
+    :param configs: TMAC配置列表
+    :param target_bits: 目标比特数
+    :param target_M: 目标M维度（注意：这里应该传入处理后的M值，即原始M // bits）
+    :param target_K: 目标K维度
+    :return: 第一个匹配的配置对象，未找到返回None
+    """
+    for config in configs:
+        #> Check M, K, N, bits
+        if (config.bits == target_bits and
+            config.M == target_M and
+            config.K == target_K and
+            config.N == target_N):
+            return config
+    return None
 
 def pack_tmac_weight(
     w: torch.Tensor,
@@ -891,42 +926,7 @@ def pack_tmac_weight(
         if zeros is not None:
             scales = torch.cat([scales, zeros], dim=0)
 
-    return w, scales
-
-def load_op_config_ini(file_path: str) -> List[TMACConfig]:
-    """读取INI文件并生成QuantConfig对象列表"""
-    config = configparser.ConfigParser()
-    config.read(file_path)
-
-    return [
-        TMACConfig.from_section(section, config)
-        for section in config.sections()
-        if re.match(r'^qgemm_lut_t\d+_', section)  # 过滤有效section
-    ]
-
-def find_tmac_config(
-    configs: List[TMACConfig],
-    target_bits: int,
-    target_M: int,
-    target_K: int,
-    target_N: int
-) -> Optional[TMACConfig]:
-    """
-    根据量化参数查找匹配的TMAC配置
-    
-    :param configs: TMAC配置列表
-    :param target_bits: 目标比特数
-    :param target_M: 目标M维度（注意：这里应该传入处理后的M值，即原始M // bits）
-    :param target_K: 目标K维度
-    :return: 第一个匹配的配置对象，未找到返回None
-    """
-    for config in configs:
-        if (config.bits == target_bits and
-            config.M == target_M and
-            config.K == target_K and
-            config.N == target_N):
-            return config
-    return None
+    return w.detach(), scales.detach()
 
 #> This function can preserve the PPL on BitNet.
 def pesudo_tmac_weight_quant(weight: torch.Tensor, group_size: int, force_per_tensor: bool = True) -> torch.Tensor:
@@ -1190,11 +1190,9 @@ class _TMACWeightQuantizedLinearFallback(nn.Module):
         
         Adq = Aref.T.reshape(self._k // group_size, group_size, self._n).to(torch.float32) - (2 ** (self.nbits - 1))
         #> [group_size, K // group_size, M // bits] * [K // group_size, M // bits]
-        Adq = Adq.permute(1, 0, 2) * self.scale.T
+        Adq = Adq.permute(1, 0, 2) / self.scale.T
         self.pesudo_qweight = Adq.permute(1, 0, 2).reshape(self._k, self._n).T
         self.pesudo_qweight.to(torch.float32)
-        
-        import pdb; pdb.set_trace()
 
     def _forward_2d(self, x):
         assert x.dim() == 2

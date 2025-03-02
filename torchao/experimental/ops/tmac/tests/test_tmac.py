@@ -39,7 +39,7 @@ dtype = 'int8'
 zero_point = False
 m_groups = -1
 
-# np.random.seed(21)
+np.random.seed(21)
 # bits = 2
 # M = 4 * bits
 # N = 1
@@ -91,8 +91,11 @@ weight = np.random.randn(M // bits, K).astype(out_dtype)      # FP16
 activation = np.random.randn(N, K).astype(out_dtype)  # FP16
 # activation = np.ones((N, K)).astype(out_dtype)            # FP16
 
-weight = np.load("weight.npy").astype(out_dtype)
-activation = np.load("activation.npy").astype(out_dtype) # FP16
+np.save("weight.npy", weight)
+np.save("activation.npy", activation)
+
+# weight = np.load("weight.npy").astype(out_dtype)
+# activation = np.load("activation.npy").astype(out_dtype) # FP16
 
 # TODO : Implement real group quantization.
 qweight, scale = weight_quant_numpy(weight, -1)
@@ -188,7 +191,7 @@ def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
 
     m = np.vectorize(map_states)(codes).astype(out_dtype)
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     # (N, K // g, 1 << g)
     lut = b.dot(m)
@@ -215,7 +218,7 @@ def preprocessor_reference(B, act_group_size, g, dtype, out_dtype):
 # 运行预处理
 Bref, LUT_Scales, LUT_Biases, QLUT = preprocessor_reference(Bref, act_group_size, g, dtype, out_dtype)
 
-import pdb; pdb.set_trace() 
+# import pdb; pdb.set_trace() 
 
 #! ========================================================================================================================
 
@@ -293,14 +296,6 @@ def qgemm_reference(A, QLUT, LUT_Scales, LUT_Biases, scales, bits, g, group_size
         )
 
     return c
-
-# 运行矩阵乘法
-
-# A_t = np.load("A_t.npy")
-# QLUT = np.load("QLUT.npy")
-# Scales_t = np.load("Scales_t.npy")
-# LUT_Scales = np.load("LUT_Scales.npy")
-# LUT_Biases = np.load("LUT_Biases.npy")
 
 C = qgemm_reference(A_t, QLUT, LUT_Scales, LUT_Biases, Scales_t, bits, g, group_size, m_groups, simd_n_in=simd_n_in, simd_n_out=simd_n_out, bm=bm, kfactor=kfactor)
 

@@ -2,6 +2,11 @@ import numpy as np
 import torch
 from torch import nn
 
+import torchao
+from torchao.experimental.quant_api import (
+    _TMACWeightQuantizedLinearFallback
+)
+
 def weight_quant(weight, num_bits=1):
     dtype = weight.dtype
     weight = weight.float()

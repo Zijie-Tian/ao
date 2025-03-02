@@ -47,8 +47,8 @@ def weight_quant(weight: torch.Tensor) -> torch.Tensor:
 
 def test_accuracy():
     n = 1
-    m = 4096
-    k = 4096
+    m = 3200
+    k = 3200
     group_size = 128
 
     tokenizer = LlamaTokenizer.from_pretrained("/Users/tianzijie/hf_models/bitnet_b1_58-3B")
