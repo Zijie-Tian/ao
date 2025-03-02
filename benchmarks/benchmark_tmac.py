@@ -93,13 +93,13 @@ def get_problem(m, n, k, bm, kfactor, simd_n_in=16, simd_n_out=8, group_size=128
     reference_impl.quantize_and_pack_weights(
         weight, cfg.group_size
     )
-    pesudo_qweight = reference_impl.pesudo_qweight.to(torch.float16)
+    pesudo_qweight = reference_impl.pesudo_qweight
 
     # pesudo_weight = pesudo_qweight.reshape(-1, cfg.group_size).float()
     # # pesudo_weight = pesudo_weight * scales.unsqueeze(-1).expand_as(pesudo_weight)
     # pesudo_weight = pesudo_weight.view(weight.shape).to(torch.float16)
 
-    return activations, packed_qweight, Scales_t, activations, pesudo_qweight,  weight, m, n, k, group_size
+    return activations, packed_qweight, Scales_t, activations.to(torch.float32), pesudo_qweight,  weight, m, n, k, group_size
     
 def benchmark(
     m : int, 
