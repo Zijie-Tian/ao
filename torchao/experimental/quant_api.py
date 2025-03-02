@@ -1192,16 +1192,18 @@ class _TMACWeightQuantizedLinearFallback(nn.Module):
         #> [group_size, K // group_size, M // bits] * [K // group_size, M // bits]
         Adq = Adq.permute(1, 0, 2) / self.scale.T
         self.pesudo_qweight = Adq.permute(1, 0, 2).reshape(self._k, self._n).T
-        self.pesudo_qweight.to(torch.float32)
+        self.pesudo_qweight = self.pesudo_qweight.to(torch.float32)
 
     def _forward_2d(self, x):
         assert x.dim() == 2
-
+        x = x.to(torch.float32)
         res = torch.matmul(x, self.pesudo_qweight.T)
         return res
 
     def forward(self, x):
         assert x.dim() >= 2
+        x.to(torch.float32)
+        
         if x.dim() == 2:
             return self._forward_2d(x)
 

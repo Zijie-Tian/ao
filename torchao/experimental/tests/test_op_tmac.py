@@ -183,7 +183,6 @@ class TestTMACQuantizer(unittest.TestCase):
                 real_ref = torch.matmul(activation, weight.T)
                 Cref = torch.matmul(activation, Adq)      #> No need Transpose.
 
-
                 #! Call Torch Native Preprocess Function.
                 LUT_Scales, LUT_Biases, QLUT = torch.ops.torchao.preprocess(Bref, cfg.M, cfg.K, cfg.N, cfg.act_group_size, cfg.g, cfg.bits)
 
