@@ -195,9 +195,9 @@ channelwise_8bit_activation_groupwise_lowbit_weight_1x8x16_f32_neondot(
 
 #define BENCHMARK_PARAMS                                            \
   {                                                                 \
-    /*m*/ {1}, /*n*/ {8}, /*k*/ {4096, 8192, 16384, 32768, 131072}, \
+    /*m*/ {1}, /*n*/ {4096}, /*k*/ {4096, 8192, 16384, 32768, 131072}, \
     /*group_size*/ {                                                \
-      32, 256                                                       \
+      128, 256                                                       \
     }                                                               \
   }
 

@@ -178,8 +178,11 @@ def benchmark_torch_function_in_microseconds(f, *args, **kwargs):
         stmt="f(*args, **kwargs)",
         globals={"args": args, "kwargs": kwargs, "f": f},  # noqa: E501
     )
-    measurement = t0.blocked_autorange()
-    return measurement.mean * 1e6
+    # measurement = t0.blocked_autorange()
+    measurement = t0.timeit(number=1000)
+    return min(measurement.times) * 1e6
+    
+    # return measurement.media * 1e6
 
 
 def find_multiple(n: int, *args: Tuple[int]) -> int:

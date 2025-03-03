@@ -7,7 +7,7 @@
 
 #> Generate the TMAC operator with TVM.
 tmac_dir=t-mac
-export num_threads="1"
+export num_threads="12"
 
 rm -rf $tmac_dir
 mkdir -p $tmac_dir
