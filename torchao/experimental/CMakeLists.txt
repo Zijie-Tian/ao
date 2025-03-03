@@ -23,6 +23,7 @@ if(NOT TORCHAO_INCLUDE_DIRS)
 endif()
 
 option(TORCHAO_BUILD_KLEIDIAI "Download, build, and link against Arm KleidiAI library (arm64 only)" OFF)
+option(TORCHAO_BUILD_MPS_OPS "Building torchao MPS ops" OFF)
 if(TORCHAO_BUILD_KLEIDIAI)
     message(STATUS "Building with Arm KleidiAI library")
     add_compile_definitions(TORCHAO_ENABLE_KLEIDI=1)
@@ -65,6 +66,12 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
         torchao_ops_hermes_gemv
         torchao_ops_tmac_aten
     )
+    if (TORCHAO_BUILD_MPS_OPS)
+        message(STATUS "Building with MPS support")
+        add_subdirectory(ops/mps)
+        target_link_libraries(torchao_ops_aten PRIVATE torchao_ops_mps_aten)
+    endif()
+
     install(
         TARGETS torchao_ops_aten
         EXPORT _targets

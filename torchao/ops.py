@@ -646,7 +646,7 @@ def w4a16_awq_cuda(
         Output tensor
     """
     return torch.ops.torchao.w4a16_awq_cuda.default(
-        input, kernel, scaling_factors, zeros, 
+        input, kernel, scaling_factors, zeros,
         m, n, k, group_size
     )
 
@@ -669,7 +669,7 @@ def _(
     )
     torch._check(
         kernel.dtype == torch.int32,
-        lambda: f"kernel must be int32, got {kernel.dtype}", 
+        lambda: f"kernel must be int32, got {kernel.dtype}",
     )
     torch._check(
         scaling_factors.dtype == torch.float16,
@@ -756,7 +756,7 @@ def _(
     )
     torch._check(
         qweight.dtype == torch.int32,
-        lambda: f"qweight must be int32, got {qweight.dtype}", 
+        lambda: f"qweight must be int32, got {qweight.dtype}",
     )
 
     # Validate dimensions
@@ -800,7 +800,7 @@ def tmac_gemv(
 
     LUT_Scales, LUT_Biases, QLUT = torch.ops.torchao.preprocess(
         activation, M, K, N, act_group_size, g, nbits)
-    
+
     # C = torch.zeros((N, M), dtype=torch.float16)
     C = torch.ops.torchao.qgemm_lut(
         packed_qweight, QLUT, Scales_t, LUT_Scales, LUT_Biases,
@@ -829,7 +829,7 @@ def tmac_gemv(
 #     )
 #     torch._check(
 #         qweight.dtype == torch.int32,
-#         lambda: f"qweight must be int32, got {qweight.dtype}", 
+#         lambda: f"qweight must be int32, got {qweight.dtype}",
 #     )
 
 #     # Validate dimensions
@@ -847,6 +847,8 @@ def tmac_gemv(
 #         device=input.device,
 #     )
 
+#> >>>>>>>>>>>>>>>>>>> KleidiAI ARM operator interfaces <<<<<<<<<<<<<<<<<<<<
+
 def generate_linear_func(bit_width: int):
     def linear_func(
         input: torch.Tensor,
@@ -859,18 +861,18 @@ def generate_linear_func(bit_width: int):
         group_tensor = torch.empty(0, group_size, dtype=torch.int8)
         n_tensor = torch.empty(0, m, dtype=torch.int8)
         k_tensor = torch.empty(0, k, dtype=torch.int8)
-        
+
         return getattr(torch.ops.torchao, f"_linear_8bit_act_{bit_width}bit0zp_weight").default(
             input, packed_qweight, group_tensor, n_tensor, k_tensor
         )
-    
+
     linear_func.__name__ = f"linear_8bit_act_{bit_width}bit0zp_weight"
     linear_func.__doc__ = f"""
     Linear operator with 8-bit input, {bit_width}-bit zero point weight.
     Args:
         input: input tensor of shape `(n, k)`.
         packed_qweight: packed quantized weight tensor of shape `(m, n)`.
-    Returns: 
+    Returns:
         output: output tensor of shape `(m, k)`.
     """
     return linear_func
@@ -893,7 +895,7 @@ def generate_pack_func(bit_width: int):
         return getattr(torch.ops.torchao, f"_pack_8bit_act_{bit_width}bit0zp_weight").default(
             pesudo_qweight, scales, group_tensor
         )
-    
+
     pack_func.__name__ = f"pack_8bit_act_{bit_width}bit0zp_weight"
     pack_func.__doc__ = pack_func.__doc__.format(bit_width=bit_width)  # 替换占位符
     return pack_func

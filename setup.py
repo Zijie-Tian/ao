@@ -87,6 +87,11 @@ from torch.utils.cpp_extension import (
     CUDAExtension,
 )
 
+build_torchao_experimental_mps = (
+    build_torchao_experimental
+    and torch.mps.is_available()
+)
+
 # Constant known variables used throughout this file
 cwd = os.path.abspath(os.path.curdir)
 third_party_path = os.path.join(cwd, "third_party")
@@ -192,6 +197,8 @@ class TorchAOBuildExt(BuildExtension):
         # print("self.build_dir : ", self.build_temp)
         # print("extdir : ", extdir)
         # print("ext_filename : ", ext_filename)
+        
+        build_mps_ops = "ON" if build_torchao_experimental_mps else "OFF"
 
         subprocess.check_call(
             [
@@ -199,15 +206,17 @@ class TorchAOBuildExt(BuildExtension):
                 ext.sourcedir,
                 "-DCMAKE_BUILD_TYPE=" + build_type,
                 "-DTORCHAO_BUILD_EXECUTORCH_OPS=OFF",
+                "-DTORCHAO_BUILD_MPS_OPS=" + build_mps_ops,
                 "-DTorch_DIR=" + torch_dir,
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + extdir,
+                "-DCMAKE_INSTALL_PREFIX=cmake-out",
             ],
             cwd=self.build_temp,
         )
         subprocess.check_call(["cmake", "--build", "."], cwd=self.build_temp)
         subprocess.check_call(
             [
-                "mv", "libtorchao_ops_aten.dylib", lib_name
+                "mv", "libtorchao_ops_aten.so", lib_name
             ],
             cwd=extdir,
         )

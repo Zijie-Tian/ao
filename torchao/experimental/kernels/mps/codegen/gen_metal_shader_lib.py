@@ -56,6 +56,8 @@ comment = """
 
 """
 
+print(f"Generating Metal shader library at {OUTPUT_FILE}")
+
 os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 with open(OUTPUT_FILE, "w") as outf:
     outf.write(prefix)
