@@ -96,3 +96,33 @@ target_link_libraries(matrix_vec_bench PRIVATE
     "/Users/tianzijie/Baselines/ao/torchao/experimental/cmake-out/libtorchao_ops_aten.so"
 )
 
+# 添加Metal框架支持
+find_library(METAL_LIBRARY Metal)
+find_library(FOUNDATION_LIBRARY Foundation)
+
+# 添加MPS基准测试可执行目标
+# 修改可执行目标配置，将.cpp改为.mm
+add_executable(mps_bench
+    mps_bench.mm
+    ../../torchao/experimental/kernels/mps/src/OperationUtils.mm  # 确保包含该文件
+)
+
+target_include_directories(mps_bench PRIVATE
+    ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/src  # 添加源码头文件路径
+    ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/test  # 测试头文件路径
+    ${PROJECT_SOURCE_DIR}/../../  # 基础头文件路径
+    ${TORCH_INCLUDE_DIRS}
+)
+
+# 配置链接库
+target_link_libraries(mps_bench PRIVATE
+    benchmark::benchmark
+    torch
+    ${TORCH_LIBRARIES}
+    ${METAL_LIBRARY}
+    ${FOUNDATION_LIBRARY}
+)
+
+# 应用架构优化标志
+target_compile_options(mps_bench PRIVATE ${ARCH_FLAGS})
+

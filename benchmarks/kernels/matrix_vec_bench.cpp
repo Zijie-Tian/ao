@@ -5,6 +5,7 @@
 
 #include <benchmark/benchmark.h>
 #include <torch/torch.h>
+#include "bfloat16.h"
 #include "t-mac/kernels.h"
 
 std::vector<torch::Tensor> preprocess(
