@@ -10,7 +10,7 @@ from torchao.quantization.marlin_qqq import marlin_qqq_workspace, pack_to_marlin
 from torchao.utils import benchmark_torch_function_in_microseconds
 from torchao.quantization.utils import compute_error
 
-from torchao.experimental.quant_api import _quantize
+# from torchao.experimental.quant_api import _quantize
 
 #> Torch Native Function
 from torch.ao.quantization.fx._decomposed import (
@@ -22,7 +22,8 @@ import re
 import configparser
 from dataclasses import dataclass
 
-from torchao.experimental.quant_api import TMAC_CONFIG_PATH, TMACConfig, load_tmac_config_ini, find_tmac_config, pack_tmac_weight
+# from torchao.experimental.quant_api import TMAC_CONFIG_PATH, TMACConfig, load_tmac_config_ini, find_tmac_config, pack_tmac_weight
+from torchao.experimental.quant_api import *
 from torchao.experimental.quant_api import _TMACWeightQuantizedLinearFallback
 
 def weight_quant(weight, group_size, force_per_tensor=False):

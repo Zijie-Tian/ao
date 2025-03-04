@@ -147,12 +147,6 @@ namespace {
         void* lut_biases_ptr = LUT_Biases.contiguous().data_ptr();
         void* qlut_ptr = QLUT.contiguous().data_ptr();
 
-#ifdef USE_CUDA_TMAC
-        print_memory_type(activation_ptr);
-        print_memory_type(scales_ptr);
-        print_memory_type(biases_ptr);
-        print_memory_type(qlut_ptr);
-#endif // USE_CUDA_TMAC
         int ret = preprocessor_int8(
             M * bits,
             K,
@@ -209,14 +203,6 @@ namespace {
         torch::Tensor C = torch::zeros({N, M}, torch::kFloat16);
         torch::Half* C_ptr_f16 = static_cast<torch::Half*>(C.contiguous().data_ptr());
 
-#ifdef USE_CUDA_TMAC
-        print_memory_type(A_ptr);
-        print_memory_type(qlut_ptr);
-        print_memory_type(scales_ptr);
-        print_memory_type(lut_scales_ptr);
-        print_memory_type(lut_biases_ptr);
-        print_memory_type(C_ptr);
-#endif
         int64_t ngroups_per_elem = 8 / g;
 
         for(int m_tile_idx = 0; m_tile_idx < M / (bm / ngroups_per_elem); m_tile_idx++) {

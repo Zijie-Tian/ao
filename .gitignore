@@ -379,4 +379,5 @@ torchao/experimental/cmake-out
 # Benchmarks
 benchmarks/*.csv
 
+*.npy
 *.pt

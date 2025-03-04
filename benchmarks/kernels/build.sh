@@ -14,6 +14,8 @@ mkdir -p ${BUILD_DIR}
 # 生成构建系统
 cmake -DCMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}" \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
+    -DCMAKE_C_COMPILER=/usr/bin/clang \
     -S . \
     -B ${BUILD_DIR}
 

@@ -22,6 +22,7 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
      NOT CMAKE_GENERATOR_PLATFORM_LWR AND
          CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm.*|ARM64)$"))
 
+    
     message(STATUS "ARM detected")
     message(STATUS "System processor: ${CMAKE_SYSTEM_PROCESSOR}")
     message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
@@ -57,15 +58,15 @@ if (CMAKE_OSX_ARCHITECTURES      STREQUAL "arm64" OR
     add_compile_options("$<$<COMPILE_LANGUAGE:C>:${ARCH_FLAGS}>")
 endif()
 
-find_package(Torch REQUIRED)
-
 # Add parameters before add_subdirectory
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable tests")
 set(BENCHMARK_DOWNLOAD_DEPENDENCIES ON CACHE BOOL "Auto-download deps")
+
 add_subdirectory(third_party/benchmark)
 
 # Add the executable
 find_package(Torch REQUIRED)
+find_package(benchmark REQUIRED)
 add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${ARCH_FLAGS}>")
 
 # Update the executable name (original MyBenchmark no longer exists)
@@ -73,6 +74,11 @@ add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${ARCH_FLAGS}>")
 add_executable(matrix_vec_bench 
     matrix_vec_bench.cpp
     ../../torchao/experimental/ops/tmac/t-mac/kernels.cc  # 添加TMAC内核实现
+)
+target_link_libraries(
+    matrix_vec_bench 
+    torch
+    benchmark::benchmark
 )
 
 # 添加内核头文件路径
@@ -88,41 +94,41 @@ target_include_directories(matrix_vec_bench PRIVATE
     "${PROJECT_SOURCE_DIR}/../../"
 )
 
-# 添加TorchAO库链接
-target_link_libraries(matrix_vec_bench PRIVATE 
-    torch
-    benchmark::benchmark
-    ${TORCH_LIBRARIES}
-    "/Users/tianzijie/Baselines/ao/torchao/experimental/cmake-out/libtorchao_ops_aten.so"
-)
 
-# 添加Metal框架支持
-find_library(METAL_LIBRARY Metal)
-find_library(FOUNDATION_LIBRARY Foundation)
+#> Zijie : Add Apple M4 Max support
+if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64" AND "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+    # 添加TorchAO库链接
+    target_link_libraries(matrix_vec_bench PRIVATE 
+        torch
+        benchmark::benchmark
+        ${TORCH_LIBRARIES}
+        "/Users/tianzijie/Baselines/ao/torchao/experimental/cmake-out/libtorchao_ops_aten.so"
+    )
 
-# 添加MPS基准测试可执行目标
-# 修改可执行目标配置，将.cpp改为.mm
-add_executable(mps_bench
-    mps_bench.mm
-    ../../torchao/experimental/kernels/mps/src/OperationUtils.mm  # 确保包含该文件
-)
+    find_library(METAL_LIBRARY Metal)
+    find_library(FOUNDATION_LIBRARY Foundation)
 
-target_include_directories(mps_bench PRIVATE
-    ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/src  # 添加源码头文件路径
-    ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/test  # 测试头文件路径
-    ${PROJECT_SOURCE_DIR}/../../  # 基础头文件路径
-    ${TORCH_INCLUDE_DIRS}
-)
+    add_executable(mps_bench
+        mps_bench.mm
+        ../../torchao/experimental/kernels/mps/src/OperationUtils.mm  
+    )
 
-# 配置链接库
-target_link_libraries(mps_bench PRIVATE
-    benchmark::benchmark
-    torch
-    ${TORCH_LIBRARIES}
-    ${METAL_LIBRARY}
-    ${FOUNDATION_LIBRARY}
-)
+    target_include_directories(mps_bench PRIVATE
+        ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/src 
+        ${PROJECT_SOURCE_DIR}/../../torchao/experimental/kernels/mps/test 
+        ${PROJECT_SOURCE_DIR}/../../
+        ${TORCH_INCLUDE_DIRS}
+    )
 
-# 应用架构优化标志
-target_compile_options(mps_bench PRIVATE ${ARCH_FLAGS})
+    target_link_libraries(mps_bench PRIVATE
+        benchmark::benchmark
+        torch
+        ${TORCH_LIBRARIES}
+        ${METAL_LIBRARY}
+        ${FOUNDATION_LIBRARY}
+    )
+
+    target_compile_options(mps_bench PRIVATE ${ARCH_FLAGS})
+
+endif()
 

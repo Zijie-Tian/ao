@@ -1,7 +1,7 @@
 import torch
 from torch import Tensor
 
-import torchao
+import platform
 from torchao.utils import TORCH_VERSION_AT_LEAST_2_4
 
 lib = torch.library.Library("torchao", "FRAGMENT")
@@ -740,39 +740,39 @@ def hermes_gemv(
         qweight, x
     )
 
-@register_custom_op("torchao::hermes_gemv")
-def _(
-    input: Tensor,
-    qweight: Tensor,
-    m: int,
-    n: int,
-    k: int,
-    group_size: int,
-) -> Tensor:
-    # Validate dtypes
-    torch._check(
-        input.dtype == torch.float16,
-        lambda: f"input must be float16, got {input.dtype}",
-    )
-    torch._check(
-        qweight.dtype == torch.int32,
-        lambda: f"qweight must be int32, got {qweight.dtype}",
-    )
+# @register_custom_op("torchao::hermes_gemv")
+# def _(
+#     input: Tensor,
+#     qweight: Tensor,
+#     m: int,
+#     n: int,
+#     k: int,
+#     group_size: int,
+# ) -> Tensor:
+#     # Validate dtypes
+#     torch._check(
+#         input.dtype == torch.float16,
+#         lambda: f"input must be float16, got {input.dtype}",
+#     )
+#     torch._check(
+#         qweight.dtype == torch.int32,
+#         lambda: f"qweight must be int32, got {qweight.dtype}",
+#     )
 
-    # Validate dimensions
-    torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
-    torch._check(qweight.dim() == 2, lambda: f"qweight must be 2D, got {qweight.dim()}D")
+#     # Validate dimensions
+#     torch._check(input.dim() == 2, lambda: f"input must be 2D, got {input.dim()}D")
+#     torch._check(qweight.dim() == 2, lambda: f"qweight must be 2D, got {qweight.dim()}D")
 
-    torch._check(
-        qweight.size(1) * 8 % group_size == 0,
-        lambda: f"qweight dim 1 * 8 must be divisible by group_size",
-    )
+#     torch._check(
+#         qweight.size(1) * 8 % group_size == 0,
+#         lambda: f"qweight dim 1 * 8 must be divisible by group_size",
+#     )
 
-    return torch.empty(
-        (input.size(0), qweight.size(0)),
-        dtype=torch.float16,
-        device=input.device,
-    )
+#     return torch.empty(
+#         (input.size(0), qweight.size(0)),
+#         dtype=torch.float16,
+#         device=input.device,
+#     )
 
 def tmac_gemv(
     activation : Tensor,
@@ -849,107 +849,108 @@ def tmac_gemv(
 
 #> >>>>>>>>>>>>>>>>>>> KleidiAI ARM operator interfaces <<<<<<<<<<<<<<<<<<<<
 
-def generate_linear_func(bit_width: int):
-    def linear_func(
-        input: torch.Tensor,
-        packed_qweight: torch.Tensor,
-        m: int,
-        n: int,
-        k: int,
-        group_size: int
-    ):
-        group_tensor = torch.empty(0, group_size, dtype=torch.int8)
-        n_tensor = torch.empty(0, m, dtype=torch.int8)
-        k_tensor = torch.empty(0, k, dtype=torch.int8)
+if platform.system() == "Darwin":
+    def generate_linear_func(bit_width: int):
+        def linear_func(
+            input: torch.Tensor,
+            packed_qweight: torch.Tensor,
+            m: int,
+            n: int,
+            k: int,
+            group_size: int
+        ):
+            group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+            n_tensor = torch.empty(0, m, dtype=torch.int8)
+            k_tensor = torch.empty(0, k, dtype=torch.int8)
 
-        return getattr(torch.ops.torchao, f"_linear_8bit_act_{bit_width}bit0zp_weight").default(
-            input, packed_qweight, group_tensor, n_tensor, k_tensor
-        )
+            return getattr(torch.ops.torchao, f"_linear_8bit_act_{bit_width}bit0zp_weight").default(
+                input, packed_qweight, group_tensor, n_tensor, k_tensor
+            )
 
-    linear_func.__name__ = f"linear_8bit_act_{bit_width}bit0zp_weight"
-    linear_func.__doc__ = f"""
-    Linear operator with 8-bit input, {bit_width}-bit zero point weight.
-    Args:
-        input: input tensor of shape `(n, k)`.
-        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
-    Returns:
-        output: output tensor of shape `(m, k)`.
-    """
-    return linear_func
-
-def generate_pack_func(bit_width: int):
-    def pack_func(
-        pesudo_qweight: Tensor,
-        scales: Tensor,
-        group_size: int
-    ) -> Tensor:
-        """
-        Pack 8-bit activation and {bit_width}-bit zero point weight.
+        linear_func.__name__ = f"linear_8bit_act_{bit_width}bit0zp_weight"
+        linear_func.__doc__ = f"""
+        Linear operator with 8-bit input, {bit_width}-bit zero point weight.
         Args:
-            pesudo_qweight: quantized weight tensor of shape `(m, n)`.
-            scales: scale tensor of shape `(m,)`.
-        Returns:
+            input: input tensor of shape `(n, k)`.
             packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+        Returns:
+            output: output tensor of shape `(m, k)`.
         """
-        group_tensor = torch.empty(0, group_size, dtype=torch.int8)
-        return getattr(torch.ops.torchao, f"_pack_8bit_act_{bit_width}bit0zp_weight").default(
-            pesudo_qweight, scales, group_tensor
-        )
+        return linear_func
 
-    pack_func.__name__ = f"pack_8bit_act_{bit_width}bit0zp_weight"
-    pack_func.__doc__ = pack_func.__doc__.format(bit_width=bit_width)  # 替换占位符
-    return pack_func
+    def generate_pack_func(bit_width: int):
+        def pack_func(
+            pesudo_qweight: Tensor,
+            scales: Tensor,
+            group_size: int
+        ) -> Tensor:
+            """
+            Pack 8-bit activation and {bit_width}-bit zero point weight.
+            Args:
+                pesudo_qweight: quantized weight tensor of shape `(m, n)`.
+                scales: scale tensor of shape `(m,)`.
+            Returns:
+                packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+            """
+            group_tensor = torch.empty(0, group_size, dtype=torch.int8)
+            return getattr(torch.ops.torchao, f"_pack_8bit_act_{bit_width}bit0zp_weight").default(
+                pesudo_qweight, scales, group_tensor
+            )
 
-#> >>>>>>>>>>>>>>>>>>> Added MPS operator interfaces <<<<<<<<<<<<<<<<<<<<
+        pack_func.__name__ = f"pack_8bit_act_{bit_width}bit0zp_weight"
+        pack_func.__doc__ = pack_func.__doc__.format(bit_width=bit_width)  # 替换占位符
+        return pack_func
 
-def generate_mps_func(bit_width: int):
-    def linear_func(
-        input: torch.Tensor,
-        packed_qweight: torch.Tensor,
-        group_size: int,
-        scales : torch.Tensor,
-        zeros : torch.Tensor,
-    ):
+    #> >>>>>>>>>>>>>>>>>>> Added MPS operator interfaces <<<<<<<<<<<<<<<<<<<<
 
-        return getattr(torch.ops.torchao, f"_linear_fp_act_{bit_width}bit_weight").default(
-            input, packed_qweight, group_size, scales, zeros
-        )
+    def generate_mps_func(bit_width: int):
+        def linear_func(
+            input: torch.Tensor,
+            packed_qweight: torch.Tensor,
+            group_size: int,
+            scales : torch.Tensor,
+            zeros : torch.Tensor,
+        ):
 
-    linear_func.__name__ = f"mps_linear_fp_act_{bit_width}bit_weight"
-    linear_func.__doc__ = f"""
-    MPS Linear operator with 8-bit input, {bit_width}-bit zero point weight.
-    Args:
-        input: input tensor of shape `(n, k)`.
-        packed_qweight: packed quantized weight tensor of shape `(m, n)`.
-    Returns:
-        output: output tensor of shape `(m, k)`.
-    """
-    return linear_func
+            return getattr(torch.ops.torchao, f"_linear_fp_act_{bit_width}bit_weight").default(
+                input, packed_qweight, group_size, scales, zeros
+            )
 
-def generate_mps_pack_func(bit_width: int):
-    def pack_func(
-        pesudo_qweight: Tensor,
-    ) -> Tensor:
-        """
-        Pack 8-bit activation and {bit_width}-bit zero point weight.
+        linear_func.__name__ = f"mps_linear_fp_act_{bit_width}bit_weight"
+        linear_func.__doc__ = f"""
+        MPS Linear operator with 8-bit input, {bit_width}-bit zero point weight.
         Args:
-            pesudo_qweight: quantized weight tensor of shape `(m, n)`.
-            scales: scale tensor of shape `(m,)`.
-        Returns:
+            input: input tensor of shape `(n, k)`.
             packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+        Returns:
+            output: output tensor of shape `(m, k)`.
         """
-        return getattr(torch.ops.torchao, f"_pack_weight_{bit_width}bit").default(
-            pesudo_qweight
-        )
+        return linear_func
 
-    pack_func.__name__ = f"mps_pack_weight_{bit_width}bit"
-    pack_func.__doc__ = pack_func.__doc__.format(bit_width=bit_width)  # 替换占位符
-    return pack_func
+    def generate_mps_pack_func(bit_width: int):
+        def pack_func(
+            pesudo_qweight: Tensor,
+        ) -> Tensor:
+            """
+            Pack 8-bit activation and {bit_width}-bit zero point weight.
+            Args:
+                pesudo_qweight: quantized weight tensor of shape `(m, n)`.
+                scales: scale tensor of shape `(m,)`.
+            Returns:
+                packed_qweight: packed quantized weight tensor of shape `(m, n)`.
+            """
+            return getattr(torch.ops.torchao, f"_pack_weight_{bit_width}bit").default(
+                pesudo_qweight
+            )
 
-for bit in range(1, 8 + 1):
-    globals()[f"linear_8bit_act_{bit}bit0zp_weight"] = generate_linear_func(bit)
-    globals()[f"pack_8bit_act_{bit}bit0zp_weight"] = generate_pack_func(bit)
+        pack_func.__name__ = f"mps_pack_weight_{bit_width}bit"
+        pack_func.__doc__ = pack_func.__doc__.format(bit_width=bit_width)  # 替换占位符
+        return pack_func
 
-for bit in range(1, 7 + 1):
-    globals()[f"mps_linear_fp_act_{bit}bit_weight"] = generate_mps_func(bit)
-    globals()[f"mps_pack_weight_{bit}bit"] = generate_mps_pack_func(bit)
+    for bit in range(1, 8 + 1):
+        globals()[f"linear_8bit_act_{bit}bit0zp_weight"] = generate_linear_func(bit)
+        globals()[f"pack_8bit_act_{bit}bit0zp_weight"] = generate_pack_func(bit)
+
+    for bit in range(1, 7 + 1):
+        globals()[f"mps_linear_fp_act_{bit}bit_weight"] = generate_mps_func(bit)
+        globals()[f"mps_pack_weight_{bit}bit"] = generate_mps_pack_func(bit)

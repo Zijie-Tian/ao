@@ -29,6 +29,23 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+import platform
+if platform.system() == "Linux":
+    __all__ = [
+        "_quantize",
+        "TMAC_CONFIG_PATH",
+        "TMACConfig",
+        "load_tmac_config_ini",
+        "find_tmac_config",
+        "pack_tmac_weight",
+        "weight_quant",
+        "weight_dequant",
+        "Int8DynActIntxWeightLinearQuantizer", 
+        "IntxWeightEmbeddingQuantizer"
+    ]
+else:
+    pass
+
 
 def _quantize(
     vals: torch.Tensor, group_size: int, nbit: int, has_weight_zeros: bool, signed=True

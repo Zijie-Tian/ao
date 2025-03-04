@@ -196,10 +196,12 @@ static void BM_QGEMM_LUT(benchmark::State& state) {
         result = qgemm_lut(packed_qweight, qlut, scales, lut_scales, lut_biases, M, K, N, bm, g, bits);
     }
 }
+
+// TODO : You need change this Manually.
 std::vector<std::vector<int64_t>> argCombinations = {
-    {4096, 4096, 1, 2, 512},  // M=8192, K=4096, N=4096, bits=2
-    {3200, 8640, 1, 2, 128},  // M=6400, K=8640, N=8640, bits=2
-    {8640, 3200, 1, 2, 640}, // M=17280, K=3200, N=3200, bits=2 
+    {4096, 4096, 1, 2, 256},  // M=8192, K=4096, N=4096, bits=2
+    {3200, 8640, 1, 2, 320},  // M=6400, K=8640, N=8640, bits=2
+    {8640, 3200, 1, 2, 320}, // M=17280, K=3200, N=3200, bits=2 
     {3200, 3200, 1, 2, 256}   // M=6400, K=3200, N=3200, bits=2
 };
 
